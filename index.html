@@ -3,7 +3,6 @@
 
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="theme-color" content="#0a0a0a" />
   <link rel="icon" type="image/png" href="favicon.png" />
   <link rel="canonical" href="https://www.edoedoedo.it/" />
@@ -230,6 +229,30 @@
         window.requestAnimationFrame(trackContactFade);
       };
       trackContactFade();
+    })();
+  </script>
+
+  <script>
+    (() => {
+      const works = document.querySelector("[data-works]");
+      if (!works) return;
+      const details = [
+        ["TARSX", "Personal Project · AI + Robotics"],
+        ["ZAPPO", "Tenorra Labs · Software Engineer Intern"],
+        ["CODE AND THRIVE", "Developer & Designer · Web Development"]
+      ];
+      const updateWorks = () => {
+        works.querySelectorAll(".work").forEach((work, index) => {
+          const detail = details[index];
+          if (!detail) return;
+          const name = work.querySelector(".work__name");
+          const role = work.querySelector(".work__role");
+          if (name && name.textContent !== detail[0]) name.textContent = detail[0];
+          if (role && role.textContent !== detail[1]) role.textContent = detail[1];
+        });
+      };
+      new MutationObserver(updateWorks).observe(works, { childList: true, subtree: true });
+      updateWorks();
     })();
   </script>
 
