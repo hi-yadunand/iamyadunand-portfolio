@@ -374,6 +374,7 @@ html.lenis {
   }
 }
 .cinema {
+  display: none;
   position: fixed;
   top: 0;
   right: 0;
@@ -958,7 +959,6 @@ html.is-modal-open body {
   pointer-events: none;
   z-index: 0;
 }
-.logos__item:hover .ink,
 .lab__row:hover .ink,
 .work:hover .ink {
   filter: url("../assets/index-BIi2FQZH.css#ink-spread");
@@ -976,7 +976,6 @@ html.is-modal-open body {
   transform-origin: center;
   transition: transform 0.6s cubic-bezier(0.7, 0, 0.2, 1);
 }
-.logos__item:hover .ink__blob,
 .lab__row:hover .ink__blob,
 .work:hover .ink__blob {
   transform: scale(50);
@@ -997,7 +996,6 @@ html.is-modal-open body {
   text-align: center;
   padding: 0 12px;
   z-index: 2;
-  transition: opacity 0.35s cubic-bezier(0.7, 0, 0.2, 1);
 }
 .logos__hover {
   position: absolute;
@@ -1010,9 +1008,6 @@ html.is-modal-open body {
   color: var(--paper);
   opacity: 0;
   transform: translateY(8px);
-  transition:
-    opacity 0.4s ease 0.18s,
-    transform 0.55s cubic-bezier(0.7, 0, 0.2, 1) 0.18s;
   z-index: 2;
 }
 .logos__hover .logos__role {
@@ -1033,13 +1028,6 @@ html.is-modal-open body {
   letter-spacing: var(--mono-tracking);
   text-transform: uppercase;
   opacity: 0.7;
-}
-.logos__item:hover .logos__name {
-  opacity: 0;
-}
-.logos__item:hover .logos__hover {
-  opacity: 1;
-  transform: translateY(0);
 }
 @media (max-width: 800px) {
   .logos {
