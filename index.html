@@ -33,6 +33,7 @@
     <meta name="twitter:image" content="https://www.edoedoedo.it/favicon.png" />
 
     <script type="module" crossorigin src="assets/index-tFaTbJAh.js"></script>
+    <script defer src="assets/elastic-mesh.js"></script>
     <link rel="stylesheet" crossorigin href="assets/index-BIi2FQZH.css">
 </head>
 
@@ -143,38 +144,31 @@
         <p class="section__label" data-char-reveal>— 01 / About</p>
         <div class="about__grid">
             <div class="about__bio" data-reveal>
-                <p>
-                    Frontend Developer at <em>EY Studio+</em>, building
-                    scalable web platforms with Next.js and headless CMS
-                    architectures.
-                </p>
-                <p>
-                    My background spans modern JavaScript frameworks and
-                    enterprise CMS and e-commerce solutions like
-                    <em>Contentstack</em>, <em>Contentful</em> and
-                    <em>Salesforce Commerce Cloud</em>.
-                </p>
-                <p>
-                    I work at the seam between design and engineering,
-                    crafting immersive, high-performance interfaces with
-                    advanced motion and interaction, accessibility built in
-                    and not bolted on.
-                </p>
-                <p>
-                    In my spare time I experiment with 3D on the web using
-                    <em>Three.js</em> and React Three Fiber, and I'm honored
-                    to be part of the jury panel at
-                    <em>CSS Design Awards</em>.
+                <p class="about__statement">
+                    Creative developer with a frontend background, building
+                    immersive digital experiences combining AI, robotics, and
+                    design.
                 </p>
             </div>
             <figure class="about__sphere">
-                <div class="about__sphere-stage" data-sphere-stage>
+                <div
+                    class="about__sphere-stage elastic-mesh"
+                    data-sphere-stage
+                    data-elastic-mesh
+                    data-image="assets/images/iamyadunand-favicon.png"
+                >
                     <img
-                        class="about__profile"
+                        class="about__profile elastic-mesh__fallback"
                         src="assets/images/iamyadunand-favicon.png"
                         alt="Yadunand Pavithran"
                     />
                 </div>
+                <figcaption class="about__note">
+                    Having worked with AI-driven projects alongside frontend
+                    development gives me a broader perspective in blending
+                    thoughtful design, clean code, intelligent systems, and
+                    emerging technologies.
+                </figcaption>
             </figure>
         </div>
     </section>
