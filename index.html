@@ -166,9 +166,9 @@
   <!-- WORKS -->
   <section class="section" id="works">
     <p class="section__label" data-char-reveal>Selected works</p>
-    <h2 class="section__title" data-reveal-blur>
-      <span>Made for</span>
-      <span><em>brands</em> that ship.</span>
+    <h2 class="section__title">
+      <span>CODED TO CREATE.</span>
+      <span>DESIGNED TO CONNECT.</span>
     </h2>
 
     <div class="works" data-works></div>
@@ -177,10 +177,9 @@
   <!-- AGENCIES / COMPANIES -->
   <section class="section" id="agencies">
     <p class="section__label" data-char-reveal>Selected companies</p>
-    <p class="agencies__manifesto" data-reveal-blur>
-      <span>I build websites for brands</span>
-      <span>that <em>care</em> about the</span>
-      <span>last 3 pixels.</span>
+    <p class="agencies__manifesto">
+      <span>I BUILD WITH CODE.</span>
+      <span>I DESIGN WITH PURPOSE.</span>
     </p>
     <div class="logos" data-logos></div>
   </section>
@@ -236,9 +235,11 @@
         cursorLabel?.style.setProperty("color", `rgb(${shade} ${shade} ${shade})`);
       };
 
-      updateContactFade();
-      window.addEventListener("scroll", updateContactFade, { passive: true });
-      window.addEventListener("resize", updateContactFade);
+      const trackContactFade = () => {
+        updateContactFade();
+        window.requestAnimationFrame(trackContactFade);
+      };
+      trackContactFade();
     })();
   </script>
 
