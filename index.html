@@ -1,0 +1,249 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#0a0a0a" />
+    <link rel="icon" type="image/png" href="favicon.png" />
+    <link rel="canonical" href="https://www.edoedoedo.it/" />
+
+    <title>Edoardo Di Sabatino — Frontend Developer</title>
+    <meta name="description"
+        content="Portfolio of Edoardo Di Sabatino — Frontend Developer at EY Studio+, Roma. Building immersive, high-performance web experiences with Next.js, React, Three.js and headless CMS architectures." />
+    <meta name="author" content="Edoardo Di Sabatino" />
+    <meta name="keywords"
+        content="Edoardo Di Sabatino, frontend developer, motion design, creative developer, Three.js, React, Next.js, WebGL, Roma, EY Studio+, portfolio 2026" />
+    <meta name="robots" content="index, follow" />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:url" content="https://www.edoedoedo.it/" />
+    <meta property="og:title" content="Edoardo Di Sabatino — Frontend Developer" />
+    <meta property="og:description"
+        content="Frontend Developer at EY Studio+, Roma. Building immersive, high-performance web experiences with Next.js, React, Three.js and headless CMS." />
+    <meta property="og:image" content="https://www.edoedoedo.it/favicon.png" />
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="Edoardo Di Sabatino — Frontend Developer" />
+    <meta name="twitter:description"
+        content="Frontend at EY Studio+. Building immersive, high-performance web experiences from Roma." />
+    <meta name="twitter:image" content="https://www.edoedoedo.it/favicon.png" />
+
+    <script type="module" crossorigin src="assets/index-tFaTbJAh.js"></script>
+    <link rel="stylesheet" crossorigin href="assets/index-BIi2FQZH.css">
+</head>
+
+<body>
+    <!-- LOADER (boot screen + horizontal blinds reveal) -->
+    <div class="loader" data-loader aria-hidden="true">
+        <!-- The 12 horizontal panels that close the screen. Each
+                 peels away in sequence at 100% to reveal the page. -->
+        <div class="loader__blinds" data-loader-blinds></div>
+
+        <!-- Boot UI on top of the blinds: corner metadata, central
+                 counter, hairline progress. -->
+        <div class="loader__ui">
+            <div class="loader__corner loader__corner--tl">
+                <span>portfolio</span>
+            </div>
+            <div class="loader__corner loader__corner--tr">
+                <span>session</span>
+                <span>·</span>
+                <span>2026</span>
+            </div>
+            <div class="loader__corner loader__corner--bl">
+                <span class="loader__pulse"></span>
+                <span>booting renderer</span>
+            </div>
+            <div class="loader__corner loader__corner--br">
+                <span data-loader-status>preparing assets</span>
+            </div>
+
+            <div class="loader__center">
+                <div class="loader__count" data-loader-count>000</div>
+                <div class="loader__bar">
+                    <div class="loader__bar-fill" data-loader-bar></div>
+                </div>
+                <div class="loader__hint">— hold on —</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SVG GOO FILTER for the cursor metaballs -->
+    <svg class="cursor-goo-svg" aria-hidden="true" focusable="false">
+        <defs>
+            <filter id="cursor-goo">
+                <feGaussianBlur in="SourceGraphic" stdDeviation="6" result="blur" />
+                <feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0
+                                0 1 0 0 0
+                                0 0 1 0 0
+                                0 0 0 22 -11" result="goo" />
+                <feComposite in="SourceGraphic" in2="goo" operator="atop" />
+            </filter>
+            <filter id="ink-spread">
+                <feGaussianBlur in="SourceGraphic" stdDeviation="4" />
+                <feColorMatrix mode="matrix" values="1 0 0 0 0
+                                0 1 0 0 0
+                                0 0 1 0 0
+                                0 0 0 28 -14" />
+            </filter>
+            <filter id="liquid-text-goo">
+                <feGaussianBlur in="SourceGraphic" stdDeviation="6" />
+                <feColorMatrix mode="matrix" values="1 0 0 0 0
+                                0 1 0 0 0
+                                0 0 1 0 0
+                                0 0 0 26 -13" />
+                <feComposite in="SourceGraphic" in2="goo" operator="atop" />
+            </filter>
+        </defs>
+    </svg>
+
+    <!-- CUSTOM CURSOR -->
+    <div class="cursor" data-cursor>
+        <div class="cursor__goo">
+            <div class="cursor__dot"></div>
+            <div class="cursor__sub" data-sub="0"></div>
+            <div class="cursor__sub" data-sub="1"></div>
+            <div class="cursor__sub" data-sub="2"></div>
+        </div>
+        <div class="cursor__label" data-cursor-label></div>
+    </div>
+
+    <!-- CINEMATIC TITLE BAND -->
+    <div class="cinema" data-cinema aria-hidden="true">
+        <div class="cinema__rail" data-cinema-inner></div>
+        <div class="cinema__detail" data-cinema-detail></div>
+    </div>
+
+    <!-- HEADER -->
+    <header class="header">
+        <a href="#intro" class="header__brand" data-cursor-snap>edoedoedo</a>
+        <nav class="header__nav">
+            <a href="#about" data-cursor-snap>About</a>
+            <a href="#works" data-cursor-snap>Works</a>
+            <a href="#agencies" data-cursor-snap>Companies</a>
+            <a href="#lab" data-cursor-snap>Lab</a>
+            <a href="#contact" data-cursor-snap>Contact</a>
+        </nav>
+    </header>
+
+    <!-- HERO -->
+    <section class="hero" id="intro" data-hero>
+        <canvas class="hero__canvas" data-hero-canvas aria-hidden="true"></canvas>
+        <h1 class="hero__title" data-hero-title aria-label="Frontend developer based in Roma.">
+            <span>Frontend</span>
+            <span>developer.</span>
+            <span class="hero__title-sub"><em>Based in Roma.</em></span>
+        </h1>
+    </section>
+
+    <!-- MARQUEE -->
+    <div class="marquee" data-marquee>
+        <div class="marquee__track" data-marquee-track>
+            <!-- duplicated for infinite scroll -->
+        </div>
+    </div>
+
+    <!-- ABOUT / BIO -->
+    <section class="section about" id="about">
+        <p class="section__label" data-char-reveal>— 01 / About</p>
+        <div class="about__grid">
+            <div class="about__bio" data-reveal>
+                <p>
+                    Frontend Developer at <em>EY Studio+</em>, building
+                    scalable web platforms with Next.js and headless CMS
+                    architectures.
+                </p>
+                <p>
+                    My background spans modern JavaScript frameworks and
+                    enterprise CMS and e-commerce solutions like
+                    <em>Contentstack</em>, <em>Contentful</em> and
+                    <em>Salesforce Commerce Cloud</em>.
+                </p>
+                <p>
+                    I work at the seam between design and engineering,
+                    crafting immersive, high-performance interfaces with
+                    advanced motion and interaction, accessibility built in
+                    and not bolted on.
+                </p>
+                <p>
+                    In my spare time I experiment with 3D on the web using
+                    <em>Three.js</em> and React Three Fiber, and I'm honored
+                    to be part of the jury panel at
+                    <em>CSS Design Awards</em>.
+                </p>
+            </div>
+            <figure class="about__sphere" aria-hidden="true">
+                <div class="about__sphere-stage" data-sphere-stage>
+                    <canvas data-liquid-canvas></canvas>
+                </div>
+            </figure>
+        </div>
+    </section>
+
+    <!-- WORKS -->
+    <section class="section" id="works">
+        <p class="section__label" data-char-reveal>— 02 / Selected works</p>
+        <h2 class="section__title" data-reveal-blur>
+            <span>Made for</span>
+            <span><em>brands</em> that ship.</span>
+        </h2>
+
+        <div class="works" data-works></div>
+    </section>
+
+    <!-- AGENCIES / COMPANIES -->
+    <section class="section" id="agencies">
+        <p class="section__label" data-char-reveal>
+            — 03 / Selected companies
+        </p>
+        <p class="agencies__manifesto" data-reveal-blur>
+            <span>I build websites for brands</span>
+            <span>that <em>care</em> about the</span>
+            <span>last 3 pixels.</span>
+        </p>
+        <div class="logos" data-logos></div>
+    </section>
+
+    <!-- LAB -->
+    <section class="section" id="lab">
+        <p class="section__label" data-char-reveal>
+            — 04 / Laboratory & experiments
+        </p>
+        <h2 class="section__title" data-reveal-blur>
+            <span>Off-brief.</span>
+            <span><em>For the joy.</em></span>
+        </h2>
+
+        <div class="lab" data-lab></div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer" id="contact">
+        <p class="section__label" data-char-reveal>— 05 / Contact</p>
+        <div class="footer__stage" data-liquid-footer>
+            <canvas></canvas>
+        </div>
+        <div class="footer__row">
+            <span class="footer__thanks">Thank you for scrolling.</span>
+            <div class="footer__links">
+                <a href="https://www.linkedin.com/in/edoardo-di-sabatino-1053b711b/" target="_blank"
+                    rel="noopener noreferrer" data-cursor-snap>LinkedIn ↗</a>
+                <a href="https://github.com/EdoEdoEdo" target="_blank" rel="noopener noreferrer" data-cursor-snap>GitHub
+                    ↗</a>
+                <a href="https://codepen.io/EdoEdoEdo" target="_blank" rel="noopener noreferrer"
+                    data-cursor-snap>CodePen ↗</a>
+                <a href="https://www.cssdesignawards.com/judges/edoardo-di-sabatino/1846/" target="_blank"
+                    rel="noopener noreferrer" data-cursor-snap>CSSDA ↗</a>
+            </div>
+            <span>© 2026 —
+                <span class="footer__brand">Edoardo Di Sabatino</span></span>
+        </div>
+    </footer>
+
+</body>
+
+</html>
