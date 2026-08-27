@@ -288,7 +288,7 @@ html.lenis {
   height: 1px;
   pointer-events: none;
   z-index: 9999;
-  mix-blend-mode: normal;
+  mix-blend-mode: difference;
   transform: translate3d(-50%, -50%, 0);
   will-change: transform;
 }
@@ -692,7 +692,7 @@ html.is-modal-open body {
   justify-content: space-between;
   align-items: center;
   padding: 24px 32px;
-  mix-blend-mode: normal;
+  mix-blend-mode: difference;
   color: #fff;
 }
 .header__brand,

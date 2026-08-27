@@ -210,10 +210,6 @@
     (() => {
       const contact = document.querySelector("#contact");
       if (!contact) return;
-      const header = document.querySelector(".header");
-      const headerItems = header?.querySelectorAll("a");
-      const cursorDot = document.querySelector(".cursor__dot");
-      const cursorLabel = document.querySelector(".cursor__label");
 
       const updateContactFade = () => {
         const progress = Math.min(
@@ -227,12 +223,6 @@
         contact.style.borderTopColor = `rgb(${textShade} ${textShade} ${textShade})`;
         contact.style.setProperty("--contact-canvas-invert", progress);
         document.documentElement.style.setProperty("--contact-screen-fade", progress);
-        header?.style.setProperty("color", `rgb(${textShade} ${textShade} ${textShade})`);
-        headerItems?.forEach((item) => {
-          item.style.color = `rgb(${textShade} ${textShade} ${textShade})`;
-        });
-        cursorDot?.style.setProperty("background-color", `rgb(${textShade} ${textShade} ${textShade})`);
-        cursorLabel?.style.setProperty("color", `rgb(${shade} ${shade} ${shade})`);
       };
 
       const trackContactFade = () => {
