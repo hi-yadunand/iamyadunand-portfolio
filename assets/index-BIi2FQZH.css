@@ -720,9 +720,7 @@ html.is-modal-open body {
   text-transform: uppercase;
   letter-spacing: -0.02em;
   font-size: 16px;
-  text-decoration: line-through;
-  text-decoration-thickness: 2px;
-  text-underline-offset: 0;
+  text-decoration: none;
 }
 .header__nav {
   display: flex;
@@ -749,7 +747,7 @@ html.is-modal-open body {
 }
 .hero {
   min-height: 100vh;
-  padding: 140px 32px 80px;
+  padding: 140px 32px 32px;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
@@ -774,6 +772,10 @@ html.is-modal-open body {
   color: transparent;
   position: relative;
   z-index: 0;
+  width: 100%;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
 }
 .hero__title > span {
   display: block;
@@ -785,13 +787,13 @@ html.is-modal-open body {
 }
 .hero__title-sub {
   display: block;
-  font-size: 0.2em;
+  font-size: 0.14em;
   font-weight: 300;
   font-style: italic;
   letter-spacing: -0.02em;
   text-transform: none;
   line-height: 1;
-  margin-top: 0.4em;
+  margin-top: auto;
   opacity: 0.85;
   padding-right: 32px;
   width: 100%;
@@ -826,36 +828,6 @@ html.is-modal-open body {
   .hero__meta {
     grid-template-columns: repeat(2, 1fr);
   }
-}
-.marquee {
-  border-top: 1px solid var(--line);
-  border-bottom: 1px solid var(--line);
-  padding: 28px 0;
-  overflow: hidden;
-  white-space: nowrap;
-  position: relative;
-  z-index: 1;
-}
-.marquee__track {
-  display: inline-flex;
-  gap: 56px;
-  font-family: "Neue Montreal", sans-serif;
-  font-weight: 700;
-  font-size: clamp(28px, 4.5vw, 64px);
-  letter-spacing: -0.02em;
-  text-transform: uppercase;
-  will-change: transform;
-}
-.marquee__item {
-  display: inline-flex;
-  align-items: center;
-  gap: 56px;
-  flex-shrink: 0;
-}
-.marquee__item:after {
-  content: "/";
-  font-weight: 300;
-  opacity: 0.35;
 }
 .section {
   padding: 120px 32px;
@@ -1178,11 +1150,18 @@ html.is-modal-open body {
   aspect-ratio: 1 / 1;
   background: transparent;
 }
-.about__sphere-stage canvas {
+.about__sphere-stage canvas,
+.about__profile {
   display: block;
   width: 100% !important;
   height: 100% !important;
+}
+.about__sphere-stage canvas {
   touch-action: pan-y;
+}
+.about__profile {
+  object-fit: cover;
+  border-radius: 50%;
 }
 .about__sphere-meta {
   display: flex;
@@ -1454,8 +1433,8 @@ html.is-modal-open body {
     margin-bottom: 40px;
   }
   .hero {
-    padding: 90px 20px 100px;
-    justify-content: center;
+    padding: 90px 20px 24px;
+    justify-content: flex-start;
   }
   .logos {
     grid-template-columns: 1fr;
@@ -1525,12 +1504,5 @@ html.is-modal-open body {
   }
   .footer__links {
     gap: 16px 24px;
-  }
-  .marquee {
-    padding: 18px 0;
-  }
-  .marquee__track {
-    font-size: clamp(22px, 7vw, 40px);
-    gap: 36px;
   }
 }
