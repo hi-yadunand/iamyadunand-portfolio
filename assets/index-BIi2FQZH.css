@@ -879,6 +879,9 @@ html.is-modal-open body {
   --ink-y: 50%;
   transition: color 0.35s cubic-bezier(0.7, 0, 0.2, 1);
 }
+.work:nth-child(n + 4) {
+  display: none;
+}
 .work > *:not(.ink) {
   position: relative;
   z-index: 2;
