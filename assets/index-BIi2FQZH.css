@@ -20,3 +20,4 @@
 @keyframes heroBouayabenGrain{0%,to{transform:translate(0)}10%{transform:translate(-2%,-3%)}30%{transform:translate(3%,-2%)}50%{transform:translate(-3%,2%)}70%{transform:translate(2%,3%)}90%{transform:translate(-2%,1%)}}
 @media(max-width:700px){.hero.hero--bouayaben{padding:6rem 1.25rem 3rem;justify-content:flex-end}.hero__title--bouayaben{font-size:clamp(3rem,16vw,5.2rem)!important;line-height:.92!important}.hero__title--bouayaben .hero-line{overflow:visible;margin-block-end:0;padding-block-end:.02em}.hero__title--bouayaben .hero-line-inner{white-space:normal}}
 @media(prefers-reduced-motion:reduce){.hero.hero--bouayaben:before,.hero__title--bouayaben .hero-line-inner{animation:none!important;transform:none!important}}
+.header__brand{text-decoration:none!important}
