@@ -352,7 +352,9 @@ ready(() => {
         const chars = splitTextNodes(headline);
         initCharacterRepel(root, chars);
         root.classList.add("is-hero-animated");
-        createParticles(root, canvas, word);
+        if (!window.matchMedia("(max-width: 700px)").matches) {
+            createParticles(root, canvas, word);
+        }
     };
 
     const fontsReady = document.fonts?.ready || Promise.resolve();
