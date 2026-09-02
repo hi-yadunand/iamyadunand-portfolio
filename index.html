@@ -40,6 +40,12 @@
   <script type="module" crossorigin src="/assets/index-tFaTbJAh.js"></script>
   <script type="module" crossorigin src="/assets/hero-bouayaben.js"></script>
   <link rel="stylesheet" crossorigin href="/assets/index-BIi2FQZH.css">
+  <style>
+    body,
+    body * {
+      cursor: auto !important;
+    }
+  </style>
 </head>
 
 <body>
@@ -76,46 +82,6 @@
         <div class="loader__hint">— hold on —</div>
       </div>
     </div>
-  </div>
-
-  <!-- SVG GOO FILTER for the cursor metaballs -->
-  <svg class="cursor-goo-svg" aria-hidden="true" focusable="false">
-    <defs>
-      <filter id="cursor-goo">
-        <feGaussianBlur in="SourceGraphic" stdDeviation="6" result="blur" />
-        <feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0
-                                0 1 0 0 0
-                                0 0 1 0 0
-                                0 0 0 22 -11" result="goo" />
-        <feComposite in="SourceGraphic" in2="goo" operator="atop" />
-      </filter>
-      <filter id="ink-spread">
-        <feGaussianBlur in="SourceGraphic" stdDeviation="4" />
-        <feColorMatrix mode="matrix" values="1 0 0 0 0
-                                0 1 0 0 0
-                                0 0 1 0 0
-                                0 0 0 28 -14" />
-      </filter>
-      <filter id="liquid-text-goo">
-        <feGaussianBlur in="SourceGraphic" stdDeviation="6" />
-        <feColorMatrix mode="matrix" values="1 0 0 0 0
-                                0 1 0 0 0
-                                0 0 1 0 0
-                                0 0 0 26 -13" />
-        <feComposite in="SourceGraphic" in2="goo" operator="atop" />
-      </filter>
-    </defs>
-  </svg>
-
-  <!-- CUSTOM CURSOR -->
-  <div class="cursor" data-cursor>
-    <div class="cursor__goo">
-      <div class="cursor__dot"></div>
-      <div class="cursor__sub" data-sub="0"></div>
-      <div class="cursor__sub" data-sub="1"></div>
-      <div class="cursor__sub" data-sub="2"></div>
-    </div>
-    <div class="cursor__label" data-cursor-label></div>
   </div>
 
   <!-- CINEMATIC TITLE BAND -->
