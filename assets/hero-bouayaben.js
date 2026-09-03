@@ -183,7 +183,7 @@ const createParticles = (root, canvas, word) => {
     sample.height = Math.ceil((wordRect.height + pad * 2) * sampleScale);
     sampleCtx.scale(sampleScale, sampleScale);
     sampleCtx.font = `${style.fontStyle} ${style.fontWeight} ${fontSize}px ${style.fontFamily}`;
-    sampleCtx.fillStyle = "#fff";
+    sampleCtx.fillStyle = "#FDFBF9";
     sampleCtx.textBaseline = "middle";
     sampleCtx.fillText(word.textContent, pad, sample.height / sampleScale / 2);
 
@@ -357,9 +357,7 @@ ready(() => {
     const chars = splitTextNodes(headline);
     initCharacterRepel(root, chars);
     root.classList.add("is-hero-animated");
-    if (!window.matchMedia("(max-width: 700px)").matches) {
-      createParticles(root, canvas, word);
-    }
+    createParticles(root, canvas, word);
   };
 
   const fontsReady = document.fonts?.ready || Promise.resolve();

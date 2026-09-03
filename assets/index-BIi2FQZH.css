@@ -1,8 +1,8 @@
 :root {
   --ink: #000;
-  --paper: #fff;
+  --paper: #FDFBF9;
   --line: rgba(0, 0, 0, 0.12);
-  --line-dark: rgba(255, 255, 255, 0.18);
+  --line-dark: rgba(253, 251, 249, 0.18);
   --mono-size: 11px;
   --mono-cta-size: 12px;
   --mono-tag-size: 10px;
@@ -233,7 +233,7 @@ html.lenis {
   left: 50%;
   width: 22px;
   height: 22px;
-  background: #fff;
+  background: #FDFBF9;
   border-radius: 0;
   transform: translate3d(-50%, -50%, 0);
   transition: background-color 0.3s ease;
@@ -245,7 +245,7 @@ html.lenis {
   left: 50%;
   width: 18px;
   height: 18px;
-  background: #fff;
+  background: #FDFBF9;
   border-radius: 0;
   transform: translate3d(-50%, -50%, 0);
   opacity: 0;
@@ -630,7 +630,7 @@ html.is-modal-open body {
   align-items: center;
   padding: 24px 32px;
   mix-blend-mode: difference;
-  color: #fff;
+  color: #FDFBF9;
 }
 .header__brand,
 .header__nav a,
@@ -641,7 +641,7 @@ html.is-modal-open body {
   font-size: var(--mono-size);
   letter-spacing: var(--mono-tracking);
   text-transform: uppercase;
-  color: #fff;
+  color: #FDFBF9;
 }
 .header__brand {
   font-family: Inter, sans-serif;
@@ -1635,6 +1635,70 @@ html.is-modal-open body {
   src: url("archivo-latin-wght-italic-C1arb59o.woff2")
     format("woff2-variations");
 }
+@font-face {
+  font-family: "Neue Montreal";
+  font-style: normal;
+  font-display: swap;
+  font-weight: 300;
+  src: url("neue-montreal-font-family/neuemontreal-light.otf")
+    format("opentype");
+}
+@font-face {
+  font-family: "Neue Montreal";
+  font-style: normal;
+  font-display: swap;
+  font-weight: 400;
+  src: url("neue-montreal-font-family/neuemontreal-regular.otf")
+    format("opentype");
+}
+@font-face {
+  font-family: "Neue Montreal";
+  font-style: normal;
+  font-display: swap;
+  font-weight: 500 600;
+  src: url("neue-montreal-font-family/neuemontreal-medium.otf")
+    format("opentype");
+}
+@font-face {
+  font-family: "Neue Montreal";
+  font-style: normal;
+  font-display: swap;
+  font-weight: 700 900;
+  src: url("neue-montreal-font-family/neuemontreal-bold.otf")
+    format("opentype");
+}
+@font-face {
+  font-family: "Neue Montreal";
+  font-style: italic;
+  font-display: swap;
+  font-weight: 300;
+  src: url("neue-montreal-font-family/neuemontreal-lightitalic.otf")
+    format("opentype");
+}
+@font-face {
+  font-family: "Neue Montreal";
+  font-style: italic;
+  font-display: swap;
+  font-weight: 400;
+  src: url("neue-montreal-font-family/neuemontreal-italic.otf")
+    format("opentype");
+}
+@font-face {
+  font-family: "Neue Montreal";
+  font-style: italic;
+  font-display: swap;
+  font-weight: 500 600;
+  src: url("neue-montreal-font-family/neuemontreal-mediumitalic.otf")
+    format("opentype");
+}
+@font-face {
+  font-family: "Neue Montreal";
+  font-style: italic;
+  font-display: swap;
+  font-weight: 700 900;
+  src: url("neue-montreal-font-family/neuemontreal-bolditalic.otf")
+    format("opentype");
+}
 .hero.hero--bouayaben {
   --hero-parallax-y: 0px;
   min-height: 100svh;
@@ -1819,9 +1883,6 @@ body * {
     padding: 6.5rem 1.35rem 4.75rem;
     justify-content: flex-end;
   }
-  .hero-field--bouayaben {
-    display: none;
-  }
   .hero__title--bouayaben {
     font-size: clamp(2.75rem, 14.5vw, 4.25rem) !important;
     line-height: 0.95 !important;
@@ -1836,7 +1897,33 @@ body * {
     white-space: normal;
   }
   .hero__title--bouayaben em {
-    opacity: 1 !important;
     color: #EE4B2B !important;
   }
+}
+
+body,
+button,
+input,
+textarea,
+select,
+body :where(:not(.hero__title--bouayaben):not(.hero__title--bouayaben *)) {
+  font-family:
+    "Neue Montreal",
+    "Helvetica Neue",
+    Arial,
+    sans-serif !important;
+}
+
+.hero__title--bouayaben,
+.hero__title--bouayaben * {
+  font-family:
+    "Archivo Variable",
+    Archivo,
+    "Helvetica Neue",
+    Arial,
+    sans-serif !important;
+}
+
+.works > :nth-child(n + 4) {
+  display: none !important;
 }

@@ -87,7 +87,7 @@ ready(() => {
     sample.height = Math.ceil(layout.fontSize * 1.55 * sampleScale);
     sampleCtx.scale(sampleScale, sampleScale);
     sampleCtx.font = layout.font;
-    sampleCtx.fillStyle = "#fff";
+    sampleCtx.fillStyle = "#FDFBF9";
     sampleCtx.textBaseline = "alphabetic";
     sampleCtx.fillText(layout.text, pad, layout.fontSize * 1.08);
 
