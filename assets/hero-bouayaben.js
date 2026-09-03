@@ -210,18 +210,20 @@ const createParticles = (root, canvas, word) => {
       }
     }
 
+    if (!rawPoints.length) {
+      particles = [];
+      return;
+    }
+
     const glyphWidth = Math.max(1, maxX - minX);
-    const glyphHeight = Math.max(1, maxY - minY);
     const scale = wordRect.width / glyphWidth;
-    const targetHeight = glyphHeight * scale;
-    const yOffset =
-      wordRect.top -
-      rootRect.top +
-      (wordRect.height - targetHeight) * 0.45 -
-      fontSize * 0.35;
+    const glyphCenterX = (minX + maxX) / 2;
+    const glyphCenterY = (minY + maxY) / 2;
+    const targetCenterX = wordRect.left - rootRect.left + wordRect.width / 2;
+    const targetCenterY = wordRect.top - rootRect.top + wordRect.height / 2;
     const points = rawPoints.map((point) => ({
-      x: wordRect.left - rootRect.left + (point.x - minX) * scale,
-      y: yOffset + (point.y - minY) * scale,
+      x: targetCenterX + (point.x - glyphCenterX) * scale,
+      y: targetCenterY + (point.y - glyphCenterY) * scale,
     }));
     const maxParticles = window.innerWidth <= 700 ? 2800 : 8200;
     points.sort(() => Math.random() - 0.5);
@@ -263,17 +265,17 @@ const createParticles = (root, canvas, word) => {
         const dx = baseX - pointer.x;
         const dy = baseY - pointer.y;
         const distance = Math.hypot(dx, dy);
-        const radius = window.innerWidth <= 700 ? 96 : 140;
+        const radius = window.innerWidth <= 700 ? 56 : 74;
 
         if (distance < radius && distance > 0.01) {
-          const push = Math.pow(1 - distance / radius, 2) * 54 * pointer.amp;
+          const push = Math.pow(1 - distance / radius, 2) * 24 * pointer.amp;
           x += (dx / distance) * push;
-          y += (dy / distance) * push * 0.72;
+          y += (dy / distance) * push * 0.58;
         }
 
-        const shimmer = settled ? Math.sin(time * 0.002 + p.drift) * 0.65 : 0;
+        const shimmer = settled ? Math.sin(time * 0.002 + p.drift) * 0.28 : 0;
         x += shimmer * pointer.amp;
-        y += Math.cos(time * 0.0017 + p.drift) * 0.45 * pointer.amp;
+        y += Math.cos(time * 0.0017 + p.drift) * 0.22 * pointer.amp;
 
         p.x += (x - p.x) * 0.2;
         p.y += (y - p.y) * 0.2;
