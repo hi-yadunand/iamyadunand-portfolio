@@ -287,7 +287,7 @@ const createParticles = (root, canvas, word) => {
       }
 
       if (x < -4 || x > width + 4 || y < -4 || y > height + 4) continue;
-      ctx.fillStyle = `rgba(255, 92, 40, ${alpha})`;
+      ctx.fillStyle = `rgba(238, 75, 43, ${alpha})`;
       ctx.fillRect(x, y, p.size, p.size);
     }
 

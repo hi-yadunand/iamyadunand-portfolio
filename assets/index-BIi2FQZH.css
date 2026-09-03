@@ -1374,8 +1374,13 @@ html.is-modal-open body {
   }
 }
 .footer {
+  --ink: #f5f0eb;
+  --paper: #121212;
+  --line: rgba(245, 240, 235, 0.16);
   padding: 80px 32px 32px;
   border-top: 1px solid var(--line);
+  background: #121212;
+  color: #f5f0eb;
   position: relative;
   z-index: 1;
   min-height: 60vh;
@@ -1395,6 +1400,9 @@ html.is-modal-open body {
   display: block;
   width: 100%;
   height: 100%;
+}
+.footer-particles {
+  pointer-events: none;
 }
 .footer__row {
   display: flex;
@@ -1712,7 +1720,7 @@ html.is-modal-open body {
   will-change: transform;
 }
 .hero__title--bouayaben em {
-  color: #ff5c28 !important;
+  color: #EE4B2B !important;
   font-style: italic !important;
   font-weight: 760 !important;
   letter-spacing: -0.045em !important;
@@ -1829,6 +1837,6 @@ body * {
   }
   .hero__title--bouayaben em {
     opacity: 1 !important;
-    color: #ff5c28 !important;
+    color: #EE4B2B !important;
   }
 }
