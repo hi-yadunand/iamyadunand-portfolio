@@ -1015,6 +1015,9 @@ html.is-modal-open body {
   position: relative;
   z-index: 1;
 }
+.logos[data-project-logos="true"] {
+  grid-template-columns: repeat(3, 1fr);
+}
 .logos__item {
   aspect-ratio: 16 / 9;
   border-right: 1px solid var(--line);
@@ -1924,6 +1927,22 @@ body :where(:not(.hero__title--bouayaben):not(.hero__title--bouayaben *)) {
     sans-serif !important;
 }
 
-.works > :nth-child(n + 4) {
+.works > :nth-child(n + 5) {
   display: none !important;
+}
+
+.logos[data-project-logos="true"] {
+  grid-template-columns: repeat(4, 1fr);
+}
+
+@media (max-width: 800px) {
+  .logos[data-project-logos="true"] {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 560px) {
+  .logos[data-project-logos="true"] {
+    grid-template-columns: 1fr;
+  }
 }
