@@ -1,6 +1,6 @@
 :root {
   --ink: #000;
-  --paper: #FDFBF9;
+  --paper: #fdfbf9;
   --line: rgba(0, 0, 0, 0.12);
   --line-dark: rgba(253, 251, 249, 0.18);
   --mono-size: 11px;
@@ -125,11 +125,7 @@ html.is-loading body {
   position: relative;
   display: inline-block;
   overflow: hidden;
-  font-family:
-    "Taro Display",
-    Impact,
-    "Arial Narrow",
-    sans-serif;
+  font-family: "Taro Display", Impact, "Arial Narrow", sans-serif;
   font-size: clamp(7.25rem, 26vh, 17rem);
   font-weight: 900;
   letter-spacing: 0;
@@ -154,11 +150,7 @@ html.is-loading body {
   display: block;
   padding-top: clamp(0.6rem, 2.2vh, 1.4rem);
   padding-left: clamp(1.25rem, 3.8vh, 2.5rem);
-  font-family:
-    "Taro Body",
-    "Russell Neue Montreal",
-    Arial,
-    sans-serif;
+  font-family: "Taro Body", "Russell Neue Montreal", Arial, sans-serif;
   font-size: clamp(1.1rem, 2.3vh, 1.8rem);
   line-height: 1.25;
   letter-spacing: 0.03em;
@@ -257,7 +249,7 @@ html.lenis {
   left: 50%;
   width: 22px;
   height: 22px;
-  background: #FDFBF9;
+  background: #fdfbf9;
   border-radius: 0;
   transform: translate3d(-50%, -50%, 0);
   transition: background-color 0.3s ease;
@@ -269,7 +261,7 @@ html.lenis {
   left: 50%;
   width: 18px;
   height: 18px;
-  background: #FDFBF9;
+  background: #fdfbf9;
   border-radius: 0;
   transform: translate3d(-50%, -50%, 0);
   opacity: 0;
@@ -669,11 +661,7 @@ html.is-modal-open body {
 .header__brand,
 .header__nav a,
 .header__menu {
-  font-family:
-    "Russell Neue Montreal",
-    "Neue Montreal",
-    Arial,
-    sans-serif;
+  font-family: "Russell Neue Montreal", "Neue Montreal", Arial, sans-serif;
   letter-spacing: 0;
   color: inherit;
 }
@@ -681,11 +669,7 @@ html.is-modal-open body {
   display: flex;
   width: fit-content;
   flex-direction: column;
-  font-family:
-    "Russell Humane",
-    Impact,
-    "Arial Narrow",
-    sans-serif;
+  font-family: "Russell Humane", Impact, "Arial Narrow", sans-serif;
   font-size: 58px;
   font-weight: 700;
   line-height: 0.9;
@@ -1862,8 +1846,7 @@ html.is-modal-open body {
   font-style: normal;
   font-display: swap;
   font-weight: 700 900;
-  src: url("neue-montreal-font-family/neuemontreal-bold.otf")
-    format("opentype");
+  src: url("neue-montreal-font-family/neuemontreal-bold.otf") format("opentype");
 }
 @font-face {
   font-family: "Neue Montreal";
@@ -1983,7 +1966,7 @@ html.is-modal-open body {
   will-change: transform;
 }
 .hero__title--bouayaben em {
-  color: #EE4B2B !important;
+  color: #ee4b2b !important;
   font-style: italic !important;
   font-weight: 760 !important;
   letter-spacing: -0.045em !important;
@@ -2119,7 +2102,7 @@ html.custom-cursor-active [data-cursor-label] {
     white-space: normal;
   }
   .hero__title--bouayaben em {
-    color: #EE4B2B !important;
+    color: #ee4b2b !important;
   }
 }
 
@@ -2129,21 +2112,13 @@ input,
 textarea,
 select,
 body :where(:not(.hero__title--bouayaben):not(.hero__title--bouayaben *)) {
-  font-family:
-    "Neue Montreal",
-    "Helvetica Neue",
-    Arial,
-    sans-serif !important;
+  font-family: "Neue Montreal", "Helvetica Neue", Arial, sans-serif !important;
 }
 
 .hero__title--bouayaben,
 .hero__title--bouayaben * {
   font-family:
-    "Archivo Variable",
-    Archivo,
-    "Helvetica Neue",
-    Arial,
-    sans-serif !important;
+    "Archivo Variable", Archivo, "Helvetica Neue", Arial, sans-serif !important;
 }
 
 .works > :nth-child(n + 5) {
@@ -2157,38 +2132,24 @@ body :where(:not(.hero__title--bouayaben):not(.hero__title--bouayaben *)) {
 .loader__word,
 .loader__word-front,
 .loader__word-back {
-  font-family:
-    "Taro Display",
-    Impact,
-    "Arial Narrow",
-    sans-serif !important;
+  font-family: "Taro Display", Impact, "Arial Narrow", sans-serif !important;
 }
 
 .loader__meta,
 .loader__meta * {
   font-family:
-    "Taro Body",
-    "Russell Neue Montreal",
-    Arial,
-    sans-serif !important;
+    "Taro Body", "Russell Neue Montreal", Arial, sans-serif !important;
 }
 
 .header__brand,
 .header__brand * {
-  font-family:
-    "Russell Humane",
-    Impact,
-    "Arial Narrow",
-    sans-serif !important;
+  font-family: "Russell Humane", Impact, "Arial Narrow", sans-serif !important;
 }
 
 .header__nav a,
 .header__menu {
   font-family:
-    "Russell Neue Montreal",
-    "Neue Montreal",
-    Arial,
-    sans-serif !important;
+    "Russell Neue Montreal", "Neue Montreal", Arial, sans-serif !important;
 }
 
 @media (max-width: 800px) {
