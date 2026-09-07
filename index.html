@@ -38,52 +38,43 @@
     href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700;900&family=JetBrains+Mono:wght@400;500&display=swap"
     rel="stylesheet" />
   <script type="module" crossorigin src="/assets/index-tFaTbJAh.js"></script>
+  <script type="module" crossorigin src="/assets/starting-animation.js"></script>
+  <script type="module" crossorigin src="/assets/custom-cursor.js"></script>
+  <script type="module" crossorigin src="/assets/nav-menu.js"></script>
   <script type="module" crossorigin src="/assets/hero-bouayaben.js"></script>
   <script type="module" crossorigin src="/assets/hero-parallax.js"></script>
   <script type="module" crossorigin src="/assets/contact-parallax.js"></script>
   <script type="module" crossorigin src="/assets/footer-particles.js"></script>
   <script type="module" crossorigin src="/assets/work-filter.js"></script>
   <link rel="stylesheet" crossorigin href="/assets/index-BIi2FQZH.css">
-  <style>
-    body,
-    body * {
-      cursor: auto !important;
-    }
-  </style>
 </head>
 
 <body>
-  <!-- LOADER (boot screen + horizontal blinds reveal) -->
-  <div class="loader" data-loader aria-hidden="true">
-    <!-- The 12 horizontal panels that close the screen. Each
-                 peels away in sequence at 100% to reveal the page. -->
-    <div class="loader__blinds" data-loader-blinds></div>
-
-    <!-- Boot UI on top of the blinds: corner metadata, central
-                 counter, hairline progress. -->
-    <div class="loader__ui">
-      <div class="loader__corner loader__corner--tl">
-        <span>portfolio</span>
+  <!-- STARTING ANIMATION -->
+  <div class="loader loader--taro" data-start-loader aria-hidden="true">
+    <div class="loader__block">
+      <div class="loader__line loader__line--first">
+        <span class="loader__word" data-loader-word>
+          <span class="loader__word-front">Yadunand</span>
+          <span class="loader__word-back">Yadunand</span>
+        </span>
+        <span class="loader__meta">
+          <span>Developer</span>
+          <span><span data-loader-count>000</span>%</span>
+        </span>
       </div>
-      <div class="loader__corner loader__corner--tr">
-        <span>session</span>
-        <span>·</span>
-        <span>2026</span>
+      <div class="loader__line loader__line--wide">
+        <span class="loader__word" data-loader-word>
+          <span class="loader__word-front">Pavithran</span>
+          <span class="loader__word-back">Pavithran</span>
+        </span>
       </div>
-      <div class="loader__corner loader__corner--bl">
-        <span class="loader__pulse"></span>
-        <span>booting renderer</span>
-      </div>
-      <div class="loader__corner loader__corner--br">
-        <span data-loader-status>preparing assets</span>
-      </div>
-
-      <div class="loader__center">
-        <div class="loader__count" data-loader-count>000</div>
-        <div class="loader__bar">
-          <div class="loader__bar-fill" data-loader-bar></div>
-        </div>
-        <div class="loader__hint">— hold on —</div>
+      <div class="loader__line loader__line--last">
+        <span class="loader__word" data-loader-word>
+          <span class="loader__word-front">Portfolio</span>
+          <span class="loader__word-back">Portfolio</span>
+        </span>
+        <span class="loader__wipe" data-loader-wipe></span>
       </div>
     </div>
   </div>
@@ -95,13 +86,20 @@
   </div>
 
   <!-- HEADER -->
-  <header class="header">
-    <a href="#intro" class="header__brand" data-cursor-snap>Yadunand Pavithran</a>
-    <nav class="header__nav">
-      <a href="#about" data-cursor-snap>About</a>
-      <a href="#works" data-cursor-snap>Work</a>
-      <a href="#contact" data-cursor-snap>Contact</a>
-    </nav>
+  <header class="header" data-header>
+    <a href="#intro" class="header__brand" aria-label="Yadunand Pavithran" data-cursor-snap>
+      <span>Yadunand</span>
+      <span>Pavithran</span>
+    </a>
+    <button class="header__menu" type="button" aria-expanded="false" aria-controls="site-nav" data-nav-toggle
+      data-cursor-snap>menu</button>
+    <div class="header__nav-wrap" id="site-nav" data-nav-menu>
+      <nav class="header__nav" aria-label="Primary navigation">
+        <a href="#about" data-cursor-snap><span class="header__nav-count">01</span>About</a>
+        <a href="#works" data-cursor-snap><span class="header__nav-count">02</span>Projects</a>
+        <a href="#contact" data-cursor-snap><span class="header__nav-count">03</span>Contact</a>
+      </nav>
+    </div>
   </header>
 
   <!-- HERO -->

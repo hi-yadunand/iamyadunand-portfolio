@@ -17,6 +17,34 @@
   --brand-terre: #6b3a1a;
   --brand-farchioni: #2a5b2a;
 }
+@font-face {
+  font-family: "Taro Display";
+  font-style: normal;
+  font-display: swap;
+  font-weight: 900;
+  src: url("fonts/taro-r.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Taro Body";
+  font-style: normal;
+  font-display: swap;
+  font-weight: 400;
+  src: url("fonts/taro-okomito.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Russell Humane";
+  font-style: normal;
+  font-display: swap;
+  font-weight: 700;
+  src: url("fonts/humane-bold.otf") format("opentype");
+}
+@font-face {
+  font-family: "Russell Neue Montreal";
+  font-style: normal;
+  font-display: swap;
+  font-weight: 400;
+  src: url("fonts/neue-montreal-regular.otf") format("opentype");
+}
 * {
   box-sizing: border-box;
   margin: 0;
@@ -35,7 +63,7 @@ body {
   font-weight: 400;
   -webkit-font-smoothing: antialiased;
   overflow-x: hidden;
-  cursor: none;
+  cursor: auto;
 }
 html.is-loading,
 html.is-loading body {
@@ -58,125 +86,121 @@ html.is-loading body {
 .loader {
   position: fixed;
   inset: 0;
-  z-index: 10000;
+  z-index: 100000;
   pointer-events: none;
-  color: var(--paper, #f0eee6);
+  background: #fff;
+  color: #000;
+  line-height: 0;
+  overflow: hidden;
+  clip-path: inset(0 0 0 var(--loader-clip, 0%) round 0 24px 24px 0);
+  will-change: clip-path, opacity;
 }
-.loader__blinds {
+.loader__block {
   position: absolute;
-  inset: 0;
-  z-index: 1;
-}
-.loader__blind {
-  position: absolute;
-  left: 0;
-  width: 100%;
-  background: var(--ink, #0a0a0a);
-  transform-origin: 0 0;
-  will-change: transform;
-}
-.loader__ui {
-  position: absolute;
-  inset: 0;
-  z-index: 2;
-  will-change: opacity;
-}
-.loader__corner {
-  position: absolute;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  font-family:
-    JetBrains Mono,
-    monospace;
-  font-size: 11px;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  opacity: 0.55;
-  padding: 24px 28px;
-}
-.loader__corner--tl {
-  top: 0;
-  left: 0;
-}
-.loader__corner--tr {
-  top: 0;
-  right: 0;
-}
-.loader__corner--bl {
-  bottom: 0;
-  left: 0;
-}
-.loader__corner--br {
-  bottom: 0;
-  right: 0;
-}
-.loader__pulse {
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: currentColor;
-  animation: loader-pulse 1.2s ease-in-out infinite;
-}
-@keyframes loader-pulse {
-  0%,
-  to {
-    opacity: 1;
-    transform: scale(1);
-  }
-  50% {
-    opacity: 0.3;
-    transform: scale(0.6);
-  }
-}
-.loader__center {
-  position: absolute;
-  left: 50%;
   top: 50%;
-  transform: translate(-50%, -50%);
-  width: min(560px, calc(100% - 80px));
-  display: flex;
-  flex-direction: column;
-  align-items: stretch;
-  gap: 18px;
-  text-align: center;
+  left: 50%;
+  width: max-content;
+  max-width: 94vw;
+  transform: translate3d(-50%, -50%, 0);
+  text-align: left;
+  visibility: visible;
 }
-.loader__count {
+.loader__line {
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  width: max-content;
+  max-width: 94vw;
+  white-space: nowrap;
+}
+.loader__line--first,
+.loader__line--last {
+  padding-left: min(15.2vh, 9vw);
+}
+.loader__line--last {
+  justify-content: flex-start;
+}
+.loader__word {
+  --loader-progress: 0%;
+  position: relative;
+  display: inline-block;
+  overflow: hidden;
   font-family:
-    JetBrains Mono,
-    monospace;
-  font-weight: 300;
-  font-size: clamp(64px, 12vw, 180px);
+    "Taro Display",
+    Impact,
+    "Arial Narrow",
+    sans-serif;
+  font-size: clamp(7.25rem, 26vh, 17rem);
+  font-weight: 900;
+  letter-spacing: 0;
   line-height: 1;
-  letter-spacing: -0.04em;
+  text-transform: uppercase;
+}
+.loader__word-front,
+.loader__word-back {
+  display: block;
+}
+.loader__word-front {
+  color: #ddd;
+}
+.loader__word-back {
+  position: absolute;
+  inset: 0 auto auto 0;
+  color: #000;
+  clip-path: inset(0 calc(100% - var(--loader-progress)) 0 0);
+  will-change: clip-path;
+}
+.loader__meta {
+  display: block;
+  padding-top: clamp(0.6rem, 2.2vh, 1.4rem);
+  padding-left: clamp(1.25rem, 3.8vh, 2.5rem);
+  font-family:
+    "Taro Body",
+    "Russell Neue Montreal",
+    Arial,
+    sans-serif;
+  font-size: clamp(1.1rem, 2.3vh, 1.8rem);
+  line-height: 1.25;
+  letter-spacing: 0.03em;
+  color: #000;
+}
+.loader__meta span {
+  display: block;
+}
+.loader__meta [data-loader-count] {
+  display: inline-block;
+  min-width: 2.1em;
   font-variant-numeric: tabular-nums;
 }
-.loader__bar {
-  position: relative;
-  height: 1px;
-  background: #f0eee62e;
-  overflow: hidden;
-}
-.loader__bar-fill {
+.loader__wipe {
   position: absolute;
-  inset: 0;
-  background: var(--paper, #f0eee6);
-  transform-origin: 0 50%;
-  transform: scaleX(0);
+  right: -1.2rem;
+  bottom: 0.12em;
+  width: clamp(1.4rem, 2.4vw, 2.05rem);
+  height: 0.92em;
+  border-radius: 999px;
+  background: #dedede;
+  transform-origin: 50% 100%;
+  will-change: transform, opacity;
 }
-.loader__hint {
-  font-family:
-    JetBrains Mono,
-    monospace;
-  font-size: 11px;
-  letter-spacing: 0.3em;
-  text-transform: uppercase;
-  opacity: 0.5;
-}
-@media (max-width: 640px) {
-  .loader__corner {
-    font-size: 9px;
-    padding: 16px 18px;
+@media (max-width: 700px) {
+  .loader__block {
+    width: min(88vw, 560px);
+  }
+  .loader__line--first,
+  .loader__line--last {
+    padding-left: 13vw;
+  }
+  .loader__word {
+    font-size: clamp(5.25rem, 24vw, 8.5rem);
+  }
+  .loader__meta {
+    padding-left: 1rem;
+    font-size: 1rem;
+  }
+  .loader__wipe {
+    right: -0.8rem;
+    width: 1rem;
   }
 }
 a {
@@ -186,7 +210,7 @@ a {
 a,
 button,
 [role="button"] {
-  cursor: none;
+  cursor: pointer;
 }
 html.lenis {
   height: auto;
@@ -624,63 +648,140 @@ html.is-modal-open body {
   top: 0;
   left: 0;
   right: 0;
-  z-index: 100;
+  z-index: 1000;
   display: flex;
   justify-content: space-between;
-  align-items: center;
-  padding: 24px 32px;
-  mix-blend-mode: difference;
-  color: #FDFBF9;
+  align-items: flex-start;
+  min-height: 160px;
+  padding: 32px 2.23vw;
+  background: #fff;
+  color: #151b22;
 }
 .header__brand,
 .header__nav a,
 .header__menu {
   font-family:
-    JetBrains Mono,
-    monospace;
-  font-size: var(--mono-size);
-  letter-spacing: var(--mono-tracking);
-  text-transform: uppercase;
-  color: #FDFBF9;
+    "Russell Neue Montreal",
+    "Neue Montreal",
+    Arial,
+    sans-serif;
+  letter-spacing: 0;
+  color: inherit;
 }
 .header__brand {
-  font-family: Inter, sans-serif;
-  font-weight: 900;
-  font-style: italic;
+  display: flex;
+  width: fit-content;
+  flex-direction: column;
+  font-family:
+    "Russell Humane",
+    Impact,
+    "Arial Narrow",
+    sans-serif;
+  font-size: 60px;
+  font-weight: 700;
+  line-height: 1;
   text-transform: uppercase;
-  letter-spacing: -0.02em;
-  font-size: 16px;
-  text-decoration: line-through;
-  text-decoration-thickness: 2px;
-  text-underline-offset: 0;
+  text-decoration: none;
+}
+.header__brand span:nth-child(2) {
+  margin-left: 36px;
+}
+.header__nav-wrap {
+  display: block;
+  margin-top: 68px;
 }
 .header__nav {
   display: flex;
-  gap: 32px;
+  align-items: center;
+  gap: 16px;
+  line-height: 1;
 }
-.header__tag {
+.header__menu {
   display: none;
 }
 .header__nav a {
-  opacity: 0.7;
+  position: relative;
+  font-size: 16px;
   font-weight: 400;
-  transition:
-    opacity 0.3s,
-    font-weight 0.3s;
+  line-height: 1.2;
+  text-decoration: none;
 }
-.header__nav a:hover,
-.header__nav a.is-active {
-  opacity: 1;
+.header__nav a:after {
+  content: "";
+  position: absolute;
+  right: 0;
+  bottom: -0.18em;
+  left: 0;
+  height: 1px;
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: 100% 50%;
+  transition: transform 0.35s cubic-bezier(0.19, 1, 0.22, 1);
 }
-.header__nav a.is-active {
-  font-weight: 700;
+.header__nav a:hover:after,
+.header__nav a.is-active:after {
+  transform: scaleX(1);
+  transform-origin: 0 50%;
 }
-@media (max-width: 700px) {
-  .header__nav {
-    display: none;
+.header__nav-count {
+  display: none;
+}
+@media (max-width: 831px) {
+  .header {
+    min-height: 112px;
+    padding: 20px 18px;
   }
-  .header__tag {
+  .header__brand {
+    font-size: 48px;
+  }
+  .header__nav-wrap {
+    position: fixed;
+    inset: 112px 0 auto;
+    display: grid;
+    grid-template-rows: 0fr;
+    margin-top: 0;
+    overflow: hidden;
+    background: #fff;
+    border-top: 1px solid rgba(21, 27, 34, 0.12);
+    transition: grid-template-rows 0.45s cubic-bezier(0.19, 1, 0.22, 1);
+  }
+  .header.is-open .header__nav-wrap {
+    grid-template-rows: 1fr;
+  }
+  .header__nav {
+    min-height: 0;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0;
+    padding: 16px 18px 26px;
+    overflow: hidden;
+  }
+  .header__nav a {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    padding: 12px 0;
+    font-size: 22px;
+  }
+  .header__nav-count {
+    display: inline;
+    order: 2;
+    font-size: 12px;
+    opacity: 0.45;
+  }
+  .header__menu {
     display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 68px;
+    height: 34px;
+    margin-top: 8px;
+    border: 1px solid currentColor;
+    border-radius: 999px;
+    background: transparent;
+    font-size: 14px;
+    line-height: 1;
+    text-transform: lowercase;
   }
 }
 .hero {
@@ -1519,19 +1620,10 @@ html.is-modal-open body {
 }
 @media (max-width: 700px) {
   .header {
-    padding: 18px 20px;
+    padding: 20px 18px;
   }
   .header__brand {
-    font-size: 14px;
-  }
-  .header__tag {
-    font-family:
-      JetBrains Mono,
-      monospace;
-    font-size: 10px;
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
-    opacity: 0.7;
+    font-size: 48px;
   }
   .section {
     padding: 80px 20px;
@@ -1663,6 +1755,55 @@ html.is-modal-open body {
   display: none !important;
   opacity: 0 !important;
 }
+.pPointer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 10px;
+  height: 10px;
+  background: #fff;
+  color: #000;
+  mix-blend-mode: difference;
+  z-index: 9999;
+  pointer-events: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  opacity: 0;
+  transform: translate3d(0, 0, 0);
+  will-change: transform, width, height, opacity;
+  transition: opacity 0.2s ease;
+}
+.pPointer.isEnter {
+  opacity: 1;
+}
+.pPointer__label {
+  font-family:
+    JetBrains Mono,
+    monospace;
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  line-height: 1;
+  text-transform: uppercase;
+  white-space: nowrap;
+  user-select: none;
+  opacity: 0;
+  transform: scale(0.6);
+  transition:
+    opacity 0.2s ease,
+    transform 0.2s ease;
+}
+.pPointer.hasLabel .pPointer__label {
+  opacity: 1;
+  transform: scale(1);
+}
+@media (hover: none), (pointer: coarse), (max-width: 700px) {
+  .pPointer {
+    display: none !important;
+  }
+}
 @font-face {
   font-family: "Archivo Variable";
   font-style: normal;
@@ -1745,7 +1886,8 @@ html.is-modal-open body {
 }
 .hero.hero--bouayaben {
   --hero-parallax-y: 0px;
-  min-height: 100svh;
+  min-height: calc(100svh - 160px);
+  margin-top: 160px;
   background: #0a0a0a;
   color: #f5f0eb;
   overflow: hidden;
@@ -1864,6 +2006,8 @@ html.is-modal-open body {
 }
 @media (max-width: 700px) {
   .hero.hero--bouayaben {
+    min-height: calc(100svh - 112px);
+    margin-top: 112px;
     padding: 6rem 1.25rem 3rem;
     justify-content: flex-end;
   }
@@ -1915,7 +2059,27 @@ body * {
 .cursor-goo-svg {
   display: none !important;
 }
+html.custom-cursor-active,
+html.custom-cursor-active body,
+html.custom-cursor-active body *,
+html.custom-cursor-active input,
+html.custom-cursor-active textarea,
+html.custom-cursor-active select,
+html.custom-cursor-active label {
+  cursor: auto !important;
+}
+html.custom-cursor-active a,
+html.custom-cursor-active button,
+html.custom-cursor-active [role="button"],
+html.custom-cursor-active [data-cursor-snap],
+html.custom-cursor-active [data-cursor-label] {
+  cursor: pointer !important;
+}
 @media (max-width: 700px) {
+  body,
+  body * {
+    cursor: auto !important;
+  }
   body {
     cursor: auto;
   }
@@ -1923,7 +2087,8 @@ body * {
     display: none !important;
   }
   .hero.hero--bouayaben {
-    min-height: 100svh;
+    min-height: calc(100svh - 112px);
+    margin-top: 112px;
     padding: 6.5rem 1.35rem 4.75rem;
     justify-content: flex-end;
   }
@@ -1974,6 +2139,43 @@ body :where(:not(.hero__title--bouayaben):not(.hero__title--bouayaben *)) {
 
 .logos[data-project-logos="true"] {
   grid-template-columns: repeat(4, 1fr);
+}
+
+.loader__word,
+.loader__word-front,
+.loader__word-back {
+  font-family:
+    "Taro Display",
+    Impact,
+    "Arial Narrow",
+    sans-serif !important;
+}
+
+.loader__meta,
+.loader__meta * {
+  font-family:
+    "Taro Body",
+    "Russell Neue Montreal",
+    Arial,
+    sans-serif !important;
+}
+
+.header__brand,
+.header__brand * {
+  font-family:
+    "Russell Humane",
+    Impact,
+    "Arial Narrow",
+    sans-serif !important;
+}
+
+.header__nav a,
+.header__menu {
+  font-family:
+    "Russell Neue Montreal",
+    "Neue Montreal",
+    Arial,
+    sans-serif !important;
 }
 
 @media (max-width: 800px) {

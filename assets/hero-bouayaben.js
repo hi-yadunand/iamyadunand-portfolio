@@ -54,7 +54,7 @@ const splitTextNodes = (root) => {
 
 const waitForLoader = () =>
   new Promise((resolve) => {
-    const loader = document.querySelector("[data-loader]");
+    const loader = document.querySelector("[data-start-loader], [data-loader]");
     const started = performance.now();
 
     const check = () => {
