@@ -1377,6 +1377,8 @@ html.is-modal-open body {
   }
 }
 .footer {
+  --contact-footer-y: 0%;
+  --contact-reveal-height: clamp(540px, 62vh, 680px);
   --ink: #f5f0eb;
   --paper: #121212;
   --line: rgba(245, 240, 235, 0.16);
@@ -1390,6 +1392,8 @@ html.is-modal-open body {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  overflow: hidden;
+  isolation: isolate;
 }
 .footer__stage {
   position: relative;
@@ -1448,6 +1452,42 @@ html.is-modal-open body {
   text-transform: uppercase;
   letter-spacing: -0.02em;
 }
+.contact-reveal-spacer {
+  display: none;
+}
+@media (min-width: 701px) and (prefers-reduced-motion: no-preference) {
+  .hero,
+  .section {
+    position: relative;
+    z-index: 2;
+  }
+  .section {
+    background: var(--paper);
+  }
+  .contact-reveal-spacer {
+    display: block;
+    height: clamp(540px, 62vh, 680px);
+    background: #121212;
+    pointer-events: none;
+    position: relative;
+    z-index: 0;
+  }
+  .footer {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    height: var(--contact-reveal-height);
+    min-height: 0;
+    z-index: 1;
+    transform: translate3d(0, var(--contact-footer-y), 0);
+    will-change: transform;
+  }
+  .footer__stage {
+    min-height: 0;
+  }
+}
 [data-reveal] {
   visibility: hidden;
 }
@@ -1471,6 +1511,7 @@ html.is-modal-open body {
   will-change: filter, transform;
 }
 @media (prefers-reduced-motion: reduce) {
+  .footer,
   .rb-c {
     filter: none !important;
     transform: none !important;
