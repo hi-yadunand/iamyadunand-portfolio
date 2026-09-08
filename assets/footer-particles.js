@@ -24,6 +24,7 @@ ready(() => {
   let settled = false;
   let raf = 0;
   let visible = false;
+  let textLayout = null;
 
   const pointer = {
     x: -90000,
@@ -42,12 +43,14 @@ ready(() => {
   };
 
   const getTextLayout = (ctx2d, width, height) => {
-    const text = "say hi.";
+    const staticText = "Let's ";
+    const particleText = "talk.";
+    const text = `${staticText}${particleText}`;
     const compact = width <= 700;
     let fontSize = compact
-      ? Math.min(width * 0.26, height * 0.78)
-      : Math.min(width * 0.27, height * 0.86);
-    const maxWidth = width * (compact ? 0.92 : 0.86);
+      ? Math.min(width * 0.2, height * 0.78)
+      : Math.min(width * 0.21, height * 0.86);
+    const maxWidth = width * (compact ? 0.96 : 0.94);
     const family = '"Archivo Variable", Archivo, "Helvetica Neue", Arial, sans-serif';
 
     ctx2d.font = `italic 760 ${fontSize}px ${family}`;
@@ -57,6 +60,8 @@ ready(() => {
     }
 
     return {
+      staticText,
+      particleText,
       text,
       font: `italic 760 ${fontSize}px ${family}`,
       fontSize,
@@ -79,9 +84,13 @@ ready(() => {
     }
 
     const layout = getTextLayout(sampleCtx, width, height);
-    const metrics = sampleCtx.measureText(layout.text);
-    const textWidth = Math.ceil(metrics.width);
+    sampleCtx.font = layout.font;
+    const particleMetrics = sampleCtx.measureText(layout.particleText);
+    const staticWidth = sampleCtx.measureText(layout.staticText).width;
+    const textWidth = Math.ceil(particleMetrics.width);
     const pad = Math.ceil(layout.fontSize * 0.18);
+    const sampleTextX = pad;
+    const sampleBaseline = layout.fontSize * 1.08;
 
     sample.width = Math.ceil((textWidth + pad * 2) * sampleScale);
     sample.height = Math.ceil(layout.fontSize * 1.55 * sampleScale);
@@ -89,7 +98,7 @@ ready(() => {
     sampleCtx.font = layout.font;
     sampleCtx.fillStyle = "#FDFBF9";
     sampleCtx.textBaseline = "alphabetic";
-    sampleCtx.fillText(layout.text, pad, layout.fontSize * 1.08);
+    sampleCtx.fillText(layout.particleText, sampleTextX, sampleBaseline);
 
     const pixels = sampleCtx.getImageData(0, 0, sample.width, sample.height);
     const rawPoints = [];
@@ -119,15 +128,21 @@ ready(() => {
       return;
     }
 
-    const glyphCenterX = (minX + maxX) / 2;
-    const glyphCenterY = (minY + maxY) / 2;
-    const targetCenterX = width * (width <= 700 ? 0.5 : 0.46);
-    const targetCenterY = height * 0.52;
-    const maxParticles = width <= 700 ? 3200 : 12000;
+    const phraseLeft = 0;
+    const targetBaseline = height * (width <= 700 ? 0.66 : 0.7);
+    const particleLeft = phraseLeft + staticWidth;
+    const maxParticles = width <= 700 ? 2400 : 7600;
+
+    textLayout = {
+      font: layout.font,
+      staticText: layout.staticText,
+      left: phraseLeft,
+      baseline: targetBaseline,
+    };
 
     const points = rawPoints.map((point) => ({
-      x: targetCenterX + (point.x - glyphCenterX),
-      y: targetCenterY + (point.y - glyphCenterY),
+      x: particleLeft + (point.x - sampleTextX),
+      y: targetBaseline + (point.y - sampleBaseline),
     }));
 
     points.sort(() => Math.random() - 0.5);
@@ -153,6 +168,13 @@ ready(() => {
     ctx.scale(dpr, dpr);
 
     pointer.amp += (pointer.targetAmp - pointer.amp) * 0.12;
+
+    if (textLayout) {
+      ctx.font = textLayout.font;
+      ctx.fillStyle = "#f5f0eb";
+      ctx.textBaseline = "alphabetic";
+      ctx.fillText(textLayout.staticText, textLayout.left, textLayout.baseline);
+    }
 
     for (const particle of particles) {
       const settle = easeOutExpo(progress);

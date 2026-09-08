@@ -65,6 +65,10 @@ body {
   overflow-x: hidden;
   cursor: auto;
 }
+::selection {
+  background: #000;
+  color: #fff;
+}
 html.is-loading,
 html.is-loading body {
   overflow: hidden;
@@ -92,8 +96,10 @@ html.is-loading body {
   color: #000;
   line-height: 0;
   overflow: hidden;
-  clip-path: inset(0 0 0 var(--loader-clip, 0%) round 0 24px 24px 0);
-  will-change: clip-path, opacity;
+  border-radius: 0 24px 24px 0;
+  transform: translate3d(var(--loader-slide, 0%), 0, 0);
+  transition: transform 1s cubic-bezier(0.76, 0, 0.24, 1);
+  will-change: transform;
 }
 .loader__block {
   position: absolute;
@@ -164,17 +170,6 @@ html.is-loading body {
   min-width: 2.1em;
   font-variant-numeric: tabular-nums;
 }
-.loader__wipe {
-  position: absolute;
-  right: -1.2rem;
-  bottom: 0.12em;
-  width: clamp(1.4rem, 2.4vw, 2.05rem);
-  height: 0.92em;
-  border-radius: 999px;
-  background: #dedede;
-  transform-origin: 50% 100%;
-  will-change: transform, opacity;
-}
 @media (max-width: 700px) {
   .loader__block {
     width: min(88vw, 560px);
@@ -189,10 +184,6 @@ html.is-loading body {
   .loader__meta {
     padding-left: 1rem;
     font-size: 1rem;
-  }
-  .loader__wipe {
-    right: -0.8rem;
-    width: 1rem;
   }
 }
 a {
@@ -735,15 +726,31 @@ html.is-modal-open body {
     display: grid;
     grid-template-rows: 0fr;
     margin-top: 0;
+    max-height: 0;
     overflow: hidden;
     background: transparent;
     backdrop-filter: none;
     -webkit-backdrop-filter: none;
     border-top: none;
-    transition: grid-template-rows 0.45s cubic-bezier(0.19, 1, 0.22, 1);
+    opacity: 0;
+    pointer-events: none;
+    visibility: hidden;
+    transition:
+      grid-template-rows 0.45s cubic-bezier(0.19, 1, 0.22, 1),
+      max-height 0.45s cubic-bezier(0.19, 1, 0.22, 1),
+      opacity 0.2s ease,
+      visibility 0s linear 0.45s;
   }
   .header.is-open .header__nav-wrap {
     grid-template-rows: 1fr;
+    max-height: calc(100svh - 92px);
+    opacity: 1;
+    pointer-events: auto;
+    visibility: visible;
+    transition:
+      grid-template-rows 0.45s cubic-bezier(0.19, 1, 0.22, 1),
+      max-height 0.45s cubic-bezier(0.19, 1, 0.22, 1),
+      opacity 0.2s ease;
   }
   .header__nav {
     min-height: 0;
@@ -1236,12 +1243,12 @@ html.is-modal-open body {
 }
 .agencies__manifesto em {
   font-style: italic;
-  font-weight: 500;
+  font-weight: 300;
   background-image: linear-gradient(var(--ink), var(--ink));
   background-repeat: no-repeat;
   background-position: 0 92%;
-  background-size: 100% 0.08em;
-  padding-bottom: 0.06em;
+  background-size: 100% 0.05em;
+  padding-bottom: 0.04em;
 }
 .about__grid {
   display: grid;
@@ -1493,6 +1500,13 @@ html.is-modal-open body {
   overflow: hidden;
   isolation: isolate;
 }
+.hero::selection,
+.hero *::selection,
+.footer::selection,
+.footer *::selection {
+  background: #fff;
+  color: #000;
+}
 .footer__stage {
   position: relative;
   width: 100%;
@@ -1624,6 +1638,7 @@ html.is-modal-open body {
   }
   .section {
     padding: 80px 20px;
+    scroll-margin-top: 112px;
   }
   .section__label {
     margin-bottom: 32px;
@@ -1682,7 +1697,12 @@ html.is-modal-open body {
     display: none;
   }
   .agencies__manifesto {
-    font-size: clamp(28px, 9vw, 48px);
+    font-size: clamp(36px, 12vw, 64px);
+    font-weight: 900;
+    line-height: 1.05;
+    letter-spacing: -0.03em;
+    text-transform: uppercase;
+    margin-bottom: 40px;
   }
   .about__bio p {
     font-size: 16px;
@@ -2002,8 +2022,8 @@ html.is-modal-open body {
 }
 @media (max-width: 700px) {
   .hero.hero--bouayaben {
-    min-height: calc(100svh - 112px);
-    margin-top: 112px;
+    min-height: 100svh;
+    margin-top: 0;
     padding: 6rem 1.25rem 3rem;
     justify-content: flex-end;
   }
@@ -2083,8 +2103,8 @@ html.custom-cursor-active [data-cursor-label] {
     display: none !important;
   }
   .hero.hero--bouayaben {
-    min-height: calc(100svh - 112px);
-    margin-top: 112px;
+    min-height: 100svh;
+    margin-top: 0;
     padding: 6.5rem 1.35rem 4.75rem;
     justify-content: flex-end;
   }

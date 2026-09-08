@@ -16,11 +16,13 @@ ready(() => {
   const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   const count = loader.querySelector("[data-loader-count]");
   const words = [...loader.querySelectorAll("[data-loader-word]")];
-  const wipe = loader.querySelector("[data-loader-wipe]");
 
   document.documentElement.classList.add("is-loading");
+  let isComplete = false;
 
   const complete = () => {
+    if (isComplete) return;
+    isComplete = true;
     loader.remove();
     document.documentElement.classList.remove("is-loading");
     window.dispatchEvent(new CustomEvent("portfolio:start-loader-complete"));
@@ -36,7 +38,19 @@ ready(() => {
   const startedAt = performance.now();
   const fillDuration = 1900;
   const holdDuration = 260;
-  const wipeDuration = 760;
+  const slideDuration = 1000;
+
+  const startSlide = () => {
+    loader.addEventListener(
+      "transitionend",
+      (event) => {
+        if (event.propertyName === "transform") complete();
+      },
+      { once: true },
+    );
+    loader.style.setProperty("--loader-slide", "100%");
+    window.setTimeout(complete, slideDuration + 120);
+  };
 
   const render = (time) => {
     const elapsed = time - startedAt;
@@ -56,21 +70,7 @@ ready(() => {
       return;
     }
 
-    const wipeProgress = Math.min((elapsed - fillDuration - holdDuration) / wipeDuration, 1);
-    const easedWipe = easeInOutQuart(wipeProgress);
-    loader.style.setProperty("--loader-clip", `${easedWipe * 100}%`);
-    loader.style.opacity = String(1 - Math.max(0, wipeProgress - 0.75) / 0.25);
-
-    if (wipe) {
-      wipe.style.transform = `scaleY(${1 + easedWipe * 10})`;
-      wipe.style.opacity = String(1 - wipeProgress * 0.45);
-    }
-
-    if (wipeProgress < 1) {
-      requestAnimationFrame(render);
-    } else {
-      complete();
-    }
+    startSlide();
   };
 
   requestAnimationFrame(render);
