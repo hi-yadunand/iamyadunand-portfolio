@@ -71,6 +71,7 @@ export const createParticleTextEffect = ({
   let height = 0;
   let dpr = 1;
   let latestLayout = null;
+  let canSample = startDelay <= 0;
 
   const pointer = {
     active: false,
@@ -358,6 +359,7 @@ export const createParticleTextEffect = ({
   };
 
   const queueSample = () => {
+    if (!canSample) return;
     if (resizeFrame) window.cancelAnimationFrame(resizeFrame);
     resizeFrame = window.requestAnimationFrame(sampleText);
   };
@@ -384,7 +386,7 @@ export const createParticleTextEffect = ({
 
   const handleReduceMotionChange = (event) => {
     reducedMotion = event.matches;
-    sampleText();
+    queueSample();
   };
 
   const resizeObserver = new ResizeObserver(queueSample);
@@ -396,7 +398,10 @@ export const createParticleTextEffect = ({
   pointerTarget.addEventListener("pointerleave", handlePointerLeave);
   pointerTarget.addEventListener("click", handleClick);
 
-  startTimer = window.setTimeout(sampleText, startDelay);
+  startTimer = window.setTimeout(() => {
+    canSample = true;
+    sampleText();
+  }, startDelay);
 
   return () => {
     buildId += 1;
