@@ -670,14 +670,14 @@ html.is-modal-open body {
   width: fit-content;
   flex-direction: column;
   font-family: "Russell Humane", Impact, "Arial Narrow", sans-serif;
-  font-size: 58px;
+  font-size: 36px;
   font-weight: 700;
   line-height: 0.9;
   text-transform: uppercase;
   text-decoration: none;
 }
 .header__brand span:nth-child(2) {
-  margin-left: 36px;
+  margin-left: 22px;
 }
 .header__nav-wrap {
   display: flex;
