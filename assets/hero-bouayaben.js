@@ -226,18 +226,29 @@ const createParticles = (root, canvas, word) => {
       y: targetCenterY + (point.y - glyphCenterY) * scale,
     }));
     const maxParticles = window.innerWidth <= 700 ? 2800 : 8200;
+    const startSpread = Math.min(
+      fontSize * 0.22,
+      window.innerWidth <= 700 ? 18 : 34,
+    );
     points.sort(() => Math.random() - 0.5);
-    particles = points.slice(0, maxParticles).map((point) => ({
-      x: Math.random() * rootRect.width,
-      y: Math.random() * rootRect.height,
-      tx: point.x,
-      ty: point.y,
-      sx: Math.random() * rootRect.width,
-      sy: Math.random() * rootRect.height,
-      drift: Math.random() * Math.PI * 2,
-      size: 0.75 + Math.random() * 1.15,
-      alpha: 0.55 + Math.random() * 0.45,
-    }));
+    particles = points.slice(0, maxParticles).map((point) => {
+      const drift = Math.random() * Math.PI * 2;
+      const radius = Math.random() * startSpread;
+      const sx = point.x + Math.cos(drift) * radius;
+      const sy = point.y + Math.sin(drift) * radius * 0.65;
+
+      return {
+        x: sx,
+        y: sy,
+        tx: point.x,
+        ty: point.y,
+        sx,
+        sy,
+        drift,
+        size: 0.75 + Math.random() * 1.15,
+        alpha: 0.55 + Math.random() * 0.45,
+      };
+    });
   };
 
   const draw = (progress, time = 0) => {

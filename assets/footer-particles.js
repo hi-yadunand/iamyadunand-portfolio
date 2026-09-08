@@ -48,9 +48,9 @@ ready(() => {
     const text = `${staticText}${particleText}`;
     const compact = width <= 700;
     let fontSize = compact
-      ? Math.min(width * 0.2, height * 0.78)
-      : Math.min(width * 0.21, height * 0.86);
-    const maxWidth = width * (compact ? 0.96 : 0.94);
+      ? Math.min(width * 0.115, height * 0.5)
+      : Math.min(width * 0.12, height * 0.54);
+    const maxWidth = width * (compact ? 0.82 : 0.74);
     const family = '"Archivo Variable", Archivo, "Helvetica Neue", Arial, sans-serif';
 
     ctx2d.font = `italic 760 ${fontSize}px ${family}`;
@@ -131,7 +131,7 @@ ready(() => {
     const phraseLeft = 0;
     const targetBaseline = height * (width <= 700 ? 0.66 : 0.7);
     const particleLeft = phraseLeft + staticWidth;
-    const maxParticles = width <= 700 ? 2400 : 7600;
+    const maxParticles = width <= 700 ? 1400 : 4300;
 
     textLayout = {
       font: layout.font,
