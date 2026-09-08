@@ -1236,6 +1236,7 @@ html.is-modal-open body {
   font-size: clamp(36px, 6vw, 96px);
   line-height: 1.05;
   letter-spacing: -0.04em;
+  text-transform: uppercase;
   margin: 48px 0 80px;
 }
 .agencies__manifesto > span {
@@ -1292,6 +1293,22 @@ html.is-modal-open body {
   line-height: 1.45;
   font-weight: 400;
   letter-spacing: -0.01em;
+}
+[data-scroll-reveal] {
+  transform: rotate(var(--scroll-reveal-rotate, 3deg));
+  transform-origin: 0% 50%;
+  will-change: transform;
+}
+.scroll-reveal__word {
+  display: inline-block;
+  opacity: 0.1;
+  filter: blur(4px);
+  will-change: opacity, filter;
+}
+.is-scroll-reveal-ready .scroll-reveal__word {
+  transition:
+    opacity 0.08s linear,
+    filter 0.08s linear;
 }
 .about__bio p em {
   font-style: italic;
@@ -1516,12 +1533,22 @@ html.is-modal-open body {
   margin-bottom: 60px;
   overflow: hidden;
 }
-.footer__stage-link {
+.footer__mail-link {
+  position: absolute;
+  left: var(--footer-mail-left, 0);
+  top: var(--footer-mail-top, 0);
+  width: var(--footer-mail-width, 1px);
+  height: var(--footer-mail-height, 1px);
+  z-index: 2;
+  display: block;
+  overflow: hidden;
+  color: transparent;
   cursor: pointer;
   outline: none;
+  white-space: nowrap;
 }
-.footer__stage-link:focus-visible {
-  outline: 1px solid currentColor;
+.footer__mail-link:focus-visible {
+  outline: 1px solid #f5f0eb;
   outline-offset: 6px;
 }
 .footer__stage canvas {

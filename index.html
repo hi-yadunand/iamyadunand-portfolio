@@ -46,6 +46,7 @@
   <script type="module" crossorigin src="/assets/contact-parallax.js"></script>
   <script type="module" crossorigin src="/assets/footer-particles.js"></script>
   <script type="module" crossorigin src="/assets/work-filter.js"></script>
+  <script type="module" crossorigin src="/assets/about-scroll-reveal.js"></script>
   <link rel="stylesheet" crossorigin href="/assets/index-BIi2FQZH.css">
 </head>
 
@@ -119,7 +120,7 @@
   <section class="section about" id="about">
     <p class="section__label" data-char-reveal>About</p>
     <div class="about__grid">
-      <div class="about__bio" data-reveal>
+      <div class="about__bio" data-scroll-reveal>
         <p>
           Software Developer and Front-End Developer, building
           responsive web applications with React.js, JavaScript and
@@ -175,10 +176,11 @@
   <div class="contact-reveal-spacer" data-contact-parallax aria-hidden="true"></div>
   <footer class="footer" id="contact" data-contact-parallax-inner>
     <p class="section__label" data-char-reveal>Contact</p>
-    <a class="footer__stage footer__stage-link" href="mailto:yadunandpavithran05@gmail.com" aria-label="Send email to Yadunand Pavithran"
-      data-footer-particles data-cursor-snap>
+    <div class="footer__stage" data-footer-particles>
       <canvas class="footer-particles" aria-hidden="true"></canvas>
-    </a>
+      <a class="footer__mail-link" href="mailto:yadunandpavithran05@gmail.com" aria-label="Send email to Yadunand Pavithran"
+        data-footer-mail-link data-cursor-snap>Let's talk.</a>
+    </div>
     <div class="footer__row">
       <span class="footer__thanks">Designed and Developed by Yadunand Pavithran.</span>
       <div class="footer__links">

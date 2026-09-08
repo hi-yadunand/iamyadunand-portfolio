@@ -11,6 +11,7 @@ const ready = (fn) => {
 ready(() => {
   const stage = document.querySelector("[data-footer-particles]");
   const canvas = stage?.querySelector("canvas");
+  const mailLink = stage?.querySelector("[data-footer-mail-link]");
   const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
 
   if (!stage || !canvas || reduceMotion.matches) return;
@@ -85,6 +86,7 @@ ready(() => {
 
     const layout = getTextLayout(sampleCtx, width, height);
     sampleCtx.font = layout.font;
+    const phraseMetrics = sampleCtx.measureText(layout.text);
     const particleMetrics = sampleCtx.measureText(layout.particleText);
     const staticWidth = sampleCtx.measureText(layout.staticText).width;
     const textWidth = Math.ceil(particleMetrics.width);
@@ -132,6 +134,36 @@ ready(() => {
     const targetBaseline = height * (width <= 700 ? 0.66 : 0.7);
     const particleLeft = phraseLeft + staticWidth;
     const maxParticles = width <= 700 ? 1400 : 4300;
+    const phraseAscent = phraseMetrics.actualBoundingBoxAscent || layout.fontSize;
+    const phraseDescent =
+      phraseMetrics.actualBoundingBoxDescent || layout.fontSize * 0.22;
+    const phraseLeftEdge =
+      phraseLeft - Math.max(phraseMetrics.actualBoundingBoxLeft || 0, 0);
+    const phraseRightEdge =
+      phraseLeft +
+      Math.max(
+        phraseMetrics.actualBoundingBoxRight || phraseMetrics.width,
+        phraseMetrics.width,
+      );
+    const hitPadding = width <= 700 ? 3 : 5;
+    const mailLeft = Math.max(0, phraseLeftEdge - hitPadding);
+    const mailTop = Math.max(0, targetBaseline - phraseAscent - hitPadding);
+    const mailWidth = Math.min(
+      width - mailLeft,
+      phraseRightEdge - phraseLeftEdge + hitPadding * 2,
+    );
+    const mailHeight = Math.min(
+      height - mailTop,
+      phraseAscent + phraseDescent + hitPadding * 2,
+    );
+
+    if (mailLink) {
+      stage.style.setProperty("--footer-mail-left", `${mailLeft}px`);
+      stage.style.setProperty("--footer-mail-top", `${mailTop}px`);
+      stage.style.setProperty("--footer-mail-width", `${mailWidth}px`);
+      stage.style.setProperty("--footer-mail-height", `${mailHeight}px`);
+      mailLink.style.font = layout.font;
+    }
 
     textLayout = {
       font: layout.font,

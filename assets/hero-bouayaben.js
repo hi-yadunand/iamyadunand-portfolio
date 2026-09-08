@@ -146,6 +146,7 @@ const createParticles = (root, canvas, word) => {
   let startedAt = 0;
   let settled = false;
   let raf = 0;
+  let particleBounds = null;
   const pointer = {
     x: -90000,
     y: -90000,
@@ -212,6 +213,7 @@ const createParticles = (root, canvas, word) => {
 
     if (!rawPoints.length) {
       particles = [];
+      particleBounds = null;
       return;
     }
 
@@ -225,10 +227,31 @@ const createParticles = (root, canvas, word) => {
       x: targetCenterX + (point.x - glyphCenterX) * scale,
       y: targetCenterY + (point.y - glyphCenterY) * scale,
     }));
+    const boundsPadding = window.innerWidth <= 700 ? 5 : 28;
+    const targetBounds = points.reduce(
+      (bounds, point) => ({
+        left: Math.min(bounds.left, point.x),
+        top: Math.min(bounds.top, point.y),
+        right: Math.max(bounds.right, point.x),
+        bottom: Math.max(bounds.bottom, point.y),
+      }),
+      {
+        left: Infinity,
+        top: Infinity,
+        right: -Infinity,
+        bottom: -Infinity,
+      },
+    );
+    particleBounds = {
+      left: Math.max(0, targetBounds.left - boundsPadding),
+      top: Math.max(0, targetBounds.top - boundsPadding),
+      right: Math.min(rootRect.width, targetBounds.right + boundsPadding),
+      bottom: Math.min(rootRect.height, targetBounds.bottom + boundsPadding),
+    };
     const maxParticles = window.innerWidth <= 700 ? 2800 : 8200;
     const startSpread = Math.min(
-      fontSize * 0.22,
-      window.innerWidth <= 700 ? 18 : 34,
+      fontSize * (window.innerWidth <= 700 ? 0.04 : 0.22),
+      window.innerWidth <= 700 ? 4 : 34,
     );
     points.sort(() => Math.random() - 0.5);
     particles = points.slice(0, maxParticles).map((point) => {
@@ -298,6 +321,15 @@ const createParticles = (root, canvas, word) => {
       }
 
       if (x < -4 || x > width + 4 || y < -4 || y > height + 4) continue;
+      if (
+        particleBounds &&
+        (x < particleBounds.left ||
+          x > particleBounds.right ||
+          y < particleBounds.top ||
+          y > particleBounds.bottom)
+      ) {
+        continue;
+      }
       ctx.fillStyle = `rgba(238, 75, 43, ${alpha})`;
       ctx.fillRect(x, y, p.size, p.size);
     }
@@ -368,6 +400,7 @@ ready(() => {
     const chars = splitTextNodes(headline);
     initCharacterRepel(root, chars);
     root.classList.add("is-hero-animated");
+
     createParticles(root, canvas, word);
   };
 
