@@ -1,4 +1,4 @@
-const easeOutExpo = (t) => (t >= 1 ? 1 : 1 - Math.pow(2, -10 * t));
+import { createParticleTextEffect } from "./particle-text-effect.js";
 
 const prefersReducedMotion = () =>
   window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -137,255 +137,42 @@ const initCharacterRepel = (root, chars) => {
   requestAnimationFrame(tick);
 };
 
-const createParticles = (root, canvas, word) => {
-  const ctx = canvas.getContext("2d");
-  if (!ctx) return;
-
-  let particles = [];
-  let dpr = 1;
-  let startedAt = 0;
-  let settled = false;
-  let raf = 0;
-  let particleBounds = null;
-  const pointer = {
-    x: -90000,
-    y: -90000,
-    amp: 0,
-    targetAmp: 0,
-  };
-
-  const resizeCanvas = () => {
-    const rect = root.getBoundingClientRect();
-    dpr = Math.min(window.devicePixelRatio || 1, 1.75);
-    canvas.width = Math.max(1, Math.round(rect.width * dpr));
-    canvas.height = Math.max(1, Math.round(rect.height * dpr));
-    canvas.style.width = `${rect.width}px`;
-    canvas.style.height = `${rect.height}px`;
-  };
-
-  const buildTargets = () => {
-    resizeCanvas();
-
-    const rootRect = root.getBoundingClientRect();
-    const wordRect = word.getBoundingClientRect();
-    const style = getComputedStyle(word);
-    const fontSize = parseFloat(style.fontSize) || wordRect.height;
-    const sampleScale = 1.8;
-    const pad = Math.ceil(fontSize * 0.35);
-    const sample = document.createElement("canvas");
-    const sampleCtx = sample.getContext("2d", { willReadFrequently: true });
-
-    if (!sampleCtx || wordRect.width <= 0 || wordRect.height <= 0) {
-      particles = [];
-      return;
-    }
-
-    sample.width = Math.ceil((wordRect.width + pad * 2) * sampleScale);
-    sample.height = Math.ceil((wordRect.height + pad * 2) * sampleScale);
-    sampleCtx.scale(sampleScale, sampleScale);
-    sampleCtx.font = `${style.fontStyle} ${style.fontWeight} ${fontSize}px ${style.fontFamily}`;
-    sampleCtx.fillStyle = "#FDFBF9";
-    sampleCtx.textBaseline = "middle";
-    sampleCtx.fillText(word.textContent, pad, sample.height / sampleScale / 2);
-
-    const pixels = sampleCtx.getImageData(0, 0, sample.width, sample.height);
-    const rawPoints = [];
-    const step = window.innerWidth <= 700 ? 3 : 2;
-    let minX = Infinity;
-    let minY = Infinity;
-    let maxX = -Infinity;
-    let maxY = -Infinity;
-
-    for (let y = 0; y < pixels.height; y += step) {
-      for (let x = 0; x < pixels.width; x += step) {
-        const alpha = pixels.data[(y * pixels.width + x) * 4 + 3];
-        if (alpha > 128 && Math.random() > 0.16) {
-          const px = x / sampleScale;
-          const py = y / sampleScale;
-          minX = Math.min(minX, px);
-          minY = Math.min(minY, py);
-          maxX = Math.max(maxX, px);
-          maxY = Math.max(maxY, py);
-          rawPoints.push({ x: px, y: py });
-        }
-      }
-    }
-
-    if (!rawPoints.length) {
-      particles = [];
-      particleBounds = null;
-      return;
-    }
-
-    const glyphWidth = Math.max(1, maxX - minX);
-    const scale = wordRect.width / glyphWidth;
-    const glyphCenterX = (minX + maxX) / 2;
-    const glyphCenterY = (minY + maxY) / 2;
-    const targetCenterX = wordRect.left - rootRect.left + wordRect.width / 2;
-    const targetCenterY = wordRect.top - rootRect.top + wordRect.height / 2;
-    const points = rawPoints.map((point) => ({
-      x: targetCenterX + (point.x - glyphCenterX) * scale,
-      y: targetCenterY + (point.y - glyphCenterY) * scale,
-    }));
-    const boundsPadding = window.innerWidth <= 700 ? 5 : 28;
-    const targetBounds = points.reduce(
-      (bounds, point) => ({
-        left: Math.min(bounds.left, point.x),
-        top: Math.min(bounds.top, point.y),
-        right: Math.max(bounds.right, point.x),
-        bottom: Math.max(bounds.bottom, point.y),
-      }),
-      {
-        left: Infinity,
-        top: Infinity,
-        right: -Infinity,
-        bottom: -Infinity,
-      },
-    );
-    particleBounds = {
-      left: Math.max(0, targetBounds.left - boundsPadding),
-      top: Math.max(0, targetBounds.top - boundsPadding),
-      right: Math.min(rootRect.width, targetBounds.right + boundsPadding),
-      bottom: Math.min(rootRect.height, targetBounds.bottom + boundsPadding),
-    };
-    const maxParticles = window.innerWidth <= 700 ? 2800 : 8200;
-    const startSpread = Math.min(
-      fontSize * (window.innerWidth <= 700 ? 0.04 : 0.22),
-      window.innerWidth <= 700 ? 4 : 34,
-    );
-    points.sort(() => Math.random() - 0.5);
-    particles = points.slice(0, maxParticles).map((point) => {
-      const drift = Math.random() * Math.PI * 2;
-      const radius = Math.random() * startSpread;
-      const sx = point.x + Math.cos(drift) * radius;
-      const sy = point.y + Math.sin(drift) * radius * 0.65;
+const createParticles = (root, canvas, word) =>
+  createParticleTextEffect({
+    container: root,
+    canvas,
+    pointerTarget: root,
+    color: "#ee4b2b",
+    highlightColor: "#ee4b2b",
+    particleSize: 2,
+    density: 4,
+    scatter: 180,
+    gatherDuration: 1600,
+    stagger: 420,
+    pointerRepel: 40,
+    repelRadius: 120,
+    idleDrift: 0.7,
+    glow: true,
+    startDelay: 1800,
+    getLayout: () => {
+      const rootRect = root.getBoundingClientRect();
+      const wordRect = word.getBoundingClientRect();
+      const style = getComputedStyle(word);
+      const fontSize = parseFloat(style.fontSize) || wordRect.height;
 
       return {
-        x: sx,
-        y: sy,
-        tx: point.x,
-        ty: point.y,
-        sx,
-        sy,
-        drift,
-        size: 0.75 + Math.random() * 1.15,
-        alpha: 0.55 + Math.random() * 0.45,
+        text: word.textContent,
+        font: `${style.fontStyle} ${style.fontWeight} ${fontSize}px ${style.fontFamily}`,
+        fontSize,
+        targetCenterX: wordRect.left - rootRect.left + wordRect.width / 2,
+        targetCenterY: wordRect.top - rootRect.top + wordRect.height / 2,
       };
-    });
-  };
-
-  const draw = (progress, time = 0) => {
-    const width = canvas.width / dpr;
-    const height = canvas.height / dpr;
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    ctx.save();
-    ctx.scale(dpr, dpr);
-
-    pointer.amp += (pointer.targetAmp - pointer.amp) * 0.12;
-
-    for (const p of particles) {
-      const settle = easeOutExpo(progress);
-      const wobble = Math.sin(progress * 12 + p.drift) * (1 - settle) * 16;
-      const baseX = p.sx + (p.tx - p.sx) * settle + wobble;
-      const baseY =
-        p.sy +
-        (p.ty - p.sy) * settle +
-        Math.cos(progress * 10 + p.drift) * (1 - settle) * 10;
-      const alpha = Math.min(1, (0.05 + settle * 0.95) * p.alpha);
-      let x = baseX;
-      let y = baseY;
-
-      if (settled || progress > 0.72) {
-        const dx = baseX - pointer.x;
-        const dy = baseY - pointer.y;
-        const distance = Math.hypot(dx, dy);
-        const radius = window.innerWidth <= 700 ? 56 : 74;
-
-        if (distance < radius && distance > 0.01) {
-          const push = Math.pow(1 - distance / radius, 2) * 24 * pointer.amp;
-          x += (dx / distance) * push;
-          y += (dy / distance) * push * 0.58;
-        }
-
-        const shimmer = settled ? Math.sin(time * 0.002 + p.drift) * 0.28 : 0;
-        x += shimmer * pointer.amp;
-        y += Math.cos(time * 0.0017 + p.drift) * 0.22 * pointer.amp;
-
-        p.x += (x - p.x) * 0.2;
-        p.y += (y - p.y) * 0.2;
-        x = p.x;
-        y = p.y;
-      } else {
-        p.x = x;
-        p.y = y;
-      }
-
-      if (x < -4 || x > width + 4 || y < -4 || y > height + 4) continue;
-      if (
-        particleBounds &&
-        (x < particleBounds.left ||
-          x > particleBounds.right ||
-          y < particleBounds.top ||
-          y > particleBounds.bottom)
-      ) {
-        continue;
-      }
-      ctx.fillStyle = `rgba(238, 75, 43, ${alpha})`;
-      ctx.fillRect(x, y, p.size, p.size);
-    }
-
-    ctx.restore();
-  };
-
-  const animate = (time) => {
-    if (!startedAt) startedAt = time;
-    const progress = Math.min(1, (time - startedAt) / 1900);
-    draw(progress, time);
-
-    if (progress < 1) {
-      raf = requestAnimationFrame(animate);
-    } else {
-      settled = true;
-      raf = requestAnimationFrame(animate);
-    }
-  };
-
-  const onPointerMove = (event) => {
-    const rect = root.getBoundingClientRect();
-    pointer.x = event.clientX - rect.left;
-    pointer.y = event.clientY - rect.top;
-    pointer.targetAmp =
-      event.clientX >= rect.left &&
-      event.clientX <= rect.right &&
-      event.clientY >= rect.top &&
-      event.clientY <= rect.bottom
-        ? 1
-        : 0;
-  };
-
-  const onPointerLeave = () => {
-    pointer.targetAmp = 0;
-  };
-
-  const start = () => {
-    buildTargets();
-    if (!particles.length) return;
-    word.style.transition = "opacity 0.7s ease";
-    word.style.opacity = "0";
-    raf = requestAnimationFrame(animate);
-  };
-
-  const rebuild = () => {
-    cancelAnimationFrame(raf);
-    buildTargets();
-    if (settled) draw(1);
-  };
-
-  window.addEventListener("resize", rebuild);
-  window.addEventListener("pointermove", onPointerMove, { passive: true });
-  root.addEventListener("pointerleave", onPointerLeave);
-  setTimeout(start, 1800);
-};
+    },
+    onSample: () => {
+      word.style.transition = "opacity 0.7s ease";
+      word.style.opacity = "0";
+    },
+  });
 
 ready(() => {
   const root = document.querySelector(".hero--bouayaben");

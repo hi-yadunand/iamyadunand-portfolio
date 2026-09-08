@@ -1532,6 +1532,8 @@ html.is-modal-open body {
   min-height: 40vh;
   margin-bottom: 60px;
   overflow: hidden;
+  isolation: isolate;
+  touch-action: none;
 }
 .footer__mail-link {
   position: absolute;
@@ -1557,7 +1559,10 @@ html.is-modal-open body {
   height: 100%;
 }
 .footer-particles {
+  position: absolute;
+  inset: 0;
   pointer-events: none;
+  touch-action: none;
 }
 .footer__row {
   display: flex;
