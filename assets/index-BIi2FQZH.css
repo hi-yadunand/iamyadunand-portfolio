@@ -1584,14 +1584,29 @@ html.is-modal-open body {
   flex-wrap: wrap;
 }
 .footer__links a {
+  position: relative;
   opacity: 0.6;
-  transition:
-    font-weight 0.2s ease,
-    opacity 0.2s ease;
+  text-decoration: none;
+  transition: opacity 0.2s ease;
+}
+.footer__links a:after {
+  content: "";
+  position: absolute;
+  right: 0;
+  bottom: -0.18em;
+  left: 0;
+  height: 1px;
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: 100% 50%;
+  transition: transform 0.35s cubic-bezier(0.19, 1, 0.22, 1);
 }
 .footer__links a:hover {
-  font-weight: 700;
   opacity: 1;
+}
+.footer__links a:hover:after {
+  transform: scaleX(1);
+  transform-origin: 0 50%;
 }
 .footer__brand {
   font-family: Inter, sans-serif;
