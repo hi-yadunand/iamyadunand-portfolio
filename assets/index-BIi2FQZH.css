@@ -939,6 +939,12 @@ html[data-theme="dark"] .hero__title em {
 html[data-theme="dark"] .about__avatar {
   filter: invert(1) contrast(1.2);
 }
+html[data-theme="dark"] .section.about::before {
+  color: rgba(255, 255, 255, 0.86);
+}
+html[data-theme="dark"] .section.about::after {
+  background: rgba(255, 255, 255, 0.16);
+}
 html[data-theme="dark"] .custom-cursor {
   border-color: rgba(255, 255, 255, 0.7);
 }
@@ -1414,40 +1420,60 @@ html[data-theme="dark"] .loader {
 .section.about {
   background: #fff;
   color: #121212;
-  padding-top: clamp(88px, 8vw, 128px);
-  padding-bottom: clamp(112px, 12vw, 188px);
+  padding: clamp(168px, 15vw, 280px) 2.23vw clamp(112px, 11vw, 188px);
   scroll-margin-top: 0;
+  overflow: hidden;
+}
+.section.about::before {
+  content: "( 0 1 )";
+  position: absolute;
+  top: clamp(60px, 5.8vw, 92px);
+  left: 2.23vw;
+  font-family: "Russell Neue Montreal", "Neue Montreal", Arial, sans-serif;
+  font-size: clamp(16px, 1.1vw, 22px);
+  line-height: 1;
+  letter-spacing: 0.12em;
+  color: rgba(18, 18, 18, 0.86);
+}
+.section.about::after {
+  content: "";
+  position: absolute;
+  top: clamp(98px, 8.2vw, 136px);
+  left: 2.23vw;
+  right: 2.23vw;
+  height: 1px;
+  background: rgba(18, 18, 18, 0.1);
 }
 .about__grid {
-  display: block;
+  display: flex;
+  flex-direction: column;
   width: 100%;
   position: relative;
 }
 .about__heading {
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: 32px;
-  margin: 0 0 0;
+  display: contents;
 }
 .about__title {
   font-family: Inter, sans-serif;
   color: #121212;
-  font-size: clamp(2rem, 6vw + 1rem, 6rem);
+  order: 2;
+  font-size: clamp(36px, 5.5vw, 88px);
   font-weight: 900;
-  line-height: 1.2;
+  line-height: 0.95;
   letter-spacing: 0;
   text-transform: uppercase;
-  margin: 0;
+  margin: clamp(44px, 4.7vw, 86px) 0 clamp(48px, 5.6vw, 88px);
 }
 .about__avatar {
-  width: clamp(168px, 18vw, 260px);
+  order: 1;
+  width: clamp(14px, 1vw, 18px);
   aspect-ratio: 1 / 1;
   object-fit: contain;
-  flex: 0 0 auto;
+  align-self: center;
   pointer-events: none;
-  margin-left: auto;
-  transform: translateX(18px);
+  margin: 0;
+  transform: none;
+  image-rendering: crisp-edges;
 }
 .about__meta {
   display: flex;
@@ -1474,24 +1500,29 @@ html[data-theme="dark"] .loader {
   font-weight: 500;
 }
 .about__bio {
+  order: 3;
   display: flex;
   flex-direction: column;
-  gap: clamp(24px, 3vw, 48px);
+  gap: clamp(72px, 8vw, 128px);
   width: min(100%, 1500px);
   max-width: none;
 }
 .about__bio p {
-  font-family: Inter, sans-serif;
-  font-size: clamp(0.875rem, 7vw, 2.5rem);
-  line-height: 1.5;
+  font-family: "Russell Neue Montreal", "Neue Montreal", Inter, sans-serif;
+  font-size: 40px;
+  line-height: 60px;
   font-weight: 400;
   letter-spacing: 0;
-  max-width: 74ch;
+  max-width: 78ch;
 }
-.about__bio p + p {
+.about__bio .about__lead {
+  order: -1;
+  max-width: 78ch;
+}
+.about__bio p:not(.about__lead) {
   align-self: flex-end;
   margin-left: 0;
-  max-width: 76ch;
+  max-width: 78ch;
 }
 .section.services {
   background: #fff;
@@ -1639,7 +1670,7 @@ html[data-theme="dark"] .loader {
 }
 @media (max-width: 1100px) {
   .about__grid {
-    display: block;
+    display: flex;
   }
   .about__sphere {
     position: relative;
@@ -1650,33 +1681,44 @@ html[data-theme="dark"] .loader {
 }
 @media (max-width: 700px) {
   .section.about {
-    padding-top: 136px;
-    padding-bottom: 112px;
+    padding: 136px 20px 112px;
+  }
+  .section.about::before {
+    top: 76px;
+    left: 20px;
+    font-size: 14px;
+  }
+  .section.about::after {
+    top: 106px;
+    left: 20px;
+    right: 20px;
   }
   .about__grid {
-    display: block;
+    display: flex;
   }
   .about__title {
-    font-size: clamp(2rem, 16vw, 4.75rem);
-    line-height: 1.1;
+    font-size: clamp(36px, 12vw, 64px);
+    line-height: 1.05;
+    margin: 42px 0 48px;
   }
   .about__heading {
-    gap: 18px;
-    margin-bottom: 40px;
+    display: contents;
   }
   .about__avatar {
-    width: 108px;
+    width: 14px;
   }
   .about__bio {
-    gap: 40px;
+    gap: 56px;
   }
   .about__bio p,
-  .about__bio p + p {
+  .about__bio p + p,
+  .about__bio p:not(.about__lead),
+  .about__bio .about__lead {
     max-width: none;
     margin-left: 0;
     align-self: stretch;
-    font-size: clamp(1.125rem, 7.2vw, 2rem);
-    line-height: 1.35;
+    font-size: clamp(2rem, 10.8vw, 4.1rem);
+    line-height: 1.18;
   }
   .section.services {
     padding-top: 136px;
