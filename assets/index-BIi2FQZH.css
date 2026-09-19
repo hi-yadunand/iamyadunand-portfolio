@@ -1177,9 +1177,9 @@ html[data-theme="dark"] .loader {
 #agencies > .section__label,
 .services > .services__label {
   display: block;
-  padding-bottom: 1rem;
+  padding-bottom: 0;
   margin-bottom: clamp(132px, 13vw, 260px);
-  border-bottom: 1px solid rgba(18, 18, 18, 0.1);
+  border-bottom: none;
 }
 [data-char-reveal] {
   visibility: hidden;
@@ -1433,7 +1433,7 @@ html[data-theme="dark"] .loader {
   overflow: hidden;
 }
 .section.about::before {
-  content: "( 0 1 )";
+  content: "Howdy";
   position: absolute;
   top: clamp(60px, 5.8vw, 92px);
   left: 2.23vw;
@@ -1449,8 +1449,8 @@ html[data-theme="dark"] .loader {
   top: clamp(98px, 8.2vw, 136px);
   left: 2.23vw;
   right: 2.23vw;
-  height: 1px;
-  background: rgba(18, 18, 18, 0.1);
+  height: 0;
+  background: transparent;
 }
 .about__grid {
   display: flex;
@@ -2095,8 +2095,9 @@ html[data-theme="dark"] .loader {
   #works > .section__label,
   #agencies > .section__label,
   .services > .services__label {
-    padding-bottom: 1rem;
+    padding-bottom: 0;
     margin-bottom: 96px;
+    border-bottom: none;
   }
   .section__title {
     font-size: clamp(40px, 13vw, 72px);
