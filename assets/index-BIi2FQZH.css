@@ -78,7 +78,7 @@ html.is-loading body {
   top: -1px;
   left: 0;
   right: 0;
-  height: 3px;
+  height: 1px;
   background: var(--ink, #000);
   transform: scaleX(0);
   transform-origin: center center;
@@ -1173,6 +1173,14 @@ html[data-theme="dark"] .loader {
   opacity: 0.5;
   margin-bottom: 60px;
 }
+#works > .section__label,
+#agencies > .section__label,
+.services > .services__label {
+  display: block;
+  padding-bottom: 1rem;
+  margin-bottom: clamp(132px, 13vw, 260px);
+  border-bottom: 1px solid rgba(18, 18, 18, 0.1);
+}
 [data-char-reveal] {
   visibility: hidden;
 }
@@ -1184,7 +1192,7 @@ html[data-theme="dark"] .loader {
   font-family: Inter, sans-serif;
   color: #121212;
   font-weight: 900;
-  font-size: clamp(36px, 5.5vw, 88px);
+  font-size: clamp(42px, 6.2vw, 104px);
   line-height: 0.95;
   letter-spacing: -0.03em;
   text-transform: uppercase;
@@ -1399,7 +1407,7 @@ html[data-theme="dark"] .loader {
   font-family: Inter, sans-serif;
   color: #121212;
   font-weight: 700;
-  font-size: clamp(36px, 6vw, 96px);
+  font-size: clamp(42px, 6.8vw, 112px);
   line-height: 1.05;
   letter-spacing: -0.04em;
   text-transform: uppercase;
@@ -1418,7 +1426,7 @@ html[data-theme="dark"] .loader {
   padding-bottom: 0.04em;
 }
 .section.about {
-  background: #fff;
+  background: #fdfbf9;
   color: #121212;
   padding: clamp(168px, 15vw, 280px) 2.23vw clamp(112px, 11vw, 188px);
   scroll-margin-top: 0;
@@ -1457,7 +1465,7 @@ html[data-theme="dark"] .loader {
   font-family: Inter, sans-serif;
   color: #121212;
   order: 2;
-  font-size: clamp(36px, 5.5vw, 88px);
+  font-size: clamp(42px, 6.2vw, 104px);
   font-weight: 900;
   line-height: 0.95;
   letter-spacing: 0;
@@ -1522,10 +1530,11 @@ html[data-theme="dark"] .loader {
 .about__bio p:not(.about__lead) {
   align-self: flex-end;
   margin-left: 0;
+  width: calc(100% - clamp(54px, 2.8vw, 80px));
   max-width: 78ch;
 }
 .section.services {
-  background: #fff;
+  background: #fdfbf9;
   color: #121212;
   padding-top: clamp(96px, 9vw, 160px);
   padding-bottom: clamp(112px, 12vw, 200px);
@@ -1561,7 +1570,7 @@ html[data-theme="dark"] .loader {
 .services__item {
   font-family: Inter, sans-serif;
   color: #121212;
-  font-size: clamp(42px, 6.7vw, 96px);
+  font-size: clamp(48px, 7.4vw, 112px);
   font-weight: 900;
   letter-spacing: -0.035em;
   line-height: 0.88;
@@ -1600,7 +1609,7 @@ html[data-theme="dark"] .loader {
 }
 .services__note {
   width: min(100%, 680px);
-  margin: clamp(72px, 9vw, 136px) 0 0 auto;
+  margin: clamp(36px, 4.5vw, 72px) 0 0 auto;
   font-family: Inter, sans-serif;
   font-size: clamp(12px, 1.4vw, 22px);
   line-height: 1.45;
@@ -1697,7 +1706,7 @@ html[data-theme="dark"] .loader {
     display: flex;
   }
   .about__title {
-    font-size: clamp(36px, 12vw, 64px);
+    font-size: clamp(40px, 13vw, 72px);
     line-height: 1.05;
     margin: 42px 0 48px;
   }
@@ -1715,6 +1724,7 @@ html[data-theme="dark"] .loader {
   .about__bio p:not(.about__lead),
   .about__bio .about__lead {
     max-width: none;
+    width: 100%;
     margin-left: 0;
     align-self: stretch;
     font-size: clamp(2rem, 10.8vw, 4.1rem);
@@ -1737,7 +1747,7 @@ html[data-theme="dark"] .loader {
     justify-content: flex-start;
   }
   .services__item {
-    font-size: clamp(29px, 8.1vw, 40px);
+    font-size: clamp(32px, 8.8vw, 46px);
     line-height: 0.98;
     white-space: normal;
     overflow-wrap: anywhere;
@@ -1748,7 +1758,7 @@ html[data-theme="dark"] .loader {
   }
   .services__note {
     width: 100%;
-    margin-top: 56px;
+    margin-top: 32px;
     font-size: 18px;
     line-height: 1.45;
     letter-spacing: -0.01em;
@@ -2082,8 +2092,14 @@ html[data-theme="dark"] .loader {
   .section__label {
     margin-bottom: 32px;
   }
+  #works > .section__label,
+  #agencies > .section__label,
+  .services > .services__label {
+    padding-bottom: 1rem;
+    margin-bottom: 96px;
+  }
   .section__title {
-    font-size: clamp(36px, 12vw, 64px);
+    font-size: clamp(40px, 13vw, 72px);
     line-height: 1.05;
     white-space: normal;
     margin-bottom: 40px;
@@ -2136,7 +2152,7 @@ html[data-theme="dark"] .loader {
     display: none;
   }
   .agencies__manifesto {
-    font-size: clamp(36px, 12vw, 64px);
+    font-size: clamp(40px, 13vw, 72px);
     font-weight: 900;
     line-height: 1.05;
     letter-spacing: -0.03em;
