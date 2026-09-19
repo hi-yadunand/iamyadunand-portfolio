@@ -47,6 +47,7 @@
   <script type="module" crossorigin src="/assets/footer-particles.js"></script>
   <script type="module" crossorigin src="/assets/work-filter.js"></script>
   <script type="module" crossorigin src="/assets/about-scroll-reveal.js"></script>
+  <script type="module" crossorigin src="/assets/horizontal-works.js"></script>
   <link rel="stylesheet" crossorigin href="/assets/index-BIi2FQZH.css">
 </head>
 
@@ -140,15 +141,74 @@
     </div>
   </section>
 
-  <!-- WORKS -->
-  <section class="section" id="works">
-    <p class="section__label" data-char-reveal>Selected works</p>
-    <h2 class="section__title" data-reveal-blur>
-      <span>Designed to</span>
-      <span>make an <em>impact.</em></span>
-    </h2>
+  <!-- HORIZONTAL WORKS -->
+  <section class="horizontal-works" id="works" data-horizontal-works>
+    <div class="horizontal-works__sticky">
+      <div class="horizontal-works__track" data-horizontal-track>
+        <article class="horizontal-works__panel horizontal-works__panel--intro">
+          <p class="horizontal-works__statement">
+            I build digital products that feel considered — where the interface is clear, the motion has purpose, and
+            every screen earns its place.
+          </p>
+          <img class="horizontal-works__object" src="images/iamyadunand-favicon.png" alt="" loading="lazy"
+            decoding="async" />
+          <div class="horizontal-works__meta">
+            <span>Yadunand Pavithran</span>
+            <span>/2026/</span>
+          </div>
+          <h2 class="horizontal-works__mega">Portfolio@26</h2>
+        </article>
 
-    <div class="works" data-works></div>
+        <article class="horizontal-works__panel horizontal-works__panel--orange">
+          <div class="horizontal-card horizontal-card--work">
+            <h2 class="horizontal-card__title">Selected work*</h2>
+            <div class="horizontal-card__grid">
+              <a class="horizontal-card__project horizontal-card__project--wide" href="https://zappoapp.com/"
+                target="_blank" rel="noopener noreferrer" data-cursor-snap>
+                <span>ZAPPO</span>
+                <img src="images/horizontal-snapjet.png" alt="ZAPPO project preview" loading="lazy" decoding="async" />
+              </a>
+              <a class="horizontal-card__project horizontal-card__project--featured"
+                href="https://codeandthrive.studio/" target="_blank" rel="noopener noreferrer" data-cursor-snap>
+                <span>CODE & THRIVE</span>
+                <img src="images/horizontal-chat.png" alt="Code and Thrive project preview" loading="lazy"
+                  decoding="async" />
+              </a>
+              <a class="horizontal-card__project" href="https://tarsx.space/" target="_blank" rel="noopener noreferrer"
+                data-cursor-snap>
+                <span>TARSX ROBOT</span>
+                <img src="images/horizontal-hrm.png" alt="TARSX robot project preview" loading="lazy"
+                  decoding="async" />
+              </a>
+            </div>
+          </div>
+        </article>
+
+        <article class="horizontal-works__panel horizontal-works__panel--services">
+          <div class="horizontal-card horizontal-card--services">
+            <h2 class="horizontal-card__title">Design services*</h2>
+            <div class="horizontal-card__services">
+              <div>
+                <span>01</span>
+                <strong>Frontend development</strong>
+              </div>
+              <div>
+                <span>02</span>
+                <strong>UI/UX design</strong>
+              </div>
+              <div>
+                <span>03</span>
+                <strong>Interactive web</strong>
+              </div>
+              <div>
+                <span>04</span>
+                <strong>Creative coding</strong>
+              </div>
+            </div>
+          </div>
+        </article>
+      </div>
+    </div>
   </section>
 
   <!-- AGENCIES / COMPANIES -->

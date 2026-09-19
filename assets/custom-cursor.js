@@ -38,16 +38,24 @@ ready(() => {
   ].join(",");
 
   let raf = 0;
+  let lastElement = null;
 
   const setInteractiveState = (element) => {
+    lastElement = element;
     const interactive = element?.closest?.(interactiveSelector);
-    const labelText = interactive?.getAttribute?.("data-cursor-label")?.trim() || "";
+    const isHorizontalScroll = document.documentElement.classList.contains("is-horizontal-scroll-cursor");
+    const shouldShowScroll = isHorizontalScroll && !interactive;
+    const labelText = shouldShowScroll ? "Scroll" : interactive?.getAttribute?.("data-cursor-label")?.trim() || "";
 
     cursor.classList.toggle("isHover", Boolean(interactive));
     cursor.classList.toggle("hasLabel", Boolean(labelText));
+    cursor.classList.toggle("isScrollMouse", shouldShowScroll);
     label.textContent = labelText;
 
-    if (labelText) {
+    if (shouldShowScroll) {
+      target.width = 46;
+      target.height = 24;
+    } else if (labelText) {
       target.width = 140;
       target.height = 44;
     } else if (interactive) {
@@ -59,7 +67,31 @@ ready(() => {
     }
   };
 
+  const syncScrollCursor = () => {
+    if (document.documentElement.classList.contains("is-horizontal-scroll-cursor")) {
+      const interactive = lastElement?.closest?.(interactiveSelector);
+      if (interactive) {
+        setInteractiveState(lastElement);
+        return;
+      }
+
+      cursor.classList.remove("isHover");
+      cursor.classList.add("hasLabel", "isScrollMouse");
+      label.textContent = "Scroll";
+      target.width = 46;
+      target.height = 24;
+      return;
+    }
+
+    if (cursor.classList.contains("isScrollMouse")) {
+      cursor.classList.remove("isScrollMouse");
+      setInteractiveState(lastElement);
+    }
+  };
+
   const render = () => {
+    syncScrollCursor();
+
     current.x += (target.x - current.x) * 0.24;
     current.y += (target.y - current.y) * 0.24;
     current.width += (target.width - current.width) * 0.28;
@@ -93,7 +125,8 @@ ready(() => {
   );
 
   document.addEventListener("pointerleave", () => {
-    cursor.classList.remove("isEnter", "isHover", "hasLabel");
+    lastElement = null;
+    cursor.classList.remove("isEnter", "isHover", "hasLabel", "isScrollMouse");
     label.textContent = "";
     target.width = 10;
     target.height = 10;

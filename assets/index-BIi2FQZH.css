@@ -86,6 +86,7 @@ html.is-loading body {
   z-index: 5;
   will-change: transform;
   backface-visibility: hidden;
+  display: none !important;
 }
 .loader {
   position: fixed;
@@ -642,6 +643,10 @@ html.is-modal-open body {
   border-bottom: none;
   transition: color 0.25s ease;
   mix-blend-mode: difference;
+}
+html.is-horizontal-works-active .header {
+  opacity: 0;
+  pointer-events: none;
 }
 .header[data-nav-theme="light"] {
   color: #151b22;
@@ -1283,6 +1288,294 @@ html[data-theme="dark"] .loader {
   }
   .work__role {
     display: none;
+  }
+}
+.horizontal-works {
+  --horizontal-orange: #fb4617;
+  --horizontal-dark: #fdfbf9;
+  --horizontal-peek: clamp(24px, 2.3vw, 48px);
+  min-height: var(--horizontal-height, 300vh);
+  background: var(--horizontal-dark);
+  color: #ffffff;
+  position: relative;
+  overflow: visible;
+  z-index: 20;
+  isolation: isolate;
+}
+.horizontal-works .section-seam {
+  display: none;
+}
+.horizontal-works__sticky {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+}
+.horizontal-works.is-pinned .horizontal-works__sticky {
+  position: fixed;
+}
+.horizontal-works.is-ended .horizontal-works__sticky {
+  position: absolute;
+  top: auto;
+  bottom: 0;
+}
+.horizontal-works__track {
+  display: flex;
+  width: max-content;
+  height: 100%;
+  will-change: transform;
+}
+.horizontal-works__panel {
+  flex: 0 0 100vw;
+  min-width: 100vw;
+  height: 100vh;
+  position: relative;
+  overflow: hidden;
+}
+.horizontal-works__panel--intro {
+  flex-basis: calc(100vw - var(--horizontal-peek));
+  min-width: calc(100vw - var(--horizontal-peek));
+  background: var(--horizontal-dark);
+  padding: clamp(48px, 4vw, 72px) clamp(28px, 3vw, 64px);
+}
+.horizontal-works__statement {
+  width: min(860px, 52vw);
+  font-family: "Neue Montreal", "Russell Neue Montreal", Inter, sans-serif;
+  font-size: clamp(2.25rem, 3.45vw, 5rem);
+  font-weight: 500;
+  line-height: 0.96;
+  letter-spacing: -0.045em;
+  color: #151b22;
+}
+.horizontal-works__object {
+  position: absolute;
+  top: 52%;
+  left: 50%;
+  width: clamp(160px, 20vw, 390px);
+  aspect-ratio: 1 / 1;
+  object-fit: contain;
+  filter: saturate(0.6) contrast(1.2);
+  opacity: 0.95;
+  transform: translate(-50%, -50%);
+}
+.horizontal-works__meta {
+  position: absolute;
+  left: clamp(28px, 3vw, 64px);
+  right: clamp(28px, 3vw, 64px);
+  bottom: clamp(33vh, 34vw, 45vh);
+  display: flex;
+  justify-content: space-between;
+  gap: 24px;
+  color: rgba(21, 27, 34, 0.55);
+  font-family: "Neue Montreal", "Russell Neue Montreal", Inter, sans-serif;
+  font-size: clamp(0.95rem, 1.15vw, 1.4rem);
+  font-weight: 500;
+  text-transform: uppercase;
+}
+.horizontal-works__mega {
+  position: absolute;
+  left: clamp(28px, 3vw, 64px);
+  bottom: clamp(24px, 4vw, 72px);
+  margin: 0;
+  color: var(--horizontal-orange);
+  font-family: "Neue Montreal", "Russell Neue Montreal", Inter, sans-serif;
+  font-size: clamp(6rem, 12vw, 18rem);
+  font-weight: 500;
+  line-height: 0.78;
+  letter-spacing: -0.08em;
+  white-space: nowrap;
+}
+.horizontal-works__panel--orange {
+  background: var(--horizontal-dark);
+  padding: 14px;
+}
+.horizontal-card {
+  position: relative;
+  height: calc(100vh - 28px);
+  width: 100%;
+  overflow: hidden;
+  border-radius: 16px;
+  background: linear-gradient(180deg, #ffc5a9 0%, #fb4617 68%, #f53b12 100%);
+  color: var(--horizontal-orange);
+  padding: clamp(32px, 3vw, 72px);
+}
+.horizontal-card__title {
+  margin: 0;
+  font-family: "Neue Montreal", "Russell Neue Montreal", Inter, sans-serif;
+  font-size: clamp(5.5rem, 10vw, 15rem);
+  font-weight: 500;
+  line-height: 0.78;
+  letter-spacing: -0.055em;
+  word-spacing: 0.04em;
+  color: var(--horizontal-orange);
+  white-space: nowrap;
+}
+.horizontal-card__grid {
+  position: absolute;
+  left: clamp(32px, 3vw, 72px);
+  right: clamp(32px, 3vw, 72px);
+  bottom: clamp(36px, 4vw, 72px);
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: clamp(18px, 1.8vw, 32px);
+  align-items: end;
+}
+.horizontal-card__project {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  min-width: 0;
+  color: #ffffff;
+  font-family: "Neue Montreal", "Russell Neue Montreal", Inter, sans-serif;
+  font-size: clamp(1.1rem, 1.35vw, 1.75rem);
+  font-weight: 500;
+  text-decoration: none;
+}
+.horizontal-card__project img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 1.62 / 1;
+  object-fit: cover;
+  border-radius: 2px;
+}
+.horizontal-card__project--wide img {
+  aspect-ratio: 1.72 / 1;
+}
+.horizontal-card__project--featured img {
+  position: relative;
+  z-index: 1;
+  transform: scale(1.06);
+  transform-origin: center bottom;
+}
+.horizontal-card__services {
+  position: absolute;
+  left: clamp(32px, 3vw, 72px);
+  right: clamp(32px, 3vw, 72px);
+  bottom: clamp(36px, 4vw, 72px);
+  display: grid;
+  grid-template-columns: repeat(4, minmax(180px, 1fr));
+  gap: clamp(16px, 2vw, 32px);
+}
+.horizontal-card__services div {
+  min-height: clamp(180px, 22vw, 340px);
+  padding: clamp(18px, 2vw, 32px);
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  border-radius: 2px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  color: #ffffff;
+  background: rgba(17, 17, 17, 0.08);
+}
+.horizontal-card__services span {
+  font-family:
+    JetBrains Mono,
+    monospace;
+  font-size: 0.8rem;
+  opacity: 0.72;
+}
+.horizontal-card__services strong {
+  font-family: "Neue Montreal", "Russell Neue Montreal", Inter, sans-serif;
+  font-size: clamp(1.4rem, 2.1vw, 3.2rem);
+  line-height: 0.95;
+  letter-spacing: -0.05em;
+  font-weight: 500;
+}
+.horizontal-works__panel--services {
+  background: #fdfbf9;
+  padding: 0;
+}
+.horizontal-works__panel--services .horizontal-card {
+  height: 100vh;
+  border-radius: 0;
+  background: #fdfbf9;
+  color: #151b22;
+}
+.horizontal-works__panel--services .horizontal-card__services div {
+  border-color: rgba(21, 27, 34, 0.22);
+  color: #151b22;
+  background: transparent;
+}
+@media (max-width: 800px) {
+  .horizontal-works {
+    min-height: auto;
+    overflow: hidden;
+  }
+  .horizontal-works__sticky {
+    position: relative;
+    height: auto;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+  }
+  .horizontal-works__sticky::-webkit-scrollbar {
+    display: none;
+  }
+  .horizontal-works__track {
+    transform: none !important;
+    height: auto;
+  }
+  .horizontal-works__panel {
+    flex-basis: 92vw;
+    min-width: 92vw;
+    min-height: 84vh;
+    height: auto;
+    scroll-snap-align: start;
+  }
+  .horizontal-works__panel--intro {
+    padding: 40px 20px;
+  }
+  .horizontal-works__statement {
+    width: min(100%, 560px);
+    font-size: clamp(2rem, 11vw, 4.5rem);
+  }
+  .horizontal-works__object {
+    top: 52%;
+    width: min(48vw, 220px);
+  }
+  .horizontal-works__meta {
+    left: 20px;
+    right: 20px;
+    bottom: 26vh;
+    font-size: 0.8rem;
+  }
+  .horizontal-works__mega {
+    left: 20px;
+    bottom: 32px;
+    font-size: clamp(4.8rem, 21vw, 8rem);
+  }
+  .horizontal-works__panel--orange {
+    padding: 10px;
+  }
+  .horizontal-card {
+    height: auto;
+    min-height: calc(84vh - 20px);
+    padding: 24px 18px;
+    border-radius: 12px;
+  }
+  .horizontal-card__title {
+    font-size: clamp(4rem, 18vw, 7rem);
+    white-space: normal;
+  }
+  .horizontal-card__grid,
+  .horizontal-card__services {
+    position: relative;
+    left: auto;
+    right: auto;
+    bottom: auto;
+    margin-top: 34vh;
+    grid-template-columns: 1fr;
+  }
+  .horizontal-card__services {
+    margin-top: 26vh;
+  }
+  .horizontal-works__panel--services .horizontal-card {
+    height: auto;
+    min-height: calc(84vh - 20px);
+    border-radius: 0;
   }
 }
 .logos {
@@ -2269,6 +2562,29 @@ html[data-theme="dark"] .loader {
   opacity: 1;
   transform: scale(1);
 }
+.pPointer.isScrollMouse {
+  background: #fb4617;
+  color: #111111;
+  border-radius: 0;
+  mix-blend-mode: normal;
+  align-items: center;
+  padding-top: 0;
+}
+.pPointer.isScrollMouse .pPointer__label {
+  font-family: "Neue Montreal", "Russell Neue Montreal", Inter, sans-serif;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0;
+  line-height: 1;
+  text-transform: none;
+  writing-mode: horizontal-tb;
+  text-orientation: initial;
+}
+html.custom-cursor-active.is-horizontal-scroll-cursor,
+html.custom-cursor-active.is-horizontal-scroll-cursor body,
+html.custom-cursor-active.is-horizontal-scroll-cursor body * {
+  cursor: none !important;
+}
 @media (hover: none), (pointer: coarse), (max-width: 700px) {
   .pPointer {
     display: none !important;
@@ -2530,6 +2846,11 @@ html.custom-cursor-active [role="button"],
 html.custom-cursor-active [data-cursor-snap],
 html.custom-cursor-active [data-cursor-label] {
   cursor: pointer !important;
+}
+html.custom-cursor-active.is-horizontal-scroll-cursor,
+html.custom-cursor-active.is-horizontal-scroll-cursor body,
+html.custom-cursor-active.is-horizontal-scroll-cursor body * {
+  cursor: none !important;
 }
 @media (max-width: 700px) {
   body,
