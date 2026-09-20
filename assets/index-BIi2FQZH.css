@@ -3245,9 +3245,11 @@ body :where(:not(.hero__title--bouayaben):not(.hero__title--bouayaben *)) {
   min-height: 760px;
   overflow: hidden;
   background:
-    linear-gradient(28deg, transparent 0 49.86%, rgba(21, 27, 34, 0.055) 50%, transparent 50.14%),
-    linear-gradient(152deg, transparent 0 49.86%, rgba(21, 27, 34, 0.045) 50%, transparent 50.14%),
-    radial-gradient(circle at 50% 54%, rgba(251, 70, 23, 0.08), transparent 19%),
+    radial-gradient(
+      circle at 50% 54%,
+      rgba(251, 70, 23, 0.08),
+      transparent 19%
+    ),
     #fdfbf9;
   color: #080b16;
   isolation: isolate;
@@ -3261,8 +3263,7 @@ body :where(:not(.hero__title--bouayaben):not(.hero__title--bouayaben *)) {
   width: min(90vw, 1500px);
   margin: 0;
   color: #080b16;
-  font-family:
-    "Archivo Variable", Archivo, "Helvetica Neue", Arial, sans-serif;
+  font-family: "Archivo Variable", Archivo, "Helvetica Neue", Arial, sans-serif;
   font-size: clamp(4.4rem, 7.6vw, 10.4rem);
   font-weight: 850;
   line-height: 0.9;
@@ -3317,8 +3318,7 @@ body :where(:not(.hero__title--bouayaben):not(.hero__title--bouayaben *)) {
 .drone-services__fallback::before {
   content: "DRONE MODEL";
   color: #080b16;
-  font-family:
-    "Archivo Variable", Archivo, "Helvetica Neue", Arial, sans-serif;
+  font-family: "Archivo Variable", Archivo, "Helvetica Neue", Arial, sans-serif;
   font-size: clamp(2rem, 6vw, 7rem);
   font-weight: 850;
   letter-spacing: 0.08em;
@@ -3373,8 +3373,7 @@ body :where(:not(.hero__title--bouayaben):not(.hero__title--bouayaben *)) {
   align-items: center;
   gap: 14px;
   color: #080b16;
-  font-family:
-    "Archivo Variable", Archivo, "Helvetica Neue", Arial, sans-serif;
+  font-family: "Archivo Variable", Archivo, "Helvetica Neue", Arial, sans-serif;
   text-align: center;
   transform: translateX(-50%);
 }
@@ -3400,8 +3399,7 @@ body :where(:not(.hero__title--bouayaben):not(.hero__title--bouayaben *)) {
   z-index: 5;
   margin: 0;
   color: rgba(8, 11, 22, 0.38);
-  font-family:
-    "Russell Neue Montreal", "Neue Montreal", Arial, sans-serif;
+  font-family: "Russell Neue Montreal", "Neue Montreal", Arial, sans-serif;
   font-size: 11px;
   line-height: 1;
 }
