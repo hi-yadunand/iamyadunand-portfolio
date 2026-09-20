@@ -22,10 +22,11 @@ ready(() => {
     const rect = section.getBoundingClientRect();
     const viewportHeight = window.innerHeight || document.documentElement.clientHeight;
     const isActive = rect.top <= 1 && rect.bottom >= viewportHeight * 0.35;
-    document.documentElement.classList.toggle("is-horizontal-works-active", isActive);
-    document.documentElement.classList.toggle("is-horizontal-scroll-cursor", isActive);
-    section.classList.toggle("is-pinned", isActive && rect.top <= 0 && rect.bottom >= viewportHeight);
-    section.classList.toggle("is-ended", rect.bottom < viewportHeight);
+    const canPin = !smallScreen.matches && !reduceMotion.matches;
+    document.documentElement.classList.toggle("is-horizontal-works-active", isActive && canPin);
+    document.documentElement.classList.toggle("is-horizontal-scroll-cursor", isActive && canPin);
+    section.classList.toggle("is-pinned", canPin && isActive && rect.top <= 0 && rect.bottom >= viewportHeight);
+    section.classList.toggle("is-ended", canPin && rect.bottom < viewportHeight);
   };
 
   const measure = () => {
