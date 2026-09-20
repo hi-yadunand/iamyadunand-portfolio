@@ -48,6 +48,7 @@
   <script type="module" crossorigin src="/assets/work-filter.js"></script>
   <script type="module" crossorigin src="/assets/about-scroll-reveal.js"></script>
   <script type="module" crossorigin src="/assets/horizontal-works.js"></script>
+  <script type="module" crossorigin src="/assets/drone-services.js"></script>
   <link rel="stylesheet" crossorigin href="/assets/index-BIi2FQZH.css">
 </head>
 
@@ -184,26 +185,31 @@
         </article>
 
         <article class="horizontal-works__panel horizontal-works__panel--services">
-          <div class="horizontal-card horizontal-card--services">
-            <h2 class="horizontal-card__title">Design services*</h2>
-            <div class="horizontal-card__services">
-              <div>
-                <span>01</span>
-                <strong>Frontend development</strong>
+          <div class="drone-services" data-drone-services>
+            <h2 class="drone-services__title">
+              I fly. <span>I build.</span> I explore.
+            </h2>
+            <div class="drone-services__stage" data-drone-stage>
+              <div class="drone-services__orbit" aria-hidden="true">
+                <i></i>
+                <i></i>
+                <i></i>
               </div>
-              <div>
-                <span>02</span>
-                <strong>UI/UX design</strong>
-              </div>
-              <div>
-                <span>03</span>
-                <strong>Interactive web</strong>
-              </div>
-              <div>
-                <span>04</span>
-                <strong>Creative coding</strong>
-              </div>
+              <canvas class="drone-services__canvas" data-drone-canvas aria-label="Interactive 3D drone model"></canvas>
+              <div class="drone-services__fallback" aria-hidden="true"></div>
             </div>
+            <div class="drone-services__brand" aria-hidden="true">
+              <strong>YADUNAND</strong>
+              <span>BUILD THE SKY.</span>
+            </div>
+            <p class="drone-services__credit">
+              S9 Mini Drone by
+              <a href="https://skfb.ly/6zyDP" target="_blank" rel="noopener noreferrer">BlueMesh</a>
+              via <a href="https://github.com/srcejon/sdrangel-3d-models" target="_blank"
+                rel="noopener noreferrer">SDRangel 3D Models</a>
+              / <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank"
+                rel="noopener noreferrer">CC BY 4.0</a>
+            </p>
           </div>
         </article>
       </div>
