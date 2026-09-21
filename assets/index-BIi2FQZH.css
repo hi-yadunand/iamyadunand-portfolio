@@ -1830,7 +1830,7 @@ html[data-theme="dark"] .loader {
   background: #fdfbf9;
   color: #121212;
   padding-top: clamp(96px, 9vw, 160px);
-  padding-bottom: clamp(112px, 12vw, 200px);
+  padding-bottom: clamp(180px, 18vw, 320px);
 }
 .services__label {
   font-family:
@@ -2020,7 +2020,7 @@ html[data-theme="dark"] .loader {
   }
   .section.services {
     padding-top: 136px;
-    padding-bottom: 112px;
+    padding-bottom: 168px;
   }
   .services__label {
     margin-bottom: 36px;
