@@ -3446,7 +3446,7 @@ body :where(:not(.hero__title--bouayaben):not(.hero__title--bouayaben *)) {
     padding: 92px 20px 54px;
     display: grid;
     grid-template-columns: minmax(0, 1fr);
-    grid-template-rows: auto minmax(320px, 46svh) auto;
+    grid-template-rows: auto minmax(320px, 1fr) auto;
     gap: 24px;
   }
 
@@ -3467,14 +3467,18 @@ body :where(:not(.hero__title--bouayaben):not(.hero__title--bouayaben *)) {
     position: relative;
     top: auto;
     left: auto;
-    width: 100%;
+    width: min(100%, 390px);
     height: auto;
-    min-height: 320px;
+    min-height: 0;
+    aspect-ratio: 1 / 1;
+    justify-self: center;
+    align-self: center;
     transform: none;
   }
 
   .drone-services__orbit {
-    width: min(78vw, 360px);
+    width: min(78vw, 340px);
+    height: min(78vw, 340px);
   }
 
   .drone-services__orbit i {
