@@ -57,10 +57,8 @@ ready(() => {
   if (prefersReducedMotion()) {
     groups.forEach((group) => {
       group.classList.add("is-scroll-reveal-ready");
-      group.style.setProperty("--scroll-reveal-rotate", "0deg");
       group.querySelectorAll(".scroll-reveal__word").forEach((word) => {
         word.style.opacity = "1";
-        word.style.filter = "blur(0px)";
       });
     });
     return;
@@ -80,31 +78,22 @@ ready(() => {
 
     items.forEach(({ group, words }) => {
       const rect = group.getBoundingClientRect();
-      const rotationProgress = clamp(
-        (viewportHeight - rect.top) / Math.max(1, rect.height),
-      );
-      const startTop = viewportHeight * 0.8;
-      const endTop = viewportHeight - rect.height;
+      const startTop = viewportHeight * 0.88;
+      const endTop = viewportHeight * 0.12;
       const wordProgress = clamp(
         (startTop - rect.top) / Math.max(1, startTop - endTop),
       );
 
       group.classList.add("is-scroll-reveal-ready");
-      group.style.setProperty(
-        "--scroll-reveal-rotate",
-        `${(3 - rotationProgress * 3).toFixed(3)}deg`,
-      );
 
-      const revealWindow = 0.16;
+      const revealWindow = 0.18;
       const staggerRange = 1 - revealWindow;
       words.forEach((word, index) => {
         const offset =
           words.length > 1 ? (index / (words.length - 1)) * staggerRange : 0;
         const progress = clamp((wordProgress - offset) / revealWindow);
-        const opacity = 0.1 + progress * 0.9;
-        const blur = 4 - progress * 4;
+        const opacity = 0.12 + progress * 0.88;
         word.style.opacity = opacity.toFixed(3);
-        word.style.filter = `blur(${blur.toFixed(3)}px)`;
       });
     });
   };

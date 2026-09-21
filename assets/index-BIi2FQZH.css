@@ -1911,20 +1911,15 @@ html[data-theme="dark"] .loader {
   letter-spacing: -0.02em;
 }
 [data-scroll-reveal] {
-  transform: rotate(var(--scroll-reveal-rotate, 3deg));
-  transform-origin: 0% 50%;
-  will-change: transform;
+  color: #121212;
 }
 .scroll-reveal__word {
   display: inline-block;
-  opacity: 0.1;
-  filter: blur(4px);
-  will-change: opacity, filter;
+  opacity: 0.12;
+  will-change: opacity;
 }
 .is-scroll-reveal-ready .scroll-reveal__word {
-  transition:
-    opacity 0.08s linear,
-    filter 0.08s linear;
+  transition: opacity 0.08s linear;
 }
 .about__bio p em {
   font-style: italic;
