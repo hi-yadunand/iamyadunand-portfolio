@@ -12,7 +12,6 @@ ready(() => {
   const spacer = document.querySelector("[data-contact-parallax]");
   const footer = document.querySelector("[data-contact-parallax-inner]");
   const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
-  const desktopViewport = window.matchMedia("(min-width: 701px)");
 
   if (!spacer || !footer || reduceMotion.matches) return;
 
@@ -24,11 +23,6 @@ ready(() => {
 
   const update = () => {
     raf = 0;
-
-    if (!desktopViewport.matches) {
-      reset();
-      return;
-    }
 
     const rect = spacer.getBoundingClientRect();
     const viewportHeight =
@@ -57,10 +51,4 @@ ready(() => {
   window.addEventListener("scroll", requestUpdate, { passive: true });
   window.addEventListener("resize", requestUpdate);
   window.addEventListener("orientationchange", requestUpdate);
-
-  if (desktopViewport.addEventListener) {
-    desktopViewport.addEventListener("change", requestUpdate);
-  } else if (desktopViewport.addListener) {
-    desktopViewport.addListener(requestUpdate);
-  }
 });
