@@ -641,11 +641,16 @@ html.is-modal-open body {
   background: transparent;
   color: #f5f0eb;
   border-bottom: none;
-  transition: color 0.25s ease;
+  opacity: var(--horizontal-nav-opacity, 1);
+  transform: translate3d(0, var(--horizontal-nav-offset, 0%), 0);
+  transition:
+    color 0.25s ease,
+    opacity 0.42s ease,
+    transform 0.72s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: transform, opacity;
   mix-blend-mode: difference;
 }
 html.is-horizontal-works-active .header {
-  opacity: 0;
   pointer-events: none;
 }
 .header[data-nav-theme="light"] {

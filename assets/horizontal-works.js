@@ -6,6 +6,9 @@ const ready = (callback) => {
   }
 };
 
+const clamp = (value, min = 0, max = 1) => Math.min(max, Math.max(min, value));
+const easeProgress = (value) => value * value * (3 - 2 * value);
+
 ready(() => {
   const section = document.querySelector("[data-horizontal-works]");
   const track = section?.querySelector("[data-horizontal-track]");
@@ -21,8 +24,17 @@ ready(() => {
   const updateActiveState = () => {
     const rect = section.getBoundingClientRect();
     const viewportHeight = window.innerHeight || document.documentElement.clientHeight;
-    const isActive = rect.top <= 1 && rect.bottom >= viewportHeight * 0.35;
     const canPin = !smallScreen.matches && !reduceMotion.matches;
+    const hideDistance = Math.min(280, viewportHeight * 0.34);
+    const exitDistance = viewportHeight * 0.35;
+    const enterProgress = clamp((hideDistance - rect.top) / hideDistance);
+    const exitProgress = clamp(rect.bottom / exitDistance);
+    const navProgress = canPin ? easeProgress(Math.min(enterProgress, exitProgress)) : 0;
+    const isActive = navProgress > 0.02;
+
+    document.documentElement.style.setProperty("--horizontal-nav-progress", navProgress.toFixed(3));
+    document.documentElement.style.setProperty("--horizontal-nav-opacity", (1 - navProgress).toFixed(3));
+    document.documentElement.style.setProperty("--horizontal-nav-offset", `${(-120 * navProgress).toFixed(2)}%`);
     document.documentElement.classList.toggle("is-horizontal-works-active", isActive && canPin);
     document.documentElement.classList.toggle("is-horizontal-scroll-cursor", isActive && canPin);
     section.classList.toggle("is-pinned", canPin && isActive && rect.top <= 0 && rect.bottom >= viewportHeight);
@@ -35,6 +47,9 @@ ready(() => {
       track.style.removeProperty("transform");
       section.classList.remove("is-pinned", "is-ended");
       document.documentElement.classList.remove("is-horizontal-works-active", "is-horizontal-scroll-cursor");
+      document.documentElement.style.removeProperty("--horizontal-nav-progress");
+      document.documentElement.style.removeProperty("--horizontal-nav-opacity");
+      document.documentElement.style.removeProperty("--horizontal-nav-offset");
       distance = 0;
       return;
     }
