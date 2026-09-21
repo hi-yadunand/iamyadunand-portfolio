@@ -2239,6 +2239,22 @@ html[data-theme="dark"] .loader {
   outline: 1px solid #f5f0eb;
   outline-offset: 6px;
 }
+.footer__talk-video {
+  position: absolute;
+  right: clamp(20px, 4vw, 64px);
+  top: var(--footer-video-top, 50%);
+  z-index: 1;
+  width: clamp(96px, 11vw, 156px);
+  aspect-ratio: 1;
+  object-fit: cover;
+  border-radius: 8px;
+  transform: translateY(-50%);
+  opacity: 0.88;
+  filter: saturate(0.92) contrast(1.04);
+  pointer-events: auto;
+  cursor: pointer;
+  box-shadow: 0 22px 80px rgba(0, 0, 0, 0.28);
+}
 .footer__stage canvas {
   display: block;
   width: 100%;
@@ -2491,6 +2507,12 @@ html[data-theme="dark"] .loader {
   .footer__stage {
     min-height: 30vh;
     margin-bottom: 32px;
+  }
+  .footer__talk-video {
+    right: 20px;
+    width: clamp(68px, 20vw, 92px);
+    border-radius: 6px;
+    opacity: 0.82;
   }
   .footer__row {
     flex-direction: column;

@@ -12,6 +12,7 @@ ready(() => {
   const stage = document.querySelector("[data-footer-particles]");
   const canvas = stage?.querySelector("canvas");
   const mailLink = stage?.querySelector("[data-footer-mail-link]");
+  const talkVideo = stage?.querySelector("[data-footer-talk-video]");
 
   if (!stage || !canvas) return;
 
@@ -25,7 +26,7 @@ ready(() => {
     let fontSize = compact
       ? Math.min(width * 0.115, height * 0.5)
       : Math.min(width * 0.12, height * 0.54);
-    const maxWidth = width * (compact ? 0.82 : 0.74);
+    const maxWidth = width * (compact ? 0.74 : 0.62);
     const family = '"Archivo Variable", Archivo, "Helvetica Neue", Arial, sans-serif';
     let font = `italic 760 ${fontSize}px ${family}`;
 
@@ -68,6 +69,7 @@ ready(() => {
       height - mailTop,
       phraseAscent + phraseDescent + hitPadding * 2,
     );
+    const phraseCenterY = targetBaseline - phraseAscent / 2 + phraseDescent / 2;
 
     if (mailLink) {
       stage.style.setProperty("--footer-mail-left", `${mailLeft}px`);
@@ -75,6 +77,10 @@ ready(() => {
       stage.style.setProperty("--footer-mail-width", `${mailWidth}px`);
       stage.style.setProperty("--footer-mail-height", `${mailHeight}px`);
       mailLink.style.font = font;
+    }
+
+    if (talkVideo) {
+      stage.style.setProperty("--footer-video-top", `${phraseCenterY}px`);
     }
 
     textLayout = {
@@ -89,7 +95,7 @@ ready(() => {
       font,
       fontSize,
       targetCenterX: particleLeft + particleMetrics.width / 2,
-      targetCenterY: targetBaseline - particleAscent / 2 + particleDescent / 2,
+      targetCenterY: phraseCenterY,
     };
   };
 
@@ -118,4 +124,41 @@ ready(() => {
       ctx.fillText(textLayout.staticText, textLayout.left, textLayout.baseline);
     },
   });
+
+  if (mailLink && talkVideo) {
+    const forwardSrc = talkVideo.getAttribute("src");
+    const reverseSrc = talkVideo.dataset.reverseSrc;
+
+    const setVideoSource = (src) => {
+      if (!src || talkVideo.getAttribute("src") === src) return;
+
+      talkVideo.setAttribute("src", src);
+      talkVideo.load();
+    };
+
+    const resetVideo = () => {
+      talkVideo.pause();
+      setVideoSource(forwardSrc);
+      talkVideo.currentTime = 0;
+    };
+
+    const playVideo = () => {
+      setVideoSource(forwardSrc);
+      talkVideo.currentTime = 0;
+      talkVideo.play().catch(() => {});
+    };
+
+    const playVideoReverse = () => {
+      setVideoSource(reverseSrc);
+      talkVideo.currentTime = 0;
+      talkVideo.play().catch(() => {});
+    };
+
+    mailLink.addEventListener("pointerenter", playVideo);
+    mailLink.addEventListener("focus", playVideo);
+    mailLink.addEventListener("pointerleave", resetVideo);
+    mailLink.addEventListener("blur", resetVideo);
+    talkVideo.addEventListener("pointerenter", playVideoReverse);
+    talkVideo.addEventListener("pointerleave", resetVideo);
+  }
 });

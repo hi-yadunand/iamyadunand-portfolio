@@ -42,9 +42,23 @@ ready(() => {
   const pointer = { x: 0, y: 0 };
   const target = { x: 0, y: 0 };
   const current = { x: 0, y: 0 };
+  const propellers = [];
+  const propellerNames = new Set([
+    "Circle.002",
+    "Circle.003",
+    "Circle.004",
+    "Circle.005",
+    "Circle002",
+    "Circle003",
+    "Circle004",
+    "Circle005",
+  ]);
+  const propellerSpinAxis = new THREE.Vector3(0, 0, 1);
+  const propellerSpinQuaternion = new THREE.Quaternion();
+  const propellerSpinSpeed = 8;
   let loadedModel = null;
   let frameId = 0;
-  let visible = true;
+  let previousTime = 0;
 
   renderer.setClearColor(0x000000, 0);
   renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
@@ -92,13 +106,6 @@ ready(() => {
 
   const onPointerMove = (event) => movePointer(event.clientX, event.clientY);
 
-  const observer = new IntersectionObserver(
-    (entries) => {
-      visible = entries.some((entry) => entry.isIntersecting);
-    },
-    { threshold: 0 }
-  );
-
   const normalizeModel = (model) => {
     const box = new THREE.Box3().setFromObject(model);
     const size = new THREE.Vector3();
@@ -123,6 +130,21 @@ ready(() => {
     });
   };
 
+  const collectPropellers = (model) => {
+    propellers.length = 0;
+
+    model.traverse((child) => {
+      if (!propellerNames.has(child.name)) return;
+
+      propellers.push({
+        object: child,
+        baseQuaternion: child.quaternion.clone(),
+        angle: 0,
+        direction: child.position.x * child.position.y >= 0 ? 1 : -1,
+      });
+    });
+  };
+
   const dracoLoader = new DRACOLoader();
   dracoLoader.setDecoderPath("https://www.gstatic.com/draco/versioned/decoders/1.5.6/");
 
@@ -134,6 +156,7 @@ ready(() => {
     (gltf) => {
       loadedModel = gltf.scene;
       normalizeModel(loadedModel);
+      collectPropellers(loadedModel);
       drone.add(loadedModel);
       root.classList.add("is-loaded");
     },
@@ -144,6 +167,8 @@ ready(() => {
   const render = (time = 0) => {
     frameId = requestAnimationFrame(render);
 
+    const delta = previousTime ? Math.min((time - previousTime) * 0.001, 0.05) : 0;
+    previousTime = time;
     const idle = reduceMotion.matches ? 0 : Math.sin(time * 0.0005) * 0.05;
     target.x = finePointer.matches ? -pointer.y * 0.32 + 0.12 : 0.12;
     target.y = finePointer.matches ? pointer.x * 0.52 + idle : idle;
@@ -156,7 +181,14 @@ ready(() => {
     drone.rotation.z = lerp(drone.rotation.z, finePointer.matches ? -pointer.x * 0.08 : 0, 0.06);
     drone.position.y = Math.sin(time * 0.0011) * 0.045;
 
-    if (visible) renderer.render(scene, camera);
+    propellers.forEach((propeller) => {
+      propeller.angle += delta * propellerSpinSpeed * propeller.direction;
+      propeller.object.quaternion
+        .copy(propeller.baseQuaternion)
+        .multiply(propellerSpinQuaternion.setFromAxisAngle(propellerSpinAxis, propeller.angle));
+    });
+
+    renderer.render(scene, camera);
   };
 
   stage.addEventListener("pointermove", onPointerMove, { passive: true });
@@ -166,8 +198,6 @@ ready(() => {
   });
   window.addEventListener("resize", resize);
   reduceMotion.addEventListener?.("change", resize);
-  observer.observe(root);
-
   resize();
   frameId = requestAnimationFrame(render);
 
