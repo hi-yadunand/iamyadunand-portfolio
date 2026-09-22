@@ -40,11 +40,18 @@ ready(() => {
   let raf = 0;
   let lastElement = null;
 
+  const horizontalSectionSelector = "[data-horizontal-works]";
+  const isOverHorizontalSection = (element) =>
+    Boolean(element?.closest?.(horizontalSectionSelector));
+
+  const getPointerElement = () =>
+    document.elementFromPoint(target.x, target.y) || lastElement;
+
   const setInteractiveState = (element) => {
     lastElement = element;
     const interactive = element?.closest?.(interactiveSelector);
     const isHorizontalScroll = document.documentElement.classList.contains("is-horizontal-scroll-cursor");
-    const shouldShowScroll = isHorizontalScroll && !interactive;
+    const shouldShowScroll = isHorizontalScroll && isOverHorizontalSection(element) && !interactive;
     const labelText = shouldShowScroll ? "Scroll" : interactive?.getAttribute?.("data-cursor-label")?.trim() || "";
 
     cursor.classList.toggle("isHover", Boolean(interactive));
@@ -69,9 +76,16 @@ ready(() => {
 
   const syncScrollCursor = () => {
     if (document.documentElement.classList.contains("is-horizontal-scroll-cursor")) {
-      const interactive = lastElement?.closest?.(interactiveSelector);
+      const pointerElement = getPointerElement();
+      const interactive = pointerElement?.closest?.(interactiveSelector);
+      const isOverHorizontal = isOverHorizontalSection(pointerElement);
       if (interactive) {
-        setInteractiveState(lastElement);
+        setInteractiveState(pointerElement);
+        return;
+      }
+
+      if (!isOverHorizontal) {
+        setInteractiveState(pointerElement);
         return;
       }
 
