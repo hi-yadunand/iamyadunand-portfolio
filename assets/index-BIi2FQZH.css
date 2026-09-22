@@ -642,15 +642,17 @@ html.is-modal-open body {
   color: #f5f0eb;
   border-bottom: none;
   opacity: var(--horizontal-nav-opacity, 1);
-  transform: translate3d(0, var(--horizontal-nav-offset, 0%), 0);
+  transform: translate3d(0, calc(var(--horizontal-nav-offset, 0%) + var(--header-scroll-offset, 0px)), 0);
   transition:
     color 0.25s ease,
-    opacity 0.42s ease,
-    transform 0.72s cubic-bezier(0.16, 1, 0.3, 1);
+    opacity 0.42s ease;
   will-change: transform, opacity;
   mix-blend-mode: difference;
 }
 html.is-horizontal-works-active .header {
+  pointer-events: none;
+}
+.header.is-scroll-hidden {
   pointer-events: none;
 }
 .header[data-nav-theme="light"] {
@@ -1924,7 +1926,7 @@ html[data-theme="dark"] .loader {
   will-change: opacity;
 }
 .is-scroll-reveal-ready .scroll-reveal__word {
-  transition: opacity 0.08s linear;
+  transition: opacity 0.22s cubic-bezier(0.22, 1, 0.36, 1);
 }
 .about__bio p em {
   font-style: italic;
@@ -2254,6 +2256,13 @@ html[data-theme="dark"] .loader {
   filter: saturate(0.92) contrast(1.04);
   pointer-events: none;
   box-shadow: 0 18px 58px rgba(0, 0, 0, 0.32);
+  transition:
+    left 0.55s cubic-bezier(0.22, 1, 0.36, 1),
+    top 0.55s cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 0.35s ease,
+    filter 0.45s ease,
+    box-shadow 0.45s ease;
+  will-change: left, top, opacity;
 }
 .footer__stage canvas {
   display: block;
@@ -2388,6 +2397,9 @@ html[data-theme="dark"] .loader {
   will-change: filter, transform;
 }
 @media (prefers-reduced-motion: reduce) {
+  .header {
+    --header-scroll-offset: 0px !important;
+  }
   .footer,
   .rb-c {
     filter: none !important;

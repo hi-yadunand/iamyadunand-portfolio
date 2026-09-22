@@ -7,6 +7,7 @@ const ready = (callback) => {
 };
 
 const clamp = (value, min, max) => Math.min(max, Math.max(min, value));
+const lerp = (from, to, amount) => from + (to - from) * amount;
 
 ready(() => {
   const hero = document.querySelector(".hero--bouayaben");
@@ -16,10 +17,38 @@ ready(() => {
 
   if (!hero || !photo || reduceMotion.matches) return;
 
-  let raf = 0;
+  let scrollRaf = 0;
+  let motionRaf = 0;
+  let targetShift = 0;
+  let currentShift = 0;
+  let isVisible = true;
+  let hasMeasured = false;
 
-  const update = () => {
-    raf = 0;
+  const render = () => {
+    motionRaf = 0;
+    currentShift = lerp(currentShift, targetShift, 0.12);
+
+    if (Math.abs(currentShift - targetShift) < 0.02) {
+      currentShift = targetShift;
+    }
+
+    hero.style.setProperty(
+      "--hero-parallax-y",
+      `${currentShift.toFixed(2)}px`,
+    );
+
+    if (isVisible && Math.abs(currentShift - targetShift) > 0.02) {
+      motionRaf = requestAnimationFrame(render);
+    }
+  };
+
+  const requestMotion = () => {
+    if (motionRaf) return;
+    motionRaf = requestAnimationFrame(render);
+  };
+
+  const updateTarget = () => {
+    scrollRaf = 0;
 
     const rect = hero.getBoundingClientRect();
     const viewportHeight =
@@ -27,27 +56,30 @@ ready(() => {
       window.innerHeight ||
       document.documentElement.clientHeight;
 
-    if (rect.bottom < 0 || rect.top > viewportHeight) return;
+    isVisible = rect.bottom >= 0 && rect.top <= viewportHeight;
+    if (!isVisible) return;
 
     const scrollDistance = Math.max(0, -rect.top);
     const strength = compactViewport.matches ? 0.11 : 0.18;
     const maxShift = compactViewport.matches
       ? Math.min(viewportHeight * 0.12, 82)
       : Math.min(viewportHeight * 0.18, 160);
-    const parallaxShift = clamp(scrollDistance * strength, 0, maxShift);
+    targetShift = clamp(scrollDistance * strength, 0, maxShift);
 
-    hero.style.setProperty(
-      "--hero-parallax-y",
-      `${parallaxShift.toFixed(2)}px`,
-    );
+    if (!hasMeasured) {
+      currentShift = targetShift;
+      hasMeasured = true;
+    }
+
+    requestMotion();
   };
 
   const requestUpdate = () => {
-    if (raf) return;
-    raf = requestAnimationFrame(update);
+    if (scrollRaf) return;
+    scrollRaf = requestAnimationFrame(updateTarget);
   };
 
-  update();
+  updateTarget();
   window.addEventListener("scroll", requestUpdate, { passive: true });
   window.addEventListener("resize", requestUpdate);
   window.addEventListener("orientationchange", requestUpdate);

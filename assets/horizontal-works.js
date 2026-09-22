@@ -8,6 +8,7 @@ const ready = (callback) => {
 
 const clamp = (value, min = 0, max = 1) => Math.min(max, Math.max(min, value));
 const easeProgress = (value) => value * value * (3 - 2 * value);
+const lerp = (from, to, amount) => from + (to - from) * amount;
 
 ready(() => {
   const section = document.querySelector("[data-horizontal-works]");
@@ -20,6 +21,47 @@ ready(() => {
   let distance = 0;
   let start = 0;
   let ticking = false;
+  let motionFrame = 0;
+  let targetX = 0;
+  let currentX = 0;
+  let targetNavProgress = 0;
+  let currentNavProgress = 0;
+  let hasMeasured = false;
+
+  const applyNavProgress = (progress) => {
+    document.documentElement.style.setProperty("--horizontal-nav-progress", progress.toFixed(3));
+    document.documentElement.style.setProperty("--horizontal-nav-opacity", (1 - progress).toFixed(3));
+    document.documentElement.style.setProperty("--horizontal-nav-offset", `${(-120 * progress).toFixed(2)}%`);
+  };
+
+  const renderMotion = () => {
+    motionFrame = 0;
+    currentX = lerp(currentX, targetX, 0.14);
+    currentNavProgress = lerp(currentNavProgress, targetNavProgress, 0.16);
+
+    if (Math.abs(currentX - targetX) < 0.08) currentX = targetX;
+    if (Math.abs(currentNavProgress - targetNavProgress) < 0.001) {
+      currentNavProgress = targetNavProgress;
+    }
+
+    if (!reduceMotion.matches && !smallScreen.matches && distance) {
+      track.style.transform = `translate3d(${currentX.toFixed(2)}px, 0, 0)`;
+    }
+
+    applyNavProgress(currentNavProgress);
+
+    if (
+      Math.abs(currentX - targetX) > 0.08 ||
+      Math.abs(currentNavProgress - targetNavProgress) > 0.001
+    ) {
+      motionFrame = requestAnimationFrame(renderMotion);
+    }
+  };
+
+  const requestMotion = () => {
+    if (motionFrame) return;
+    motionFrame = requestAnimationFrame(renderMotion);
+  };
 
   const updateActiveState = () => {
     const rect = section.getBoundingClientRect();
@@ -32,9 +74,8 @@ ready(() => {
     const navProgress = canPin ? easeProgress(Math.min(enterProgress, exitProgress)) : 0;
     const isActive = navProgress > 0.02;
 
-    document.documentElement.style.setProperty("--horizontal-nav-progress", navProgress.toFixed(3));
-    document.documentElement.style.setProperty("--horizontal-nav-opacity", (1 - navProgress).toFixed(3));
-    document.documentElement.style.setProperty("--horizontal-nav-offset", `${(-120 * navProgress).toFixed(2)}%`);
+    targetNavProgress = navProgress;
+    requestMotion();
     document.documentElement.classList.toggle("is-horizontal-works-active", isActive && canPin);
     document.documentElement.classList.toggle("is-horizontal-scroll-cursor", isActive && canPin);
     section.classList.toggle("is-pinned", canPin && isActive && rect.top <= 0 && rect.bottom >= viewportHeight);
@@ -51,12 +92,22 @@ ready(() => {
       document.documentElement.style.removeProperty("--horizontal-nav-opacity");
       document.documentElement.style.removeProperty("--horizontal-nav-offset");
       distance = 0;
+      targetX = 0;
+      currentX = 0;
+      targetNavProgress = 0;
+      currentNavProgress = 0;
+      hasMeasured = false;
+      if (motionFrame) {
+        cancelAnimationFrame(motionFrame);
+        motionFrame = 0;
+      }
       return;
     }
 
     distance = Math.max(0, track.scrollWidth - window.innerWidth);
     section.style.setProperty("--horizontal-height", `${window.innerHeight + distance}px`);
     start = window.scrollY + section.getBoundingClientRect().top;
+    hasMeasured = false;
     update();
     updateActiveState();
   };
@@ -68,7 +119,15 @@ ready(() => {
 
     const available = Math.max(1, section.offsetHeight - window.innerHeight);
     const progress = Math.min(1, Math.max(0, (window.scrollY - start) / available));
-    track.style.transform = `translate3d(${-distance * progress}px, 0, 0)`;
+    targetX = -distance * progress;
+
+    if (!hasMeasured) {
+      currentX = targetX;
+      currentNavProgress = targetNavProgress;
+      hasMeasured = true;
+    }
+
+    requestMotion();
   };
 
   const requestUpdate = () => {
