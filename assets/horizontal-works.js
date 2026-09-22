@@ -29,9 +29,18 @@ ready(() => {
   let hasMeasured = false;
 
   const applyNavProgress = (progress) => {
-    document.documentElement.style.setProperty("--horizontal-nav-progress", progress.toFixed(3));
-    document.documentElement.style.setProperty("--horizontal-nav-opacity", (1 - progress).toFixed(3));
-    document.documentElement.style.setProperty("--horizontal-nav-offset", `${(-120 * progress).toFixed(2)}%`);
+    document.documentElement.style.setProperty(
+      "--horizontal-nav-progress",
+      progress.toFixed(3),
+    );
+    document.documentElement.style.setProperty(
+      "--horizontal-nav-opacity",
+      (1 - progress).toFixed(3),
+    );
+    document.documentElement.style.setProperty(
+      "--horizontal-nav-offset",
+      `${(-120 * progress).toFixed(2)}%`,
+    );
   };
 
   const renderMotion = () => {
@@ -65,7 +74,8 @@ ready(() => {
 
   const updateActiveState = () => {
     const rect = section.getBoundingClientRect();
-    const viewportHeight = window.innerHeight || document.documentElement.clientHeight;
+    const viewportHeight =
+      window.innerHeight || document.documentElement.clientHeight;
     const canPin = !smallScreen.matches && !reduceMotion.matches;
     const isHorizontalRange = rect.top < viewportHeight && rect.bottom > 0;
     const navProgress = canPin && isHorizontalRange ? 1 : 0;
@@ -73,10 +83,22 @@ ready(() => {
 
     targetNavProgress = navProgress;
     requestMotion();
-    document.documentElement.classList.toggle("is-horizontal-works-active", isActive && canPin);
-    document.documentElement.classList.toggle("is-horizontal-scroll-cursor", isActive && canPin);
-    section.classList.toggle("is-pinned", canPin && isActive && rect.top <= 0 && rect.bottom >= viewportHeight);
-    section.classList.toggle("is-ended", canPin && rect.bottom < viewportHeight);
+    document.documentElement.classList.toggle(
+      "is-horizontal-works-active",
+      isActive && canPin,
+    );
+    document.documentElement.classList.toggle(
+      "is-horizontal-scroll-cursor",
+      isActive && canPin,
+    );
+    section.classList.toggle(
+      "is-pinned",
+      canPin && isActive && rect.top <= 0 && rect.bottom >= viewportHeight,
+    );
+    section.classList.toggle(
+      "is-ended",
+      canPin && rect.bottom < viewportHeight,
+    );
   };
 
   const measure = () => {
@@ -84,8 +106,13 @@ ready(() => {
       section.style.removeProperty("--horizontal-height");
       track.style.removeProperty("transform");
       section.classList.remove("is-pinned", "is-ended");
-      document.documentElement.classList.remove("is-horizontal-works-active", "is-horizontal-scroll-cursor");
-      document.documentElement.style.removeProperty("--horizontal-nav-progress");
+      document.documentElement.classList.remove(
+        "is-horizontal-works-active",
+        "is-horizontal-scroll-cursor",
+      );
+      document.documentElement.style.removeProperty(
+        "--horizontal-nav-progress",
+      );
       document.documentElement.style.removeProperty("--horizontal-nav-opacity");
       document.documentElement.style.removeProperty("--horizontal-nav-offset");
       distance = 0;
@@ -102,7 +129,10 @@ ready(() => {
     }
 
     distance = Math.max(0, track.scrollWidth - window.innerWidth);
-    section.style.setProperty("--horizontal-height", `${window.innerHeight + distance}px`);
+    section.style.setProperty(
+      "--horizontal-height",
+      `${window.innerHeight + distance}px`,
+    );
     start = window.scrollY + section.getBoundingClientRect().top;
     hasMeasured = false;
     update();
@@ -115,7 +145,10 @@ ready(() => {
     if (!distance || reduceMotion.matches || smallScreen.matches) return;
 
     const available = Math.max(1, section.offsetHeight - window.innerHeight);
-    const progress = Math.min(1, Math.max(0, (window.scrollY - start) / available));
+    const progress = Math.min(
+      1,
+      Math.max(0, (window.scrollY - start) / available),
+    );
     targetX = -distance * progress;
 
     if (!hasMeasured) {
@@ -138,7 +171,8 @@ ready(() => {
   reduceMotion.addEventListener?.("change", measure);
   smallScreen.addEventListener?.("change", measure);
   track.querySelectorAll("img").forEach((image) => {
-    if (!image.complete) image.addEventListener("load", measure, { once: true });
+    if (!image.complete)
+      image.addEventListener("load", measure, { once: true });
   });
 
   measure();
