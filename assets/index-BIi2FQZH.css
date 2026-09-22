@@ -3380,9 +3380,40 @@ body :where(:not(.hero__title--bouayaben):not(.hero__title--bouayaben *)) {
   transform: translate(-50%, -50%);
 }
 
+.drone-services__orbit::before {
+  position: absolute;
+  inset: -44px;
+  z-index: 1;
+  content: "";
+  pointer-events: none;
+  background:
+    radial-gradient(
+      ellipse 112px 34px at 50% 44px,
+      #fdfbf9 0 48%,
+      rgba(253, 251, 249, 0) 82%
+    ),
+    radial-gradient(
+      ellipse 112px 34px at 50% calc(100% - 44px),
+      #fdfbf9 0 48%,
+      rgba(253, 251, 249, 0) 82%
+    ),
+    radial-gradient(
+      ellipse 34px 112px at 44px 50%,
+      #fdfbf9 0 48%,
+      rgba(253, 251, 249, 0) 82%
+    ),
+    radial-gradient(
+      ellipse 34px 112px at calc(100% - 44px) 50%,
+      #fdfbf9 0 48%,
+      rgba(253, 251, 249, 0) 82%
+    );
+  filter: blur(1px);
+}
+
 .drone-services__orbit::after {
   position: absolute;
   inset: 0;
+  z-index: 0;
   content: "";
   border: 1px solid rgba(26, 26, 26, 0.16);
   border-radius: inherit;
@@ -3391,7 +3422,7 @@ body :where(:not(.hero__title--bouayaben):not(.hero__title--bouayaben *)) {
 
 .drone-services__orbit i {
   position: absolute;
-  z-index: 1;
+  z-index: 2;
   width: 10px;
   height: 10px;
   border-radius: 50%;
