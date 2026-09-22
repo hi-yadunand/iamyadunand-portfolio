@@ -2186,17 +2186,17 @@ html[data-theme="dark"] .loader {
 }
 .footer {
   --contact-footer-y: 0%;
-  --contact-reveal-height: clamp(460px, 70svh, 680px);
+  --contact-reveal-height: clamp(640px, 67svh, 760px);
   --ink: #f5f0eb;
   --paper: #121212;
   --line: rgba(245, 240, 235, 0.16);
-  padding: 80px 32px 32px;
+  padding: clamp(84px, 6.5vw, 120px) 32px clamp(24px, 1.25em, 32px);
   border-top: 1px solid var(--line);
   background: #121212;
   color: #f5f0eb;
   position: relative;
   z-index: 1;
-  min-height: 60vh;
+  min-height: clamp(640px, 67svh, 760px);
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -2215,7 +2215,7 @@ html[data-theme="dark"] .loader {
   display: block;
   width: 100%;
   flex: 1;
-  min-height: 40vh;
+  min-height: clamp(420px, 48svh, 560px);
   margin-bottom: 60px;
   overflow: hidden;
   isolation: isolate;
@@ -2241,18 +2241,19 @@ html[data-theme="dark"] .loader {
 }
 .footer__talk-video {
   position: absolute;
-  right: clamp(20px, 4vw, 64px);
-  top: var(--footer-video-top, 50%);
+  left: var(--footer-mail-left, 0);
+  top: calc(var(--footer-mail-top, 50%) + var(--footer-mail-height, 0px) + 44px);
+  right: auto;
   z-index: 1;
   width: clamp(96px, 11vw, 156px);
   aspect-ratio: 1;
   object-fit: cover;
-  border-radius: 2px;
-  transform: translateY(-50%);
+  border-radius: 0;
+  transform: none;
   opacity: 0.88;
   filter: saturate(0.92) contrast(1.04);
   pointer-events: none;
-  box-shadow: 0 22px 80px rgba(0, 0, 0, 0.28);
+  box-shadow: 0 18px 58px rgba(0, 0, 0, 0.32);
 }
 .footer__stage canvas {
   display: block;
@@ -2322,7 +2323,7 @@ html[data-theme="dark"] .loader {
   letter-spacing: -0.02em;
 }
 .contact-reveal-spacer {
-  --contact-reveal-height: clamp(460px, 70svh, 680px);
+  --contact-reveal-height: clamp(640px, 67svh, 760px);
   display: none;
 }
 @media (prefers-reduced-motion: no-preference) {
@@ -2361,7 +2362,7 @@ html[data-theme="dark"] .loader {
 @media (min-width: 701px) {
   .footer,
   .contact-reveal-spacer {
-    --contact-reveal-height: clamp(540px, 62vh, 680px);
+    --contact-reveal-height: clamp(640px, 67svh, 760px);
   }
 }
 [data-reveal] {
@@ -2497,20 +2498,22 @@ html[data-theme="dark"] .loader {
   }
   .footer,
   .contact-reveal-spacer {
-    --contact-reveal-height: clamp(480px, 74svh, 620px);
+    --contact-reveal-height: clamp(560px, 72svh, 680px);
   }
   .footer {
     padding: 60px 20px 24px;
-    min-height: auto;
+    min-height: clamp(560px, 72svh, 680px);
   }
   .footer__stage {
-    min-height: 30vh;
+    min-height: clamp(350px, 48svh, 500px);
     margin-bottom: 32px;
   }
   .footer__talk-video {
-    right: 20px;
+    left: var(--footer-mail-left, 0);
+    top: calc(var(--footer-mail-top, 50%) + var(--footer-mail-height, 0px) + 28px);
+    right: auto;
     width: clamp(68px, 20vw, 92px);
-    border-radius: 2px;
+    border-radius: 0;
     opacity: 0.82;
   }
   .footer__row {
