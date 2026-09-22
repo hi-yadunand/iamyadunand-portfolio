@@ -12,6 +12,14 @@ const ready = (callback) => {
 
 const clamp = (value, min, max) => Math.min(max, Math.max(min, value));
 const lerp = (current, target, amount) => current + (target - current) * amount;
+const smootherStep = (value) => {
+  const t = clamp(value, 0, 1);
+  return t * t * t * (t * (t * 6 - 15) + 10);
+};
+const easeOutPower = (value, power = 2.6) => {
+  const t = clamp(value, 0, 1);
+  return 1 - Math.pow(1 - t, power);
+};
 
 ready(() => {
   const root = document.querySelector("[data-drone-services]");
@@ -44,6 +52,12 @@ ready(() => {
   const current = { x: 0, y: 0 };
   const targetPosition = { x: 0, y: 0 };
   const currentPosition = { x: 0, y: 0 };
+  const entrance = {
+    triggered: reduceMotion.matches,
+    startTime: reduceMotion.matches ? 0 : null,
+    progress: reduceMotion.matches ? 1 : 0,
+    offscreenX: 0,
+  };
   const propellers = [];
   const shadowMeshNames = new Set(["Circle.006", "Circle006", "Circle.006_0", "Circle006_0"]);
   const propellerNames = new Set([
@@ -83,6 +97,18 @@ ready(() => {
 
   scene.add(new THREE.HemisphereLight(0xffffff, 0x8c8c8c, 2.1));
 
+  const updateEntranceOffset = () => {
+    const bounds = stage.getBoundingClientRect();
+    const width = Math.max(2, Math.floor(bounds.width));
+
+    const verticalWorldSize =
+      2 * Math.tan(THREE.MathUtils.degToRad(camera.fov) / 2) * camera.position.z;
+    const worldPerPixel = (verticalWorldSize * camera.aspect) / width;
+    const stageCenter = bounds.left + bounds.width / 2;
+    const offscreenPixels = stageCenter + Math.max(180, bounds.width * 0.24);
+    entrance.offscreenX = -Math.max(5.4, offscreenPixels * worldPerPixel);
+  };
+
   const resize = () => {
     const bounds = stage.getBoundingClientRect();
     const width = Math.max(2, Math.floor(bounds.width));
@@ -92,6 +118,7 @@ ready(() => {
     camera.aspect = width / height;
     camera.position.z = width < 700 ? 10.2 : 6.2;
     camera.updateProjectionMatrix();
+    updateEntranceOffset();
   };
 
   const movePointer = (clientX, clientY) => {
@@ -175,6 +202,28 @@ ready(() => {
 
     const delta = previousTime ? Math.min((time - previousTime) * 0.001, 0.05) : 0;
     previousTime = time;
+    if (reduceMotion.matches) {
+      entrance.triggered = true;
+      entrance.progress = 1;
+      entrance.startTime = time;
+    } else if (entrance.triggered && loadedModel) {
+      if (entrance.startTime === null) entrance.startTime = time;
+      entrance.progress = clamp((time - entrance.startTime) / 2700, 0, 1);
+    }
+
+    const entranceProgress = easeOutPower(entrance.progress);
+    const motionProgress = smootherStep(entrance.progress);
+    const entranceRemaining = 1 - entranceProgress;
+    const flightEnergy = Math.sin(motionProgress * Math.PI);
+    const settleProgress = clamp((entrance.progress - 0.72) / 0.28, 0, 1);
+    const settleEnergy = Math.sin(settleProgress * Math.PI) * Math.pow(1 - settleProgress, 1.8);
+    const flightLift =
+      Math.sin(motionProgress * Math.PI) * 0.36 +
+      Math.sin(entrance.progress * Math.PI * 4) * entranceRemaining * 0.035;
+    const flightBank = -flightEnergy * 0.34 + settleEnergy * 0.12;
+    const flightPitch = -flightEnergy * 0.15 + settleEnergy * 0.05;
+    const flightYaw = flightEnergy * 0.08;
+    const settleX = settleEnergy * 0.16;
     const idle = reduceMotion.matches ? 0 : Math.sin(time * 0.0005) * 0.05;
     const bob = Math.sin(time * 0.0011) * 0.045;
     target.x = finePointer.matches ? -pointer.y * 0.62 + 0.12 : 0.12;
@@ -187,14 +236,19 @@ ready(() => {
     currentPosition.x = lerp(currentPosition.x, targetPosition.x, 0.1);
     currentPosition.y = lerp(currentPosition.y, targetPosition.y, 0.1);
 
-    drone.rotation.x = current.x;
-    drone.rotation.y = current.y;
-    drone.rotation.z = lerp(drone.rotation.z, finePointer.matches ? -pointer.x * 0.18 : 0, 0.09);
-    drone.position.x = currentPosition.x;
-    drone.position.y = currentPosition.y;
+    drone.rotation.x = current.x + flightPitch;
+    drone.rotation.y = current.y + flightYaw;
+    drone.rotation.z = lerp(
+      drone.rotation.z,
+      (finePointer.matches ? -pointer.x * 0.18 : 0) + flightBank,
+      0.11,
+    );
+    drone.position.x = currentPosition.x + entrance.offscreenX * entranceRemaining + settleX;
+    drone.position.y = currentPosition.y + flightLift;
 
     propellers.forEach((propeller) => {
-      propeller.angle += delta * propellerSpinSpeed * propeller.direction;
+      const flightSpinBoost = 1 + flightEnergy * 1.1 + entranceRemaining * 0.35;
+      propeller.angle += delta * propellerSpinSpeed * flightSpinBoost * propeller.direction;
       propeller.object.quaternion
         .copy(propeller.baseQuaternion)
         .multiply(propellerSpinQuaternion.setFromAxisAngle(propellerSpinAxis, propeller.angle));
@@ -208,10 +262,35 @@ ready(() => {
     pointer.x = 0;
     pointer.y = 0;
   });
+  const entranceObserver = new IntersectionObserver(
+    (entries) => {
+      if (entries.some((entry) => entry.isIntersecting)) {
+        updateEntranceOffset();
+        entrance.triggered = true;
+        entranceObserver.disconnect();
+      }
+    },
+    { threshold: 0.28 },
+  );
+
+  entranceObserver.observe(root);
   window.addEventListener("resize", resize);
-  reduceMotion.addEventListener?.("change", resize);
+  reduceMotion.addEventListener?.("change", () => {
+    if (reduceMotion.matches) {
+      entrance.triggered = true;
+      entrance.progress = 1;
+    }
+    resize();
+  });
   resize();
   frameId = requestAnimationFrame(render);
 
-  window.addEventListener("pagehide", () => cancelAnimationFrame(frameId), { once: true });
+  window.addEventListener(
+    "pagehide",
+    () => {
+      cancelAnimationFrame(frameId);
+      entranceObserver.disconnect();
+    },
+    { once: true },
+  );
 });
