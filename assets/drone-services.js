@@ -95,7 +95,7 @@ ready(() => {
   };
 
   const movePointer = (clientX, clientY) => {
-    const bounds = stage.getBoundingClientRect();
+    const bounds = root.getBoundingClientRect();
     const x = (clientX - bounds.left) / bounds.width;
     const y = (clientY - bounds.top) / bounds.height;
 
@@ -203,8 +203,8 @@ ready(() => {
     renderer.render(scene, camera);
   };
 
-  stage.addEventListener("pointermove", onPointerMove, { passive: true });
-  stage.addEventListener("pointerleave", () => {
+  root.addEventListener("pointermove", onPointerMove, { passive: true });
+  root.addEventListener("pointerleave", () => {
     pointer.x = 0;
     pointer.y = 0;
   });

@@ -126,30 +126,93 @@ ready(() => {
   });
 
   if (mailLink && talkVideo) {
-    const forwardSrc = talkVideo.getAttribute("src");
+    const firstFrameTime = 0.001;
+    const lastFrameTrim = 0.04;
+    const reverseSpeed = 1.35;
+    let reverseFrame = 0;
+    let reverseStartedAt = 0;
+    let reverseVideoStartedAt = firstFrameTime;
 
-    const setVideoSource = (src) => {
-      if (!src || talkVideo.getAttribute("src") === src) return;
+    talkVideo.preload = "auto";
+    talkVideo.setAttribute("preload", "auto");
 
-      talkVideo.setAttribute("src", src);
-      talkVideo.load();
+    const cancelReverse = () => {
+      if (!reverseFrame) return;
+      cancelAnimationFrame(reverseFrame);
+      reverseFrame = 0;
     };
 
-    const resetVideo = () => {
-      talkVideo.pause();
-      setVideoSource(forwardSrc);
-      talkVideo.currentTime = 0;
+    const getDuration = () =>
+      Number.isFinite(talkVideo.duration) ? talkVideo.duration : 0;
+
+    const keepOnFrame = () => {
+      const duration = getDuration();
+      const safeTime = duration
+        ? Math.min(firstFrameTime, Math.max(0, duration - firstFrameTime))
+        : firstFrameTime;
+
+      try {
+        talkVideo.currentTime = safeTime;
+      } catch {
+        // Some browsers reject early seeks before metadata is ready.
+      }
+    };
+
+    const getSafeEndTime = () => {
+      const duration = getDuration();
+      return duration
+        ? Math.max(firstFrameTime, duration - lastFrameTrim)
+        : talkVideo.currentTime;
+    };
+
+    const playReverseFrame = (timestamp) => {
+      if (!reverseStartedAt) {
+        reverseStartedAt = timestamp;
+      }
+
+      const elapsed = ((timestamp - reverseStartedAt) / 1000) * reverseSpeed;
+      const nextTime = reverseVideoStartedAt - elapsed;
+
+      if (nextTime <= firstFrameTime) {
+        cancelReverse();
+        reverseStartedAt = 0;
+        keepOnFrame();
+        return;
+      }
+
+      talkVideo.currentTime = nextTime;
+      reverseFrame = requestAnimationFrame(playReverseFrame);
     };
 
     const playVideo = () => {
-      setVideoSource(forwardSrc);
-      talkVideo.currentTime = 0;
+      cancelReverse();
+      reverseStartedAt = 0;
+      talkVideo.playbackRate = 1;
+      if (talkVideo.ended) keepOnFrame();
       talkVideo.play().catch(() => {});
     };
 
+    const playVideoBack = () => {
+      cancelReverse();
+      talkVideo.pause();
+
+      if (!talkVideo.readyState) {
+        keepOnFrame();
+        return;
+      }
+
+      reverseStartedAt = 0;
+      reverseVideoStartedAt = Math.max(
+        firstFrameTime,
+        Math.min(talkVideo.currentTime, getSafeEndTime()),
+      );
+      reverseFrame = requestAnimationFrame(playReverseFrame);
+    };
+
+    talkVideo.addEventListener("loadedmetadata", keepOnFrame, { once: true });
     mailLink.addEventListener("pointerenter", playVideo);
     mailLink.addEventListener("focus", playVideo);
-    mailLink.addEventListener("pointerleave", resetVideo);
-    mailLink.addEventListener("blur", resetVideo);
+    mailLink.addEventListener("pointerleave", playVideoBack);
+    mailLink.addEventListener("blur", playVideoBack);
   }
 });

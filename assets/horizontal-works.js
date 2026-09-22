@@ -37,7 +37,7 @@ ready(() => {
   const renderMotion = () => {
     motionFrame = 0;
     currentX = lerp(currentX, targetX, 0.14);
-    currentNavProgress = lerp(currentNavProgress, targetNavProgress, 0.16);
+    currentNavProgress = lerp(currentNavProgress, targetNavProgress, 0.12);
 
     if (Math.abs(currentX - targetX) < 0.08) currentX = targetX;
     if (Math.abs(currentNavProgress - targetNavProgress) < 0.001) {
@@ -67,12 +67,9 @@ ready(() => {
     const rect = section.getBoundingClientRect();
     const viewportHeight = window.innerHeight || document.documentElement.clientHeight;
     const canPin = !smallScreen.matches && !reduceMotion.matches;
-    const hideDistance = Math.min(280, viewportHeight * 0.34);
-    const exitDistance = viewportHeight * 0.35;
-    const enterProgress = clamp((hideDistance - rect.top) / hideDistance);
-    const exitProgress = clamp(rect.bottom / exitDistance);
-    const navProgress = canPin ? easeProgress(Math.min(enterProgress, exitProgress)) : 0;
-    const isActive = navProgress > 0.02;
+    const isHorizontalRange = rect.top < viewportHeight && rect.bottom > 0;
+    const navProgress = canPin && isHorizontalRange ? 1 : 0;
+    const isActive = navProgress > 0;
 
     targetNavProgress = navProgress;
     requestMotion();
