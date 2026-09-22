@@ -2247,12 +2247,11 @@ html[data-theme="dark"] .loader {
   width: clamp(96px, 11vw, 156px);
   aspect-ratio: 1;
   object-fit: cover;
-  border-radius: 8px;
+  border-radius: 2px;
   transform: translateY(-50%);
   opacity: 0.88;
   filter: saturate(0.92) contrast(1.04);
-  pointer-events: auto;
-  cursor: pointer;
+  pointer-events: none;
   box-shadow: 0 22px 80px rgba(0, 0, 0, 0.28);
 }
 .footer__stage canvas {
@@ -2511,7 +2510,7 @@ html[data-theme="dark"] .loader {
   .footer__talk-video {
     right: 20px;
     width: clamp(68px, 20vw, 92px);
-    border-radius: 6px;
+    border-radius: 2px;
     opacity: 0.82;
   }
   .footer__row {
@@ -3277,13 +3276,7 @@ body :where(:not(.hero__title--bouayaben):not(.hero__title--bouayaben *)) {
   height: 100vh;
   min-height: 760px;
   overflow: hidden;
-  background:
-    radial-gradient(
-      circle at 50% 54%,
-      rgba(251, 70, 23, 0.08),
-      transparent 19%
-    ),
-    #fdfbf9;
+  background: #fdfbf9;
   color: #080b16;
   isolation: isolate;
 }

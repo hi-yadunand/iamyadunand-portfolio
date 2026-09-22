@@ -42,7 +42,10 @@ ready(() => {
   const pointer = { x: 0, y: 0 };
   const target = { x: 0, y: 0 };
   const current = { x: 0, y: 0 };
+  const targetPosition = { x: 0, y: 0 };
+  const currentPosition = { x: 0, y: 0 };
   const propellers = [];
+  const shadowMeshNames = new Set(["Circle.006", "Circle006", "Circle.006_0", "Circle006_0"]);
   const propellerNames = new Set([
     "Circle.002",
     "Circle.003",
@@ -77,10 +80,6 @@ ready(() => {
   const fillLight = new THREE.DirectionalLight(0xffffff, 1.6);
   fillLight.position.set(-4, 1.5, 3);
   scene.add(fillLight);
-
-  const rimLight = new THREE.DirectionalLight(0xff5a2b, 2.2);
-  rimLight.position.set(0, -2, -4);
-  scene.add(rimLight);
 
   scene.add(new THREE.HemisphereLight(0xffffff, 0x8c8c8c, 2.1));
 
@@ -121,12 +120,19 @@ ready(() => {
     model.rotation.set(-0.08, 0, 0);
 
     model.traverse((child) => {
+      if (shadowMeshNames.has(child.name)) {
+        child.visible = false;
+        return;
+      }
+
       if (!child.isMesh) return;
       child.castShadow = false;
       child.receiveShadow = false;
       child.material = child.material.clone();
+      if (child.material.emissive) child.material.emissive.set(0x000000);
+      if ("emissiveIntensity" in child.material) child.material.emissiveIntensity = 0;
       child.material.metalness = Math.min(0.82, child.material.metalness + 0.18);
-      child.material.roughness = Math.max(0.28, child.material.roughness * 0.9);
+      child.material.roughness = Math.max(0.34, child.material.roughness * 0.96);
     });
   };
 
@@ -170,16 +176,22 @@ ready(() => {
     const delta = previousTime ? Math.min((time - previousTime) * 0.001, 0.05) : 0;
     previousTime = time;
     const idle = reduceMotion.matches ? 0 : Math.sin(time * 0.0005) * 0.05;
-    target.x = finePointer.matches ? -pointer.y * 0.32 + 0.12 : 0.12;
-    target.y = finePointer.matches ? pointer.x * 0.52 + idle : idle;
+    const bob = Math.sin(time * 0.0011) * 0.045;
+    target.x = finePointer.matches ? -pointer.y * 0.62 + 0.12 : 0.12;
+    target.y = finePointer.matches ? pointer.x * 0.92 + idle : idle;
+    targetPosition.x = finePointer.matches ? pointer.x * 0.36 : 0;
+    targetPosition.y = finePointer.matches ? -pointer.y * 0.18 + bob : bob;
 
-    current.x = lerp(current.x, target.x, 0.075);
-    current.y = lerp(current.y, target.y, 0.075);
+    current.x = lerp(current.x, target.x, 0.12);
+    current.y = lerp(current.y, target.y, 0.12);
+    currentPosition.x = lerp(currentPosition.x, targetPosition.x, 0.1);
+    currentPosition.y = lerp(currentPosition.y, targetPosition.y, 0.1);
 
     drone.rotation.x = current.x;
     drone.rotation.y = current.y;
-    drone.rotation.z = lerp(drone.rotation.z, finePointer.matches ? -pointer.x * 0.08 : 0, 0.06);
-    drone.position.y = Math.sin(time * 0.0011) * 0.045;
+    drone.rotation.z = lerp(drone.rotation.z, finePointer.matches ? -pointer.x * 0.18 : 0, 0.09);
+    drone.position.x = currentPosition.x;
+    drone.position.y = currentPosition.y;
 
     propellers.forEach((propeller) => {
       propeller.angle += delta * propellerSpinSpeed * propeller.direction;

@@ -127,7 +127,6 @@ ready(() => {
 
   if (mailLink && talkVideo) {
     const forwardSrc = talkVideo.getAttribute("src");
-    const reverseSrc = talkVideo.dataset.reverseSrc;
 
     const setVideoSource = (src) => {
       if (!src || talkVideo.getAttribute("src") === src) return;
@@ -148,17 +147,9 @@ ready(() => {
       talkVideo.play().catch(() => {});
     };
 
-    const playVideoReverse = () => {
-      setVideoSource(reverseSrc);
-      talkVideo.currentTime = 0;
-      talkVideo.play().catch(() => {});
-    };
-
     mailLink.addEventListener("pointerenter", playVideo);
     mailLink.addEventListener("focus", playVideo);
     mailLink.addEventListener("pointerleave", resetVideo);
     mailLink.addEventListener("blur", resetVideo);
-    talkVideo.addEventListener("pointerenter", playVideoReverse);
-    talkVideo.addEventListener("pointerleave", resetVideo);
   }
 });
