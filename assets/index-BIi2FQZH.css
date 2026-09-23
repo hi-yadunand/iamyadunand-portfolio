@@ -2221,7 +2221,7 @@ html[data-theme="dark"] .loader {
   margin-bottom: 60px;
   overflow: hidden;
   isolation: isolate;
-  touch-action: none;
+  touch-action: pan-y;
 }
 .footer__mail-link {
   position: absolute;
@@ -2236,6 +2236,7 @@ html[data-theme="dark"] .loader {
   cursor: pointer;
   outline: none;
   white-space: nowrap;
+  touch-action: pan-y;
 }
 .footer__mail-link:focus-visible {
   outline: 1px solid #f5f0eb;
@@ -2273,7 +2274,7 @@ html[data-theme="dark"] .loader {
   position: absolute;
   inset: 0;
   pointer-events: none;
-  touch-action: none;
+  touch-action: pan-y;
 }
 .footer__row {
   display: flex;
