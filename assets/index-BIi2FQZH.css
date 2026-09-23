@@ -1922,11 +1922,34 @@ html[data-theme="dark"] .loader {
 }
 .scroll-reveal__word {
   display: inline-block;
-  opacity: 0.12;
-  will-change: opacity;
+  position: relative;
+  color: #ffffff;
+  --word-progress: 0;
+  will-change: color;
 }
-.is-scroll-reveal-ready .scroll-reveal__word {
-  transition: opacity 0.22s cubic-bezier(0.22, 1, 0.36, 1);
+.scroll-reveal__layer {
+  display: inline-block;
+  transition:
+    opacity 0.22s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.32s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.scroll-reveal__layer--orange {
+  position: relative;
+  z-index: 2;
+  color: #fb4617;
+  opacity: min(1, calc(var(--word-progress) * 3));
+}
+.scroll-reveal__layer--black {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 3;
+  color: #121212;
+  opacity: calc(max(0, var(--word-progress) - 0.24) * 1.316);
+  transform: translateX(0.075em);
+}
+.is-scroll-reveal-ready .scroll-reveal__layer--black {
+  transform: translateX(0);
 }
 .about__bio p em {
   font-style: italic;

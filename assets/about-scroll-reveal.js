@@ -30,7 +30,13 @@ const splitWords = (paragraph, startIndex = 0) => {
 
     const word = document.createElement("span");
     word.className = "scroll-reveal__word";
-    word.textContent = part;
+    const orangeLayer = document.createElement("span");
+    const blackLayer = document.createElement("span");
+    orangeLayer.className = "scroll-reveal__layer scroll-reveal__layer--orange";
+    blackLayer.className = "scroll-reveal__layer scroll-reveal__layer--black";
+    orangeLayer.textContent = part;
+    blackLayer.textContent = part;
+    word.append(orangeLayer, blackLayer);
     word.style.setProperty("--word-index", wordIndex);
     wordIndex += 1;
     fragment.append(word);
@@ -58,7 +64,11 @@ ready(() => {
     groups.forEach((group) => {
       group.classList.add("is-scroll-reveal-ready");
       group.querySelectorAll(".scroll-reveal__word").forEach((word) => {
-        word.style.opacity = "1";
+        word.style.setProperty("--word-progress", "1");
+        word.querySelector(".scroll-reveal__layer--black")?.style.setProperty(
+          "transform",
+          "translateX(0)",
+        );
       });
     });
     return;
@@ -92,8 +102,7 @@ ready(() => {
         const offset =
           words.length > 1 ? (index / (words.length - 1)) * staggerRange : 0;
         const progress = clamp((wordProgress - offset) / revealWindow);
-        const opacity = 0.12 + progress * 0.88;
-        word.style.opacity = opacity.toFixed(3);
+        word.style.setProperty("--word-progress", progress.toFixed(3));
       });
     });
   };
