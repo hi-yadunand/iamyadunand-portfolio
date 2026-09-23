@@ -20,6 +20,10 @@ const easeOutPower = (value, power = 2.6) => {
   const t = clamp(value, 0, 1);
   return 1 - Math.pow(1 - t, power);
 };
+const easeInOutCubic = (value) => {
+  const t = clamp(value, 0, 1);
+  return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+};
 
 ready(() => {
   const root = document.querySelector("[data-drone-services]");
@@ -76,6 +80,19 @@ ready(() => {
   let loadedModel = null;
   let frameId = 0;
   let previousTime = 0;
+  let isVisible = false;
+  let currentBank = 0;
+  const sideFlip = {
+    active: false,
+    startTime: 0,
+    duration: 1180,
+    direction: 1,
+    nextTime: 0,
+  };
+
+  const scheduleSideFlip = (time) => {
+    sideFlip.nextTime = time + 5600 + Math.random() * 6200;
+  };
 
   renderer.setClearColor(0x000000, 0);
   renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
@@ -217,6 +234,42 @@ ready(() => {
     const flightEnergy = Math.sin(motionProgress * Math.PI);
     const settleProgress = clamp((entrance.progress - 0.72) / 0.28, 0, 1);
     const settleEnergy = Math.sin(settleProgress * Math.PI) * Math.pow(1 - settleProgress, 1.8);
+    if (
+      isVisible &&
+      loadedModel &&
+      entrance.progress >= 1 &&
+      !sideFlip.active &&
+      !sideFlip.nextTime
+    ) {
+      scheduleSideFlip(time);
+    }
+
+    if (
+      !reduceMotion.matches &&
+      loadedModel &&
+      isVisible &&
+      entrance.progress >= 1 &&
+      !sideFlip.active &&
+      time >= sideFlip.nextTime
+    ) {
+      sideFlip.active = true;
+      sideFlip.startTime = time;
+      sideFlip.direction = Math.random() > 0.5 ? 1 : -1;
+    }
+
+    const sideFlipProgress = sideFlip.active
+      ? clamp((time - sideFlip.startTime) / sideFlip.duration, 0, 1)
+      : 0;
+    const sideFlipEase = easeInOutCubic(sideFlipProgress);
+    const sideFlipAngle = sideFlip.direction * Math.PI * 2 * sideFlipEase;
+    const sideFlipLift = Math.sin(sideFlipProgress * Math.PI) * 0.2;
+    const sideFlipPitch = -Math.sin(sideFlipProgress * Math.PI * 2) * 0.08;
+
+    if (sideFlip.active && sideFlipProgress >= 1) {
+      sideFlip.active = false;
+      scheduleSideFlip(time);
+    }
+
     const flightLift =
       Math.sin(motionProgress * Math.PI) * 0.36 +
       Math.sin(entrance.progress * Math.PI * 4) * entranceRemaining * 0.035;
@@ -236,15 +289,16 @@ ready(() => {
     currentPosition.x = lerp(currentPosition.x, targetPosition.x, 0.1);
     currentPosition.y = lerp(currentPosition.y, targetPosition.y, 0.1);
 
-    drone.rotation.x = current.x + flightPitch;
+    drone.rotation.x = current.x + flightPitch + sideFlipPitch;
     drone.rotation.y = current.y + flightYaw;
-    drone.rotation.z = lerp(
-      drone.rotation.z,
+    currentBank = lerp(
+      currentBank,
       (finePointer.matches ? -pointer.x * 0.18 : 0) + flightBank,
       0.11,
     );
+    drone.rotation.z = currentBank + sideFlipAngle;
     drone.position.x = currentPosition.x + entrance.offscreenX * entranceRemaining + settleX;
-    drone.position.y = currentPosition.y + flightLift;
+    drone.position.y = currentPosition.y + flightLift + sideFlipLift;
 
     propellers.forEach((propeller) => {
       const flightSpinBoost = 1 + flightEnergy * 1.1 + entranceRemaining * 0.35;
@@ -274,6 +328,15 @@ ready(() => {
   );
 
   entranceObserver.observe(root);
+  const visibilityObserver = new IntersectionObserver(
+    (entries) => {
+      isVisible = entries.some((entry) => entry.isIntersecting);
+      if (!isVisible && !sideFlip.active) sideFlip.nextTime = 0;
+    },
+    { threshold: 0.32 },
+  );
+
+  visibilityObserver.observe(root);
   window.addEventListener("resize", resize);
   reduceMotion.addEventListener?.("change", () => {
     if (reduceMotion.matches) {
@@ -290,6 +353,7 @@ ready(() => {
     () => {
       cancelAnimationFrame(frameId);
       entranceObserver.disconnect();
+      visibilityObserver.disconnect();
     },
     { once: true },
   );
