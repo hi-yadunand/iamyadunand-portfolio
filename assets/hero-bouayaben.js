@@ -1,4 +1,7 @@
-import { createParticleTextEffect } from "./particle-text-effect.js";
+import {
+  PARTICLE_TEXT_PRESET,
+  createParticleTextEffect,
+} from "./particle-text-effect.js";
 
 const prefersReducedMotion = () =>
   window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -139,20 +142,10 @@ const initCharacterRepel = (root, chars) => {
 
 const createParticles = (root, canvas, word) =>
   createParticleTextEffect({
+    ...PARTICLE_TEXT_PRESET,
     container: root,
     canvas,
     pointerTarget: root,
-    color: "#ee4b2b",
-    highlightColor: "#ee4b2b",
-    particleSize: 2,
-    density: 4,
-    scatter: 180,
-    gatherDuration: 1600,
-    stagger: 420,
-    pointerRepel: 40,
-    repelRadius: 120,
-    idleDrift: 0.7,
-    glow: true,
     startDelay: 1800,
     getLayout: () => {
       const rootRect = root.getBoundingClientRect();

@@ -1,4 +1,7 @@
-import { createParticleTextEffect } from "./particle-text-effect.js";
+import {
+  PARTICLE_TEXT_PRESET,
+  createParticleTextEffect,
+} from "./particle-text-effect.js";
 
 const ready = (fn) => {
   if (document.readyState === "loading") {
@@ -24,14 +27,14 @@ ready(() => {
     const text = `${staticText}${particleText}`;
     const compact = width <= 700;
     let fontSize = compact
-      ? Math.min(width * 0.115, height * 0.5)
+      ? Math.min(width * 0.18, height * 0.44, 76)
       : Math.min(width * 0.12, height * 0.54);
-    const maxWidth = width * (compact ? 0.74 : 0.62);
+    const maxWidth = width * (compact ? 0.92 : 0.62);
     const family = '"Archivo Variable", Archivo, "Helvetica Neue", Arial, sans-serif';
     let font = `italic 760 ${fontSize}px ${family}`;
 
     ctx.font = font;
-    while (ctx.measureText(text).width > maxWidth && fontSize > 32) {
+    while (ctx.measureText(text).width > maxWidth && fontSize > 38) {
       fontSize *= 0.96;
       font = `italic 760 ${fontSize}px ${family}`;
       ctx.font = font;
@@ -100,20 +103,10 @@ ready(() => {
   };
 
   createParticleTextEffect({
+    ...PARTICLE_TEXT_PRESET,
     container: stage,
     canvas,
     pointerTarget: stage,
-    color: "#ee4b2b",
-    highlightColor: "#ee4b2b",
-    particleSize: 2,
-    density: 4,
-    scatter: 180,
-    gatherDuration: 1600,
-    stagger: 420,
-    pointerRepel: 40,
-    repelRadius: 120,
-    idleDrift: 0.7,
-    glow: true,
     getLayout: getFooterLayout,
     drawBase: (ctx) => {
       if (!textLayout) return;

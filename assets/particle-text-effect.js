@@ -1,5 +1,19 @@
 const ORANGE = "#ee4b2b";
 
+export const PARTICLE_TEXT_PRESET = Object.freeze({
+  color: ORANGE,
+  highlightColor: ORANGE,
+  particleSize: 2,
+  density: 4,
+  scatter: 180,
+  gatherDuration: 1600,
+  stagger: 420,
+  pointerRepel: 40,
+  repelRadius: 120,
+  idleDrift: 0.7,
+  glow: true,
+});
+
 const clamp = (value, min, max) => Math.min(Math.max(value, min), max);
 const easeOutCubic = (t) => 1 - Math.pow(1 - t, 3);
 
