@@ -42,10 +42,7 @@ ready(() => {
     const zoom = 1 + currentProgress * 0.22;
     const blur = currentProgress * (compactViewport.matches ? 16 : 24);
 
-    hero.style.setProperty(
-      "--hero-parallax-y",
-      `${currentShift.toFixed(2)}px`,
-    );
+    hero.style.setProperty("--hero-parallax-y", `${currentShift.toFixed(2)}px`);
     hero.style.setProperty("--hero-scale", zoom.toFixed(4));
     hero.style.setProperty("--hero-blur", `${blur.toFixed(2)}px`);
 
