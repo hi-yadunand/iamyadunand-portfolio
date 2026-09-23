@@ -65,10 +65,9 @@ ready(() => {
       group.classList.add("is-scroll-reveal-ready");
       group.querySelectorAll(".scroll-reveal__word").forEach((word) => {
         word.style.setProperty("--word-progress", "1");
-        word.querySelector(".scroll-reveal__layer--black")?.style.setProperty(
-          "transform",
-          "translateX(0)",
-        );
+        word
+          .querySelector(".scroll-reveal__layer--black")
+          ?.style.setProperty("transform", "translateX(0)");
       });
     });
     return;

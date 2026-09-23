@@ -642,7 +642,11 @@ html.is-modal-open body {
   color: #f5f0eb;
   border-bottom: none;
   opacity: var(--horizontal-nav-opacity, 1);
-  transform: translate3d(0, calc(var(--horizontal-nav-offset, 0%) + var(--header-scroll-offset, 0px)), 0);
+  transform: translate3d(
+    0,
+    calc(var(--horizontal-nav-offset, 0%) + var(--header-scroll-offset, 0px)),
+    0
+  );
   transition:
     color 0.25s ease,
     opacity 0.42s ease;
@@ -2268,7 +2272,9 @@ html[data-theme="dark"] .loader {
 .footer__talk-video {
   position: absolute;
   left: var(--footer-mail-left, 0);
-  top: calc(var(--footer-mail-top, 50%) + var(--footer-mail-height, 0px) + 44px);
+  top: calc(
+    var(--footer-mail-top, 50%) + var(--footer-mail-height, 0px) + 44px
+  );
   right: auto;
   z-index: 1;
   width: clamp(96px, 11vw, 156px);
@@ -2546,7 +2552,9 @@ html[data-theme="dark"] .loader {
   }
   .footer__talk-video {
     left: var(--footer-mail-left, 0);
-    top: calc(var(--footer-mail-top, 50%) + var(--footer-mail-height, 0px) + 22px);
+    top: calc(
+      var(--footer-mail-top, 50%) + var(--footer-mail-height, 0px) + 22px
+    );
     right: auto;
     width: clamp(108px, 30vw, 144px);
     border-radius: 0;
@@ -2768,8 +2776,7 @@ html.custom-cursor-active.is-horizontal-scroll-cursor body * {
   background-size: cover;
   background-repeat: no-repeat;
   filter: blur(var(--hero-blur));
-  transform: translate3d(0, var(--hero-parallax-y), 0)
-    scale(var(--hero-scale));
+  transform: translate3d(0, var(--hero-parallax-y), 0) scale(var(--hero-scale));
   transform-origin: center;
   will-change: transform, filter;
   backface-visibility: hidden;
