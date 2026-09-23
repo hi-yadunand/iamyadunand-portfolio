@@ -63,6 +63,7 @@ ready(() => {
     offscreenX: 0,
   };
   const propellers = [];
+  const propellerSpinQuaternion = new THREE.Quaternion();
   const shadowMeshNames = new Set(["Circle.006", "Circle006", "Circle.006_0", "Circle006_0"]);
   const propellerNames = new Set([
     "Circle.002",
@@ -74,9 +75,7 @@ ready(() => {
     "Circle004",
     "Circle005",
   ]);
-  const propellerSpinAxis = new THREE.Vector3(0, 0, 1);
-  const propellerSpinQuaternion = new THREE.Quaternion();
-  const propellerSpinSpeed = 8;
+  const propellerSpinSpeed = 64;
   let loadedModel = null;
   let frameId = 0;
   let previousTime = 0;
@@ -87,7 +86,7 @@ ready(() => {
     startTime: 0,
     duration: 1180,
     direction: 1,
-    nextTime: 0,
+    nextTime: Number.POSITIVE_INFINITY,
   };
 
   const scheduleSideFlip = (time) => {
@@ -186,9 +185,21 @@ ready(() => {
     model.traverse((child) => {
       if (!propellerNames.has(child.name)) return;
 
+      const spinAxis = new THREE.Vector3(0, 0, 1);
+      if (child.geometry) {
+        child.geometry.computeBoundingBox();
+        const dimensions = child.geometry.boundingBox.getSize(new THREE.Vector3());
+        if (dimensions.x <= dimensions.y && dimensions.x <= dimensions.z) {
+          spinAxis.set(1, 0, 0);
+        } else if (dimensions.y <= dimensions.z) {
+          spinAxis.set(0, 1, 0);
+        }
+      }
+
       propellers.push({
         object: child,
         baseQuaternion: child.quaternion.clone(),
+        spinAxis,
         angle: 0,
         direction: child.position.x * child.position.y >= 0 ? 1 : -1,
       });
@@ -305,7 +316,7 @@ ready(() => {
       propeller.angle += delta * propellerSpinSpeed * flightSpinBoost * propeller.direction;
       propeller.object.quaternion
         .copy(propeller.baseQuaternion)
-        .multiply(propellerSpinQuaternion.setFromAxisAngle(propellerSpinAxis, propeller.angle));
+        .multiply(propellerSpinQuaternion.setFromAxisAngle(propeller.spinAxis, propeller.angle));
     });
 
     renderer.render(scene, camera);
