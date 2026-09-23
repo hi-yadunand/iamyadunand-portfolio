@@ -39,8 +39,8 @@ ready(() => {
       currentProgress = targetProgress;
     }
 
-    const zoom = 1 + currentProgress * 0.13;
-    const blur = currentProgress * (compactViewport.matches ? 9 : 14);
+    const zoom = 1 + currentProgress * 0.22;
+    const blur = currentProgress * (compactViewport.matches ? 16 : 24);
 
     hero.style.setProperty(
       "--hero-parallax-y",
