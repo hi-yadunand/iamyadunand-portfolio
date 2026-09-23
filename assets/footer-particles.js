@@ -1,7 +1,7 @@
 import {
   PARTICLE_TEXT_PRESET,
   createParticleTextEffect,
-} from "./particle-text-effect.js";
+} from "./particle-text-effect.js?v=readable-particles-20260923";
 
 const ready = (fn) => {
   if (document.readyState === "loading") {
@@ -119,6 +119,7 @@ ready(() => {
   });
 
   if (mailLink && talkVideo) {
+    const hoverlessQuery = window.matchMedia?.("(hover: none), (pointer: coarse)");
     const firstFrameTime = 0.001;
     const lastFrameTrim = 0.04;
     const reverseSpeed = 1.35;
@@ -126,7 +127,12 @@ ready(() => {
     let reverseStartedAt = 0;
     let reverseVideoStartedAt = firstFrameTime;
 
+    talkVideo.muted = true;
+    talkVideo.playsInline = true;
     talkVideo.preload = "auto";
+    talkVideo.setAttribute("muted", "");
+    talkVideo.setAttribute("playsinline", "");
+    talkVideo.setAttribute("webkit-playsinline", "");
     talkVideo.setAttribute("preload", "auto");
 
     const cancelReverse = () => {
@@ -205,7 +211,27 @@ ready(() => {
     talkVideo.addEventListener("loadedmetadata", keepOnFrame, { once: true });
     mailLink.addEventListener("pointerenter", playVideo);
     mailLink.addEventListener("focus", playVideo);
+    mailLink.addEventListener("pointerdown", playVideo, { passive: true });
+    mailLink.addEventListener("touchstart", playVideo, { passive: true });
     mailLink.addEventListener("pointerleave", playVideoBack);
     mailLink.addEventListener("blur", playVideoBack);
+
+    if (hoverlessQuery?.matches && "IntersectionObserver" in window) {
+      const observer = new IntersectionObserver(
+        (entries) => {
+          const entry = entries[0];
+          if (entry?.isIntersecting) {
+            playVideo();
+          } else {
+            playVideoBack();
+          }
+        },
+        { threshold: 0.35 },
+      );
+
+      observer.observe(stage);
+    } else if (hoverlessQuery?.matches) {
+      talkVideo.addEventListener("loadedmetadata", playVideo, { once: true });
+    }
   }
 });

@@ -1,7 +1,7 @@
 import {
   PARTICLE_TEXT_PRESET,
   createParticleTextEffect,
-} from "./particle-text-effect.js";
+} from "./particle-text-effect.js?v=readable-particles-20260923";
 
 const prefersReducedMotion = () =>
   window.matchMedia("(prefers-reduced-motion: reduce)").matches;

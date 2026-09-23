@@ -4,7 +4,7 @@ export const PARTICLE_TEXT_PRESET = Object.freeze({
   color: ORANGE,
   highlightColor: ORANGE,
   particleSize: 2,
-  density: 4,
+  density: 2,
   scatter: 180,
   gatherDuration: 1600,
   stagger: 420,
@@ -12,6 +12,7 @@ export const PARTICLE_TEXT_PRESET = Object.freeze({
   repelRadius: 120,
   idleDrift: 0.7,
   glow: true,
+  textUnderlayOpacity: 0.26,
 });
 
 const clamp = (value, min, max) => Math.min(Math.max(value, min), max);
@@ -65,6 +66,7 @@ export const createParticleTextEffect = ({
   idleDrift = 0.7,
   trigger = "mount",
   glow = true,
+  textUnderlayOpacity = 0,
   startDelay = 0,
 } = {}) => {
   if (!container || !canvas || !getLayout) return undefined;
@@ -143,6 +145,22 @@ export const createParticleTextEffect = ({
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
 
     drawBase?.(ctx, latestLayout, now);
+
+    if (latestLayout?.underlay && textUnderlayOpacity > 0) {
+      ctx.save();
+      ctx.font = latestLayout.font;
+      ctx.fillStyle = highlightColor;
+      ctx.globalAlpha =
+        latestLayout.textUnderlayOpacity ?? textUnderlayOpacity;
+      ctx.textAlign = "left";
+      ctx.textBaseline = "alphabetic";
+      ctx.fillText(
+        latestLayout.text,
+        latestLayout.underlay.x,
+        latestLayout.underlay.y,
+      );
+      ctx.restore();
+    }
 
     if (glow && !reducedMotion) {
       ctx.shadowBlur = particleSize * 3;
@@ -304,8 +322,8 @@ export const createParticleTextEffect = ({
     }
 
     const maxParticles = Math.max(
-      900,
-      Math.min(5200, Math.floor((width * height) / 90)),
+      1600,
+      Math.min(7600, Math.floor((width * height) / 70)),
     );
     const stride = Math.max(1, Math.ceil(targets.length / maxParticles));
     const baseRgb = hexToRgb(color);
@@ -315,6 +333,10 @@ export const createParticleTextEffect = ({
     latestLayout = {
       ...layout,
       font: resolvedFont,
+      underlay: {
+        x: targetCenterX - offscreen.width / 2 + padding - left,
+        y: targetCenterY - offscreen.height / 2 + padding + ascent,
+      },
     };
 
     particles = selected.map((target, index) => {
