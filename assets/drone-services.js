@@ -64,7 +64,12 @@ ready(() => {
   };
   const propellers = [];
   const propellerSpinQuaternion = new THREE.Quaternion();
-  const shadowMeshNames = new Set(["Circle.006", "Circle006", "Circle.006_0", "Circle006_0"]);
+  const shadowMeshNames = new Set([
+    "Circle.006",
+    "Circle006",
+    "Circle.006_0",
+    "Circle006_0",
+  ]);
   const propellerNames = new Set([
     "Circle.002",
     "Circle.003",
@@ -86,7 +91,7 @@ ready(() => {
     startTime: 0,
     duration: 1180,
     direction: 1,
-    nextTime: Number.POSITIVE_INFINITY,
+    nextTime: 0,
   };
 
   const scheduleSideFlip = (time) => {
@@ -118,7 +123,9 @@ ready(() => {
     const width = Math.max(2, Math.floor(bounds.width));
 
     const verticalWorldSize =
-      2 * Math.tan(THREE.MathUtils.degToRad(camera.fov) / 2) * camera.position.z;
+      2 *
+      Math.tan(THREE.MathUtils.degToRad(camera.fov) / 2) *
+      camera.position.z;
     const worldPerPixel = (verticalWorldSize * camera.aspect) / width;
     const stageCenter = bounds.left + bounds.width / 2;
     const offscreenPixels = stageCenter + Math.max(180, bounds.width * 0.24);
@@ -173,9 +180,16 @@ ready(() => {
       child.receiveShadow = false;
       child.material = child.material.clone();
       if (child.material.emissive) child.material.emissive.set(0x000000);
-      if ("emissiveIntensity" in child.material) child.material.emissiveIntensity = 0;
-      child.material.metalness = Math.min(0.82, child.material.metalness + 0.18);
-      child.material.roughness = Math.max(0.34, child.material.roughness * 0.96);
+      if ("emissiveIntensity" in child.material)
+        child.material.emissiveIntensity = 0;
+      child.material.metalness = Math.min(
+        0.82,
+        child.material.metalness + 0.18,
+      );
+      child.material.roughness = Math.max(
+        0.34,
+        child.material.roughness * 0.96,
+      );
     });
   };
 
@@ -188,7 +202,9 @@ ready(() => {
       const spinAxis = new THREE.Vector3(0, 0, 1);
       if (child.geometry) {
         child.geometry.computeBoundingBox();
-        const dimensions = child.geometry.boundingBox.getSize(new THREE.Vector3());
+        const dimensions = child.geometry.boundingBox.getSize(
+          new THREE.Vector3(),
+        );
         if (dimensions.x <= dimensions.y && dimensions.x <= dimensions.z) {
           spinAxis.set(1, 0, 0);
         } else if (dimensions.y <= dimensions.z) {
@@ -207,7 +223,9 @@ ready(() => {
   };
 
   const dracoLoader = new DRACOLoader();
-  dracoLoader.setDecoderPath("https://www.gstatic.com/draco/versioned/decoders/1.5.6/");
+  dracoLoader.setDecoderPath(
+    "https://www.gstatic.com/draco/versioned/decoders/1.5.6/",
+  );
 
   const gltfLoader = new GLTFLoader();
   gltfLoader.setDRACOLoader(dracoLoader);
@@ -222,13 +240,15 @@ ready(() => {
       root.classList.add("is-loaded");
     },
     undefined,
-    () => root.classList.add("is-fallback")
+    () => root.classList.add("is-fallback"),
   );
 
   const render = (time = 0) => {
     frameId = requestAnimationFrame(render);
 
-    const delta = previousTime ? Math.min((time - previousTime) * 0.001, 0.05) : 0;
+    const delta = previousTime
+      ? Math.min((time - previousTime) * 0.001, 0.05)
+      : 0;
     previousTime = time;
     if (reduceMotion.matches) {
       entrance.triggered = true;
@@ -244,7 +264,8 @@ ready(() => {
     const entranceRemaining = 1 - entranceProgress;
     const flightEnergy = Math.sin(motionProgress * Math.PI);
     const settleProgress = clamp((entrance.progress - 0.72) / 0.28, 0, 1);
-    const settleEnergy = Math.sin(settleProgress * Math.PI) * Math.pow(1 - settleProgress, 1.8);
+    const settleEnergy =
+      Math.sin(settleProgress * Math.PI) * Math.pow(1 - settleProgress, 1.8);
     if (
       isVisible &&
       loadedModel &&
@@ -308,15 +329,22 @@ ready(() => {
       0.11,
     );
     drone.rotation.z = currentBank + sideFlipAngle;
-    drone.position.x = currentPosition.x + entrance.offscreenX * entranceRemaining + settleX;
+    drone.position.x =
+      currentPosition.x + entrance.offscreenX * entranceRemaining + settleX;
     drone.position.y = currentPosition.y + flightLift + sideFlipLift;
 
     propellers.forEach((propeller) => {
       const flightSpinBoost = 1 + flightEnergy * 1.1 + entranceRemaining * 0.35;
-      propeller.angle += delta * propellerSpinSpeed * flightSpinBoost * propeller.direction;
+      propeller.angle +=
+        delta * propellerSpinSpeed * flightSpinBoost * propeller.direction;
       propeller.object.quaternion
         .copy(propeller.baseQuaternion)
-        .multiply(propellerSpinQuaternion.setFromAxisAngle(propeller.spinAxis, propeller.angle));
+        .multiply(
+          propellerSpinQuaternion.setFromAxisAngle(
+            propeller.spinAxis,
+            propeller.angle,
+          ),
+        );
     });
 
     renderer.render(scene, camera);
