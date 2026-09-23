@@ -2718,6 +2718,8 @@ html.custom-cursor-active.is-horizontal-scroll-cursor body * {
 }
 .hero.hero--bouayaben {
   --hero-parallax-y: 0px;
+  --hero-scale: 1;
+  --hero-blur: 0px;
   min-height: 100vh;
   margin-top: 0;
   background: #0a0a0a;
@@ -2740,8 +2742,12 @@ html.custom-cursor-active.is-horizontal-scroll-cursor body * {
   background-position: center;
   background-size: cover;
   background-repeat: no-repeat;
-  transform: translate3d(0, var(--hero-parallax-y), 0);
-  will-change: transform;
+  filter: blur(var(--hero-blur));
+  transform: translate3d(0, var(--hero-parallax-y), 0)
+    scale(var(--hero-scale));
+  transform-origin: center;
+  will-change: transform, filter;
+  backface-visibility: hidden;
 }
 .hero.hero--bouayaben:before {
   content: "";

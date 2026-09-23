@@ -21,23 +21,39 @@ ready(() => {
   let motionRaf = 0;
   let targetShift = 0;
   let currentShift = 0;
+  let targetProgress = 0;
+  let currentProgress = 0;
   let isVisible = true;
   let hasMeasured = false;
 
   const render = () => {
     motionRaf = 0;
     currentShift = lerp(currentShift, targetShift, 0.12);
+    currentProgress = lerp(currentProgress, targetProgress, 0.12);
 
     if (Math.abs(currentShift - targetShift) < 0.02) {
       currentShift = targetShift;
     }
 
+    if (Math.abs(currentProgress - targetProgress) < 0.002) {
+      currentProgress = targetProgress;
+    }
+
+    const zoom = 1 + currentProgress * 0.13;
+    const blur = currentProgress * (compactViewport.matches ? 9 : 14);
+
     hero.style.setProperty(
       "--hero-parallax-y",
       `${currentShift.toFixed(2)}px`,
     );
+    hero.style.setProperty("--hero-scale", zoom.toFixed(4));
+    hero.style.setProperty("--hero-blur", `${blur.toFixed(2)}px`);
 
-    if (isVisible && Math.abs(currentShift - targetShift) > 0.02) {
+    if (
+      isVisible &&
+      (Math.abs(currentShift - targetShift) > 0.02 ||
+        Math.abs(currentProgress - targetProgress) > 0.002)
+    ) {
       motionRaf = requestAnimationFrame(render);
     }
   };
@@ -65,9 +81,11 @@ ready(() => {
       ? Math.min(viewportHeight * 0.12, 82)
       : Math.min(viewportHeight * 0.18, 160);
     targetShift = clamp(scrollDistance * strength, 0, maxShift);
+    targetProgress = clamp(scrollDistance / viewportHeight, 0, 1);
 
     if (!hasMeasured) {
       currentShift = targetShift;
+      currentProgress = targetProgress;
       hasMeasured = true;
     }
 
