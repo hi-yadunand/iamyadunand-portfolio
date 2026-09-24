@@ -88,6 +88,7 @@ ready(() => {
   let currentBank = 0;
   const sideFlip = {
     active: false,
+    entrancePending: true,
     startTime: 0,
     duration: 1180,
     direction: 1,
@@ -267,25 +268,16 @@ ready(() => {
     const settleEnergy =
       Math.sin(settleProgress * Math.PI) * Math.pow(1 - settleProgress, 1.8);
     if (
-      isVisible &&
-      loadedModel &&
-      entrance.progress >= 1 &&
-      !sideFlip.active &&
-      !sideFlip.nextTime
-    ) {
-      scheduleSideFlip(time);
-    }
-
-    if (
       !reduceMotion.matches &&
       loadedModel &&
       isVisible &&
       entrance.progress >= 1 &&
       !sideFlip.active &&
-      time >= sideFlip.nextTime
+      (sideFlip.entrancePending || time >= sideFlip.nextTime)
     ) {
       sideFlip.active = true;
       sideFlip.startTime = time;
+      sideFlip.entrancePending = false;
       sideFlip.direction = Math.random() > 0.5 ? 1 : -1;
     }
 
