@@ -1,0 +1,124 @@
+[data-drone-band] [data-drone-headline] {
+  top: 3%;
+  bottom: auto;
+  height: 43%;
+  z-index: 2;
+}
+
+[data-drone-band] > [data-drone-headline] {
+  z-index: 0;
+}
+
+[data-drone-band] [data-band-window] {
+  z-index: 1;
+}
+
+.drone-band__backdrop {
+  background:
+    radial-gradient(ellipse at 50% 88%, #b2b3bb75 0%, transparent 43%),
+    radial-gradient(ellipse at 50% 52%, #777982 0%, #494b54 43%, #24252c 100%);
+}
+
+.drone-band__shadow {
+  position: absolute;
+  top: 81%;
+  left: 50%;
+  width: 35%;
+  height: 5%;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  background: radial-gradient(ellipse, #090a10b3, #090a1033 45%, transparent 72%);
+  filter: blur(9px);
+}
+
+.drone-band__stage {
+  position: absolute;
+  inset: 30% 0 8%;
+  z-index: 1;
+}
+
+.drone-band__stage canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  transition: opacity 450ms ease;
+}
+
+[data-drone-band].is-loaded canvas {
+  opacity: 1;
+}
+
+.drone-band__status {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  color: #fff9;
+  font-size: 0.875rem;
+  pointer-events: none;
+}
+
+[data-drone-band].is-loaded .drone-band__status,
+.drone-band__error,
+[data-drone-band].is-fallback .drone-band__loading {
+  display: none;
+}
+
+[data-drone-band].is-fallback .drone-band__error {
+  display: block;
+}
+
+.drone-band__caption {
+  position: absolute;
+  left: 1.5rem;
+  bottom: 1.5rem;
+  z-index: 3;
+  max-width: min(42%, 32rem);
+  color: #fff9;
+  font-size: clamp(0.75rem, 0.9vw, 0.875rem);
+  line-height: 1.4;
+  text-align: left;
+}
+
+.drone-band__description {
+  position: absolute;
+  right: 1.5rem;
+  bottom: 1.5rem;
+  z-index: 3;
+  max-width: min(22rem, calc(100% - 3rem));
+  color: #fffc;
+  font-size: clamp(0.875rem, 1.1vw, 1.125rem);
+  line-height: 1.4;
+}
+
+@media (max-width: 767px) {
+  .drone-band__caption {
+    max-width: calc(100% - 3rem);
+  }
+
+  .drone-band__description {
+    bottom: 5.5rem;
+  }
+
+  [data-drone-band] [data-drone-headline] {
+    top: 14%;
+    height: 29%;
+  }
+
+  .drone-band__shadow {
+    width: 62%;
+    top: 74%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .drone-band__stage canvas {
+    transition: none;
+  }
+}
+.drone-band {
+  /* 100svh viewport + 140svh reveal + 60svh hold at full expansion. */
+  height: 300svh;
+}
+

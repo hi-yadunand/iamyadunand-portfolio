@@ -1,0 +1,15 @@
+.code-thrive-highlight__frame {
+  aspect-ratio: 3 / 4;
+  background: #e9e7e2;
+}
+
+.code-thrive-highlight__image {
+  position: absolute;
+  top: 50%;
+  left: 8%;
+  width: 84%;
+  height: auto;
+  object-fit: contain;
+  transform: translateY(-50%);
+  box-shadow: 0 1rem 3rem #11111118;
+}

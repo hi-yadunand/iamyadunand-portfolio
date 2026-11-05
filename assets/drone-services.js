@@ -32,6 +32,7 @@ ready(() => {
 
   if (!root || !stage || !canvas) return;
 
+  const isBand = root.hasAttribute("data-drone-band");
   const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
   const finePointer = window.matchMedia("(hover: hover) and (pointer: fine)");
   const scene = new THREE.Scene();
@@ -57,9 +58,9 @@ ready(() => {
   const targetPosition = { x: 0, y: 0 };
   const currentPosition = { x: 0, y: 0 };
   const entrance = {
-    triggered: reduceMotion.matches,
-    startTime: reduceMotion.matches ? 0 : null,
-    progress: reduceMotion.matches ? 1 : 0,
+    triggered: isBand || reduceMotion.matches,
+    startTime: isBand || reduceMotion.matches ? 0 : null,
+    progress: isBand || reduceMotion.matches ? 1 : 0,
     offscreenX: 0,
   };
   const propellers = [];
@@ -85,6 +86,8 @@ ready(() => {
   let frameId = 0;
   let previousTime = 0;
   let isVisible = false;
+  let bandNeedsRender = true;
+  const modelSize = new THREE.Vector3();
   let currentBank = 0;
   const sideFlip = {
     active: false,
@@ -140,9 +143,21 @@ ready(() => {
 
     renderer.setSize(width, height, false);
     camera.aspect = width / height;
-    camera.position.z = width < 700 ? 10.2 : 6.2;
+    if (isBand && loadedModel) {
+      const halfFov = Math.tan(THREE.MathUtils.degToRad(camera.fov) / 2);
+      const widthFraction = width < 768 ? 0.65 : 0.34;
+      camera.position.z = Math.max(
+        modelSize.x / (2 * halfFov * camera.aspect * widthFraction),
+        modelSize.y / (2 * halfFov * 0.42),
+      ) + modelSize.z / 2;
+      camera.position.y = 0.2;
+      camera.lookAt(0, 0, 0);
+    } else {
+      camera.position.z = width < 700 ? 10.2 : 6.2;
+    }
     camera.updateProjectionMatrix();
     updateEntranceOffset();
+    bandNeedsRender = true;
   };
 
   const movePointer = (clientX, clientY) => {
@@ -192,6 +207,19 @@ ready(() => {
         child.material.roughness * 0.96,
       );
     });
+
+    if (isBand) {
+      // Recenter after scaling and exclude the model's original ground shadow.
+      model.position.set(0, 0, 0);
+      model.updateMatrixWorld(true);
+      const visibleBox = new THREE.Box3();
+      model.traverse((child) => {
+        if (child.isMesh && child.visible) visibleBox.expandByObject(child);
+      });
+      visibleBox.getCenter(center);
+      visibleBox.getSize(modelSize);
+      model.position.sub(center);
+    }
   };
 
   const collectPropellers = (model) => {
@@ -232,13 +260,14 @@ ready(() => {
   gltfLoader.setDRACOLoader(dracoLoader);
 
   gltfLoader.load(
-    "/assets/models/drone.glb",
+    new URL("./models/drone.glb", import.meta.url).href,
     (gltf) => {
       loadedModel = gltf.scene;
       normalizeModel(loadedModel);
       collectPropellers(loadedModel);
       drone.add(loadedModel);
       root.classList.add("is-loaded");
+      resize();
     },
     undefined,
     () => root.classList.add("is-fallback"),
@@ -251,7 +280,11 @@ ready(() => {
       ? Math.min((time - previousTime) * 0.001, 0.05)
       : 0;
     previousTime = time;
-    if (reduceMotion.matches) {
+    if (isBand && (!isVisible || document.hidden)) return;
+    if (isBand && reduceMotion.matches && !bandNeedsRender) return;
+    bandNeedsRender = false;
+
+    if (isBand || reduceMotion.matches) {
       entrance.triggered = true;
       entrance.progress = 1;
       entrance.startTime = time;
@@ -268,6 +301,7 @@ ready(() => {
     const settleEnergy =
       Math.sin(settleProgress * Math.PI) * Math.pow(1 - settleProgress, 1.8);
     if (
+      !isBand &&
       !reduceMotion.matches &&
       loadedModel &&
       isVisible &&
@@ -302,11 +336,13 @@ ready(() => {
     const flightYaw = flightEnergy * 0.08;
     const settleX = settleEnergy * 0.16;
     const idle = reduceMotion.matches ? 0 : Math.sin(time * 0.0005) * 0.05;
-    const bob = Math.sin(time * 0.0011) * 0.045;
-    target.x = finePointer.matches ? -pointer.y * 0.62 + 0.12 : 0.12;
-    target.y = finePointer.matches ? pointer.x * 0.92 + idle : idle;
-    targetPosition.x = finePointer.matches ? pointer.x * 0.36 : 0;
-    targetPosition.y = finePointer.matches ? -pointer.y * 0.18 + bob : bob;
+    const still = isBand && reduceMotion.matches;
+    const followPointer = finePointer.matches && !still;
+    const bob = still ? 0 : Math.sin(time * 0.0011) * 0.045;
+    target.x = followPointer ? -pointer.y * 0.62 + 0.12 : 0.12;
+    target.y = followPointer ? pointer.x * 0.92 + idle : idle;
+    targetPosition.x = followPointer ? pointer.x * 0.36 : 0;
+    targetPosition.y = followPointer ? -pointer.y * 0.18 + bob : bob;
 
     current.x = lerp(current.x, target.x, 0.12);
     current.y = lerp(current.y, target.y, 0.12);
@@ -317,7 +353,7 @@ ready(() => {
     drone.rotation.y = current.y + flightYaw;
     currentBank = lerp(
       currentBank,
-      (finePointer.matches ? -pointer.x * 0.18 : 0) + flightBank,
+      (followPointer ? -pointer.x * 0.18 : 0) + flightBank,
       0.11,
     );
     drone.rotation.z = currentBank + sideFlipAngle;
@@ -328,7 +364,10 @@ ready(() => {
     propellers.forEach((propeller) => {
       const flightSpinBoost = 1 + flightEnergy * 1.1 + entranceRemaining * 0.35;
       propeller.angle +=
-        delta * propellerSpinSpeed * flightSpinBoost * propeller.direction;
+        (still ? 0 : delta) *
+        propellerSpinSpeed *
+        flightSpinBoost *
+        propeller.direction;
       propeller.object.quaternion
         .copy(propeller.baseQuaternion)
         .multiply(
@@ -358,10 +397,11 @@ ready(() => {
     { threshold: 0.28 },
   );
 
-  entranceObserver.observe(root);
+  if (!isBand) entranceObserver.observe(root);
   const visibilityObserver = new IntersectionObserver(
     (entries) => {
       isVisible = entries.some((entry) => entry.isIntersecting);
+      bandNeedsRender = true;
       if (!isVisible && !sideFlip.active) sideFlip.nextTime = 0;
     },
     { threshold: 0.32 },

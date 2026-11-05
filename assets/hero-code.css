@@ -1,0 +1,36 @@
+.hero-headline {
+  grid-column: 1 / -1;
+}
+
+.hero-code {
+  position: relative;
+  display: inline-block;
+  white-space: nowrap;
+  color: #ee4b2b;
+}
+
+.hero-code__canvas {
+  position: absolute;
+  top: -28px;
+  left: -28px;
+  pointer-events: none;
+  opacity: 0;
+}
+
+.hero-code.is-particle-ready .hero-code__text {
+  color: transparent;
+}
+
+.hero-code.is-particle-ready .hero-code__canvas {
+  opacity: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-code.is-particle-ready .hero-code__text {
+    color: inherit;
+  }
+
+  .hero-code.is-particle-ready .hero-code__canvas {
+    opacity: 0;
+  }
+}

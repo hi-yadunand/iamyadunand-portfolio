@@ -1,0 +1,35 @@
+{
+  "source": "https://codeandthrive.studio/",
+  "assets": [
+    {
+      "file": "websites.webp",
+      "category": "Websites",
+      "image_url": "https://codeandthrive.studio/images/services/website-development.png",
+      "page_url": "https://codeandthrive.studio/services/website-development"
+    },
+    {
+      "file": "digital-products.webp",
+      "category": "Digital Products",
+      "image_url": "https://codeandthrive.studio/images/services/web-application-development.png",
+      "page_url": "https://codeandthrive.studio/services/web-application-development"
+    },
+    {
+      "file": "brand-design.webp",
+      "category": "Brand & Design",
+      "image_url": "https://codeandthrive.studio/images/services/brand-positioning.png",
+      "page_url": "https://codeandthrive.studio/services/brand-positioning"
+    },
+    {
+      "file": "digital-marketing.webp",
+      "category": "Digital Marketing",
+      "image_url": "https://codeandthrive.studio/images/services/digital-marketing.png",
+      "page_url": "https://codeandthrive.studio/services/digital-marketing"
+    },
+    {
+      "file": "growth-seo.webp",
+      "category": "Growth & SEO",
+      "image_url": "https://codeandthrive.studio/images/services/lead-generation.png",
+      "page_url": "https://codeandthrive.studio/services/lead-generation"
+    }
+  ]
+}
