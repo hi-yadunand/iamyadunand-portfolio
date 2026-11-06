@@ -10,6 +10,14 @@ async function initParticleText(word) {
   const motion = matchMedia("(prefers-reduced-motion: reduce)");
   const finePointer = matchMedia("(hover: hover) and (pointer: fine)");
   const isFooter = word.hasAttribute("data-particle-text");
+  // Use the homepage's responsive type token on every footer, even on pages
+  // without hero text. The empty, positioned probe does not affect layout.
+  const referenceText = isFooter ? document.createElement("span") : null;
+  if (referenceText) {
+    referenceText.setAttribute("aria-hidden", "true");
+    referenceText.style.cssText = "position:absolute;visibility:hidden;pointer-events:none;font-size:var(--text-display-xl)";
+    word.appendChild(referenceText);
+  }
   const maxParticles = finePointer.matches ? (isFooter ? 3200 : 1600) : 900;
   let padding = 28;
   let interactionScale = 1;
@@ -103,9 +111,8 @@ async function initParticleText(word) {
     dirty = false;
     const style = getComputedStyle(text);
     const fontSize = parseFloat(style.fontSize);
-    const heroText = document.querySelector("[data-hero-code] .hero-code__text");
-    const referenceSize = isFooter && heroText
-      ? parseFloat(getComputedStyle(heroText).fontSize)
+    const referenceSize = referenceText
+      ? parseFloat(getComputedStyle(referenceText).fontSize)
       : fontSize;
     interactionScale = fontSize / Math.max(1, referenceSize);
     padding = Math.ceil(28 * interactionScale);

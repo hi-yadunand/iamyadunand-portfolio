@@ -45,7 +45,7 @@
 
 .portfolio-footer__links {
   display: grid;
-  grid-template-columns: repeat(2, max-content);
+  grid-template-columns: max-content;
   justify-self: start;
   align-items: start;
   gap: 2rem;

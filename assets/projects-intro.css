@@ -1,0 +1,15 @@
+@media (min-width: 48rem) {
+  .projects-intro__copy {
+    /* Account for the original 9rem section padding and 4rem image gap. */
+    min-height: calc(100svh - 13rem);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-projects-marquee] .animate-marquee {
+    animation: none;
+  }
+}
