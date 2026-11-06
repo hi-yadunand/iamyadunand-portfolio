@@ -954,13 +954,16 @@
       </section>
     </div>
   </main>
-  <footer data-dark class="overflow-hidden bg-ink text-paper">
+  <footer data-dark data-profile-footer class="overflow-hidden bg-ink text-paper">
     <div class="shell pt-16 md:pt-24">
       <div class="portfolio-footer__top">
         <div class="portfolio-footer__intro">
-          <p class="display text-display-md"><span>Buildings drawn<br index.html>to outlast us.</span></p>
+          <video data-profile-video class="portfolio-footer__profile-video" muted loop playsinline preload="auto"
+            width="540" height="540" aria-label="Video profile of Yadunand Pavithran">
+            <source src="images/howdyiamyadunand.mp4#t=0.001" type="video/mp4">
+          </video>
           <div class="mt-8 flex flex-col items-start gap-1 text-lg tracking-[-0.02em]"><a
-              href="mailto:yadunandpavithran05@gmail.com"><span class="roll"><span
+              data-profile-video-trigger href="mailto:yadunandpavithran05@gmail.com"><span class="roll"><span
                   data-text="yadunandpavithran05@gmail.com">yadunandpavithran05@gmail.com</span></span></a></div>
         </div>
         <div class="portfolio-footer__links">
@@ -990,7 +993,7 @@
     </div>
     <p data-reveal
       class="portfolio-footer__wordmark mt-6 flex items-baseline pb-[0.06em] pl-3 leading-none font-[450] tracking-[-0.06em] md:pl-6">
-      <a href="mailto:yadunandpavithran05@gmail.com" class="portfolio-footer__talk-link">
+      <a data-profile-video-trigger href="mailto:yadunandpavithran05@gmail.com" class="portfolio-footer__talk-link">
         Let's <span class="hero-code" data-particle-text><span class="hero-code__text">talk</span><canvas
             class="hero-code__canvas" aria-hidden="true"></canvas></span>
       </a>
@@ -1001,6 +1004,7 @@
   </div>
   <script type="module" src="_astro/BaseLayout.astro_astro_type_script_index_0_lang.Dpw5V1aT.js"></script>
   <script type="module" src="assets/hero-code-particles.js"></script>
+  <script type="module" src="assets/portfolio-footer.js"></script>
   <script type="module">
     import("./assets/drone-services.js").catch(() => {
       document.querySelector("[data-drone-band]")?.classList.add("is-fallback");

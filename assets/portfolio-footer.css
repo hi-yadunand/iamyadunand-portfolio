@@ -1,3 +1,7 @@
+[data-header][data-footer-visible] {
+  transform: translateY(0);
+}
+
 .portfolio-footer__top {
   display: grid;
   grid-template-columns: minmax(0, 1fr);
@@ -7,6 +11,17 @@
 
 .portfolio-footer__intro {
   min-width: 0;
+}
+
+.portfolio-footer__profile-video {
+  display: block;
+  width: clamp(7rem, 12.5vw, 12rem);
+  max-width: 100%;
+  height: auto;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+  border-radius: 0;
+  background: #111;
 }
 
 .portfolio-footer__wordmark {
@@ -31,7 +46,7 @@
 .portfolio-footer__links {
   display: grid;
   grid-template-columns: repeat(2, max-content);
-  justify-self: end;
+  justify-self: start;
   align-items: start;
   gap: 2rem;
 }
@@ -43,6 +58,7 @@
   }
 
   .portfolio-footer__links {
+    justify-self: end;
     column-gap: clamp(2rem, 3vw, 3rem);
   }
 }
