@@ -1,18 +1,9 @@
 const footer = document.querySelector("[data-profile-footer]");
 const video = footer?.querySelector("[data-profile-video]");
-const header = document.querySelector("[data-header]");
-
-if (footer && header) {
-  const observer = new IntersectionObserver(([entry]) => {
-    header.toggleAttribute("data-footer-visible", entry.isIntersecting);
-  });
-  observer.observe(footer);
-}
-
 if (video) {
-  const triggers = footer.querySelectorAll("[data-profile-video-trigger]");
+  const triggers = footer.querySelectorAll("[data-profile-video-trigger], [data-profile-video]");
   const hovered = new Set();
-  const reverseSpeed = 1.5;
+  const reverseSpeed = 2;
   let focused = null;
   let reverseFrame = null;
 
@@ -52,6 +43,10 @@ if (video) {
   // Keep the profile free of native control overlays on every screen size.
   video.controls = false;
   video.muted = true;
+  video.loop = false;
+  video.autoplay = false;
+  video.removeAttribute("loop");
+  video.removeAttribute("autoplay");
 
   const updatePlayback = () => {
     if (document.hidden) {
@@ -59,9 +54,12 @@ if (video) {
       video.pause();
     } else if (hovered.size || focused) {
       cancelReverse();
-      video.play().catch(() => {
-        // Keep the still frame if the browser blocks playback.
-      });
+      // Hold on the final frame while hovered instead of starting again.
+      if (!video.ended) {
+        video.play().catch(() => {
+          // Keep the still frame if the browser blocks playback.
+        });
+      }
     } else {
       playReverse();
     }
@@ -82,7 +80,12 @@ if (video) {
       updatePlayback();
     });
     trigger.addEventListener("focus", () => {
-      focused = trigger;
+      focused = trigger.matches(":focus-visible") ? trigger : null;
+      updatePlayback();
+    });
+    trigger.addEventListener("pointerdown", () => {
+      // A mouse click must not keep playback active after the pointer leaves.
+      focused = null;
       updatePlayback();
     });
     trigger.addEventListener("blur", () => {
