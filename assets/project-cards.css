@@ -23,7 +23,7 @@
   transition: transform 1.2s var(--ease-out-soft);
 }
 
-a.group:hover .project-preview img {
+.group:is(:hover, :focus-visible) .project-preview img {
   transform: scale(1.04);
 }
 
@@ -71,6 +71,11 @@ a.group:hover .project-preview img {
   height: 52%;
   margin: auto;
   transform: rotate(-9deg);
+  transition: transform 1.2s var(--ease-out-soft);
+}
+
+.group:is(:hover, :focus-visible) .project-robot__body {
+  transform: rotate(-9deg) scale(1.04);
 }
 
 .project-robot__body i {
@@ -101,7 +106,8 @@ a.group:hover .project-preview img {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .project-preview img {
+  .project-preview img,
+  .project-robot__body {
     transition: none;
   }
 }
