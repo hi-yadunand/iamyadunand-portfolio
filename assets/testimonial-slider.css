@@ -1,0 +1,13 @@
+[data-testimonial-slider] [data-slider-viewport] {
+  overflow: hidden;
+}
+
+[data-testimonial-slider] [data-slide] {
+  min-width: 0;
+  visibility: hidden;
+}
+
+[data-testimonial-slider] [data-slide][data-active],
+[data-testimonial-slider] [data-slide][data-slide-moving] {
+  visibility: visible;
+}
