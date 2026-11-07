@@ -22,6 +22,21 @@
     linear-gradient(180deg, #030303 0%, #080808 42%, #171717 100%);
 }
 
+/* Benjamin Creative's footer uses a -170px to 0px in-view translation.
+   The natural-height stage clips it beneath the preceding section. */
+[data-footer-reveal-stage] {
+  position: relative;
+  overflow: hidden;
+  overflow: clip;
+  background-color: #080808;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  [data-footer-parallax-active] > [data-footer-reveal] {
+    transform: translate3d(0, var(--footer-reveal-y, 0px), 0);
+  }
+}
+
 .portfolio-footer__background {
   position: absolute;
   inset: 0;
