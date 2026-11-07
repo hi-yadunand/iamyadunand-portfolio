@@ -1,7 +1,7 @@
 // Routing aliases have no scrollable page. Replace them with the existing
 // project index while retaining URL state and the pending arrival transition.
 (() => {
-  const destination = new URL("../projects.html", location.href);
+  const destination = new URL("/projects", location.href);
   destination.search = location.search;
   destination.hash = location.hash || "#all-projects";
   try {

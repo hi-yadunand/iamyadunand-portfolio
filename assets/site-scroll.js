@@ -180,7 +180,7 @@ export function initSiteScroll({ Lenis, gsap, ScrollTrigger }) {
     }
     // Only HTML/document navigation receives a fade. Assets and explicit
     // opt-outs keep the browser's normal handling.
-    const htmlPage = /(?:\/|\.html?)$/i.test(url.pathname);
+    const htmlPage = /(?:\/|\.html?|\/[^/.]+)$/i.test(url.pathname);
     if (!htmlPage || link.hasAttribute("data-no-transition") || motion.matches || !document.body.animate) return;
     event.preventDefault();
     if (!navigating) leave(url);

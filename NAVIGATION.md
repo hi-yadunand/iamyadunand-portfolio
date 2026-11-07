@@ -3,6 +3,25 @@
 Implemented against the current static site on 2026-11-07. Existing performance
 changes and the approved footer effect were captured in the baseline and retained.
 
+## Public page URLs
+
+Navigation now uses `/`, `/studio`, `/projects`, `/services`, `/contact`,
+`/privacy` and `/terms`. The existing static HTML filenames remain unchanged.
+The deployed host was checked directly and serves these extensionless routes,
+including `/contact` and `/projects` alongside the legacy directories.
+
+The existing early page helper replaces an old `.html` address with its clean
+equivalent before processing arrival animations. Query strings, fragments and
+history state are preserved, with no reload or added history entry. Legacy
+contact copies normalize to `/contact`. Project aliases keep their existing
+redirect behaviour and now target `/projects`, including the no-JavaScript
+fallback. Canonical links use the clean public addresses.
+
+The existing transition handler also recognizes extensionless document links.
+Assets, external links, downloads and reduced-motion navigation stay native.
+Local preview servers must support extensionless HTML resolution, as the
+production host does; a basic file-only server may return 404 for `/studio`.
+
 ## Coverage and repository audit
 
 These 15 full documents each use the shared Lenis/GSAP integration:

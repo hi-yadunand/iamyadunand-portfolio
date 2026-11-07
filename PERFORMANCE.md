@@ -188,7 +188,8 @@ sliders, contact forms and footer links.
 
 The 1.25 MB lossless preview and 168 KB favicon remain relatively large. Smaller
 responsive/lossy or alternative-icon variants need visual/cross-browser review.
-The original unused PNG/MOV files remain on disk but do not download simply by
-existing. Third-party Three.js and Draco requests and first-time shader/model
+The original unused PNG/MOV files listed in the historical baseline above were
+removed during the subsequent repository cleanup; the live WebP/MP4 files remain.
+Third-party Three.js and Draco requests and first-time shader/model
 work remain, now deferred. The deliberate loader sequence still limits perceived
 first-visit readiness; changing its appearance or timing is outside this phase.

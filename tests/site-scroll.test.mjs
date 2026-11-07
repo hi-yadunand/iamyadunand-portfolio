@@ -29,7 +29,7 @@ function fixture({ reduced = false, url = 'https://portfolio.test/index.html', t
   const root = new Node(), body = new Node(), main = new Node(), target = new Node();
   let current = new URL(url); const assigned = [], entries = [], instances = [], frames = new Map(), timers = new Map(), animations = [], delayed = [], callbacks = new Set(), storage = new Map(); let sequence = 0;
   const location = { get href() { return current.href; }, get origin() { return current.origin; }, get pathname() { return current.pathname; }, get search() { return current.search; }, get hash() { return current.hash; }, assign(value) { assigned.push(value); }, set(value) { current = new URL(value, current); } };
-  const history = { state: { existing: true }, scrollRestoration: 'auto', pushState(state, _, href) { this.state = state; entries.push(href); location.set(href); } };
+  const history = { state: { existing: true }, scrollRestoration: 'auto', pushState(state, _, href) { this.state = state; entries.push(href); location.set(href); }, replaceState(state, _, href) { this.state = state; location.set(href); } };
   Object.assign(doc, { documentElement: root, body, readyState: complete ? 'complete' : 'interactive', hidden: false, fonts: { status: 'loaded' }, referrer: '', getElementById: id => id === 'brief' || id === 'space id' ? target : null, getElementsByName: id => id === 'legacy' ? [target] : [], querySelector: selector => selector === 'main' ? main : selector === '[data-menu-toggle]' ? { click() { root.removeAttribute('data-menu-open'); } } : null });
   Object.assign(win, { scrollY: 0, matchMedia: () => motion });
   const requestAnimationFrame = fn => { frames.set(++sequence, fn); return sequence; };
@@ -183,7 +183,7 @@ test('all eight project redirects preserve URL state, replace history and forwar
       f.storage.set('portfolio-page-entry', JSON.stringify({ to: f.location.href, from: 'https://portfolio.test/index.html', at: Date.now() }));
       let replaced; f.location.replace = value => { replaced = value; };
       vm.runInContext(redirectSource, f.context);
-      assert.equal(replaced, 'https://portfolio.test/projects.html?filter=robot#all-projects');
+      assert.equal(replaced, 'https://portfolio.test/projects?filter=robot#all-projects');
       assert.equal(JSON.parse(f.storage.get('portfolio-page-entry')).to, replaced);
       assert(readFileSync(new URL(`../projects/${name}`, import.meta.url), 'utf8').includes('src="../assets/project-redirect.js"'));
     }
@@ -204,4 +204,48 @@ test('early entry helper only fades intentional arrivals and never strands a dir
     assert.equal(f.root.hasAttribute('data-site-enter'), expected);
     assert.equal(f.storage.has('portfolio-page-entry'), false);
   }
+});
+
+test('extensionless document navigation keeps transitions, query strings and fragments', async () => {
+  const f = fixture({ url: 'https://portfolio.test/' });
+  assert(f.click(f.link('/contact?project=Robot#brief')).defaultPrevented);
+  f.animations[0].finish(); await Promise.resolve();
+  assert.equal(f.assigned[0], 'https://portfolio.test/contact?project=Robot#brief');
+  assert.equal(JSON.parse(f.storage.get('portfolio-page-entry')).to, f.assigned[0]);
+  const reduced = fixture({ reduced: true });
+  assert.equal(reduced.click(reduced.link('/studio')).defaultPrevented, false);
+  assert.equal(reduced.animations.length, 0);
+  const native = fixture();
+  for (const href of ['/assets/drone-services.js', '/images/iamyadunandhero.webp', '/robots.txt']) {
+    assert.equal(native.click(native.link(href)).defaultPrevented, false);
+  }
+});
+
+test('legacy page URLs normalize before arrival animation without losing URL or history state', () => {
+  const script = readFileSync(new URL('../index.html', import.meta.url), 'utf8').match(/<script>([\s\S]*?)<\/script>/)[1];
+  for (const [original, expected] of [
+    ['/index.html?from=home#top', '/?from=home#top'],
+    ['/studio.html?filter=web#selected-work', '/studio?filter=web#selected-work'],
+    ['/services.html#faq', '/services#faq'],
+    ['/contact.html?project=Robot#brief', '/contact?project=Robot#brief'],
+    ['/projects.html', '/projects'], ['/privacy.html', '/privacy'], ['/terms.html', '/terms'],
+    ['/contact/.project=Almond%20Terrace.html?from=work#brief', '/contact?from=work#brief'],
+    ['/studio', '/studio'], ['/', '/'],
+  ]) {
+    const f = fixture({ url: `https://portfolio.test${original}` });
+    f.context.matchMedia = () => ({ matches: false });
+    f.storage.set('portfolio-page-entry', JSON.stringify({ to: f.location.href, from: 'https://portfolio.test/', at: Date.now() }));
+    vm.runInContext(script, f.context);
+    assert.equal(f.location.href, `https://portfolio.test${expected}`);
+    assert.equal(f.history.state.existing, true);
+    assert.equal(f.entries.length, 0, 'Normalization replaces the current entry');
+    assert.equal(f.assigned.length, 0, 'Normalization does not reload the document');
+    assert(f.root.hasAttribute('data-site-enter'), original);
+    assert.equal(f.storage.has('portfolio-page-entry'), false);
+  }
+  const blocked = fixture();
+  blocked.context.matchMedia = () => ({ matches: false });
+  blocked.history.replaceState = () => { throw new Error('History unavailable'); };
+  assert.doesNotThrow(() => vm.runInContext(script, blocked.context));
+  assert.equal(blocked.assigned.length, 0);
 });
