@@ -32,9 +32,6 @@ ready(() => {
 
   if (!root || !stage || !canvas) return;
 
-  const controller = new AbortController();
-  const { signal } = controller;
-  let disposed = false;
   const isBand = root.hasAttribute("data-drone-band");
   const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
   const finePointer = window.matchMedia("(hover: hover) and (pointer: fine)");
@@ -90,10 +87,6 @@ ready(() => {
   let previousTime = 0;
   let isVisible = false;
   let bandNeedsRender = true;
-  let sizedWidth = 0;
-  let sizedHeight = 0;
-  let sizedModel = null;
-  let sizedRatio = 0;
   const modelSize = new THREE.Vector3();
   let currentBank = 0;
   const sideFlip = {
@@ -110,8 +103,7 @@ ready(() => {
   };
 
   renderer.setClearColor(0x000000, 0);
-  sizedRatio = Math.min(window.devicePixelRatio || 1, 2);
-  renderer.setPixelRatio(sizedRatio);
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
   renderer.outputColorSpace = THREE.SRGBColorSpace;
   renderer.toneMapping = THREE.ACESFilmicToneMapping;
   renderer.toneMappingExposure = 1.15;
@@ -130,7 +122,8 @@ ready(() => {
 
   scene.add(new THREE.HemisphereLight(0xffffff, 0x8c8c8c, 2.1));
 
-  const updateEntranceOffset = (bounds = stage.getBoundingClientRect()) => {
+  const updateEntranceOffset = () => {
+    const bounds = stage.getBoundingClientRect();
     const width = Math.max(2, Math.floor(bounds.width));
 
     const verticalWorldSize =
@@ -144,18 +137,9 @@ ready(() => {
   };
 
   const resize = () => {
-    if (disposed) return;
     const bounds = stage.getBoundingClientRect();
     const width = Math.max(2, Math.floor(bounds.width));
     const height = Math.max(2, Math.floor(bounds.height));
-    const ratio = Math.min(window.devicePixelRatio || 1, 2);
-    if (width === sizedWidth && height === sizedHeight &&
-        loadedModel === sizedModel && ratio === sizedRatio) return;
-    sizedWidth = width;
-    sizedHeight = height;
-    sizedModel = loadedModel;
-    if (ratio !== sizedRatio) renderer.setPixelRatio(ratio);
-    sizedRatio = ratio;
 
     renderer.setSize(width, height, false);
     camera.aspect = width / height;
@@ -172,9 +156,8 @@ ready(() => {
       camera.position.z = width < 700 ? 10.2 : 6.2;
     }
     camera.updateProjectionMatrix();
-    updateEntranceOffset(bounds);
+    updateEntranceOffset();
     bandNeedsRender = true;
-    requestRender();
   };
 
   const movePointer = (clientX, clientY) => {
@@ -276,32 +259,9 @@ ready(() => {
   const gltfLoader = new GLTFLoader();
   gltfLoader.setDRACOLoader(dracoLoader);
 
-  // Geometry, material and texture instances can be shared by several meshes.
-  const disposeModel = (model) => {
-    const resources = new Set();
-    model?.traverse((child) => {
-      if (!child.isMesh) return;
-      if (child.geometry) resources.add(child.geometry);
-      const materials = Array.isArray(child.material) ? child.material : [child.material];
-      for (const material of materials) {
-        if (!material) continue;
-        resources.add(material);
-        for (const value of Object.values(material)) {
-          if (value?.isTexture) resources.add(value);
-        }
-      }
-    });
-    resources.forEach((resource) => resource.dispose());
-  };
-
   gltfLoader.load(
     new URL("./models/drone.glb", import.meta.url).href,
     (gltf) => {
-      dracoLoader.dispose();
-      if (disposed) {
-        disposeModel(gltf.scene);
-        return;
-      }
       loadedModel = gltf.scene;
       normalizeModel(loadedModel);
       collectPropellers(loadedModel);
@@ -310,32 +270,17 @@ ready(() => {
       resize();
     },
     undefined,
-    () => {
-      dracoLoader.dispose();
-      if (!disposed) root.classList.add("is-fallback");
-    },
+    () => root.classList.add("is-fallback"),
   );
 
-  // Only schedule a frame when it can contribute to the visible experience.
-  const requestRender = () => {
-    if (!frameId && !disposed && loadedModel && isVisible && !document.hidden) {
-      frameId = requestAnimationFrame(render);
-    }
-  };
-  const pauseRender = () => {
-    cancelAnimationFrame(frameId);
-    frameId = 0;
-    previousTime = 0;
-  };
-
   const render = (time = 0) => {
-    frameId = 0;
-    if (disposed || !isVisible || document.hidden) return;
+    frameId = requestAnimationFrame(render);
 
     const delta = previousTime
       ? Math.min((time - previousTime) * 0.001, 0.05)
       : 0;
     previousTime = time;
+    if (isBand && (!isVisible || document.hidden)) return;
     if (isBand && reduceMotion.matches && !bandNeedsRender) return;
     bandNeedsRender = false;
 
@@ -434,14 +379,13 @@ ready(() => {
     });
 
     renderer.render(scene, camera);
-    if (!(isBand && reduceMotion.matches)) requestRender();
   };
 
-  root.addEventListener("pointermove", onPointerMove, { passive: true, signal });
+  root.addEventListener("pointermove", onPointerMove, { passive: true });
   root.addEventListener("pointerleave", () => {
     pointer.x = 0;
     pointer.y = 0;
-  }, { signal });
+  });
   const entranceObserver = new IntersectionObserver(
     (entries) => {
       if (entries.some((entry) => entry.isIntersecting)) {
@@ -459,50 +403,29 @@ ready(() => {
       isVisible = entries.some((entry) => entry.isIntersecting);
       bandNeedsRender = true;
       if (!isVisible && !sideFlip.active) sideFlip.nextTime = 0;
-      if (isVisible) requestRender();
-      else pauseRender();
     },
     { threshold: 0.32 },
   );
 
   visibilityObserver.observe(root);
-  const resizeObserver = new ResizeObserver(resize);
-  resizeObserver.observe(stage);
-  window.addEventListener("resize", resize, { signal });
+  window.addEventListener("resize", resize);
   reduceMotion.addEventListener?.("change", () => {
     if (reduceMotion.matches) {
       entrance.triggered = true;
       entrance.progress = 1;
     }
-    bandNeedsRender = true;
     resize();
-    requestRender();
-  }, { signal });
-  document.addEventListener("visibilitychange", () => {
-    if (document.hidden) pauseRender();
-    else requestRender();
-  }, { signal });
-  window.addEventListener("pageshow", () => {
-    resize();
-    bandNeedsRender = true;
-    requestRender();
-  }, { signal });
+  });
   resize();
+  frameId = requestAnimationFrame(render);
 
   window.addEventListener(
     "pagehide",
-    (event) => {
-      pauseRender();
-      if (event.persisted) return;
-      disposed = true;
+    () => {
+      cancelAnimationFrame(frameId);
       entranceObserver.disconnect();
       visibilityObserver.disconnect();
-      resizeObserver.disconnect();
-      controller.abort();
-      disposeModel(loadedModel);
-      dracoLoader.dispose();
-      renderer.dispose();
     },
-    { signal },
+    { once: true },
   );
 });

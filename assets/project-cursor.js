@@ -4,14 +4,10 @@ const cursor = document.querySelector("[data-project-cursor]");
 if (cursor) {
   const finePointer = window.matchMedia("(pointer: fine)");
   let pointer = null;
-  let activeLabel = "";
-  let shown = false;
 
   const hide = () => {
-    if (shown) cursor.style.opacity = "0";
-    if (activeLabel) cursor.textContent = "";
-    shown = false;
-    activeLabel = "";
+    cursor.style.opacity = "0";
+    cursor.textContent = "";
   };
 
   const update = (element) => {
@@ -22,11 +18,9 @@ if (cursor) {
       return;
     }
 
-    if (activeLabel !== label) cursor.textContent = label;
-    activeLabel = label;
+    cursor.textContent = label;
     cursor.style.transform = `translate3d(${pointer.x}px, ${pointer.y}px, 0)`;
-    if (!shown) cursor.style.opacity = "1";
-    shown = true;
+    cursor.style.opacity = "1";
   };
 
   window.addEventListener("pointermove", (event) => {
