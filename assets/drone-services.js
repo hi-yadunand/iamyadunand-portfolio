@@ -32,6 +32,9 @@ ready(() => {
 
   if (!root || !stage || !canvas) return;
 
+  const controller = new AbortController();
+  const { signal } = controller;
+  let disposed = false;
   const isBand = root.hasAttribute("data-drone-band");
   const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
   const finePointer = window.matchMedia("(hover: hover) and (pointer: fine)");
@@ -87,6 +90,9 @@ ready(() => {
   let previousTime = 0;
   let isVisible = false;
   let bandNeedsRender = true;
+  let sizedWidth = 0;
+  let sizedHeight = 0;
+  let sizedModel = null;
   const modelSize = new THREE.Vector3();
   let currentBank = 0;
   const sideFlip = {
@@ -122,8 +128,7 @@ ready(() => {
 
   scene.add(new THREE.HemisphereLight(0xffffff, 0x8c8c8c, 2.1));
 
-  const updateEntranceOffset = () => {
-    const bounds = stage.getBoundingClientRect();
+  const updateEntranceOffset = (bounds = stage.getBoundingClientRect()) => {
     const width = Math.max(2, Math.floor(bounds.width));
 
     const verticalWorldSize =
@@ -137,18 +142,24 @@ ready(() => {
   };
 
   const resize = () => {
+    if (disposed) return;
     const bounds = stage.getBoundingClientRect();
     const width = Math.max(2, Math.floor(bounds.width));
     const height = Math.max(2, Math.floor(bounds.height));
+    if (width === sizedWidth && height === sizedHeight &&
+        loadedModel === sizedModel) return;
+    sizedWidth = width;
+    sizedHeight = height;
+    sizedModel = loadedModel;
 
     renderer.setSize(width, height, false);
     camera.aspect = width / height;
     if (isBand && loadedModel) {
       const halfFov = Math.tan(THREE.MathUtils.degToRad(camera.fov) / 2);
-      const widthFraction = width < 768 ? 0.65 : 0.34;
+      const widthFraction = width < 768 ? 0.78 : 0.48;
       camera.position.z = Math.max(
         modelSize.x / (2 * halfFov * camera.aspect * widthFraction),
-        modelSize.y / (2 * halfFov * 0.42),
+        modelSize.y / (2 * halfFov * 0.52),
       ) + modelSize.z / 2;
       camera.position.y = 0.2;
       camera.lookAt(0, 0, 0);
@@ -156,8 +167,9 @@ ready(() => {
       camera.position.z = width < 700 ? 10.2 : 6.2;
     }
     camera.updateProjectionMatrix();
-    updateEntranceOffset();
+    updateEntranceOffset(bounds);
     bandNeedsRender = true;
+    requestRender();
   };
 
   const movePointer = (clientX, clientY) => {
@@ -259,9 +271,32 @@ ready(() => {
   const gltfLoader = new GLTFLoader();
   gltfLoader.setDRACOLoader(dracoLoader);
 
+  // Geometry, material and texture instances can be shared by several meshes.
+  const disposeModel = (model) => {
+    const resources = new Set();
+    model?.traverse((child) => {
+      if (!child.isMesh) return;
+      if (child.geometry) resources.add(child.geometry);
+      const materials = Array.isArray(child.material) ? child.material : [child.material];
+      for (const material of materials) {
+        if (!material) continue;
+        resources.add(material);
+        for (const value of Object.values(material)) {
+          if (value?.isTexture) resources.add(value);
+        }
+      }
+    });
+    resources.forEach((resource) => resource.dispose());
+  };
+
   gltfLoader.load(
     new URL("./models/drone.glb", import.meta.url).href,
     (gltf) => {
+      dracoLoader.dispose();
+      if (disposed) {
+        disposeModel(gltf.scene);
+        return;
+      }
       loadedModel = gltf.scene;
       normalizeModel(loadedModel);
       collectPropellers(loadedModel);
@@ -270,17 +305,32 @@ ready(() => {
       resize();
     },
     undefined,
-    () => root.classList.add("is-fallback"),
+    () => {
+      dracoLoader.dispose();
+      if (!disposed) root.classList.add("is-fallback");
+    },
   );
 
+  // Only schedule a frame when it can contribute to the visible experience.
+  const requestRender = () => {
+    if (!frameId && !disposed && loadedModel && isVisible && !document.hidden) {
+      frameId = requestAnimationFrame(render);
+    }
+  };
+  const pauseRender = () => {
+    cancelAnimationFrame(frameId);
+    frameId = 0;
+    previousTime = 0;
+  };
+
   const render = (time = 0) => {
-    frameId = requestAnimationFrame(render);
+    frameId = 0;
+    if (disposed || !isVisible || document.hidden) return;
 
     const delta = previousTime
       ? Math.min((time - previousTime) * 0.001, 0.05)
       : 0;
     previousTime = time;
-    if (isBand && (!isVisible || document.hidden)) return;
     if (isBand && reduceMotion.matches && !bandNeedsRender) return;
     bandNeedsRender = false;
 
@@ -379,13 +429,14 @@ ready(() => {
     });
 
     renderer.render(scene, camera);
+    if (!(isBand && reduceMotion.matches)) requestRender();
   };
 
-  root.addEventListener("pointermove", onPointerMove, { passive: true });
+  root.addEventListener("pointermove", onPointerMove, { passive: true, signal });
   root.addEventListener("pointerleave", () => {
     pointer.x = 0;
     pointer.y = 0;
-  });
+  }, { signal });
   const entranceObserver = new IntersectionObserver(
     (entries) => {
       if (entries.some((entry) => entry.isIntersecting)) {
@@ -403,29 +454,50 @@ ready(() => {
       isVisible = entries.some((entry) => entry.isIntersecting);
       bandNeedsRender = true;
       if (!isVisible && !sideFlip.active) sideFlip.nextTime = 0;
+      if (isVisible) requestRender();
+      else pauseRender();
     },
     { threshold: 0.32 },
   );
 
   visibilityObserver.observe(root);
-  window.addEventListener("resize", resize);
+  const resizeObserver = "ResizeObserver" in window ? new ResizeObserver(resize) : null;
+  resizeObserver?.observe(stage);
+  window.addEventListener("resize", resize, { signal });
   reduceMotion.addEventListener?.("change", () => {
     if (reduceMotion.matches) {
       entrance.triggered = true;
       entrance.progress = 1;
     }
+    bandNeedsRender = true;
     resize();
-  });
+    requestRender();
+  }, { signal });
+  document.addEventListener("visibilitychange", () => {
+    if (document.hidden) pauseRender();
+    else requestRender();
+  }, { signal });
+  window.addEventListener("pageshow", () => {
+    resize();
+    bandNeedsRender = true;
+    requestRender();
+  }, { signal });
   resize();
-  frameId = requestAnimationFrame(render);
 
   window.addEventListener(
     "pagehide",
-    () => {
-      cancelAnimationFrame(frameId);
+    (event) => {
+      pauseRender();
+      if (event.persisted) return;
+      disposed = true;
       entranceObserver.disconnect();
       visibilityObserver.disconnect();
+      resizeObserver?.disconnect();
+      controller.abort();
+      disposeModel(loadedModel);
+      dracoLoader.dispose();
+      renderer.dispose();
     },
-    { once: true },
+    { signal },
   );
 });

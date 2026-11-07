@@ -1,0 +1,80 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import { readFileSync, readdirSync, existsSync } from 'node:fs';
+import { fileURLToPath } from 'node:url';
+import path from 'node:path';
+
+const root = fileURLToPath(new URL('../', import.meta.url));
+function files(dir) {
+  return readdirSync(dir, { withFileTypes: true }).flatMap(item => {
+    if (item.name.startsWith('.git')) return [];
+    const target = path.join(dir, item.name);
+    return item.isDirectory() ? files(target) : [target];
+  });
+}
+const htmlFiles = files(root).filter(name => name.endsWith('.html'));
+function tags(html) {
+  return [...html.matchAll(/<(a|img|source|video|link|script|meta)\b([^>]*)>/g)].map(match => {
+    const attrs = Object.fromEntries([...match[2].matchAll(/([^\s=]+)\s*=\s*(["'])(.*?)\2/gs)].map(a => [a[1], a[3]]));
+    return { tag: match[1], attrs };
+  });
+}
+const source = name => readFileSync(path.join(root, name), 'utf8');
+
+test('every rendered document loads one base runtime, one navigation stylesheet and the entry helper', () => {
+  let rendered = 0, redirects = 0;
+  for (const file of htmlFiles) {
+    const html = readFileSync(file, 'utf8'), entries = tags(html);
+    const scripts = entries.filter(t => t.tag === 'script' && t.attrs.src).map(t => t.attrs.src);
+    assert.equal(scripts.length, new Set(scripts).size, file);
+    const base = scripts.filter(src => src.includes('BaseLayout.astro_astro_type_script'));
+    if (html.includes('http-equiv="refresh"')) {
+      redirects++;
+      assert.equal(base.length, 0, file);
+      assert.equal(scripts.filter(src => src.endsWith('/project-redirect.js')).length, 1, file);
+      assert(html.indexOf('/project-redirect.js') < html.indexOf('http-equiv="refresh"'), file);
+      continue;
+    }
+    rendered++;
+    assert.equal(base.length, 1, file);
+    assert.equal(entries.filter(t => t.tag === 'link' && t.attrs.rel === 'stylesheet' && t.attrs.href.endsWith('/site-navigation.css')).length, 1, file);
+    assert(html.includes('sessionStorage.getItem("portfolio-page-entry")'), file);
+    assert(html.includes('h.setAttribute("data-site-enter", "")'), file);
+  }
+  assert.equal(rendered, 15); assert.equal(redirects, 8);
+});
+
+test('all local HTML links, fragments, redirects and relative asset references resolve', () => {
+  for (const file of htmlFiles) {
+    const html = readFileSync(file, 'utf8');
+    const references = tags(html).flatMap(({ tag, attrs }) => {
+      const values = ['href', 'src', 'poster'].filter(k => attrs[k]).map(k => attrs[k]);
+      if (tag === 'meta' && attrs['http-equiv']?.toLowerCase() === 'refresh') values.push(attrs.content.split(/url=/i)[1]);
+      return values;
+    });
+    for (const href of references) {
+      if (/^(?:[a-z][\w+.-]*:|\/\/)/i.test(href)) continue;
+      const [relative, hash] = href.split('#');
+      let target = relative ? relative.startsWith('/') ? path.join(root, relative) : path.resolve(path.dirname(file), relative.split('?')[0]) : file;
+      if (!existsSync(target)) target = decodeURIComponent(target);
+      assert(existsSync(target), `${path.relative(root, file)} -> ${href}`);
+      if (hash && target.endsWith('.html')) {
+        const ids = [...readFileSync(target, 'utf8').matchAll(/(?:\s|<)id=(["'])(.*?)\1/g)].map(m => m[2]);
+        assert(ids.includes(decodeURIComponent(hash)), `${path.relative(root, file)} -> ${href}`);
+      }
+    }
+  }
+});
+
+test('shared bundle bridges the existing libraries without creating another scroll engine or ticker', () => {
+  const bundle = source('_astro/BaseLayout.astro_astro_type_script_index_0_lang.Dpw5V1aT.js');
+  const scroll = source('assets/site-scroll.js');
+  assert.equal((bundle.match(/initSiteScroll\(\{Lenis:Cc,gsap:hi,ScrollTrigger:Q\}\)/g) || []).length, 1);
+  assert.equal((scroll.match(/new Lenis\(/g) || []).length, 1);
+  assert.equal((scroll.match(/gsap\.ticker\.add\(tick\)/g) || []).length, 1);
+  assert(scroll.includes('autoRaf: false')); assert(scroll.includes('syncTouch: false'));
+  assert(scroll.includes('allowNestedScroll: true'));
+  assert(!scroll.includes('requestAnimationFrame(tick)'));
+  assert(!bundle.includes('new Cc('));
+  assert(bundle.includes('a=()=>requestSiteRefresh();return document.fonts?.ready.then(a)'));
+});

@@ -1,0 +1,23 @@
+/* Only document navigation is animated; existing section styles stay intact. */
+@keyframes site-page-enter {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  html[data-site-enter] body {
+    animation: site-page-enter 180ms ease-out both;
+  }
+}
+
+/* Keep native CSS scrolling from competing with the shared wheel engine. */
+html.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto !important; }
+  html[data-site-enter] body {
+    animation: none;
+  }
+}

@@ -13,9 +13,31 @@
       try {
         if (sessionStorage.getItem("yadunand-loaded")) h.classList.add("loaded");
       } catch (e) { }
+
+      // Arrival fade applies only to an intentional internal page navigation.
+      // Direct visits/reloads keep the existing first-visit presentation.
+      try {
+        var entry = sessionStorage.getItem("portfolio-page-entry");
+        if (entry) {
+          sessionStorage.removeItem("portfolio-page-entry");
+          var intent = JSON.parse(entry), to = new URL(intent.to, location.href);
+          var referrer = document.referrer ? new URL(document.referrer) : null;
+          var kind = performance.getEntriesByType("navigation")[0];
+          if (to.origin === location.origin && Date.now() - intent.at < 10000 &&
+              (to.href === location.href || (referrer && (referrer.href === to.href || referrer.href === intent.from))) &&
+              (!kind || (kind.type !== "reload" && kind.type !== "back_forward"))) {
+            h.classList.add("loaded");
+            if (!matchMedia("(prefers-reduced-motion: reduce)").matches) h.setAttribute("data-site-enter", "");
+          }
+        }
+      } catch (e) {}
     })();
   </script>
-  <link rel="stylesheet" href="_astro/BaseLayout.B-BnKKTW.css">
+  <link rel="preload" href="_astro/inter-tight-latin-wght-normal.DX-nOvPD.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="_astro/geist-mono-latin-wght-normal.XN7g48iV.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/navigation.css" as="style">
+<link rel="stylesheet" href="_astro/BaseLayout.B-BnKKTW.css">
+<link rel="stylesheet" href="assets/site-navigation.css">
   <link rel="stylesheet" href="assets/project-cards.css">
   <link rel="stylesheet" href="assets/hero-code.css">
   <link rel="stylesheet" href="assets/portfolio-footer.css">
@@ -534,7 +556,7 @@
           <h2 aria-label="Let's create what's next." class="display text-display-xl" data-reveal><span>Let's
               create </span><span aria-hidden
               class="portfolio-cta__illustration"><img
-                src="images/codingdesk.png" alt="Illustration of Yadunand coding at a desk with a laptop, coffee, and a small robot" width="1254" height="1254"
+                src="images/codingdesk.webp" alt="Illustration of Yadunand coding at a desk with a laptop, coffee, and a small robot" width="1254" height="1254"
                 loading="lazy" decoding="async"></span><span class="block">what's next.</span></h2>
           <div data-reveal class="mt-10 flex flex-wrap justify-center gap-3 md:mt-14"><a href="contact.html#brief"
               class="btn btn-solid "><span class="roll"><span data-text="Start a conversation">Start a
@@ -554,7 +576,7 @@
     <div class="shell pt-16 md:pt-24">
       <div class="portfolio-footer__top">
         <div class="portfolio-footer__intro">
-          <video data-profile-video class="portfolio-footer__profile-video" muted playsinline preload="auto"
+          <video data-profile-video class="portfolio-footer__profile-video" muted playsinline preload="metadata"
             width="540" height="540" aria-label="Video profile of Yadunand Pavithran">
             <source src="images/howdyiamyadunand.mp4#t=0.001" type="video/mp4">
           </video>
