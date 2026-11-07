@@ -71,15 +71,26 @@ architecture routes redirect to the real project register.
 Navigation state checks and local asset references pass. Browser preview was
 unavailable, so desktop/mobile visual fidelity remains unverified.
 
-## Services accordion
+## Services sticky-scroll enhancement
 
-The five services use the original click-to-open accordion in normal document
-flow. The first service opens initially. Clicking a title closes the previous
-panel and slides open the selected service; clicking it again closes it. The
-existing shared accordion controller provides the interaction and refreshes
-scroll animation positions after the panel transition. Titles, plus/cross
-icons, images, descriptions, and feature lists are preserved.
+At widths of 768px and above, a twelve-column grid places five service titles
+in columns 1–5 and a sticky image/detail panel in columns 7–12. Each title gets
+76svh of natural document height. The service crossing 55% of viewport height
+becomes active, using the existing orange accent; other titles use graphite.
+The right panel uses the existing service images, descriptions, and capability
+lists cloned from the original accordion. Transitions use a restrained 450ms
+GSAP fade with 10px of movement. No wheel, touch, scroll locking, or additional
+animation loop is introduced.
 
-The services section has no sticky stage, extra scroll distance, automatic
-selection, wheel interception, or scroll locking. Mobile uses the same click
-interaction. The temporary services scroll script and stylesheet are removed.
+The bundled GSAP and ScrollTrigger instances are exposed by one export line;
+all existing bundled initialization remains unchanged. Scoped GSAP contexts
+clean up triggers and tweens across breakpoint changes and page lifecycle.
+Reduced motion swaps content instantly. Image loads, fonts, and layout changes
+refresh the existing ScrollTrigger instance.
+
+Below 768px, the original mobile accordion and its shared controller remain
+unchanged. The FAQ and workflow are preserved. If JavaScript or the animation
+bundle is unavailable, CSS keeps all service details readable in document flow.
+Browser access was unavailable: breakpoint/state, content mapping, cleanup,
+mobile/FAQ controller, and source-preservation checks passed; visual viewport
+and browser-console checks remain unverified.
