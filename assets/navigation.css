@@ -1,0 +1,48 @@
+/* Expand on scroll, then slide away on downward scroll and return on upward scroll. */
+header[data-header] {
+  background-color: transparent;
+  border-bottom: 1px solid transparent;
+  transition: transform .7s var(--ease-draft), background-color .45s ease, border-color .45s ease, color .35s ease;
+}
+
+header[data-header] > .shell {
+  max-width: none;
+  padding: 24px 28px;
+  transition: padding .65s var(--ease-draft);
+}
+
+header[data-header][data-expanded] > .shell {
+  padding: 16px 20px;
+}
+
+header[data-header] > .shell > a {
+  white-space: nowrap;
+}
+
+@media (min-width: 768px) {
+  header[data-header][data-expanded] > .shell {
+    padding-inline: 32px;
+  }
+}
+
+@media (min-width: 1024px) {
+  header[data-header] > .shell {
+    padding: 30px clamp(32px, 9.5vw, 192px);
+  }
+}
+
+@media (max-width: 374px) {
+  header[data-header] > .shell {
+    column-gap: 12px;
+    padding-inline: 20px;
+  }
+  header[data-header] > .shell > a {
+    font-size: 16px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  header[data-header], header[data-header] > .shell {
+    transition: none;
+  }
+}

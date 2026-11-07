@@ -40,3 +40,33 @@ video, typography, orange wordmark particles, and links are preserved.
 Live browser animation comparison was unavailable. Capture data and local scene
 settings support the treatment, but exact motion and shader fidelity are not
 claimed.
+
+## Expanding navigation reference
+
+Scope: shared navigation across the portfolio. Reference:
+https://daqconsulting.com/, inspected through the user's two desktop screenshots
+and a Firecrawl page capture on 7 November 2026. The screenshots show an inset,
+transparent header at the top and an opaque, full-width bar after scrolling,
+with the brand and action moving toward opposite edges. Center links stay
+centered. The returned live screenshot was not separately inspected.
+
+Implementation values are adaptations, not extracted reference CSS: desktop
+horizontal padding starts at 9.5vw (capped at 192px), then becomes 32px after
+32px of scrolling. Vertical padding changes from 30px to 16px. Per the user's
+latest preference, the navigation background and border stay transparent before
+and after scrolling. Existing section-aware text colors remain in effect.
+Padding transitions take 650ms, followed by a 250ms pause before hiding is allowed.
+After 160px, continued downward scrolling slides the header up over 700ms;
+upward scrolling reveals it and cancels a pending hide. An open menu or keyboard
+focus keeps the header visible. It restores its inset state at the top. Mobile uses
+28px initial side padding and 20px when expanded. Reduced motion disables
+transitions. Existing type, navigation links, menu, and call to action remain.
+
+Brand and content: loading screens and titles use Yadunand Pavithran. Navigation
+images use local portfolio assets. Project notes describe existing work rather
+than sample endorsements. Contact opens an email app using the portfolio's
+published address; no delivery or response-time claim is made. Archived sample
+architecture routes redirect to the real project register.
+
+Navigation state checks and local asset references pass. Browser preview was
+unavailable, so desktop/mobile visual fidelity remains unverified.
