@@ -1,0 +1,250 @@
+/* Phase 1: shared tokens and primitives, loaded after the existing stylesheets.
+   Existing utility classes, page layouts, fonts and animation setup stay in place. */
+:root {
+  --ed-color-background: #F4F1EA;
+  --ed-color-surface: #E9E5DD;
+  --ed-color-text: #111110;
+  --ed-color-text-secondary: #68655F;
+  --ed-color-accent: #C4552F;
+  --ed-color-accent-text: #A84123;
+  --ed-color-dark: #1B1B1B;
+  --ed-color-border: rgb(17 17 16 / 14%);
+  --ed-color-border-light: rgb(244 241 234 / 20%);
+
+  /* Reuse the @font-face declarations already present in the base stylesheet. */
+  --ed-font-sans: "Inter Tight Variable", ui-sans-serif, system-ui, sans-serif;
+  --ed-font-mono: "Geist Mono Variable", ui-monospace, Menlo, monospace;
+  --ed-weight-body: 400;
+  --ed-weight-display: 450;
+  --ed-weight-button: 500;
+
+  /* Preserve the current fluid display ramp while giving it reusable names. */
+  --ed-type-display-2xl: clamp(3.75rem, 13.5vw, 16rem);
+  --ed-type-display-xl: clamp(3rem, 8.6vw, 10rem);
+  --ed-type-display-lg: clamp(2.5rem, 5.6vw, 6.5rem);
+  --ed-type-display-md: clamp(2rem, 3.8vw, 4.25rem);
+  --ed-type-display-sm: clamp(1.5rem, 2.3vw, 2.5rem);
+  --ed-type-body: clamp(1rem, .94rem + .25vw, 1.125rem);
+  --ed-type-meta: clamp(.75rem, .72rem + .1vw, .8125rem);
+  --ed-type-button: .875rem;
+  --ed-leading-body: 1.5;
+  --ed-leading-heading: 1.04;
+  --ed-leading-display: .94;
+  --ed-leading-meta: 1.4;
+  --ed-tracking-display: -.04em;
+  --ed-tracking-body: -.01em;
+  --ed-tracking-meta: .04em;
+
+  --ed-space-1: .25rem;
+  --ed-space-2: .5rem;
+  --ed-space-3: .75rem;
+  --ed-space-4: 1rem;
+  --ed-space-6: 1.5rem;
+  --ed-space-8: 2rem;
+  --ed-space-12: 3rem;
+  --ed-space-16: 4rem;
+  --ed-space-24: 6rem;
+  --ed-space-36: 9rem;
+  --ed-space-48: 12rem;
+
+  --ed-page-margin: var(--ed-space-6);
+  --ed-gutter: var(--ed-space-4);
+  --ed-content-max: 100rem;
+  --ed-grid-columns: 4;
+  --ed-section-space: clamp(4rem, 9vw, 10rem);
+  --ed-copy-width: 62ch;
+  --ed-border-width: 1px;
+  --ed-control-min: 2.75rem;
+  --ed-link-color: var(--ed-color-accent-text);
+  --ed-rule-color: var(--ed-color-border);
+
+  /* Compatibility aliases: existing HTML and CSS continue using their tokens. */
+  --font-sans: var(--ed-font-sans);
+  --font-mono: var(--ed-font-mono);
+  --default-font-family: var(--ed-font-sans);
+  --default-mono-font-family: var(--ed-font-mono);
+  --color-page: var(--ed-color-background);
+  --color-paper: var(--ed-color-background);
+  --color-ink: var(--ed-color-text);
+  --color-graphite: var(--ed-color-text-secondary);
+  --color-signal: var(--ed-color-accent);
+  --color-line: var(--ed-color-border);
+  --color-line-light: var(--ed-color-border-light);
+  --spacing: var(--ed-space-1);
+  --text-display-2xl: var(--ed-type-display-2xl);
+  --text-display-xl: var(--ed-type-display-xl);
+  --text-display-lg: var(--ed-type-display-lg);
+  --text-display-md: var(--ed-type-display-md);
+  --text-display-sm: var(--ed-type-display-sm);
+}
+
+@media (min-width: 768px) {
+  :root {
+    --ed-page-margin: var(--ed-space-8);
+    --ed-gutter: var(--ed-space-6);
+    --ed-grid-columns: 12;
+  }
+}
+
+@media (min-width: 1024px) {
+  :root {
+    --ed-page-margin: var(--ed-space-12);
+  }
+}
+
+@media (min-width: 1440px) {
+  :root {
+    --ed-page-margin: var(--ed-space-16);
+  }
+}
+
+/* Low-priority defaults leave explicit type/leading utilities in control. */
+@layer base {
+  :where(body) {
+    font-family: var(--ed-font-sans);
+    font-size: var(--ed-type-body);
+    font-weight: var(--ed-weight-body);
+    line-height: var(--ed-leading-body);
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--ed-font-sans);
+    font-weight: var(--ed-weight-display);
+    line-height: var(--ed-leading-heading);
+    letter-spacing: var(--ed-tracking-display);
+  }
+
+  h1 { font-size: var(--ed-type-display-xl); }
+  h2 { font-size: var(--ed-type-display-lg); }
+  h3 { font-size: var(--ed-type-display-sm); }
+
+  :where(a) {
+    text-underline-offset: .2em;
+    text-decoration-thickness: var(--ed-border-width);
+  }
+}
+
+/* The header's more-specific shell rules retain its expansion animation. */
+:where(.shell) {
+  max-width: var(--ed-content-max);
+  padding-inline: var(--ed-page-margin);
+}
+
+:where(.bg-ink) {
+  background-color: var(--ed-color-dark);
+}
+
+/* Contextual link/border colours preserve readable light text on dark content.
+   Page-specific imagery and the existing footer backdrop remain untouched. */
+:where(.bg-ink, .text-paper, .text-white, [data-profile-footer], .project-robot,
+       [data-header][data-on-dark], [data-menu-open] [data-header]) {
+  --ed-link-color: var(--ed-color-background);
+  --ed-rule-color: var(--ed-color-border-light);
+}
+
+.label,
+.editorial-meta,
+.editorial-section-label {
+  font-family: var(--ed-font-mono);
+  font-size: var(--ed-type-meta);
+  font-weight: var(--ed-weight-body);
+  line-height: var(--ed-leading-meta);
+  letter-spacing: var(--ed-tracking-meta);
+  text-transform: uppercase;
+}
+
+.label.text-signal,
+.label .text-signal,
+.label :is([data-filter-btn], [data-view-btn])[aria-pressed="true"],
+.services-desktop__step[data-active] .label {
+  color: var(--ed-link-color);
+}
+
+/* The particle script samples this computed colour; keep its original text fallback. */
+.hero-code {
+  color: var(--ed-color-accent);
+}
+
+.editorial-link,
+.prose-body a,
+main a[href^="mailto:"]:not(.btn) {
+  color: var(--ed-link-color);
+  text-decoration-line: underline;
+  text-decoration-color: currentColor;
+  text-underline-offset: .2em;
+}
+
+.btn {
+  min-height: var(--ed-control-min);
+  font-family: var(--ed-font-sans);
+  font-size: var(--ed-type-button);
+  font-weight: var(--ed-weight-button);
+  line-height: 1.25;
+  letter-spacing: var(--ed-tracking-body);
+  gap: var(--ed-space-6);
+  padding: var(--ed-space-3) var(--ed-space-4);
+  border: var(--ed-border-width) solid currentColor;
+}
+
+.btn-solid {
+  color: var(--ed-color-background);
+  background-color: var(--ed-color-text);
+  border-color: var(--ed-color-text);
+}
+
+.btn:is(:hover, :focus-visible) {
+  color: var(--ed-color-background);
+  background-color: var(--ed-color-accent-text);
+  border-color: var(--ed-color-accent-text);
+}
+
+:where(a, button, input, select, textarea):focus-visible {
+  outline: 2px solid var(--ed-link-color);
+  outline-offset: 4px;
+}
+
+::selection {
+  color: var(--ed-color-background);
+  background-color: var(--ed-color-accent-text);
+}
+
+/* Opt-in primitives for subsequent phases; existing grid/gap classes stay intact. */
+.editorial-grid {
+  display: grid;
+  grid-template-columns: repeat(var(--ed-grid-columns), minmax(0, 1fr));
+  gap: var(--ed-gutter);
+}
+
+.editorial-section {
+  margin-block-start: var(--ed-section-space);
+}
+
+.editorial-copy {
+  max-width: var(--ed-copy-width);
+  font-size: var(--ed-type-body);
+  line-height: var(--ed-leading-body);
+  letter-spacing: var(--ed-tracking-body);
+}
+
+.editorial-section-label {
+  display: flex;
+  align-items: baseline;
+  gap: var(--ed-space-4);
+  padding-block-start: var(--ed-space-3);
+  border-block-start: var(--ed-border-width) solid var(--ed-rule-color);
+}
+
+.editorial-rule {
+  border: 0;
+  border-block-start: var(--ed-border-width) solid var(--ed-rule-color);
+}
+
+.editorial-surface {
+  background-color: var(--ed-color-surface);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .btn {
+    transition: none;
+  }
+}
