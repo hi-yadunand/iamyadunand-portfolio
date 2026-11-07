@@ -71,29 +71,19 @@ architecture routes redirect to the real project register.
 Navigation state checks and local asset references pass. Browser preview was
 unavailable, so desktop/mobile visual fidelity remains unverified.
 
-## Services sticky-scroll enhancement
+## Services accordion
 
-At widths of 768px and above, a twelve-column grid places five service titles
-in columns 1–5 and a sticky image/detail panel in columns 7–12. Each title gets
-76svh of natural document height. The service crossing 55% of viewport height
-becomes active, using the existing orange accent; other titles use graphite.
-The right panel uses the existing service images, descriptions, and capability
-lists cloned from the original accordion. Transitions use a restrained 450ms
-GSAP fade with 10px of movement. No wheel, touch, scroll locking, or additional
-animation loop is introduced.
+The five-service section uses its original full-width accordion on desktop and
+mobile. Clicking a numbered title opens its image, description, and capability
+list below the heading and closes the other service panels. The first service
+starts open. The existing shared accordion controller owns this interaction;
+the FAQ keeps its independent accordion group and the workflow is unchanged.
 
-The bundled GSAP and ScrollTrigger instances are exposed by one export line;
-all existing bundled initialization remains unchanged. Scoped GSAP contexts
-clean up triggers and tweens across breakpoint changes and page lifecycle.
-Reduced motion swaps content instantly. Image loads, fonts, and layout changes
-refresh the existing ScrollTrigger instance.
-
-Below 768px, the original mobile accordion and its shared controller remain
-unchanged. The FAQ and workflow are preserved. If JavaScript or the animation
-bundle is unavailable, CSS keeps all service details readable in document flow.
-Browser access was unavailable: breakpoint/state, content mapping, cleanup,
-mobile/FAQ controller, and source-preservation checks passed; visual viewport
-and browser-console checks remain unverified.
+The page no longer loads the sticky-scroll enhancement CSS or JavaScript. Those
+assets remain in the repository, inactive. The approved editorial palette,
+fonts, content, and service images are preserved. Scoped reduced-motion styles
+remove the accordion transitions, and a no-JavaScript fallback reveals all five
+service details in document flow.
 
 ## Approved Phase 1 — editorial design system
 
@@ -111,8 +101,8 @@ reorder content, redesign sections, or change animation controllers.
 | Secondary surface | `--ed-color-surface` | `#E9E5DD` |
 | Primary text | `--ed-color-text` | `#111110` |
 | Secondary text | `--ed-color-text-secondary` | `#68655F` |
-| Accent | `--ed-color-accent` | `#C4552F` |
-| Small-text accent | `--ed-color-accent-text` | `#A84123` |
+| Accent | `--ed-color-accent` | `#EF4418` |
+| Small-text accent | `--ed-color-accent-text` | `#EF4418` (aliases the accent) |
 | Dark section | `--ed-color-dark` | `#1B1B1B` |
 
 Borders use primary text at 14% opacity on light surfaces and bone at 20%

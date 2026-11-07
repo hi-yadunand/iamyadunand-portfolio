@@ -5,8 +5,8 @@
   --ed-color-surface: #E9E5DD;
   --ed-color-text: #111110;
   --ed-color-text-secondary: #68655F;
-  --ed-color-accent: #C4552F;
-  --ed-color-accent-text: #A84123;
+  --ed-color-accent: #EF4418;
+  --ed-color-accent-text: var(--ed-color-accent);
   --ed-color-dark: #1B1B1B;
   --ed-color-border: rgb(17 17 16 / 14%);
   --ed-color-border-light: rgb(244 241 234 / 20%);
