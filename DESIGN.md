@@ -71,20 +71,15 @@ architecture routes redirect to the real project register.
 Navigation state checks and local asset references pass. Browser preview was
 unavailable, so desktop/mobile visual fidelity remains unverified.
 
-## Services scroll accordion
+## Services accordion
 
-The five services keep the original accordion layout: numbered title rows,
-plus/cross icons, and image, description, and feature columns. All five titles
-remain in the list; only the detail panels open and close. The first service
-opens initially. Each 80% viewport of downward scroll closes the previous
-panel and slides open the next, reversing on upward scroll. The list moves up
-only when needed to fit later services in the viewport. A sticky stage supplies
-stable scroll distances so changing panel heights cannot retrigger selection.
+The five services use the original click-to-open accordion in normal document
+flow. The first service opens initially. Clicking a title closes the previous
+panel and slides open the selected service; clicking it again closes it. The
+existing shared accordion controller provides the interaction and refreshes
+scroll animation positions after the panel transition. Titles, plus/cross
+icons, images, descriptions, and feature lists are preserved.
 
-Panel height and icon transitions take 650ms using the existing draft easing.
-Only closed detail panels are inert and hidden from assistive technology;
-headings remain available, and title buttons can navigate to a service.
-Smaller screens, reduced motion, and JavaScript-disabled views retain all
-service content in normal flow. FAQ accordions remain separate. The earlier
-crossfade, full-card replacement, counter, and progress segments are removed.
-Live browser verification was unavailable.
+The services section has no sticky stage, extra scroll distance, automatic
+selection, wheel interception, or scroll locking. Mobile uses the same click
+interaction. The temporary services scroll script and stylesheet are removed.
