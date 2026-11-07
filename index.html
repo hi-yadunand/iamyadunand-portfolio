@@ -19,7 +19,10 @@
       } catch (e) { }
     })();
   </script>
-  <link rel="stylesheet" href="_astro/BaseLayout.B-BnKKTW.css">
+  <link rel="preload" href="_astro/inter-tight-latin-wght-normal.DX-nOvPD.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="_astro/geist-mono-latin-wght-normal.XN7g48iV.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/navigation.css" as="style">
+<link rel="stylesheet" href="_astro/BaseLayout.B-BnKKTW.css">
   <link rel="stylesheet" href="assets/drone-band.css">
   <link rel="stylesheet" href="assets/project-cards.css">
   <link rel="stylesheet" href="assets/hero-code.css">
@@ -84,7 +87,7 @@
           <div data-hero-frame class="absolute inset-0 overflow-hidden bg-ink text-white">
             <div data-hero-media class="absolute inset-0"><img src="images/iamyadunandhero.webp"
                 alt="Yadunand Pavithran sitting on a balcony overlooking the greenery" width="1537" height="1023"
-                fetchpriority="high" decoding="async" class="absolute inset-0 size-full object-cover" />
+                loading="eager" fetchpriority="high" decoding="async" class="absolute inset-0 size-full object-cover" />
             </div>
             <div class="absolute inset-0 bg-gradient-to-t from-ink/70 via-ink/10 to-ink/25"></div>
           </div>
@@ -812,7 +815,7 @@
               <div class="md:col-span-9 md:col-start-4"><p class="display text-display-md">A real-life TARS-inspired robot, combining custom hardware, embedded systems, and conversational AI.</p><figcaption class="label mt-6 md:mt-10">TARSX Robot<span class="text-graphite"> · Raspberry Pi · Python · AI</span></figcaption></div>
             </figure>
             <figure data-slide class="col-start-1 row-start-1 grid gap-6 md:grid-cols-12">
-              <div class="relative aspect-square w-24 overflow-hidden md:col-span-2 md:w-full"><img src="images/startupgrow.png" alt="Startup Grow project" width="720" height="480" loading="lazy" decoding="async" class="absolute inset-0 size-full object-cover"></div>
+              <div class="relative aspect-square w-24 overflow-hidden md:col-span-2 md:w-full"><img src="images/startupgrow-lossless.webp" alt="Startup Grow project" width="720" height="480" loading="lazy" decoding="async" class="absolute inset-0 size-full object-cover"></div>
               <div class="md:col-span-9 md:col-start-4"><p class="display text-display-md">Turning ideas into practical web applications through design, development, and iteration.</p><figcaption class="label mt-6 md:mt-10">Startup Grow<span class="text-graphite"> · Full-stack development</span></figcaption></div>
             </figure>
           </div>
@@ -838,7 +841,7 @@
           <h2 aria-label="Let's create what's next." class="display text-display-xl" data-reveal><span>Let's
               create </span><span aria-hidden
               class="portfolio-cta__illustration"><img
-                src="images/codingdesk.png" alt="Illustration of Yadunand coding at a desk with a laptop, coffee, and a small robot" width="1254" height="1254"
+                src="images/codingdesk.webp" alt="Illustration of Yadunand coding at a desk with a laptop, coffee, and a small robot" width="1254" height="1254"
                 loading="lazy" decoding="async"></span><span class="block">what's next.</span></h2>
           <div data-reveal class="mt-10 flex flex-wrap justify-center gap-3 md:mt-14"><a href="contact.html#brief"
               class="btn btn-solid "><span class="roll"><span data-text="Start a conversation">Start a
@@ -854,11 +857,12 @@
       </section>
     </div>
   </main>
+  <div data-footer-reveal-stage>
   <footer data-dark data-profile-footer class="overflow-hidden bg-ink text-paper">
     <div class="shell pt-16 md:pt-24">
       <div class="portfolio-footer__top">
         <div class="portfolio-footer__intro">
-          <video data-profile-video class="portfolio-footer__profile-video" muted playsinline preload="auto"
+          <video data-profile-video class="portfolio-footer__profile-video" muted playsinline preload="metadata"
             width="540" height="540" aria-label="Video profile of Yadunand Pavithran">
             <source src="images/howdyiamyadunand.mp4#t=0.001" type="video/mp4">
           </video>
@@ -900,6 +904,7 @@
       </a>
     </p>
   </footer>
+  </div>
   <div data-project-cursor aria-hidden="true" style="opacity: 0; transition: opacity 0.2s;"
     class="label pointer-events-none fixed top-0 left-0 z-50 -mt-9 -ml-9 hidden size-18 items-center justify-center rounded-full bg-signal text-white [@media(pointer:fine)]:flex">
   </div>
@@ -909,11 +914,7 @@
   <script type="module" src="assets/footer-ascii.js"></script>
   <script type="module" src="assets/testimonial-slider.js"></script>
   <script type="module" src="assets/project-cursor.js"></script>
-  <script type="module">
-    import("./assets/drone-services.js").catch(() => {
-      document.querySelector("[data-drone-band]")?.classList.add("is-fallback");
-    });
-  </script>
+  <script type="module" src="assets/drone-loader.js"></script>
   <script type="module" src="beacon.min.js/vce701823e78c4301a35b7e07294d87301792088814092"
     integrity="sha512-UKNk8GbxkABxKcXYuLkO16EleLGUkcvJWtpSNmExE0Too3ZaFAxTscNWEc1OdAv5/BikHawapSCaiD2XCmp+Bw=="
     data-cf-beacon='{"version":"2024.11.0","token":"cafbd0512f3a4a4f99b029b53309d22c","r":1,"spa":2}'

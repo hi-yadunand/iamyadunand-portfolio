@@ -22,6 +22,14 @@
     linear-gradient(180deg, #030303 0%, #080808 42%, #171717 100%);
 }
 
+/* Natural-height clipping stage: the footer moves more slowly than the page
+   above it, then returns to normal flow before any content can be skipped. */
+[data-footer-reveal-stage] {
+  position: relative;
+  overflow: clip;
+  background-color: #080808;
+}
+
 .portfolio-footer__background {
   position: absolute;
   inset: 0;
