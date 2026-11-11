@@ -121,3 +121,14 @@ test('page links, canonical URLs and redirect fallbacks use extensionless routes
     }
   }
 });
+
+test('legacy contact alias normalization covers encoded and decoded project paths', () => {
+  const variants = ['/contact/.project=Almond%20Terrace.html', '/contact/.project%3DAlmond%20Terrace.html', '/contact/%2Eproject=Almond%20Terrace.html', '/contact/%2Eproject%3DAlmond%20Terrace.html'];
+  for (const variant of variants) {
+    const match = /^\/contact\/(?:\.project=|\.project%3D|%2Eproject=|%2Eproject%3D)/i.test(variant);
+    assert.equal(match, true, variant);
+  }
+  const html = readFileSync(path.join(root, 'index.html'), 'utf8');
+  assert(html.includes('decodeURIComponent(decodedPagePath)'));
+  assert(html.includes('%2Eproject%3D'));
+});

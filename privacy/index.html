@@ -7,7 +7,12 @@
         var pageURL = new URL(originalPageURL);
         var pagePath = pageURL.pathname.replace(/\/index\.html$/i, "/").replace(/\.html$/i, "");
         if (pagePath !== "/") pagePath = pagePath.replace(/\/+$/, "");
-        if (/^\/contact\/(?:\.project=|\.project%3D)/i.test(pagePath)) pagePath = "/contact";
+        var decodedPagePath = pagePath;
+        try { decodedPagePath = decodeURIComponent(decodedPagePath); } catch (e) {}
+        if ((/^\/contact\/(?:\.project=|\.project%3D|%2Eproject=|%2Eproject%3D)/i.test(pagePath) ||
+             /^\/contact\/(?:\.project=|\.project%3D|%2Eproject=|%2Eproject%3D)/i.test(decodedPagePath))) {
+          pagePath = "/contact";
+        }
         if (pagePath !== pageURL.pathname) {
           history.replaceState(history.state, "", pagePath + pageURL.search + pageURL.hash);
         }
