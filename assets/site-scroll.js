@@ -181,9 +181,8 @@ export function initSiteScroll({ Lenis, gsap, ScrollTrigger }) {
     const isPageLink = !url.hash && !link.getAttribute("href").startsWith("#");
     const refreshCurrentPage = url.pathname === location.pathname &&
       (!url.search || url.search === location.search);
-    // Non-home current-page links replay their loader. Home stays in-page at
-    // the root and scrolls to the top; explicit fragments keep their target.
-    if (isPageLink && refreshCurrentPage && url.pathname !== "/") {
+    // Current-page links reload; explicit fragments keep their in-page target.
+    if (isPageLink && refreshCurrentPage) {
       event.preventDefault();
       if (navigating) return;
       finishInitialAlignment();

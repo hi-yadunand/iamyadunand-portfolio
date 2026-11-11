@@ -107,7 +107,7 @@ test('anchors update history once, use the fixed-header offset and manage focus'
   assert.equal(f.click(f.link('#%ZZ')).defaultPrevented, false);
 });
 
-test('Home navigates normally from other pages and scrolls to top without reloading at home', () => {
+test('Home navigates normally from other pages and reloads when already at home', () => {
   for (const path of ['/', '/contact', '/studio', '/?from=work#projects']) {
     const f = fixture({ url: `https://portfolio.test${path}`, nativeTransitions: true });
     let reloads = 0;
@@ -116,17 +116,18 @@ test('Home navigates normally from other pages and scrolls to top without reload
     f.storage.set('portfolio-page-entry', 'stale');
     const event = f.click(f.link('/'));
     assert(event.defaultPrevented);
-    assert.equal(reloads, 0, path);
+    assert.equal(reloads, path === '/' ? 1 : 0, path);
     if (path === '/contact' || path === '/studio') {
       assert.deepEqual(f.assigned, ['https://portfolio.test/']);
       assert.equal(f.storage.has('yadunand-loaded'), true);
       assert.equal(JSON.parse(f.storage.get('portfolio-page-entry')).to, 'https://portfolio.test/');
       assert.equal(f.lenis.calls.length, 0, 'Home on another route uses document navigation');
-    } else {
+    } else if (path === '/') {
       assert.deepEqual(f.assigned, []);
-      assert.equal(f.lenis.calls.at(-1).value, 0, 'Home at the root scrolls to the top');
-      assert.equal(f.location.search, '');
-      assert.equal(f.location.hash, '');
+      assert.equal(f.lenis.calls.length, 0, 'Home on the current homepage reloads');
+    } else {
+      assert.deepEqual(f.assigned, ['https://portfolio.test/']);
+      assert.equal(f.lenis.calls.length, 0, 'Home navigates to the clean homepage URL');
     }
   }
   const f = fixture({ url: 'https://portfolio.test/' });
@@ -138,8 +139,8 @@ test('Home navigates normally from other pages and scrolls to top without reload
   assert.equal(f.lenis.calls.at(-1).value, 0);
 });
 
-test('current-page navigation reloads non-home routes, including from a section fragment', () => {
-  for (const path of ['/studio', '/projects', '/services', '/contact', '/privacy', '/terms']) {
+test('current-page navigation reloads every route, including home and section fragments', () => {
+  for (const path of ['/', '/studio', '/projects', '/services', '/contact', '/privacy', '/terms']) {
     for (const hash of ['', '#brief']) {
       for (const reduced of [false, true]) {
         const f = fixture({ url: `https://portfolio.test${path}${hash}`, reduced, nativeTransitions: true });
