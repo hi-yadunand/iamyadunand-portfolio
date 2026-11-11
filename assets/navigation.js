@@ -44,7 +44,11 @@ export function initNavigation(signal) {
     if (window.scrollY <= 160 || document.documentElement.hasAttribute('data-menu-open')) {
       reveal();
     }
-    header.toggleAttribute('data-on-dark', onDark);
+    // The loader scales the page to zero, so its section rectangles cannot
+    // determine the header color until the reveal restores the page layout.
+    if (!document.documentElement.hasAttribute('data-preloader-active')) {
+      header.toggleAttribute('data-on-dark', onDark);
+    }
   };
 
   const onScroll = () => {
@@ -70,5 +74,6 @@ export function initNavigation(signal) {
   window.addEventListener('scroll', onScroll, { passive: true, signal });
   window.addEventListener('resize', update, { signal });
   window.addEventListener('pageshow', update, { signal });
+  document.addEventListener('portfolio:preloader-complete', update, { signal });
   update();
 }

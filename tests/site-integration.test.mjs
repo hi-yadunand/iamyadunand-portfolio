@@ -40,6 +40,9 @@ test('every rendered document loads one base runtime, one navigation stylesheet 
     assert.equal(entries.filter(t => t.tag === 'link' && t.attrs.rel === 'stylesheet' && t.attrs.href.endsWith('/site-navigation.css')).length, 1, file);
     assert(html.includes('sessionStorage.getItem("portfolio-page-entry")'), file);
     assert(html.includes('h.setAttribute("data-site-enter", "")'), file);
+    const transitionScript = scripts.filter(src => src.endsWith('/page-transitions.js'));
+    assert.equal(transitionScript.length, 1, file);
+    assert(html.indexOf(transitionScript[0]) < html.indexOf('</head>'), file);
   }
   assert.equal(rendered, 21); assert.equal(redirects, 8);
 });

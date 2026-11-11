@@ -120,3 +120,61 @@ from their email app. It does not claim server delivery or clear entered details
 The original shared navigation and footer remain in place. All nine rendered
 contact routes share the same layout and behavior. Local browser visual QA
 remains unavailable without a connected browser.
+
+## Project image loader
+
+The supplied loader screenshot and the live public animation source at
+`https://slater.app/17302/55042.js`, inspected on 11 November 2026, inform this
+implementation. The reference scales four image wrappers from zero to full
+size over 0.8 seconds, staggered by 0.5 seconds, with rotations of 7, -7, 4,
+and -4 degrees. Each inner image simultaneously scales from 2 to 1 and fades
+in, using `power3.out`. The counter runs for 1.9 seconds with `power2.inOut`.
+The page scales up from zero with a five-degree rotation, using the reference's
+`cubic-bezier(0.25, 0.1, 0.1, 0.95)` curve evaluated without another plugin.
+
+The portfolio retains the `#111` background and centered stack, using local
+Karuvin, Lobiatek, Zappo, and Spakgen images. Stable card stacking replaces
+the earlier shuffle. Transform and opacity animations run on compositor
+layers, and the counter remains near the bottom. The percentage follows the
+entrance animation timeline.
+
+Shared styles and animation live in `assets/preloader.css` and
+`assets/preloader.js`. All rendered pages use the same markup. The existing
+session flag skips repeat direct visits, while every browser reload replays
+the loader on any page. Internal links retain their arrival fade, and
+reduced-motion visitors skip the loader. The existing
+four-second CSS fallback stays active if JavaScript fails. A 3.8-second
+JavaScript fallback also restores the page and header styles if animation
+execution stops. Completion restores authored inline styles and refreshes
+scroll measurements after the temporary viewport crop. Mobile uses a smaller
+stack, and the counter respects the bottom safe area. Browser preview was
+unavailable, so the motion was checked against source rather than visually
+verified in a live browser.
+
+Homepage reloads without a URL fragment disable browser scroll restoration in
+the head and start at the hero. The scroll controller synchronizes to zero
+after layout refreshes until the loader and initial layout finish, then restores
+automatic history handling. User interaction cancels initial positioning.
+Back/forward navigation and explicit fragment URLs retain their existing
+positioning. Regression checks simulate a saved footer position and layout
+changes during the loader; live browser verification remains unavailable.
+
+The homepage header starts with `data-on-dark` so its text is white over the
+hero before initialization. Navigation retains its initial color while the
+loader transforms the page and recalculates section colors on the shared
+`portfolio:preloader-complete` event after page styles are restored.
+
+## Overlapping page transitions
+
+Normal internal page changes follow the supplied reference screenshots and the
+reference's public animation source: the outgoing page shrinks to 95% and dims,
+while the incoming page slides up at a five-degree tilt, then expands from 85%
+to full size. The slide lasts one second; expansion lasts 0.8 seconds and starts
+at 0.6 seconds. A `#111` backdrop fills the exposed edges.
+
+Native cross-document View Transitions preserve overlapping viewport snapshots
+without transforming the actual document layout. The early shared head script
+handles the snapshot lifecycle. Full overlap requires browser support; the
+fallback animates each document separately. Home and reloads retain the starter
+loader, and reduced motion skips both effects. See `NAVIGATION.md` for behavior
+and validation details. Live browser comparison remains unavailable.

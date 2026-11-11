@@ -134,6 +134,13 @@ new generated build does not overwrite it.
 - Direct document/hash visits align after layout settles. Reload/back-forward
   entries keep the browser's saved position rather than being forced to the hash.
   Initial correction stops when the visitor interacts.
+- Homepage reloads without a fragment start at the hero for the starter
+  animation. Browser restoration is temporarily manual, and Lenis synchronizes
+  to zero through loader layout changes. Automatic restoration resumes when
+  initial layout finishes or the visitor interacts. Back/forward is preserved.
+- Home links open a fresh homepage document and replay the starter animation.
+  Clicking Home while already at `/` reloads the page. Explicit fragment links
+  keep in-page scrolling; modified clicks retain native browser behavior.
 - Native history restoration is not replaced by a manual position store. A
   single one-shot frame after traversal synchronizes Lenis with the browser's
   restored position and cancels an obsolete programmatic scroll.
@@ -146,32 +153,46 @@ new generated build does not overwrite it.
   modified clicks, middle clicks and component-prevented clicks stay native.
 
 Optional developer exceptions: `data-native-navigation` on an anchor/container
-opts out of both delegated anchors and page fades; `data-no-transition` on an
-anchor opts out of a cross-document fade. No visible controls were added.
+opts out of both delegated anchors and page transitions; `data-no-transition`
+on an anchor opts out of a cross-document animation. No visible controls were added.
 
 ## Multi-page transitions
 
-Same-origin HTML navigation gets a **160ms exit fade**, followed immediately by
-normal `location.assign`. The destination gets a **180ms arrival fade** using
-self-contained CSS. There is no preload wait, extra loading screen, DOM swapping,
-fetch router or script reinjection. The browser owns each new document/history
-entry, and every document initializes its own one-instance runtime.
+Same-origin HTML links use native cross-document View Transitions in supporting
+browsers. Navigation starts immediately with `location.assign`, and the browser
+retains both viewport snapshots for the overlapping animation. The outgoing
+snapshot scales to 95% and dims over 700ms. The incoming snapshot rises from
+below with a five-degree rotation over 1000ms and scales from 85% to full size
+over 800ms, starting 600ms into the movement. A black backdrop frames both pages.
+These values follow the supplied screenshots and the public reference source
+at `https://slater.app/17302/55042.js` inspected on 11 November 2026.
+
+`assets/page-transitions.js` registers `pageswap` and `pagereveal` in the head,
+before first render. It prevents the fallback entrance from animating beneath
+the native snapshot transition. Browsers without cross-document transition
+support use a 700ms outgoing shrink/dim, normal navigation, and a self-contained
+1400ms rising entrance. This fallback cannot display both documents together.
+The browser owns each new document/history entry, and every document initializes
+its own runtime. Existing per-page scripts and form state follow normal document
+navigation; there is no fetch router or script reinjection.
 
 A small addition to each existing head startup script consumes a short-lived
 session intent before first paint. This skips a repeated loader only for an
-intentional internal arrival and starts the entry CSS. Direct visits/reloads
-retain the existing first-visit presentation. Existing loader, hero and section
-tween durations are otherwise unchanged. Alias redirects forward the intent.
+intentional internal arrival. The destination uses entry CSS if a native
+transition is unavailable or skipped. Reloads and Home links retain their
+starter loader; Home's navigation explicitly skips overlapping snapshots.
+Alias redirects forward the intent. Direct fragment links remain in-page moves.
 
-Back/forward-cache restoration cancels the stale outgoing fade, retains the
-Lenis instance and resumes one ticker. Restored pages get a brief reveal when
-motion is allowed. Permanent page departure disconnects new observers/listeners
-and destroys the departing Lenis instance.
+Back/forward-cache restoration cancels a stale outgoing animation, retains the
+Lenis instance, and resumes one ticker. Supporting browsers use native snapshots
+for history transitions; fallback browsers retain a brief restored-page reveal.
+Permanent departure disconnects observers/listeners and destroys the departing
+Lenis instance.
 
 Animation/storage failures retain navigation fallbacks. A recovery timer resets
-a faded source page if navigation is cancelled/fails; it starts **after** the
-navigation attempt and never delays it. Entry CSS ends at full opacity even if
-the shared script fails, avoiding a permanently hidden destination.
+the source page if navigation is cancelled/fails; it starts after the navigation
+attempt and never delays it. Entry CSS ends at its normal transform even if the
+shared module fails. Transition completion or cancellation clears native state.
 
 ## Mobile and reduced motion
 
@@ -179,8 +200,8 @@ Touch scrolling stays native on phones and tablets. Native nested scroll areas
 and horizontal interactions are not turned into extra smooth-scroll engines.
 
 Reduced motion disables wheel smoothing and the scrolling ticker callback,
-makes managed anchor moves immediate and skips page fades. Live preference
-changes update the engine and cancel fades without blocking pending navigation.
+makes managed anchor moves immediate and skips page transitions. Live preference
+changes update the engine and cancel animations without blocking navigation.
 Existing section-animation startup still uses the base module's original motion
 gate; no section effects were rewritten in this task.
 
@@ -189,7 +210,8 @@ gate; no section effects were rewritten in this task.
 Created:
 
 - `assets/site-scroll.js` — shared scrolling, anchors, lifecycle and link transitions.
-- `assets/site-navigation.css` — entry fade and scroll-behaviour compatibility only.
+- `assets/site-navigation.css` — overlapping snapshot animations, fallback entrance and scroll compatibility.
+- `assets/page-transitions.js` — early native transition lifecycle and navigation exceptions.
 - `assets/project-redirect.js` — lightweight URL/history/intent forwarding for aliases.
 - `tests/site-scroll.test.mjs` — isolated controller/history/accessibility/lifecycle tests.
 - `tests/site-integration.test.mjs` — all-page loading/link/runtime checks.

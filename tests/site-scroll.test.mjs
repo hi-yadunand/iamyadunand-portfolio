@@ -24,14 +24,16 @@ class Node extends Events {
   closest(selector) { return selector === 'a[href]' ? this : this.hasAttribute('data-native-navigation') ? this : null; }
   focus(options) { this.focused = options; }
 }
-function fixture({ reduced = false, url = 'https://portfolio.test/index.html', type = 'navigate', complete = false } = {}) {
+function fixture({ reduced = false, url = 'https://portfolio.test/index.html', type = 'navigate', complete = false, reloadTop = false, nativeTransitions = false } = {}) {
   const win = new Events(), doc = new Events(), motion = new Events(); motion.matches = reduced;
   const root = new Node(), body = new Node(), main = new Node(), target = new Node();
+  if (nativeTransitions) root.setAttribute('data-native-page-transitions', '');
   let current = new URL(url); const assigned = [], entries = [], instances = [], frames = new Map(), timers = new Map(), animations = [], delayed = [], callbacks = new Set(), storage = new Map(); let sequence = 0;
   const location = { get href() { return current.href; }, get origin() { return current.origin; }, get pathname() { return current.pathname; }, get search() { return current.search; }, get hash() { return current.hash; }, assign(value) { assigned.push(value); }, set(value) { current = new URL(value, current); } };
   const history = { state: { existing: true }, scrollRestoration: 'auto', pushState(state, _, href) { this.state = state; entries.push(href); location.set(href); }, replaceState(state, _, href) { this.state = state; location.set(href); } };
+  if (reloadTop) { root.setAttribute('data-reload-top', ''); history.scrollRestoration = 'manual'; }
   Object.assign(doc, { documentElement: root, body, readyState: complete ? 'complete' : 'interactive', hidden: false, fonts: { status: 'loaded' }, referrer: '', getElementById: id => id === 'brief' || id === 'space id' ? target : null, getElementsByName: id => id === 'legacy' ? [target] : [], querySelector: selector => selector === 'main' ? main : selector === '[data-menu-toggle]' ? { click() { root.removeAttribute('data-menu-open'); } } : null });
-  Object.assign(win, { scrollY: 0, matchMedia: () => motion });
+  Object.assign(win, { scrollY: 0, innerHeight: 900, scrollTo: options => { win.scrollY = options.top; }, matchMedia: () => motion });
   const requestAnimationFrame = fn => { frames.set(++sequence, fn); return sequence; };
   const cancelAnimationFrame = id => frames.delete(id);
   const setTimeout = (fn, ms) => { timers.set(++sequence, { fn, ms }); return sequence; };
@@ -100,6 +102,60 @@ test('anchors update history once, use the fixed-header offset and manage focus'
   assert.equal(f.click(f.link('#%ZZ')).defaultPrevented, false);
 });
 
+test('Home reloads the homepage and replays its loader from every page', () => {
+  for (const path of ['/', '/contact', '/studio', '/?from=work#projects']) {
+    const f = fixture({ url: `https://portfolio.test${path}` });
+    let reloads = 0;
+    f.location.reload = () => reloads++;
+    f.storage.set('yadunand-loaded', '1');
+    f.storage.set('portfolio-page-entry', 'stale');
+    const event = f.click(f.link('/'));
+    assert(event.defaultPrevented);
+    assert.equal(reloads, path === '/' ? 1 : 0);
+    assert.deepEqual(f.assigned, path === '/' ? [] : ['https://portfolio.test/']);
+    assert.equal(f.storage.has('yadunand-loaded'), false);
+    assert.equal(f.storage.has('portfolio-page-entry'), false);
+    assert.equal(f.lenis.calls.length, 0, 'Home must navigate instead of smooth-scrolling');
+  }
+  const f = fixture({ url: 'https://portfolio.test/' });
+  let reloads = 0;
+  f.location.reload = () => reloads++;
+  assert.equal(f.click(f.link('/'), { ctrlKey: true }).defaultPrevented, false);
+  f.click(f.link('#'));
+  assert.equal(reloads, 0, 'explicit fragment links still scroll within the page');
+  assert.equal(f.lenis.calls.at(-1).value, 0);
+});
+
+test('current-page navigation reloads every route, including from a section fragment', () => {
+  for (const path of ['/', '/studio', '/projects', '/services', '/contact', '/privacy', '/terms']) {
+    for (const hash of ['', '#brief']) {
+      for (const reduced of [false, true]) {
+        const f = fixture({ url: `https://portfolio.test${path}${hash}`, reduced, nativeTransitions: true });
+        let reloads = 0;
+        f.location.reload = () => reloads++;
+        f.storage.set('yadunand-loaded', '1');
+        f.storage.set('portfolio-page-entry', 'stale');
+        assert(f.click(f.link(path)).defaultPrevented);
+        assert.equal(reloads, 1, `${path}${hash}`);
+        assert.equal(f.location.hash, '', 'a page link removes the section fragment before reloading');
+        assert.equal(f.storage.has('yadunand-loaded'), false);
+        assert.equal(f.storage.has('portfolio-page-entry'), false);
+        assert.equal(f.lenis.calls.length, 0);
+        assert.equal(f.animations.length, 0);
+      }
+    }
+  }
+  const f = fixture({ url: 'https://portfolio.test/services?campaign=work#brief' });
+  assert(f.click(f.link('/services')).defaultPrevented);
+  assert.deepEqual(f.assigned, ['https://portfolio.test/services']);
+  const blocked = fixture({ url: 'https://portfolio.test/services' });
+  let reloads = 0;
+  blocked.location.reload = () => reloads++;
+  blocked.sessionStorage.removeItem = () => { throw new Error('Storage blocked'); };
+  assert.doesNotThrow(() => blocked.click(blocked.link('/services')));
+  assert.equal(reloads, 1);
+});
+
 test('external, special, modified, target, download and opt-out links stay native', () => {
   const f = fixture();
   for (const href of ['https://external.test/', 'mailto:me@example.test', 'tel:1234', 'javascript:void(0)', '/images/photo.webp']) assert.equal(f.click(f.link(href)).defaultPrevented, false);
@@ -109,9 +165,10 @@ test('external, special, modified, target, download and opt-out links stay nativ
   assert.equal(f.animations.length, 0);
 });
 
-test('page fade navigates after its animation with URL/query/hash intact and no extra wait', async () => {
+test('fallback page transition navigates after shrinking with URL/query/hash intact', async () => {
   const f = fixture(); const event = f.click(f.link('contact.html?project=Robot#brief')); assert(event.defaultPrevented);
-  assert.equal(f.assigned.length, 0); assert.equal(f.animations[0].options.duration, 160);
+  assert.equal(f.assigned.length, 0); assert.equal(f.animations[0].options.duration, 700);
+  assert.equal(f.animations[0].keyframes[1].transform, 'scale(0.95)');
   assert.equal(f.frames.size, 0); assert.equal(f.timers.size, 0);
   f.click(f.link('projects.html')); assert.equal(f.animations.length, 1);
   f.animations[0].finish(); await Promise.resolve();
@@ -119,6 +176,28 @@ test('page fade navigates after its animation with URL/query/hash intact and no 
   assert.equal(JSON.parse(f.storage.get('portfolio-page-entry')).to, f.assigned[0]);
   assert.equal(f.timers.size, 1); // Recovery is scheduled after navigation, not before it.
   f.doc.fire('animationend', { target: f.body, animationName: 'site-page-enter' });
+});
+
+test('native overlapping page navigation starts immediately without transforming the document', () => {
+  const f = fixture({ nativeTransitions: true });
+  f.body.animate = undefined;
+  const event = f.click(f.link('/contact?project=Robot#brief'));
+  assert(event.defaultPrevented);
+  assert.deepEqual(f.assigned, ['https://portfolio.test/contact?project=Robot#brief']);
+  assert.equal(f.animations.length, 0);
+  assert.equal(f.lenis.calls.length, 0);
+  assert.equal(f.root.hasAttribute('data-site-leaving'), false);
+  assert.equal(JSON.parse(f.storage.get('portfolio-page-entry')).to, f.assigned[0]);
+  f.click(f.link('/studio'));
+  assert.equal(f.assigned.length, 1, 'one pending navigation at a time');
+  [...f.timers.values()][0].fn();
+  f.click(f.link('/studio'));
+  assert.equal(f.assigned.length, 2, 'a cancelled navigation can recover');
+
+  const g = fixture({ nativeTransitions: true });
+  g.sessionStorage.setItem = () => { throw new Error('blocked'); };
+  assert.doesNotThrow(() => g.click(g.link('/contact')));
+  assert.equal(g.assigned.length, 1);
 });
 
 test('animation/storage fallback and reduced-motion changes do not block navigation', async () => {
@@ -153,6 +232,34 @@ test('native back/forward restoration is synchronized after one frame, not repla
   f.win.fire('popstate'); assert.equal(f.lenis.calls.at(-1).value, 500); assert.equal(f.frames.size, 1);
   f.win.scrollY = 120; f.frame(); assert.equal(f.lenis.calls.at(-1).value, 120);
   assert.equal(f.lenis.time, 0); assert.equal(f.history.scrollRestoration, 'auto'); assert.equal(f.frames.size, 0);
+});
+
+test('homepage reload stays at the hero through loader layout changes, then releases positioning', () => {
+  const f = fixture({ reloadTop: true, type: 'reload', complete: true });
+  f.root.setAttribute('data-preloader-active', '');
+  f.ScrollTrigger.refresh = () => { f.win.scrollY = 4800; };
+  f.refresh();
+  assert.equal(f.win.scrollY, 0);
+  assert.equal(f.lenis.calls.at(-1).options.immediate, true);
+  assert.equal(f.history.scrollRestoration, 'manual');
+  assert(f.root.hasAttribute('data-reload-top'));
+
+  f.root.removeAttribute('data-preloader-active');
+  f.api.requestSiteRefresh(); f.refresh();
+  assert.equal(f.win.scrollY, 0);
+  assert.equal(f.history.scrollRestoration, 'auto');
+  assert.equal(f.root.hasAttribute('data-reload-top'), false);
+
+  f.ScrollTrigger.refresh = () => {};
+  f.win.scrollY = 900;
+  f.api.requestSiteRefresh(); f.refresh();
+  assert.equal(f.win.scrollY, 900, 'later refreshes preserve intentional scrolling');
+
+  const interrupted = fixture({ reloadTop: true, type: 'reload', complete: true });
+  interrupted.win.scrollY = 500;
+  interrupted.win.fire('wheel'); interrupted.refresh();
+  assert.equal(interrupted.win.scrollY, 500);
+  assert.equal(interrupted.history.scrollRestoration, 'auto');
 });
 
 test('keyboard scrolling can interrupt smoothing without preventing native keys or changing form editing', () => {
@@ -203,6 +310,39 @@ test('early entry helper only fades intentional arrivals and never strands a dir
     vm.runInContext(script, f.context);
     assert.equal(f.root.hasAttribute('data-site-enter'), expected);
     assert.equal(f.storage.has('portfolio-page-entry'), false);
+  }
+});
+
+test('homepage head disables saved-scroll restoration before a reload paints', () => {
+  const script = readFileSync(new URL('../index.html', import.meta.url), 'utf8').match(/<script>([\s\S]*?)<\/script>/)[1];
+  for (const [kind, hash, reset] of [['reload', '', true], ['reload', '#work', false], ['back_forward', '', false], ['navigate', '', false]]) {
+    const f = fixture({ type: kind, url: `https://portfolio.test/${hash}` });
+    f.win.scrollY = 4800;
+    f.context.matchMedia = query => ({ matches: query.includes('no-preference') });
+    vm.runInContext(script, f.context);
+    assert.equal(f.win.scrollY, reset ? 0 : 4800);
+    assert.equal(f.history.scrollRestoration, reset ? 'manual' : 'auto');
+    assert.equal(f.root.hasAttribute('data-reload-top'), reset);
+  }
+});
+
+test('every rendered page replays its loader on reload after a previous visit', () => {
+  const routes = ['studio', 'projects', 'services', 'contact', 'privacy', 'terms'];
+  const pages = ['index.html', ...routes.flatMap(route => [`${route}.html`, `${route}/index.html`]),
+    ...readdirSync(new URL('../contact/', import.meta.url)).filter(name => name.startsWith('.project=')).map(name => `contact/${name}`)];
+  assert.equal(pages.length, 21);
+  for (const page of pages) {
+    const script = readFileSync(new URL(`../${page.replace(/%/g, '%25')}`, import.meta.url), 'utf8').match(/<script>([\s\S]*?)<\/script>/)[1];
+    for (const [kind, reduced] of [['reload', false], ['reload', true], ['navigate', false]]) {
+      const f = fixture({ type: kind, reduced, url: `https://portfolio.test/${page}` });
+      f.storage.set('yadunand-loaded', '1');
+      f.storage.set('portfolio-page-entry', JSON.stringify({ to: f.location.href, from: 'https://portfolio.test/', at: Date.now() }));
+      f.context.matchMedia = query => ({ matches: query.includes('no-preference') ? !reduced : reduced });
+      vm.runInContext(script, f.context);
+      assert.equal(f.root.hasAttribute('class:loaded'), kind !== 'reload', page);
+      assert.equal(f.root.hasAttribute('class:motion'), !reduced, page);
+      assert.equal(f.root.hasAttribute('data-site-enter'), kind === 'navigate' && !reduced, page);
+    }
   }
 });
 

@@ -1,12 +1,75 @@
-/* Only document navigation is animated; existing section styles stay intact. */
+/* The browser retains both viewport snapshots across real document navigation. */
+@media (prefers-reduced-motion: no-preference) {
+  @view-transition { navigation: auto; }
+}
+
+::view-transition {
+  background: #111;
+  pointer-events: none;
+}
+
+::view-transition-group(root) {
+  animation: none;
+}
+
+::view-transition-image-pair(root) {
+  isolation: isolate;
+}
+
+::view-transition-old(root),
+::view-transition-new(root) {
+  mix-blend-mode: normal;
+  transform-origin: 50% 50%;
+  backface-visibility: hidden;
+}
+
+::view-transition-old(root) {
+  z-index: 1;
+  animation: site-page-recede 700ms cubic-bezier(0.215, 0.61, 0.355, 1) both;
+}
+
+::view-transition-new(root) {
+  z-index: 2;
+  animation:
+    site-page-rise 1000ms cubic-bezier(0.65, 0, 0.35, 1) both,
+    site-page-expand 800ms 600ms cubic-bezier(0.4, 0, 0.2, 0.95) both;
+}
+
+@keyframes site-page-recede {
+  from { transform: scale(1); filter: brightness(1); }
+  to { transform: scale(0.95); filter: brightness(0.6); }
+}
+
+/* Individual transforms compose: the expansion overlaps the upward movement. */
+@keyframes site-page-rise {
+  from { translate: 0 100%; rotate: 5deg; }
+  to { translate: 0 0; rotate: 0deg; }
+}
+
+@keyframes site-page-expand {
+  from { scale: 0.85; }
+  to { scale: 1; }
+}
+
+/* A self-contained entrance also works when cross-document snapshots are absent. */
 @keyframes site-page-enter {
-  from { opacity: 0; }
-  to { opacity: 1; }
+  from { transform: translateY(100svh) rotate(5deg) scale(0.85); }
+  70% { transform: translateY(0) rotate(0) scale(0.94); }
+  to { transform: none; }
 }
 
 @media (prefers-reduced-motion: no-preference) {
   html[data-site-enter] body {
-    animation: site-page-enter 180ms ease-out both;
+    transform-origin: 50% 50svh;
+    animation: site-page-enter 1400ms cubic-bezier(0.65, 0, 0.35, 1) both;
+  }
+
+  html[data-page-transition-active] body {
+    animation: none;
+  }
+
+  html[data-site-leaving] {
+    background: #111;
   }
 }
 
@@ -16,6 +79,10 @@ html.lenis-smooth {
 }
 
 @media (prefers-reduced-motion: reduce) {
+  @view-transition { navigation: none; }
+  ::view-transition-group(*),
+  ::view-transition-old(*),
+  ::view-transition-new(*) { animation: none !important; }
   html { scroll-behavior: auto !important; }
   html[data-site-enter] body {
     animation: none;

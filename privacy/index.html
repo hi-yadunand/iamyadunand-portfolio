@@ -15,11 +15,19 @@
         var h = document.documentElement;
         if (matchMedia("(prefers-reduced-motion: no-preference)").matches) h.classList.add("motion");
         try {
-          if (sessionStorage.getItem("yadunand-loaded")) h.classList.add("loaded");
+          // Reloads replay the starter animation from the top of the page.
+        var initialNavigation = performance.getEntriesByType("navigation")[0];
+        if (initialNavigation && initialNavigation.type === "reload" && !location.hash) {
+          h.setAttribute("data-reload-top", "");
+          history.scrollRestoration = "manual";
+          window.scrollTo({ top: 0, left: 0, behavior: "instant" });
+        }
+        if ((!initialNavigation || initialNavigation.type !== "reload") &&
+            sessionStorage.getItem("yadunand-loaded")) h.classList.add("loaded");
         } catch (e) {}
 
       // Arrival fade applies only to an intentional internal page navigation.
-      // Direct visits/reloads keep the existing first-visit presentation.
+      // Reloads replay the loader; intentional internal navigation uses the arrival fade.
       try {
         var entry = sessionStorage.getItem("portfolio-page-entry");
         if (entry) {
@@ -36,7 +44,8 @@
         }
       } catch (e) {}
     })();
-    </script><link rel="preload" href="/_astro/inter-tight-latin-wght-normal.DX-nOvPD.woff2" as="font" type="font/woff2" crossorigin>
+    </script>
+<script src="/assets/page-transitions.js"></script><link rel="preload" href="/_astro/inter-tight-latin-wght-normal.DX-nOvPD.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="/_astro/geist-mono-latin-wght-normal.XN7g48iV.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="/assets/navigation.css" as="style">
 <link rel="stylesheet" href="/_astro/BaseLayout.B-BnKKTW.css">
@@ -45,7 +54,17 @@
 
 <link rel="stylesheet" href="/assets/portfolio-footer.css">
   <link rel="canonical" href="https://iamyadunand.com/privacy">
-</head><body><div data-preloader aria-hidden class="fixed inset-0 z-[60] flex flex-col justify-end bg-ink text-paper"><div class="shell pb-8"><div class="flex items-end justify-between"><p class="text-lg font-medium tracking-[-0.03em]">Yadunand Pavithran</p><p data-preloader-count class="display text-display-xl tabular-nums">00</p></div><div data-preloader-line class="dim mt-4 origin-left text-signal"></div></div></div><header data-header class="fixed inset-x-0 top-0 z-50">
+<link rel="stylesheet" href="/assets/preloader.css">
+</head><body><div data-preloader aria-hidden="true">
+    <div class="preloader__stack">
+      <div data-preloader-card class="preloader__card"><img class="preloader__image" src="/images/case-studies/karuvin.webp" alt="" width="720" height="480" loading="eager" decoding="async"></div>
+      <div data-preloader-card class="preloader__card"><img class="preloader__image" src="/images/case-studies/lobiatek.webp" alt="" width="720" height="480" loading="eager" decoding="async"></div>
+      <div data-preloader-card class="preloader__card"><img class="preloader__image" src="/images/case-studies/zappo.webp" alt="" width="720" height="480" loading="eager" decoding="async"></div>
+      <div data-preloader-card class="preloader__card"><img class="preloader__image" src="/images/case-studies/spakgen.webp" alt="" width="720" height="480" loading="eager" decoding="async"></div>
+    </div>
+    <p data-preloader-count class="preloader__count">0%</p>
+  </div>
+  <header data-header class="fixed inset-x-0 top-0 z-50">
     <div class="shell grid grid-cols-[1fr_auto] items-center gap-6 py-4 lg:grid-cols-[1fr_auto_1fr]"><a
         href="/" class="flex items-center gap-2 text-lg font-medium tracking-[-0.03em]"
         aria-label="Yadunand Pavithran, home">Yadunand Pavithran</a>

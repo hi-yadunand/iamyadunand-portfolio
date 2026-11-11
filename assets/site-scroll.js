@@ -65,10 +65,16 @@ export function initSiteScroll({ Lenis, gsap, ScrollTrigger }) {
   let pendingURL;
   let recovery = 0;
   let userInteracted = false;
+  let initialTop = root.hasAttribute("data-reload-top");
   let initialHash = Boolean(location.hash) && !["reload", "back_forward"].includes(navigationType);
   const initialInteraction = new AbortController();
   const finishInitialAlignment = () => {
     initialHash = false;
+    initialTop = false;
+    if (root.hasAttribute("data-reload-top")) {
+      root.removeAttribute("data-reload-top");
+      history.scrollRestoration = "auto";
+    }
     initialInteraction.abort();
   };
 
@@ -101,7 +107,9 @@ export function initSiteScroll({ Lenis, gsap, ScrollTrigger }) {
       lenis.resize();
       ScrollTrigger.refresh();
       alignInitialHash();
-      if (document.readyState === "complete" && document.fonts?.status !== "loading") finishInitialAlignment();
+      if (initialTop && !userInteracted) lenis.scrollTo(0, { immediate: true, force: true });
+      if (document.readyState === "complete" && document.fonts?.status !== "loading" &&
+          !root.hasAttribute("data-preloader-active")) finishInitialAlignment();
     });
   };
   const syncNativePosition = () => {
@@ -124,9 +132,10 @@ export function initSiteScroll({ Lenis, gsap, ScrollTrigger }) {
     exitAnimation = undefined;
     navigating = false;
     pendingURL = undefined;
+    root.removeAttribute("data-site-leaving");
   };
   const revealRestoredPage = () => {
-    if (motion.matches || !document.body.animate) return;
+    if (motion.matches || root.hasAttribute("data-native-page-transitions") || !document.body.animate) return;
     entryAnimation?.cancel();
     entryAnimation = document.body.animate([{ opacity: 0 }, { opacity: 1 }], {
       duration: 180, easing: "ease-out",
@@ -136,12 +145,9 @@ export function initSiteScroll({ Lenis, gsap, ScrollTrigger }) {
   const leave = (url) => {
     navigating = true;
     pendingURL = url;
-    // Remove an in-progress arrival fade before starting the outgoing one.
+    // Remove a fallback entrance before the outgoing transition starts.
     root.removeAttribute("data-site-enter");
     entryAnimation?.cancel();
-    exitAnimation = document.body.animate([{ opacity: 1 }, { opacity: 0 }], {
-      duration: 160, easing: "ease-out", fill: "forwards",
-    });
     const navigate = () => {
       if (!navigating || signal.aborted) return;
       try {
@@ -149,9 +155,20 @@ export function initSiteScroll({ Lenis, gsap, ScrollTrigger }) {
       } catch { /* Navigation also works when storage is unavailable. */ }
       try { location.assign(url.href); } catch { resetExit(); return; }
       // Recovery only: never wait on this timer before navigating. It avoids a
-      // faded/frozen source document if navigation is cancelled or fails.
+      // frozen source document if navigation is cancelled or fails.
       recovery = setTimeout(resetExit, 1800);
     };
+    if (root.hasAttribute("data-native-page-transitions")) {
+      // Navigation begins now; the browser animates both documents together.
+      navigate();
+      return;
+    }
+    root.setAttribute("data-site-leaving", "");
+    const origin = `50% ${window.scrollY + window.innerHeight / 2}px`;
+    exitAnimation = document.body.animate([
+      { transform: "scale(1)", filter: "brightness(1)", transformOrigin: origin },
+      { transform: "scale(0.95)", filter: "brightness(0.6)", transformOrigin: origin },
+    ], { duration: 700, easing: "cubic-bezier(0.215, 0.61, 0.355, 1)", fill: "forwards" });
     exitAnimation.finished.then(navigate, navigate);
   };
 
@@ -159,6 +176,28 @@ export function initSiteScroll({ Lenis, gsap, ScrollTrigger }) {
     const destination = navigationURL(event, location.href);
     if (!destination) return;
     const { link, url } = destination;
+    const isPageLink = !url.hash && !link.getAttribute("href").startsWith("#");
+    const refreshCurrentPage = url.pathname === location.pathname &&
+      (!url.search || url.search === location.search);
+    // Current-page links replay the loader, as Home does from any page.
+    // Explicit fragments retain their existing in-page scrolling.
+    if (isPageLink && (refreshCurrentPage || (url.pathname === "/" && !url.search))) {
+      event.preventDefault();
+      if (navigating) return;
+      finishInitialAlignment();
+      closeMenu();
+      try {
+        sessionStorage.removeItem("yadunand-loaded");
+        sessionStorage.removeItem(ENTRY_KEY);
+      } catch { /* Navigation also works when storage is unavailable. */ }
+      if (url.pathname === location.pathname && url.search === location.search) {
+        // Removing only a fragment with assign() would stay in this document.
+        if (location.hash) history.replaceState(history.state, "", url.href);
+        location.reload();
+      }
+      else location.assign(url.href);
+      return;
+    }
     const samePage = url.pathname === location.pathname && url.search === location.search;
     if (samePage) {
       const target = anchorTarget(document, url.hash);
@@ -178,10 +217,11 @@ export function initSiteScroll({ Lenis, gsap, ScrollTrigger }) {
       });
       return;
     }
-    // Only HTML/document navigation receives a fade. Assets and explicit
+    // Only HTML/document navigation receives a transition. Assets and explicit
     // opt-outs keep the browser's normal handling.
     const htmlPage = /(?:\/|\.html?|\/[^/.]+)$/i.test(url.pathname);
-    if (!htmlPage || link.hasAttribute("data-no-transition") || motion.matches || !document.body.animate) return;
+    if (!htmlPage || link.hasAttribute("data-no-transition") || motion.matches ||
+        (!root.hasAttribute("data-native-page-transitions") && !document.body.animate)) return;
     event.preventDefault();
     if (!navigating) leave(url);
   }, { signal });
@@ -197,7 +237,7 @@ export function initSiteScroll({ Lenis, gsap, ScrollTrigger }) {
   }, { signal });
 
   const markInteraction = () => { userInteracted = true; finishInitialAlignment(); };
-  if (initialHash) for (const type of ["wheel", "touchstart", "pointerdown", "keydown"]) {
+  if (initialHash || initialTop) for (const type of ["wheel", "touchstart", "pointerdown", "keydown"]) {
     window.addEventListener(type, markInteraction, { passive: true, signal: initialInteraction.signal });
   }
   window.addEventListener("popstate", () => {
@@ -251,18 +291,18 @@ export function initSiteScroll({ Lenis, gsap, ScrollTrigger }) {
     controller.abort();
   }, { signal });
 
-  // Native history restoration remains auto. Never reset ordinary loads/reloads
-  // to the top or reapply a hash after the visitor has started interacting.
+  // Native history restoration stays automatic except while a homepage reload
+  // reveals its hero. Stop initial positioning once the visitor interacts.
   syncTicker();
   runtime = { lenis, requestRefresh };
   requestRefresh();
-  // The head's entry fade is self-contained CSS, including if this module fails.
+  // The fallback entrance is self-contained CSS, including if this module fails.
   document.addEventListener("animationend", (event) => {
     if (event.target === document.body && event.animationName === "site-page-enter") {
       root.removeAttribute("data-site-enter");
     }
   }, { signal });
-  // A cached/slow module can execute after the short CSS fade has finished.
+  // A cached/slow module can execute after the CSS entrance has finished.
   // Finished fill-mode animations are still returned by getAnimations().
   if (root.hasAttribute("data-site-enter")) {
     const arrival = document.body.getAnimations?.().find((animation) => animation.animationName === "site-page-enter");
