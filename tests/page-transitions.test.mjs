@@ -74,11 +74,15 @@ test('reduced motion and the starter loader skip overlapping page snapshots', as
   assert.equal(transition.skips, 1, 'completion removes the preference listener');
 });
 
-test('Home, current-page reloads, explicit opt-outs and modified clicks retain their behavior', () => {
+test('Home uses normal page transitions while current-page reloads and opt-outs keep their behavior', () => {
   const f = fixture();
-  for (const [href, attrs] of [['/', []], ['/studio', []], ['/contact', ['data-no-transition']], ['/contact', ['data-native-navigation']]]) {
+  f.click('/');
+  let transition = f.transition();
+  f.dispatch(f.window, 'pageswap', { viewTransition: transition });
+  assert.equal(transition.skips, 0, 'Home navigation can use the native page transition');
+  for (const [href, attrs] of [['/studio', []], ['/contact', ['data-no-transition']], ['/contact', ['data-native-navigation']]]) {
     f.click(href, attrs);
-    const transition = f.transition();
+    transition = f.transition();
     f.dispatch(f.window, 'pageswap', { viewTransition: transition });
     assert.equal(transition.skips, 1);
   }
@@ -86,7 +90,7 @@ test('Home, current-page reloads, explicit opt-outs and modified clicks retain t
   f.click('/', [], { ctrlKey: true });
   assert.equal(f.attributes.has('data-skip-page-transition'), false);
   f.click('/services');
-  const transition = f.transition();
+  transition = f.transition();
   f.dispatch(f.window, 'pageswap', { viewTransition: transition });
   assert.equal(transition.skips, 0);
 });

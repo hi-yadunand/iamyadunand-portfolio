@@ -181,9 +181,9 @@ export function initSiteScroll({ Lenis, gsap, ScrollTrigger }) {
     const isPageLink = !url.hash && !link.getAttribute("href").startsWith("#");
     const refreshCurrentPage = url.pathname === location.pathname &&
       (!url.search || url.search === location.search);
-    // Current-page links replay the loader, as Home does from any page.
-    // Explicit fragments retain their existing in-page scrolling.
-    if (isPageLink && (refreshCurrentPage || (url.pathname === "/" && !url.search))) {
+    // Non-home current-page links replay their loader. Home stays in-page at
+    // the root and scrolls to the top; explicit fragments keep their target.
+    if (isPageLink && refreshCurrentPage && url.pathname !== "/") {
       event.preventDefault();
       if (navigating) return;
       finishInitialAlignment();
@@ -200,7 +200,8 @@ export function initSiteScroll({ Lenis, gsap, ScrollTrigger }) {
       else location.assign(url.href);
       return;
     }
-    const samePage = url.pathname === location.pathname && url.search === location.search;
+    const samePage = (url.pathname === location.pathname && url.search === location.search) ||
+      (url.pathname === "/" && location.pathname === "/");
     if (samePage) {
       const target = anchorTarget(document, url.hash);
       if (target === null) return; // Leave unknown/text fragments to the browser.

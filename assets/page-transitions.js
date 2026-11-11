@@ -21,8 +21,6 @@
         link.relList?.contains('external') ||
         (url.pathname === location.pathname && !url.hash &&
           (!url.search || url.search === location.search) &&
-          !link.getAttribute('href').startsWith('#')) ||
-        (url.pathname === '/' && !url.search && !url.hash &&
           !link.getAttribute('href').startsWith('#'))) {
       root.setAttribute('data-skip-page-transition', '');
     }

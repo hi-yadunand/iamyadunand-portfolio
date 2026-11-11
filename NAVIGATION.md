@@ -138,9 +138,9 @@ new generated build does not overwrite it.
   animation. Browser restoration is temporarily manual, and Lenis synchronizes
   to zero through loader layout changes. Automatic restoration resumes when
   initial layout finishes or the visitor interacts. Back/forward is preserved.
-- Home links open a fresh homepage document and replay the starter animation.
-  Clicking Home while already at `/` reloads the page. Explicit fragment links
-  keep in-page scrolling; modified clicks retain native browser behavior.
+- Home links navigate normally from other pages. At `/`, Home scrolls to the top
+  without reloading. Explicit fragment links keep in-page scrolling; modified
+  clicks retain native browser behavior.
 - Native history restoration is not replaced by a manual position store. A
   single one-shot frame after traversal synchronizes Lenis with the browser's
   restored position and cancels an obsolete programmatic scroll.
@@ -179,8 +179,7 @@ navigation; there is no fetch router or script reinjection.
 A small addition to each existing head startup script consumes a short-lived
 session intent before first paint. This skips a repeated loader only for an
 intentional internal arrival. The destination uses entry CSS if a native
-transition is unavailable or skipped. Reloads and Home links retain their
-starter loader; Home's navigation explicitly skips overlapping snapshots.
+transition is unavailable or skipped. Reloads retain their starter loader.
 Alias redirects forward the intent. Direct fragment links remain in-page moves.
 
 Back/forward-cache restoration cancels a stale outgoing animation, retains the
