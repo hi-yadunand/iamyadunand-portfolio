@@ -144,8 +144,8 @@ ready(() => {
   const resize = () => {
     if (disposed) return;
     const bounds = stage.getBoundingClientRect();
-    const width = Math.max(2, Math.floor(bounds.width));
-    const height = Math.max(2, Math.floor(bounds.height));
+    const width = Math.max(2, stage.clientWidth);
+    const height = Math.max(2, stage.clientHeight);
     if (width === sizedWidth && height === sizedHeight &&
         loadedModel === sizedModel) return;
     sizedWidth = width;
