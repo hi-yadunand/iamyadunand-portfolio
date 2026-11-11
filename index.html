@@ -17,6 +17,7 @@
       try {
         var pageURL = new URL(originalPageURL);
         var pagePath = pageURL.pathname.replace(/\/index\.html$/i, "/").replace(/\.html$/i, "");
+        if (pagePath !== "/") pagePath = pagePath.replace(/\/+$/, "");
         if (/^\/contact\/\.project=/.test(pagePath)) pagePath = "/contact";
         if (pagePath !== pageURL.pathname) {
           history.replaceState(history.state, "", pagePath + pageURL.search + pageURL.hash);

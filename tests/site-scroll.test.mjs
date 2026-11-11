@@ -175,7 +175,7 @@ test('hidden tabs and bfcache pause/resume one ticker; permanent departure clean
 });
 
 test('all eight project redirects preserve URL state, replace history and forward entry intent', () => {
-  const names = readdirSync(new URL('../projects/', import.meta.url)).filter(x => x.endsWith('.html'));
+  const names = readdirSync(new URL('../projects/', import.meta.url)).filter(x => x.endsWith('.html') && x !== 'index.html');
   assert.equal(names.length, 8);
   for (const name of names) {
     for (const hash of ['', '#all-projects']) {
@@ -231,6 +231,11 @@ test('legacy page URLs normalize before arrival animation without losing URL or 
     ['/projects.html', '/projects'], ['/privacy.html', '/privacy'], ['/terms.html', '/terms'],
     ['/contact/.project=Almond%20Terrace.html?from=work#brief', '/contact?from=work#brief'],
     ['/studio', '/studio'], ['/', '/'],
+    ['/studio/', '/studio'], ['/studio/index.html', '/studio'],
+    ['/services/?from=nav#faq', '/services?from=nav#faq'],
+    ['/contact/?project=Robot#brief', '/contact?project=Robot#brief'],
+    ['/contact/index.html?project=Robot#brief', '/contact?project=Robot#brief'],
+    ['/projects/', '/projects'], ['/privacy/', '/privacy'], ['/terms/', '/terms'],
   ]) {
     const f = fixture({ url: `https://portfolio.test${original}` });
     f.context.matchMedia = () => ({ matches: false });

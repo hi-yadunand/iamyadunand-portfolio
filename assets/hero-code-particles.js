@@ -31,7 +31,7 @@ async function initParticleText(word) {
   let width = 0;
   let height = 0;
   let dpr = 1;
-  let color = "#ee4b2b";
+  let color = "#D73F1B";
   let layoutKey = "";
 
   const stop = () => {

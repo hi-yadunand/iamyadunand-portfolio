@@ -95,8 +95,8 @@
   position: absolute;
   inset: 15% 20% auto;
   height: 3%;
-  background: var(--color-signal, #d63f1c);
-  box-shadow: 0 0 0.8rem #d63f1c55;
+  background: var(--color-signal, #D73F1B);
+  box-shadow: 0 0 0.8rem #D73F1B55;
 }
 
 @media (max-width: 767px) {

@@ -1,0 +1,66 @@
+html[data-contact-page] {
+  --color-page: #000;
+  --color-graphite: #b5b5b5;
+  --color-line: #ffffff26;
+  color-scheme: dark;
+  background: #000;
+  color: var(--color-paper, #f4f4f4);
+}
+
+[data-contact-page] body {
+  background: #000;
+}
+
+[data-contact-page] header[data-header] {
+  color: var(--color-paper, #f4f4f4);
+}
+
+.contact-page {
+  position: relative;
+  isolation: isolate;
+  background: #000;
+}
+
+.gradient-ascii-container {
+  position: absolute;
+  inset: 0 0 auto;
+  z-index: -1;
+  width: 100%;
+  /* Keep the reference's horizon within the opening screen, independently
+     of how much contact content follows it. */
+  height: 100vh;
+  height: 100svh;
+  overflow: hidden;
+  pointer-events: none;
+  /* Static horizon remains when WebGL is unavailable. */
+  background: radial-gradient(ellipse at 50% 0%, #343434 0%, #151515 38%, #000 72%);
+  mask-image: linear-gradient(#000 0%, #000 80%, transparent 100%);
+}
+
+.gradient-ascii-container[data-ready] {
+  background: transparent;
+}
+
+.gradient-ascii-canvas {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  opacity: 0.52;
+}
+
+.gradient-ascii-container::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, #0006, transparent 75%);
+}
+
+[data-contact-page] .contact-page .btn {
+  background-color: #0008;
+}
+
+[data-contact-page] .contact-page .btn:hover {
+  background-color: var(--color-signal, #D73F1B);
+}

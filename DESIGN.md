@@ -83,3 +83,40 @@ icons, images, descriptions, and feature lists are preserved.
 The services section has no sticky stage, extra scroll distance, automatic
 selection, wheel interception, or scroll locking. Mobile uses the same click
 interaction. The temporary services scroll script and stylesheet are removed.
+
+## Contact page layout
+
+Reference: [Bram van Vugt’s contact page](https://www.bramvanvugt.com/contact),
+captured on 10 November 2026. The two supplied desktop screenshots were visually
+inspected. A fresh Firecrawl capture confirmed the field sequence, portrait link,
+typography, and pill-shaped controls. The separately returned screenshot was
+not inspected. Branding extraction reports Neuemontreal with a heading sample
+of 76.8px and body sample of 20.4px; its general color extraction conflicts with
+the light page visible in the supplied screenshots. Color extraction is not used.
+
+Observed layout: two roughly equal columns with substantial open space, a
+two-line introduction on the left, a square portrait next to an email link, and
+the enquiry form on the right. Form controls have bottom borders, the service
+choices are rounded pills, and the submit button has a small outlined circle.
+The reference portrait is published at
+`https://cdn.prod.website-files.com/6978dadfad803d74561d3cfc/6979ead3b10a3cca85c1cf7e_foioter-img.avif`;
+the implementation uses the existing local `images/iamyadunandhero.webp` instead.
+
+Portfolio adaptation: retain Inter Tight, personal copy and contact details,
+white text, and the orange interaction accent. The existing black ASCII
+background files, horizon placement, palette, opacity, and animation settings
+are unchanged. New layout styles live separately in `assets/contact-layout.css`.
+The 2.5vw side gutters, 1.5vw column gap, responsive 48–88px heading, and generous
+field spacing are implementation estimates based on the supplied images, not
+extracted CSS. Below 768px the columns stack; this is an implementation choice
+because the supplied evidence is desktop-only. Focus states and service checkbox
+selection remain available with the keyboard.
+
+The form asks for name, email, company, services, budget, deadline, and a project
+description. Budget ranges are editable enquiry choices in INR, not published
+service prices. Native validation requires name, email, and project description.
+Submission prepares a local email draft and clearly tells visitors to send it
+from their email app. It does not claim server delivery or clear entered details.
+The original shared navigation and footer remain in place. All nine rendered
+contact routes share the same layout and behavior. Local browser visual QA
+remains unavailable without a connected browser.

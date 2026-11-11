@@ -1,10 +1,11 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="generator" content="Astro v7.4.1"><link rel="icon" href="../images/iamyadunand-favicon.png" type="image/png"><title>Contact · Yadunand Pavithran</title><meta name="description" content="Contact Yadunand Pavithran for web development, UI/UX design, frontend engineering, branding, and digital projects."><script>
+<!DOCTYPE html><html lang="en" data-contact-page><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="generator" content="Astro v7.4.1"><link rel="icon" href="../images/iamyadunand-favicon.png" type="image/png"><title>Contact · Yadunand Pavithran</title><meta name="description" content="Contact Yadunand Pavithran for web development, UI/UX design, frontend engineering, branding, and digital projects."><script>
       (function () {
       // Keep public page URLs extensionless; the static host serves the HTML files.
       var originalPageURL = location.href;
       try {
         var pageURL = new URL(originalPageURL);
         var pagePath = pageURL.pathname.replace(/\/index\.html$/i, "/").replace(/\.html$/i, "");
+        if (pagePath !== "/") pagePath = pagePath.replace(/\/+$/, "");
         if (/^\/contact\/\.project=/.test(pagePath)) pagePath = "/contact";
         if (pagePath !== pageURL.pathname) {
           history.replaceState(history.state, "", pagePath + pageURL.search + pageURL.hash);
@@ -42,6 +43,8 @@
 <link rel="stylesheet" href="../assets/hero-code.css">
 
 <link rel="stylesheet" href="../assets/portfolio-footer.css">
+<link rel="stylesheet" href="../assets/contact-background.css">
+<link rel="stylesheet" href="../assets/contact-layout.css">
   <link rel="canonical" href="https://iamyadunand.com/contact">
 </head><body><div data-preloader aria-hidden class="fixed inset-0 z-[60] flex flex-col justify-end bg-ink text-paper"><div class="shell pb-8"><div class="flex items-end justify-between"><p class="text-lg font-medium tracking-[-0.03em]">Yadunand Pavithran</p><p data-preloader-count class="display text-display-xl tabular-nums">00</p></div><div data-preloader-line class="dim mt-4 origin-left text-signal"></div></div></div><header data-header class="fixed inset-x-0 top-0 z-50">
     <div class="shell grid grid-cols-[1fr_auto] items-center gap-6 py-4 lg:grid-cols-[1fr_auto_1fr]"><a
@@ -69,29 +72,70 @@
             class="label text-signal">03</span>Services</a><a href="/contact" aria-current="location" data-menu-link="true"
           class="display flex items-baseline gap-4 border-t border-line-light py-2 text-[clamp(2.75rem,8svh,6rem)] transition-colors hover:text-signal"><span
             class="label text-signal">04</span>Contact</a><a href="/contact#brief" class="btn mt-8 self-start"><span
-            class="roll"><span data-text="Start a project">Start a project</span></span></a></nav><div class="stack relative hidden md:col-span-5 md:block"><div data-menu-image data-active class="absolute inset-0"><img src="../images/case-studies/zappo.webp" alt="Zappo sports booking app" width="720" height="480" loading="lazy" decoding="async" class="absolute inset-0 size-full object-cover"></div><div data-menu-image class="absolute inset-0"><img src="../images/codeandthrive.webp" alt="Code and Thrive website" width="720" height="480" loading="lazy" decoding="async" class="absolute inset-0 size-full object-cover"></div><div data-menu-image class="absolute inset-0"><img src="../images/services/frontend-engineering.webp" alt="Frontend engineering" width="720" height="480" loading="lazy" decoding="async" class="absolute inset-0 size-full object-cover"></div><div data-menu-image class="absolute inset-0"><img src="../images/iamyadunandhero.webp" alt="Yadunand Pavithran" width="720" height="480" loading="lazy" decoding="async" class="absolute inset-0 size-full object-cover"></div></div></div></div><main>
-    <section class="shell pt-32 md:pt-40">
-      <p class="label text-signal">Contact · Yadunand Pavithran</p>
-      <h1 class="display mt-6 text-display-xl">Let’s build<br>something together.</h1>
-      <p class="mt-8 max-w-2xl text-xl leading-[1.4] text-graphite">Have a website, product, or idea in mind? Tell me what you’re working on and how I can help with design, development, or bringing it to life.</p>
-    </section>
-    <section id="brief" class="shell mt-20 md:mt-32">
-      <div class="label border-t border-line pt-3">01 · Start a conversation</div>
-      <div class="mt-10 grid gap-8 lg:grid-cols-12">
-        <div class="lg:col-span-5"><h2 class="display text-display-md">Your idea.<br>Our next conversation.</h2><p class="mt-6 max-w-md text-lg leading-[1.4] text-graphite">Share a short overview, your goals, any references, and your preferred timeline. If you already have a website or product, include a link.</p></div>
-        <div class="lg:col-span-6 lg:col-start-7">
-          <a href="mailto:yadunandpavithran05@gmail.com?subject=Let%E2%80%99s%20build%20something%20together" class="btn">Email me ↗</a>
-          <p class="mt-6 text-lg" style="overflow-wrap:anywhere"><a href="mailto:yadunandpavithran05@gmail.com">yadunandpavithran05@gmail.com</a></p>
-          <p class="mt-4 max-w-md text-base leading-[1.4] text-graphite">The button opens your email app. You can also copy the address above and send your project details directly.</p>
-          <div class="mt-8 flex flex-wrap gap-6 text-sm"><a href="https://github.com/hi-yadunand" target="_blank" rel="noopener noreferrer">GitHub ↗</a><a href="https://www.linkedin.com/in/yadunand-pavithran/" target="_blank" rel="noopener noreferrer">LinkedIn ↗</a><a href="/studio">Explore my work ↗</a></div>
+            class="roll"><span data-text="Start a project">Start a project</span></span></a></nav><div class="stack relative hidden md:col-span-5 md:block"><div data-menu-image data-active class="absolute inset-0"><img src="../images/case-studies/zappo.webp" alt="Zappo sports booking app" width="720" height="480" loading="lazy" decoding="async" class="absolute inset-0 size-full object-cover"></div><div data-menu-image class="absolute inset-0"><img src="../images/codeandthrive.webp" alt="Code and Thrive website" width="720" height="480" loading="lazy" decoding="async" class="absolute inset-0 size-full object-cover"></div><div data-menu-image class="absolute inset-0"><img src="../images/services/frontend-engineering.webp" alt="Frontend engineering" width="720" height="480" loading="lazy" decoding="async" class="absolute inset-0 size-full object-cover"></div><div data-menu-image class="absolute inset-0"><img src="../images/iamyadunandhero.webp" alt="Yadunand Pavithran" width="720" height="480" loading="lazy" decoding="async" class="absolute inset-0 size-full object-cover"></div></div></div></div><main data-dark class="contact-page">
+    <div data-gradient-ascii class="gradient-ascii-container" aria-hidden="true">
+      <canvas class="gradient-ascii-canvas"></canvas>
+    </div>
+    <section class="contact-layout" aria-labelledby="contact-heading">
+      <div class="contact-intro">
+        <h1 id="contact-heading">— Let’s start<br>a project.</h1>
+        <p class="contact-intro__description">Have an idea, a question, or a project in mind? Tell me what you’re thinking. I’d love to hear about it and work out how I can help.</p>
+        <div class="contact-intro__person">
+          <img class="contact-intro__portrait" src="../images/iamyadunandhero.webp" alt="Yadunand Pavithran" width="160" height="160" decoding="async">
+          <div class="contact-intro__email">
+            <p>Say hi!</p>
+            <a href="mailto:yadunandpavithran05@gmail.com">yadunandpavithran05@gmail.com</a>
+          </div>
         </div>
       </div>
-    </section>
-    <section class="shell mt-24 md:mt-40" style="padding-bottom:6rem">
-      <div class="label border-t border-line pt-3">02 · How I can help</div>
-      <h2 class="display mt-10 text-display-md">From first idea to launch.</h2>
-      <p class="mt-6 max-w-2xl text-lg leading-[1.4] text-graphite">I work across product and UI/UX design, web development, frontend engineering, branding and visual identity, and growth and SEO. Projects can bring these together or focus on one specific need.</p>
-      <a href="/services" class="btn mt-8">Explore my services ↗</a>
+      <form id="brief" class="contact-form" data-contact-form action="mailto:yadunandpavithran05@gmail.com" method="post" enctype="text/plain" aria-label="Project enquiry" aria-describedby="contact-form-note">
+        <div class="contact-form__field">
+          <label for="contact-name">What’s your name?</label>
+          <input id="contact-name" name="name" type="text" placeholder="Your name" autocomplete="name" maxlength="120" required>
+        </div>
+        <div class="contact-form__field">
+          <label for="contact-email">What’s your email address?</label>
+          <input id="contact-email" name="email" type="email" placeholder="you@company.com" autocomplete="email" maxlength="254" required>
+        </div>
+        <div class="contact-form__field">
+          <label for="contact-company">Company or organisation <span class="contact-form__optional">(optional)</span></label>
+          <input id="contact-company" name="company" type="text" placeholder="Your company" autocomplete="organization" maxlength="160">
+        </div>
+        <fieldset class="contact-form__services">
+          <legend>What can I help you with?</legend>
+          <div class="contact-form__choices">
+            <label class="contact-form__choice"><input type="checkbox" name="services" value="Web Design"><span>Web Design</span></label>
+            <label class="contact-form__choice"><input type="checkbox" name="services" value="Web Development"><span>Web Development</span></label>
+            <label class="contact-form__choice"><input type="checkbox" name="services" value="Branding"><span>Branding</span></label>
+          </div>
+        </fieldset>
+        <div class="contact-form__field">
+          <label for="contact-budget">What’s your budget?</label>
+          <div class="contact-form__select">
+            <select id="contact-budget" name="budget">
+              <option value="" selected>Select budget</option>
+              <option value="Under ₹25,000">Under ₹25,000</option>
+              <option value="₹25,000 – ₹50,000">₹25,000 – ₹50,000</option>
+              <option value="₹50,000 – ₹1,00,000">₹50,000 – ₹1,00,000</option>
+              <option value="₹1,00,000+">₹1,00,000+</option>
+              <option value="Let’s discuss">Let’s discuss</option>
+            </select>
+          </div>
+        </div>
+        <div class="contact-form__field">
+          <label for="contact-deadline">Do you have a deadline in mind? <span class="contact-form__optional">(optional)</span></label>
+          <input id="contact-deadline" name="deadline" type="text" placeholder="A date, a month, or no rush" maxlength="160">
+        </div>
+        <div class="contact-form__field">
+          <label for="contact-message">Tell me a little about your project.</label>
+          <textarea id="contact-message" name="message" rows="3" placeholder="Your idea, goals, and anything else I should know…" maxlength="3000" required></textarea>
+        </div>
+        <div class="contact-form__actions">
+          <button class="contact-form__send" type="submit">Send message</button>
+          <p id="contact-form-note" class="contact-form__note">Opens your email app with your project details ready to send.</p>
+          <p class="contact-form__status" data-form-status role="status" aria-live="polite"></p>
+        </div>
+      </form>
     </section>
   </main><footer data-dark data-profile-footer class="overflow-hidden bg-ink text-paper">
     <div class="shell pt-16 md:pt-24">
@@ -144,4 +188,6 @@
 
 <script type="module" src="../assets/portfolio-footer.js"></script>
   <script type="module" src="../assets/footer-ascii.js"></script>
+<script type="module" src="../assets/contact-gradient-ascii.js"></script>
+<script type="module" src="../assets/contact-form.js"></script>
 </body></html>

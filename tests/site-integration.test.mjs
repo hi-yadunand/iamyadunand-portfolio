@@ -41,7 +41,7 @@ test('every rendered document loads one base runtime, one navigation stylesheet 
     assert(html.includes('sessionStorage.getItem("portfolio-page-entry")'), file);
     assert(html.includes('h.setAttribute("data-site-enter", "")'), file);
   }
-  assert.equal(rendered, 15); assert.equal(redirects, 8);
+  assert.equal(rendered, 21); assert.equal(redirects, 8);
 });
 
 test('all local HTML links, fragments, redirects and relative asset references resolve', () => {
@@ -57,9 +57,8 @@ test('all local HTML links, fragments, redirects and relative asset references r
       const [relative, hash] = href.split('#');
       let target = relative ? relative.startsWith('/') ? path.join(root, relative) : path.resolve(path.dirname(file), relative.split('?')[0]) : file;
       if (!existsSync(target)) target = decodeURIComponent(target);
-      // The deployed static host resolves /page to page.html.
-      // /contact and /projects also have legacy folders; their sibling HTML
-      // documents take precedence on the verified production host.
+      // Clean routes have directory indexes for file-only preview servers.
+      // The deployed host may also serve their matching root HTML documents.
       if ((!existsSync(target) || statSync(target).isDirectory()) && existsSync(`${target}.html`)) target += '.html';
       if (existsSync(target) && statSync(target).isDirectory()) target = path.join(target, 'index.html');
       assert(existsSync(target), `${path.relative(root, file)} -> ${href}`);
@@ -82,6 +81,22 @@ test('shared bundle bridges the existing libraries without creating another scro
   assert(!scroll.includes('requestAnimationFrame(tick)'));
   assert(!bundle.includes('new Cc('));
   assert(bundle.includes('a=()=>requestSiteRefresh();return document.fonts?.ready.then(a)'));
+});
+
+test('clean routes have real directory entry pages with root asset paths', () => {
+  for (const route of ['studio', 'projects', 'services', 'contact', 'privacy', 'terms']) {
+    const html = source(`${route}/index.html`);
+    assert(html.includes('<main'), route);
+    assert(html.includes(`href="https://iamyadunand.com/${route}"`), route);
+    for (const { tag, attrs } of tags(html)) {
+      for (const name of ['src', 'poster', ...(tag === 'link' ? ['href'] : [])]) {
+        const value = attrs[name];
+        if (value && !/^(?:[a-z][\w+.-]*:|\/|#)/i.test(value)) {
+          assert.fail(`${route}/index.html has a route-relative asset: ${value}`);
+        }
+      }
+    }
+  }
 });
 
 test('page links, canonical URLs and redirect fallbacks use extensionless routes', () => {

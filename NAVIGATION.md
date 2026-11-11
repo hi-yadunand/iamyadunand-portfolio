@@ -19,8 +19,19 @@ fallback. Canonical links use the clean public addresses.
 
 The existing transition handler also recognizes extensionless document links.
 Assets, external links, downloads and reduced-motion navigation stay native.
-Local preview servers must support extensionless HTML resolution, as the
-production host does; a basic file-only server may return 404 for `/studio`.
+File-only preview servers, including VS Code Live Server, now use generated
+directory indexes for `/studio`, `/projects`, `/services`, `/contact`, `/privacy`
+and `/terms`. Both forms with and without a trailing slash load the actual page;
+the early helper normalizes the visible URL to its clean form. Assets in these
+entry documents use root paths so they also load before normalization. Directory
+indexes contain the page itself, so there is no redirect loop or folder listing.
+
+The root `.html` documents remain the editing source. After changing one, run
+`node scripts/sync-routes.mjs` to update the directory entry pages. Run
+`node scripts/sync-routes.mjs --check` to verify that they are current. Production
+hosting can serve either the root HTML file or directory index with the same
+content and canonical URL. The six indexes are additional rendered entry points;
+the original 15 full documents and eight project redirects remain available.
 
 ## Coverage and repository audit
 
