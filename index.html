@@ -20,8 +20,17 @@
         if (pagePath !== "/") pagePath = pagePath.replace(/\/+$/, "");
         var decodedPagePath = pagePath;
         try { decodedPagePath = decodeURIComponent(decodedPagePath); } catch (e) {}
-        if ((/^\/contact\/(?:\.project=|\.project%3D|%2Eproject=|%2Eproject%3D)/i.test(pagePath) ||
-             /^\/contact\/(?:\.project=|\.project%3D|%2Eproject=|%2Eproject%3D)/i.test(decodedPagePath))) {
+        var isLegacyContactProjectRoute = /\/contact\/(?:\.project=|\.project%3D|%2Eproject=|%2Eproject%3D)/i.test(pagePath) ||
+          /\/contact\/(?:\.project=|\.project%3D|%2Eproject=|%2Eproject%3D)/i.test(decodedPagePath) ||
+          pagePath.includes("/contact/.project=") ||
+          pagePath.includes("/contact/.project%3D") ||
+          pagePath.includes("/contact/%2Eproject=") ||
+          pagePath.includes("/contact/%2Eproject%3D") ||
+          decodedPagePath.includes("/contact/.project=") ||
+          decodedPagePath.includes("/contact/.project%3D") ||
+          decodedPagePath.includes("/contact/%2Eproject=") ||
+          decodedPagePath.includes("/contact/%2Eproject%3D");
+        if (isLegacyContactProjectRoute) {
           pagePath = "/contact";
         }
         if (pagePath !== pageURL.pathname) {
