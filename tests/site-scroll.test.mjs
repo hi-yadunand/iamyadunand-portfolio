@@ -21,7 +21,12 @@ class Node extends Events {
   setAttribute(name, value) { this.attrs.set(name, value); }
   getAttribute(name) { return this.attrs.get(name) ?? null; }
   removeAttribute(name) { this.attrs.delete(name); }
-  closest(selector) { return selector === 'a[href]' ? this : this.hasAttribute('data-native-navigation') ? this : null; }
+  closest(selector) {
+    if (selector === 'a[href]') return this;
+    if (selector === '[data-native-navigation]' && this.hasAttribute('data-native-navigation')) return this;
+    if (selector === '[data-no-transition]' && this.hasAttribute('data-no-transition')) return this;
+    return null;
+  }
   focus(options) { this.focused = options; }
 }
 function fixture({ reduced = false, url = 'https://portfolio.test/index.html', type = 'navigate', complete = false, reloadTop = false, nativeTransitions = false } = {}) {
@@ -161,6 +166,7 @@ test('external, special, modified, target, download and opt-out links stay nativ
   for (const href of ['https://external.test/', 'mailto:me@example.test', 'tel:1234', 'javascript:void(0)', '/images/photo.webp']) assert.equal(f.click(f.link(href)).defaultPrevented, false);
   for (const extra of [{ button: 1 }, { metaKey: true }, { ctrlKey: true }, { altKey: true }, { shiftKey: true }, { defaultPrevented: true }]) assert.equal(f.click(f.link('projects.html'), extra).defaultPrevented, extra.defaultPrevented || false);
   for (const attr of ['download', 'data-native-navigation', 'data-no-transition']) { const link = f.link('projects.html'); link.setAttribute(attr, ''); assert.equal(f.click(link).defaultPrevented, false); }
+  const wrapper = f.link('projects.html'); wrapper.closest = selector => selector === '[data-no-transition]' ? { hasAttribute: name => name === 'data-no-transition' } : null; assert.equal(f.click(wrapper).defaultPrevented, false);
   const blank = f.link('projects.html'); blank.target = '_blank'; assert.equal(f.click(blank).defaultPrevented, false);
   assert.equal(f.animations.length, 0);
 });

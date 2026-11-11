@@ -16,7 +16,8 @@
     try { url = new URL(link.href, location.href); } catch { return; }
     if (url.origin !== location.origin) return;
     root.removeAttribute('data-skip-page-transition');
-    if (link.closest('[data-native-navigation]') || link.hasAttribute('data-no-transition') ||
+    if (link.closest('[data-native-navigation]') || link.closest('[data-no-transition]') ||
+        link.hasAttribute('data-no-transition') ||
         link.relList?.contains('external') ||
         (url.pathname === location.pathname && !url.hash &&
           (!url.search || url.search === location.search) &&

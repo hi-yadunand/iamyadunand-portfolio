@@ -19,7 +19,9 @@ export function navigationURL(event, currentURL) {
   if (!link || link.hasAttribute("download") ||
       (link.target && link.target.toLowerCase() !== "_self") ||
       link.relList?.contains("external") ||
-      link.closest("[data-native-navigation]")) return null;
+      link.closest("[data-native-navigation]") ||
+      link.closest("[data-no-transition]") ||
+      link.hasAttribute("data-no-transition")) return null;
   const href = link.getAttribute("href");
   if (!href?.trim()) return null;
   let url;
