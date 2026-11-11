@@ -4,6 +4,7 @@ export function initNavigation(signal) {
   if (!header) return;
 
   const darkSections = [...document.querySelectorAll('[data-dark]')];
+  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
   let previousScrollY = window.scrollY;
   let expanded = false;
   let hideAfter = 0;
@@ -23,8 +24,18 @@ export function initNavigation(signal) {
   };
   const update = () => {
     const isExpanded = window.scrollY > 32;
+    // Read section geometry before changing header attributes, avoiding a
+    // style write followed immediately by a forced layout on every scroll.
+    const viewportHeight = window.innerHeight;
+    const onDark = darkSections.some((section) => {
+      const rect = section.getBoundingClientRect();
+      if (rect.top > 32 || rect.bottom < 32) return false;
+      const [start, end] = (section.dataset.dark || '0:1').split(':').map(Number);
+      const progress = -rect.top / Math.max(1, rect.height - viewportHeight);
+      return progress >= start && progress <= end;
+    });
     if (isExpanded && !expanded) {
-      const expansionDuration = window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 0 : 650;
+      const expansionDuration = reducedMotion.matches ? 0 : 650;
       // Finish expanding, then hold briefly before allowing the slide up.
       hideAfter = performance.now() + expansionDuration + 250;
     }
@@ -33,13 +44,11 @@ export function initNavigation(signal) {
     if (window.scrollY <= 160 || document.documentElement.hasAttribute('data-menu-open')) {
       reveal();
     }
-    header.toggleAttribute('data-on-dark', darkSections.some((section) => {
-      const rect = section.getBoundingClientRect();
-      if (rect.top > 32 || rect.bottom < 32) return false;
-      const [start, end] = (section.dataset.dark || '0:1').split(':').map(Number);
-      const progress = -rect.top / Math.max(1, rect.height - window.innerHeight);
-      return progress >= start && progress <= end;
-    }));
+    // The loader scales the page to zero, so its section rectangles cannot
+    // determine the header color until the reveal restores the page layout.
+    if (!document.documentElement.hasAttribute('data-preloader-active')) {
+      header.toggleAttribute('data-on-dark', onDark);
+    }
   };
 
   const onScroll = () => {
@@ -65,5 +74,6 @@ export function initNavigation(signal) {
   window.addEventListener('scroll', onScroll, { passive: true, signal });
   window.addEventListener('resize', update, { signal });
   window.addEventListener('pageshow', update, { signal });
+  document.addEventListener('portfolio:preloader-complete', update, { signal });
   update();
 }

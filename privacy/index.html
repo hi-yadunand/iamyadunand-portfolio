@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<!-- Generated from privacy.html by scripts/sync-routes.mjs. Edit the root document. --><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="generator" content="Astro v7.4.1"><link rel="icon" href="/images/iamyadunand-favicon.png" type="image/png"><title>Privacy · Yadunand Pavithran</title><meta name="description" content="Privacy for the portfolio of Yadunand Pavithran."><script>
+      (function () {
+      // Keep public page URLs extensionless; the static host serves the HTML files.
+      var originalPageURL = location.href;
+      try {
+        var pageURL = new URL(originalPageURL);
+        var pagePath = pageURL.pathname.replace(/\/index\.html$/i, "/").replace(/\.html$/i, "");
+        if (pagePath !== "/") pagePath = pagePath.replace(/\/+$/, "");
+        if (/^\/contact\/\.project=/.test(pagePath)) pagePath = "/contact";
+        if (pagePath !== pageURL.pathname) {
+          history.replaceState(history.state, "", pagePath + pageURL.search + pageURL.hash);
+        }
+      } catch (e) {}
+        var h = document.documentElement;
+        if (matchMedia("(prefers-reduced-motion: no-preference)").matches) h.classList.add("motion");
+        try {
+          // Reloads replay the starter animation from the top of the page.
+        var initialNavigation = performance.getEntriesByType("navigation")[0];
+        if (initialNavigation && initialNavigation.type === "reload" && !location.hash) {
+          h.setAttribute("data-reload-top", "");
+          history.scrollRestoration = "manual";
+          window.scrollTo({ top: 0, left: 0, behavior: "instant" });
+        }
+        if ((!initialNavigation || initialNavigation.type !== "reload") &&
+            sessionStorage.getItem("yadunand-loaded")) h.classList.add("loaded");
+        } catch (e) {}
+
+      // Arrival fade applies only to an intentional internal page navigation.
+      // Reloads replay the loader; intentional internal navigation uses the arrival fade.
+      try {
+        var entry = sessionStorage.getItem("portfolio-page-entry");
+        if (entry) {
+          sessionStorage.removeItem("portfolio-page-entry");
+          var intent = JSON.parse(entry), to = new URL(intent.to, location.href);
+          var referrer = document.referrer ? new URL(document.referrer) : null;
+          var kind = performance.getEntriesByType("navigation")[0];
+          if (to.origin === location.origin && Date.now() - intent.at < 10000 &&
+              (to.href === location.href || to.href === originalPageURL || (referrer && (referrer.href === to.href || referrer.href === intent.from))) &&
+              (!kind || (kind.type !== "reload" && kind.type !== "back_forward"))) {
+            h.classList.add("loaded");
+            if (!matchMedia("(prefers-reduced-motion: reduce)").matches) h.setAttribute("data-site-enter", "");
+          }
+        }
+      } catch (e) {}
+    })();
+    </script>
+<script src="/assets/page-transitions.js"></script><link rel="preload" href="/_astro/inter-tight-latin-wght-normal.DX-nOvPD.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/_astro/geist-mono-latin-wght-normal.XN7g48iV.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/assets/navigation.css" as="style">
+<link rel="stylesheet" href="/_astro/BaseLayout.B-BnKKTW.css">
+<link rel="stylesheet" href="/assets/site-navigation.css">
+<link rel="stylesheet" href="/assets/hero-code.css">
+
+<link rel="stylesheet" href="/assets/portfolio-footer.css">
+  <link rel="canonical" href="https://iamyadunand.com/privacy">
+<link rel="stylesheet" href="/assets/preloader.css">
+</head><body><div data-preloader aria-hidden="true">
+    <div class="preloader__stack">
+      <div data-preloader-card class="preloader__card"><img class="preloader__image" src="/images/case-studies/karuvin.webp" alt="" width="720" height="480" loading="eager" decoding="async"></div>
+      <div data-preloader-card class="preloader__card"><img class="preloader__image" src="/images/case-studies/lobiatek.webp" alt="" width="720" height="480" loading="eager" decoding="async"></div>
+      <div data-preloader-card class="preloader__card"><img class="preloader__image" src="/images/case-studies/zappo.webp" alt="" width="720" height="480" loading="eager" decoding="async"></div>
+      <div data-preloader-card class="preloader__card"><img class="preloader__image" src="/images/case-studies/spakgen.webp" alt="" width="720" height="480" loading="eager" decoding="async"></div>
+    </div>
+    <p data-preloader-count class="preloader__count">0%</p>
+  </div>
+  <header data-header class="fixed inset-x-0 top-0 z-50">
+    <div class="shell grid grid-cols-[1fr_auto] items-center gap-6 py-4 lg:grid-cols-[1fr_auto_1fr]"><a
+        href="/" class="flex items-center gap-2 text-lg font-medium tracking-[-0.03em]"
+        aria-label="Yadunand Pavithran, home">Yadunand Pavithran</a>
+      <nav class="hidden items-center gap-7 text-sm lg:flex" aria-label="Main"><a href="/"><span class="roll"><span data-text="Home">Home</span></span></a><a href="/studio"><span
+            class="roll"><span data-text="Projects">Projects</span></span></a><a href="/services"><span
+            class="roll"><span data-text="Services">Services</span></span></a><a href="/contact"><span
+            class="roll"><span data-text="Contact">Contact</span></span></a></nav>
+      <div class="flex items-center justify-end gap-6">
+        <a href="/contact#brief" class="btn hidden !py-1.5 md:inline-flex"><span class="roll"><span
+              data-text="Let's talk">Let's talk</span></span></a>
+        <button type="button" data-menu-toggle aria-expanded="false" class="text-sm lg:hidden"><span class="roll"><span
+              data-text="Menu">Menu</span></span></button>
+      </div>
+    </div>
+  </header><div data-menu inert class="fixed inset-0 z-40 bg-ink text-paper"><div class="shell grid h-full grid-cols-1 gap-8 pt-24 pb-8 md:grid-cols-12"><nav class="flex flex-col justify-end md:col-span-7" aria-label="Menu"><a href="/"
+          data-menu-link="true"
+          class="display flex items-baseline gap-4 border-t border-line-light py-2 text-[clamp(2.75rem,8svh,6rem)] transition-colors hover:text-signal"><span
+            class="label text-signal">01</span>Home</a><a href="/studio"
+          data-menu-link="true"
+          class="display flex items-baseline gap-4 border-t border-line-light py-2 text-[clamp(2.75rem,8svh,6rem)] transition-colors hover:text-signal"><span
+            class="label text-signal">02</span>Projects</a><a href="/services" data-menu-link="true"
+          class="display flex items-baseline gap-4 border-t border-line-light py-2 text-[clamp(2.75rem,8svh,6rem)] transition-colors hover:text-signal"><span
+            class="label text-signal">03</span>Services</a><a href="/contact" data-menu-link="true"
+          class="display flex items-baseline gap-4 border-t border-line-light py-2 text-[clamp(2.75rem,8svh,6rem)] transition-colors hover:text-signal"><span
+            class="label text-signal">04</span>Contact</a><a href="/contact#brief" class="btn mt-8 self-start"><span
+            class="roll"><span data-text="Start a project">Start a project</span></span></a></nav><div class="stack relative hidden md:col-span-5 md:block"><div data-menu-image data-active class="absolute inset-0"><img src="/images/case-studies/zappo.webp" alt="Zappo sports booking app" width="720" height="480" loading="lazy" decoding="async" class="absolute inset-0 size-full object-cover"></div><div data-menu-image class="absolute inset-0"><img src="/images/codeandthrive.webp" alt="Code and Thrive website" width="720" height="480" loading="lazy" decoding="async" class="absolute inset-0 size-full object-cover"></div><div data-menu-image class="absolute inset-0"><img src="/images/services/frontend-engineering.webp" alt="Frontend engineering" width="720" height="480" loading="lazy" decoding="async" class="absolute inset-0 size-full object-cover"></div><div data-menu-image class="absolute inset-0"><img src="/images/iamyadunandhero.webp" alt="Yadunand Pavithran" width="720" height="480" loading="lazy" decoding="async" class="absolute inset-0 size-full object-cover"></div></div></div></div><main><section class="shell pt-32 md:pt-40" style="padding-bottom:6rem"><p class="label">Yadunand Pavithran · Portfolio</p><h1 class="display mt-6 text-display-lg">Privacy</h1><div class="mt-10 max-w-2xl" style="overflow-wrap:anywhere"><h2 class="display text-display-sm">Getting in touch</h2><p class="mt-4 text-lg leading-[1.4] text-graphite">The contact link opens your email app. Information you choose to include in an email is shared with Yadunand Pavithran so I can respond to your enquiry.</p><h2 class="display mt-10 text-display-sm">External services</h2><p class="mt-4 text-lg leading-[1.4] text-graphite">Project and social links may take you to other websites. Those services handle information according to their own privacy policies.</p><h2 class="display mt-10 text-display-sm">Questions</h2><p class="mt-4 text-lg leading-[1.4] text-graphite">For questions about information shared through this portfolio, email <a href="mailto:yadunandpavithran05@gmail.com">yadunandpavithran05@gmail.com</a>.</p></div></section></main><footer data-dark data-profile-footer class="overflow-hidden bg-ink text-paper">
+    <div class="shell pt-16 md:pt-24">
+      <div class="portfolio-footer__top">
+        <div class="portfolio-footer__intro">
+          <video data-profile-video class="portfolio-footer__profile-video" muted playsinline preload="metadata"
+            width="540" height="540" aria-label="Video profile of Yadunand Pavithran">
+            <source src="/images/howdyiamyadunand.mp4#t=0.001" type="video/mp4">
+          </video>
+          <div class="mt-8 flex flex-col items-start gap-1 text-lg tracking-[-0.02em]"><a
+              data-profile-video-trigger href="mailto:yadunandpavithran05@gmail.com"><span class="roll"><span
+                  data-text="yadunandpavithran05@gmail.com">yadunandpavithran05@gmail.com</span></span></a></div>
+        </div>
+        <div class="portfolio-footer__links">
+          <div>
+            <p class="label mb-4 text-paper/50">Explore</p>
+            <ul class="space-y-1.5 text-sm">
+              <li><a href="/"><span class="roll"><span data-text="Home">Home</span></span></a></li>
+              <li><a href="/studio"><span class="roll"><span data-text="Projects">Projects</span></span></a></li>
+              <li><a href="/services"><span class="roll"><span data-text="Services">Services</span></span></a></li>
+              <li><a href="/contact"><span class="roll"><span data-text="Contact">Contact</span></span></a></li>
+            </ul>
+          </div>
+<div>
+            <p class="label mb-4 text-paper/50">Follow</p>
+            <ul class="space-y-1.5 text-sm">
+              <li><a href="https://github.com/hi-yadunand" target="_blank" rel="noopener noreferrer"><span class="roll"><span
+                      data-text="GitHub">GitHub</span></span></a></li>
+              <li><a href="https://www.linkedin.com/in/yadunand-pavithran/" target="_blank" rel="noopener noreferrer"><span class="roll"><span
+                      data-text="LinkedIn">LinkedIn</span></span></a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div
+        class="label mt-16 flex flex-wrap justify-between gap-x-8 gap-y-2 border-t border-line-light pt-3 text-paper/60">
+        <p>Portfolio@26</p>
+      </div>
+    </div>
+    <p data-reveal
+      class="portfolio-footer__wordmark mt-6 flex items-baseline pb-[0.06em] pl-3 leading-none font-[450] tracking-[-0.06em] md:pl-6">
+      <a data-profile-video-trigger href="mailto:yadunandpavithran05@gmail.com" class="portfolio-footer__talk-link">
+        Let's <span class="hero-code" data-particle-text><span class="hero-code__text">talk</span><canvas
+            class="hero-code__canvas" aria-hidden="true"></canvas></span>
+      </a>
+    </p>
+  </footer><div data-cursor aria-hidden="true" class="label pointer-events-none fixed top-0 left-0 z-50 -mt-9 -ml-9 hidden size-18 items-center justify-center rounded-full bg-signal text-white [@media(pointer:fine)]:flex"></div><script type="module" src="/_astro/BaseLayout.astro_astro_type_script_index_0_lang.Dpw5V1aT.js"></script><script type="module" src="/beacon.min.js/vce701823e78c4301a35b7e07294d87301792088814092" integrity="sha512-UKNk8GbxkABxKcXYuLkO16EleLGUkcvJWtpSNmExE0Too3ZaFAxTscNWEc1OdAv5/BikHawapSCaiD2XCmp+Bw==" data-cf-beacon='{"version":"2024.11.0","token":"cafbd0512f3a4a4f99b029b53309d22c","r":1,"spa":2}' crossorigin="anonymous"></script>
+
+<script type="module" src="/assets/hero-code-particles.js"></script>
+
+<script type="module" src="/assets/portfolio-footer.js"></script>
+  <script type="module" src="/assets/footer-ascii.js"></script>
+</body></html>

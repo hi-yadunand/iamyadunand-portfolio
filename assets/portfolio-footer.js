@@ -1,6 +1,24 @@
 const footer = document.querySelector("[data-profile-footer]");
 const video = footer?.querySelector("[data-profile-video]");
 if (video) {
+  // Metadata keeps the existing opening frame. Fetch the complete clip before
+  // the footer enters view, or immediately when a visitor interacts with it.
+  let warmObserver;
+  const warmVideo = () => {
+    video.preload = "auto";
+    warmObserver?.disconnect();
+  };
+  if ("IntersectionObserver" in window) {
+    warmObserver = new IntersectionObserver((entries) => {
+      if (entries.some((entry) => entry.isIntersecting)) warmVideo();
+    }, { rootMargin: "1600px 0px" });
+    warmObserver.observe(footer);
+  } else {
+    warmVideo();
+  }
+  window.addEventListener("pagehide", (event) => {
+    if (!event.persisted) warmObserver?.disconnect();
+  });
   const triggers = footer.querySelectorAll("[data-profile-video-trigger], [data-profile-video]");
   const hovered = new Set();
   const reverseSpeed = 2;
@@ -53,6 +71,7 @@ if (video) {
       cancelReverse();
       video.pause();
     } else if (hovered.size || focused) {
+      warmVideo();
       cancelReverse();
       // Hold on the final frame while hovered instead of starting again.
       if (!video.ended) {

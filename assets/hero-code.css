@@ -6,7 +6,7 @@
   position: relative;
   display: inline-block;
   white-space: nowrap;
-  color: #ee4b2b;
+  color: var(--color-signal, #D73F1B);
 }
 
 .hero-code__canvas {

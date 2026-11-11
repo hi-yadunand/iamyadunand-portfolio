@@ -12,42 +12,87 @@
     content="The portfolio of Yadunand Pavithran — software engineering, web development, UI/UX design, AI integration, and robotics. Explore my projects and get in touch.">
   <script>
     (function () {
+      // Keep public page URLs extensionless; the static host serves the HTML files.
+      var originalPageURL = location.href;
+      try {
+        var pageURL = new URL(originalPageURL);
+        var pagePath = pageURL.pathname.replace(/\/index\.html$/i, "/").replace(/\.html$/i, "");
+        if (pagePath !== "/") pagePath = pagePath.replace(/\/+$/, "");
+        if (/^\/contact\/\.project=/.test(pagePath)) pagePath = "/contact";
+        if (pagePath !== pageURL.pathname) {
+          history.replaceState(history.state, "", pagePath + pageURL.search + pageURL.hash);
+        }
+      } catch (e) {}
       var h = document.documentElement;
       if (matchMedia("(prefers-reduced-motion: no-preference)").matches) h.classList.add("motion");
       try {
-        if (sessionStorage.getItem("yadunand-loaded")) h.classList.add("loaded");
+        // Reloads replay the starter animation from the top of the page.
+        var initialNavigation = performance.getEntriesByType("navigation")[0];
+        if (initialNavigation && initialNavigation.type === "reload" &&
+            !location.hash) {
+          h.setAttribute("data-reload-top", "");
+          history.scrollRestoration = "manual";
+          window.scrollTo({ top: 0, left: 0, behavior: "instant" });
+        }
+        if ((!initialNavigation || initialNavigation.type !== "reload") &&
+            sessionStorage.getItem("yadunand-loaded")) h.classList.add("loaded");
       } catch (e) { }
+
+      // Arrival fade applies only to an intentional internal page navigation.
+      // Reloads replay the loader; intentional internal navigation uses the arrival fade.
+      try {
+        var entry = sessionStorage.getItem("portfolio-page-entry");
+        if (entry) {
+          sessionStorage.removeItem("portfolio-page-entry");
+          var intent = JSON.parse(entry), to = new URL(intent.to, location.href);
+          var referrer = document.referrer ? new URL(document.referrer) : null;
+          var kind = performance.getEntriesByType("navigation")[0];
+          if (to.origin === location.origin && Date.now() - intent.at < 10000 &&
+              (to.href === location.href || to.href === originalPageURL || (referrer && (referrer.href === to.href || referrer.href === intent.from))) &&
+              (!kind || (kind.type !== "reload" && kind.type !== "back_forward"))) {
+            h.classList.add("loaded");
+            if (!matchMedia("(prefers-reduced-motion: reduce)").matches) h.setAttribute("data-site-enter", "");
+          }
+        }
+      } catch (e) {}
     })();
   </script>
-  <link rel="stylesheet" href="_astro/BaseLayout.B-BnKKTW.css">
+<script src="/assets/page-transitions.js"></script>
+  <link rel="preload" href="_astro/inter-tight-latin-wght-normal.DX-nOvPD.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="_astro/geist-mono-latin-wght-normal.XN7g48iV.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/navigation.css" as="style">
+<link rel="stylesheet" href="_astro/BaseLayout.B-BnKKTW.css">
+<link rel="stylesheet" href="assets/site-navigation.css">
   <link rel="stylesheet" href="assets/drone-band.css">
   <link rel="stylesheet" href="assets/project-cards.css">
   <link rel="stylesheet" href="assets/hero-code.css">
   <link rel="stylesheet" href="assets/code-thrive-highlight.css">
   <link rel="stylesheet" href="assets/portfolio-footer.css">
   <link rel="stylesheet" href="assets/testimonial-slider.css">
+  <link rel="canonical" href="https://iamyadunand.com/">
+<link rel="stylesheet" href="/assets/preloader.css">
 </head>
 
 <body>
-  <div data-preloader aria-hidden class="fixed inset-0 z-[60] flex flex-col justify-end bg-ink text-paper">
-    <div class="shell pb-8">
-      <div class="flex items-end justify-between">
-        <p class="text-lg font-medium tracking-[-0.03em]">Yadunand Pavithran</p>
-        <p data-preloader-count class="display text-display-xl tabular-nums">00</p>
-      </div>
-      <div data-preloader-line class="dim mt-4 origin-left text-signal"></div>
+  <div data-preloader aria-hidden="true">
+    <div class="preloader__stack">
+      <div data-preloader-card class="preloader__card"><img class="preloader__image" src="/images/case-studies/karuvin.webp" alt="" width="720" height="480" loading="eager" decoding="async"></div>
+      <div data-preloader-card class="preloader__card"><img class="preloader__image" src="/images/case-studies/lobiatek.webp" alt="" width="720" height="480" loading="eager" decoding="async"></div>
+      <div data-preloader-card class="preloader__card"><img class="preloader__image" src="/images/case-studies/zappo.webp" alt="" width="720" height="480" loading="eager" decoding="async"></div>
+      <div data-preloader-card class="preloader__card"><img class="preloader__image" src="/images/case-studies/spakgen.webp" alt="" width="720" height="480" loading="eager" decoding="async"></div>
     </div>
+    <p data-preloader-count class="preloader__count">0%</p>
   </div>
-  <header data-header class="fixed inset-x-0 top-0 z-50">
+  <header data-header data-on-dark class="fixed inset-x-0 top-0 z-50">
     <div class="shell grid grid-cols-[1fr_auto] items-center gap-6 py-4 lg:grid-cols-[1fr_auto_1fr]"><a
-        href="index.html" class="flex items-center gap-2 text-lg font-medium tracking-[-0.03em]"
+        href="/" class="flex items-center gap-2 text-lg font-medium tracking-[-0.03em]"
         aria-label="Yadunand Pavithran, home">Yadunand Pavithran</a>
-      <nav class="hidden items-center gap-7 text-sm lg:flex" aria-label="Main"><a href="index.html" aria-current="page"><span class="roll"><span data-text="Home">Home</span></span></a><a href="studio.html"><span
-            class="roll"><span data-text="Projects">Projects</span></span></a><a href="services.html"><span
-            class="roll"><span data-text="Services">Services</span></span></a><a href="contact.html"><span
+      <nav class="hidden items-center gap-7 text-sm lg:flex" aria-label="Main"><a href="/" aria-current="page"><span class="roll"><span data-text="Home">Home</span></span></a><a href="/studio"><span
+            class="roll"><span data-text="Projects">Projects</span></span></a><a href="/services"><span
+            class="roll"><span data-text="Services">Services</span></span></a><a href="/contact"><span
             class="roll"><span data-text="Contact">Contact</span></span></a></nav>
       <div class="flex items-center justify-end gap-6">
-        <a href="contact.html#brief" class="btn hidden !py-1.5 md:inline-flex"><span class="roll"><span
+        <a href="/contact#brief" class="btn hidden !py-1.5 md:inline-flex"><span class="roll"><span
               data-text="Let's talk">Let's talk</span></span></a>
         <button type="button" data-menu-toggle aria-expanded="false" class="text-sm lg:hidden"><span class="roll"><span
               data-text="Menu">Menu</span></span></button>
@@ -56,17 +101,17 @@
   </header>
   <div data-menu inert class="fixed inset-0 z-40 bg-ink text-paper">
     <div class="shell grid h-full grid-cols-1 gap-8 pt-24 pb-8 md:grid-cols-12">
-      <nav class="flex flex-col justify-end md:col-span-7" aria-label="Menu"><a href="index.html" aria-current="page"
+      <nav class="flex flex-col justify-end md:col-span-7" aria-label="Menu"><a href="/" aria-current="page"
           data-menu-link="true"
           class="display flex items-baseline gap-4 border-t border-line-light py-2 text-[clamp(2.75rem,8svh,6rem)] transition-colors hover:text-signal"><span
-            class="label text-signal">01</span>Home</a><a href="studio.html"
+            class="label text-signal">01</span>Home</a><a href="/studio"
           data-menu-link="true"
           class="display flex items-baseline gap-4 border-t border-line-light py-2 text-[clamp(2.75rem,8svh,6rem)] transition-colors hover:text-signal"><span
-            class="label text-signal">02</span>Projects</a><a href="services.html" data-menu-link="true"
+            class="label text-signal">02</span>Projects</a><a href="/services" data-menu-link="true"
           class="display flex items-baseline gap-4 border-t border-line-light py-2 text-[clamp(2.75rem,8svh,6rem)] transition-colors hover:text-signal"><span
-            class="label text-signal">03</span>Services</a><a href="contact.html" data-menu-link="true"
+            class="label text-signal">03</span>Services</a><a href="/contact" data-menu-link="true"
           class="display flex items-baseline gap-4 border-t border-line-light py-2 text-[clamp(2.75rem,8svh,6rem)] transition-colors hover:text-signal"><span
-            class="label text-signal">04</span>Contact</a><a href="contact.html#brief" class="btn mt-8 self-start"><span
+            class="label text-signal">04</span>Contact</a><a href="/contact#brief" class="btn mt-8 self-start"><span
             class="roll"><span data-text="Start a project">Start a project</span></span></a></nav>
       <div class="stack relative hidden md:col-span-5 md:block">
         <div data-menu-image data-active class="absolute inset-0"><img src="images/case-studies/zappo.webp" alt="Zappo sports booking app" width="720" height="480" loading="lazy" decoding="async" class="absolute inset-0 size-full object-cover"></div>
@@ -83,7 +128,7 @@
           <div data-hero-frame class="absolute inset-0 overflow-hidden bg-ink text-white">
             <div data-hero-media class="absolute inset-0"><img src="images/iamyadunandhero.webp"
                 alt="Yadunand Pavithran sitting on a balcony overlooking the greenery" width="1537" height="1023"
-                fetchpriority="high" decoding="async" class="absolute inset-0 size-full object-cover" />
+                loading="eager" fetchpriority="high" decoding="async" class="absolute inset-0 size-full object-cover" />
             </div>
             <div class="absolute inset-0 bg-gradient-to-t from-ink/70 via-ink/10 to-ink/25"></div>
           </div>
@@ -121,7 +166,7 @@
               Working across design, development, and deployment, I transform real-world business challenges into
               scalable products through thoughtful engineering and intelligent technology.</p>
           </div>
-          <div data-reveal class="mt-10 md:ml-[50%]"><a href="studio.html" class="btn  "><span class="roll"><span
+          <div data-reveal class="mt-10 md:ml-[50%]"><a href="/studio" class="btn  "><span class="roll"><span
                   data-text="Explore my work">Explore my work</span></span><svg viewBox="0 0 16 16" fill="none"
                 stroke="currentColor" stroke-width="1" aria-hidden="true" class="size-3.5">
                 <path d="M4 12 12 4M5 4h7v7"></path>
@@ -224,7 +269,7 @@
               </a>
             </div>
           </div>
-          <div data-reveal class="mt-14 flex justify-center md:mt-20"><a href="studio.html"
+          <div data-reveal class="mt-14 flex justify-center md:mt-20"><a href="/studio"
               class="btn btn-solid "><span class="roll"><span data-text="All projects">All projects</span></span><svg
                 viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1" aria-hidden="true"
                 class="size-3.5">
@@ -811,7 +856,7 @@
               <div class="md:col-span-9 md:col-start-4"><p class="display text-display-md">A real-life TARS-inspired robot, combining custom hardware, embedded systems, and conversational AI.</p><figcaption class="label mt-6 md:mt-10">TARSX Robot<span class="text-graphite"> · Raspberry Pi · Python · AI</span></figcaption></div>
             </figure>
             <figure data-slide class="col-start-1 row-start-1 grid gap-6 md:grid-cols-12">
-              <div class="relative aspect-square w-24 overflow-hidden md:col-span-2 md:w-full"><img src="images/startupgrow.png" alt="Startup Grow project" width="720" height="480" loading="lazy" decoding="async" class="absolute inset-0 size-full object-cover"></div>
+              <div class="relative aspect-square w-24 overflow-hidden md:col-span-2 md:w-full"><img src="images/startupgrow-lossless.webp" alt="Startup Grow project" width="720" height="480" loading="lazy" decoding="async" class="absolute inset-0 size-full object-cover"></div>
               <div class="md:col-span-9 md:col-start-4"><p class="display text-display-md">Turning ideas into practical web applications through design, development, and iteration.</p><figcaption class="label mt-6 md:mt-10">Startup Grow<span class="text-graphite"> · Full-stack development</span></figcaption></div>
             </figure>
           </div>
@@ -837,14 +882,14 @@
           <h2 aria-label="Let's create what's next." class="display text-display-xl" data-reveal><span>Let's
               create </span><span aria-hidden
               class="portfolio-cta__illustration"><img
-                src="images/codingdesk.png" alt="Illustration of Yadunand coding at a desk with a laptop, coffee, and a small robot" width="1254" height="1254"
+                src="images/codingdesk.webp" alt="Illustration of Yadunand coding at a desk with a laptop, coffee, and a small robot" width="1254" height="1254"
                 loading="lazy" decoding="async"></span><span class="block">what's next.</span></h2>
-          <div data-reveal class="mt-10 flex flex-wrap justify-center gap-3 md:mt-14"><a href="contact.html#brief"
+          <div data-reveal class="mt-10 flex flex-wrap justify-center gap-3 md:mt-14"><a href="/contact#brief"
               class="btn btn-solid "><span class="roll"><span data-text="Start a conversation">Start a
                   conversation</span></span><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1"
                 aria-hidden="true" class="size-3.5">
                 <path d="M4 12 12 4M5 4h7v7"></path>
-              </svg></a><a href="studio.html" class="btn  "><span class="roll"><span data-text="Explore my work">Explore my
+              </svg></a><a href="/studio" class="btn  "><span class="roll"><span data-text="Explore my work">Explore my
                   work</span></span><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1"
                 aria-hidden="true" class="size-3.5">
                 <path d="M4 12 12 4M5 4h7v7"></path>
@@ -853,11 +898,12 @@
       </section>
     </div>
   </main>
-  <footer data-dark data-profile-footer class="overflow-hidden bg-ink text-paper">
+  <div data-footer-reveal-stage data-dark>
+  <footer data-profile-footer data-footer-reveal class="overflow-hidden bg-ink text-paper">
     <div class="shell pt-16 md:pt-24">
       <div class="portfolio-footer__top">
         <div class="portfolio-footer__intro">
-          <video data-profile-video class="portfolio-footer__profile-video" muted playsinline preload="auto"
+          <video data-profile-video class="portfolio-footer__profile-video" muted playsinline preload="metadata"
             width="540" height="540" aria-label="Video profile of Yadunand Pavithran">
             <source src="images/howdyiamyadunand.mp4#t=0.001" type="video/mp4">
           </video>
@@ -869,10 +915,10 @@
           <div>
             <p class="label mb-4 text-paper/50">Explore</p>
             <ul class="space-y-1.5 text-sm">
-              <li><a href="index.html"><span class="roll"><span data-text="Home">Home</span></span></a></li>
-              <li><a href="studio.html"><span class="roll"><span data-text="Projects">Projects</span></span></a></li>
-              <li><a href="services.html"><span class="roll"><span data-text="Services">Services</span></span></a></li>
-              <li><a href="contact.html"><span class="roll"><span data-text="Contact">Contact</span></span></a></li>
+              <li><a href="/"><span class="roll"><span data-text="Home">Home</span></span></a></li>
+              <li><a href="/studio"><span class="roll"><span data-text="Projects">Projects</span></span></a></li>
+              <li><a href="/services"><span class="roll"><span data-text="Services">Services</span></span></a></li>
+              <li><a href="/contact"><span class="roll"><span data-text="Contact">Contact</span></span></a></li>
             </ul>
           </div>
 <div>
@@ -899,20 +945,18 @@
       </a>
     </p>
   </footer>
+  </div>
   <div data-project-cursor aria-hidden="true" style="opacity: 0; transition: opacity 0.2s;"
     class="label pointer-events-none fixed top-0 left-0 z-50 -mt-9 -ml-9 hidden size-18 items-center justify-center rounded-full bg-signal text-white [@media(pointer:fine)]:flex">
   </div>
   <script type="module" src="_astro/BaseLayout.astro_astro_type_script_index_0_lang.Dpw5V1aT.js"></script>
   <script type="module" src="assets/hero-code-particles.js"></script>
   <script type="module" src="assets/portfolio-footer.js"></script>
+  <script type="module" src="assets/footer-reveal.js"></script>
   <script type="module" src="assets/footer-ascii.js"></script>
   <script type="module" src="assets/testimonial-slider.js"></script>
   <script type="module" src="assets/project-cursor.js"></script>
-  <script type="module">
-    import("./assets/drone-services.js").catch(() => {
-      document.querySelector("[data-drone-band]")?.classList.add("is-fallback");
-    });
-  </script>
+  <script type="module" src="assets/drone-loader.js"></script>
   <script type="module" src="beacon.min.js/vce701823e78c4301a35b7e07294d87301792088814092"
     integrity="sha512-UKNk8GbxkABxKcXYuLkO16EleLGUkcvJWtpSNmExE0Too3ZaFAxTscNWEc1OdAv5/BikHawapSCaiD2XCmp+Bw=="
     data-cf-beacon='{"version":"2024.11.0","token":"cafbd0512f3a4a4f99b029b53309d22c","r":1,"spa":2}'
