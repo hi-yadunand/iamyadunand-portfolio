@@ -71,6 +71,9 @@
 .portfolio-footer__wordmark {
   /* Fit the name while preserving the reference size on wide screens. */
   font-size: min(331px, calc((100vw - 3rem) / 3.98));
+  /* Trim the padding and unused descender space below this lettering. */
+  padding-bottom: 0;
+  margin-bottom: -0.08em;
 }
 
 .portfolio-footer__talk-link {
