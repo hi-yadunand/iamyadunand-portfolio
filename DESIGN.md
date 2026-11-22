@@ -65,8 +65,8 @@ transitions. Existing type, navigation links, menu, and call to action remain.
 Brand and content: loading screens and titles use Yadunand Pavithran. Navigation
 images use local portfolio assets. Project notes describe existing work rather
 than sample endorsements. Contact opens an email app using the portfolio's
-published address; no delivery or response-time claim is made. Archived sample
-architecture routes redirect to the real project register.
+published address; no delivery or response-time claim is made. The portfolio’s
+project register is available at `/projects`.
 
 Navigation state checks and local asset references pass. Browser preview was
 unavailable, so desktop/mobile visual fidelity remains unverified.

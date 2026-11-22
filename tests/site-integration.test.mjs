@@ -22,20 +22,11 @@ function tags(html) {
 const source = name => readFileSync(path.join(root, name), 'utf8');
 
 test('every rendered document loads one base runtime, one navigation stylesheet and the entry helper', () => {
-  let rendered = 0, redirects = 0;
   for (const file of htmlFiles) {
     const html = readFileSync(file, 'utf8'), entries = tags(html);
     const scripts = entries.filter(t => t.tag === 'script' && t.attrs.src).map(t => t.attrs.src);
     assert.equal(scripts.length, new Set(scripts).size, file);
     const base = scripts.filter(src => src.includes('BaseLayout.astro_astro_type_script'));
-    if (html.includes('http-equiv="refresh"')) {
-      redirects++;
-      assert.equal(base.length, 0, file);
-      assert.equal(scripts.filter(src => src.endsWith('/project-redirect.js')).length, 1, file);
-      assert(html.indexOf('/project-redirect.js') < html.indexOf('http-equiv="refresh"'), file);
-      continue;
-    }
-    rendered++;
     assert.equal(base.length, 1, file);
     assert.equal(entries.filter(t => t.tag === 'link' && t.attrs.rel === 'stylesheet' && t.attrs.href.endsWith('/site-navigation.css')).length, 1, file);
     assert(html.includes('sessionStorage.getItem("portfolio-page-entry")'), file);
@@ -44,17 +35,14 @@ test('every rendered document loads one base runtime, one navigation stylesheet 
     assert.equal(transitionScript.length, 1, file);
     assert(html.indexOf(transitionScript[0]) < html.indexOf('</head>'), file);
   }
-  assert.equal(rendered, 21); assert.equal(redirects, 8);
+  assert.equal(htmlFiles.length, 11);
 });
 
-test('all local HTML links, fragments, redirects and relative asset references resolve', () => {
+test('all local HTML links, fragments and relative asset references resolve', () => {
   for (const file of htmlFiles) {
     const html = readFileSync(file, 'utf8');
-    const references = tags(html).flatMap(({ tag, attrs }) => {
-      const values = ['href', 'src', 'poster'].filter(k => attrs[k]).map(k => attrs[k]);
-      if (tag === 'meta' && attrs['http-equiv']?.toLowerCase() === 'refresh') values.push(attrs.content.split(/url=/i)[1]);
-      return values;
-    });
+    const references = tags(html).flatMap(({ attrs }) =>
+      ['href', 'src', 'poster'].filter(k => attrs[k]).map(k => attrs[k]));
     for (const href of references) {
       if (/^(?:[a-z][\w+.-]*:|\/\/)/i.test(href)) continue;
       const [relative, hash] = href.split('#');
@@ -87,7 +75,7 @@ test('shared bundle bridges the existing libraries without creating another scro
 });
 
 test('clean routes have real directory entry pages with root asset paths', () => {
-  for (const route of ['studio', 'projects', 'services', 'contact', 'privacy', 'terms']) {
+  for (const route of ['studio', 'projects', 'services', 'contact', 'privacy']) {
     const html = source(`${route}/index.html`);
     assert(html.includes('<main'), route);
     assert(html.includes(`href="https://iamyadunand.com/${route}"`), route);
@@ -102,7 +90,7 @@ test('clean routes have real directory entry pages with root asset paths', () =>
   }
 });
 
-test('page links, canonical URLs and redirect fallbacks use extensionless routes', () => {
+test('page links and canonical URLs use extensionless routes', () => {
   for (const file of htmlFiles) {
     const html = readFileSync(file, 'utf8');
     const entries = tags(html);
@@ -113,22 +101,7 @@ test('page links, canonical URLs and redirect fallbacks use extensionless routes
     }
     const canonical = entries.filter(({ tag, attrs }) => tag === 'link' && attrs.rel === 'canonical');
     assert.equal(canonical.length, 1, file);
-    if (html.includes('http-equiv="refresh"')) {
-      assert(html.includes('url=/projects#all-projects'), file);
-    } else {
-      assert(html.includes('history.replaceState(history.state, "", pagePath + pageURL.search + pageURL.hash)'), file);
-      assert(html.indexOf('var originalPageURL') < html.indexOf('sessionStorage.getItem("portfolio-page-entry")'), file);
-    }
+    assert(html.includes('history.replaceState(history.state, "", pagePath + pageURL.search + pageURL.hash)'), file);
+    assert(html.indexOf('var originalPageURL') < html.indexOf('sessionStorage.getItem("portfolio-page-entry")'), file);
   }
-});
-
-test('legacy contact alias normalization covers encoded and decoded project paths', () => {
-  const variants = ['/contact/.project=Almond%20Terrace.html', '/contact/.project%3DAlmond%20Terrace.html', '/contact/%2Eproject=Almond%20Terrace.html', '/contact/%2Eproject%3DAlmond%20Terrace.html'];
-  for (const variant of variants) {
-    const match = /^\/contact\/(?:\.project=|\.project%3D|%2Eproject=|%2Eproject%3D)/i.test(variant);
-    assert.equal(match, true, variant);
-  }
-  const html = readFileSync(path.join(root, 'index.html'), 'utf8');
-  assert(html.includes('decodeURIComponent(decodedPagePath)'));
-  assert(html.includes('%2Eproject%3D'));
 });

@@ -1,10 +1,9 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { readFileSync, readdirSync } from 'node:fs';
+import { readFileSync } from 'node:fs';
 import vm from 'node:vm';
 
 const source = readFileSync(new URL('../assets/site-scroll.js', import.meta.url), 'utf8');
-const redirectSource = readFileSync(new URL('../assets/project-redirect.js', import.meta.url), 'utf8');
 class Events {
   handlers = new Map();
   addEventListener(name, fn, options = {}) {
@@ -140,7 +139,7 @@ test('Home navigates normally from other pages and reloads when already at home'
 });
 
 test('current-page navigation reloads every route, including home and section fragments', () => {
-  for (const path of ['/', '/studio', '/projects', '/services', '/contact', '/privacy', '/terms']) {
+  for (const path of ['/', '/studio', '/projects', '/services', '/contact', '/privacy']) {
     for (const hash of ['', '#brief']) {
       for (const reduced of [false, true]) {
         const f = fixture({ url: `https://portfolio.test${path}${hash}`, reduced, nativeTransitions: true });
@@ -295,22 +294,6 @@ test('hidden tabs and bfcache pause/resume one ticker; permanent departure clean
   await Promise.resolve();
 });
 
-test('all eight project redirects preserve URL state, replace history and forward entry intent', () => {
-  const names = readdirSync(new URL('../projects/', import.meta.url)).filter(x => x.endsWith('.html') && x !== 'index.html');
-  assert.equal(names.length, 8);
-  for (const name of names) {
-    for (const hash of ['', '#all-projects']) {
-      const f = fixture({ url: `https://portfolio.test/projects/${name}?filter=robot${hash}` });
-      f.storage.set('portfolio-page-entry', JSON.stringify({ to: f.location.href, from: 'https://portfolio.test/index.html', at: Date.now() }));
-      let replaced; f.location.replace = value => { replaced = value; };
-      vm.runInContext(redirectSource, f.context);
-      assert.equal(replaced, 'https://portfolio.test/projects?filter=robot#all-projects');
-      assert.equal(JSON.parse(f.storage.get('portfolio-page-entry')).to, replaced);
-      assert(readFileSync(new URL(`../projects/${name}`, import.meta.url), 'utf8').includes('src="../assets/project-redirect.js"'));
-    }
-  }
-});
-
 test('early entry helper only fades intentional arrivals and never strands a direct/reload page', () => {
   const html = readFileSync(new URL('../index.html', import.meta.url), 'utf8');
   const script = html.match(/<script>([\s\S]*?)<\/script>/)[1];
@@ -341,12 +324,10 @@ test('homepage head disables saved-scroll restoration before a reload paints', (
 });
 
 test('every rendered page replays its loader on reload after a previous visit', () => {
-  const routes = ['studio', 'projects', 'services', 'contact', 'privacy', 'terms'];
-  const pages = ['index.html', ...routes.flatMap(route => [`${route}.html`, `${route}/index.html`]),
-    ...readdirSync(new URL('../contact/', import.meta.url)).filter(name => name.startsWith('.project=')).map(name => `contact/${name}`)];
-  assert.equal(pages.length, 21);
+  const routes = ['studio', 'projects', 'services', 'contact', 'privacy'];
+  const pages = ['index.html', ...routes.flatMap(route => [`${route}.html`, `${route}/index.html`])];
   for (const page of pages) {
-    const script = readFileSync(new URL(`../${page.replace(/%/g, '%25')}`, import.meta.url), 'utf8').match(/<script>([\s\S]*?)<\/script>/)[1];
+    const script = readFileSync(new URL(`../${page}`, import.meta.url), 'utf8').match(/<script>([\s\S]*?)<\/script>/)[1];
     for (const [kind, reduced] of [['reload', false], ['reload', true], ['navigate', false]]) {
       const f = fixture({ type: kind, reduced, url: `https://portfolio.test/${page}` });
       f.storage.set('yadunand-loaded', '1');
@@ -382,14 +363,13 @@ test('legacy page URLs normalize before arrival animation without losing URL or 
     ['/studio.html?filter=web#selected-work', '/studio?filter=web#selected-work'],
     ['/services.html#faq', '/services#faq'],
     ['/contact.html?project=Robot#brief', '/contact?project=Robot#brief'],
-    ['/projects.html', '/projects'], ['/privacy.html', '/privacy'], ['/terms.html', '/terms'],
-    ['/contact/.project=Almond%20Terrace.html?from=work#brief', '/contact?from=work#brief'],
+    ['/projects.html', '/projects'], ['/privacy.html', '/privacy'],
     ['/studio', '/studio'], ['/', '/'],
     ['/studio/', '/studio'], ['/studio/index.html', '/studio'],
     ['/services/?from=nav#faq', '/services?from=nav#faq'],
     ['/contact/?project=Robot#brief', '/contact?project=Robot#brief'],
     ['/contact/index.html?project=Robot#brief', '/contact?project=Robot#brief'],
-    ['/projects/', '/projects'], ['/privacy/', '/privacy'], ['/terms/', '/terms'],
+    ['/projects/', '/projects'], ['/privacy/', '/privacy'],
   ]) {
     const f = fixture({ url: `https://portfolio.test${original}` });
     f.context.matchMedia = () => ({ matches: false });

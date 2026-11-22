@@ -5,23 +5,20 @@ changes and the approved footer effect were captured in the baseline and retaine
 
 ## Public page URLs
 
-Navigation now uses `/`, `/studio`, `/projects`, `/services`, `/contact`,
-`/privacy` and `/terms`. The existing static HTML filenames remain unchanged.
-The deployed host was checked directly and serves these extensionless routes,
-including `/contact` and `/projects` alongside the legacy directories.
+Navigation uses `/`, `/studio`, `/projects`, `/services`, `/contact` and
+`/privacy`.
+The deployed host was checked directly and serves these extensionless routes.
 
 The existing early page helper replaces an old `.html` address with its clean
 equivalent before processing arrival animations. Query strings, fragments and
-history state are preserved, with no reload or added history entry. Legacy
-contact copies normalize to `/contact`. Project aliases keep their existing
-redirect behaviour and now target `/projects`, including the no-JavaScript
-fallback. Canonical links use the clean public addresses.
+history state are preserved without a reload or added history entry. Canonical
+links use the clean public addresses.
 
 The existing transition handler also recognizes extensionless document links.
 Assets, external links, downloads and reduced-motion navigation stay native.
 File-only preview servers, including VS Code Live Server, now use generated
-directory indexes for `/studio`, `/projects`, `/services`, `/contact`, `/privacy`
-and `/terms`. Both forms with and without a trailing slash load the actual page;
+directory indexes for `/studio`, `/projects`, `/services`, `/contact` and
+`/privacy`. Both forms with and without a trailing slash load the actual page;
 the early helper normalizes the visible URL to its clean form. Assets in these
 entry documents use root paths so they also load before normalization. Directory
 indexes contain the page itself, so there is no redirect loop or folder listing.
@@ -30,12 +27,14 @@ The root `.html` documents remain the editing source. After changing one, run
 `node scripts/sync-routes.mjs` to update the directory entry pages. Run
 `node scripts/sync-routes.mjs --check` to verify that they are current. Production
 hosting can serve either the root HTML file or directory index with the same
-content and canonical URL. The six indexes are additional rendered entry points;
-the original 15 full documents and eight project redirects remain available.
+content and canonical URL. The five indexes and six root documents are the
+site's 11 HTML entries. The old architecture project URLs and duplicate contact
+URLs have been retired. Use `/projects#all-projects` and `/contact` instead.
 
 ## Coverage and repository audit
 
-These 15 full documents each use the shared Lenis/GSAP integration:
+Each of the six root documents and five generated directory indexes uses the
+shared Lenis/GSAP integration. The root documents are
 
 - `index.html`
 - `projects.html`
@@ -43,32 +42,6 @@ These 15 full documents each use the shared Lenis/GSAP integration:
 - `contact.html`
 - `studio.html`
 - `privacy.html`
-- `terms.html`
-- `contact/.project=Almond%20Terrace.html`
-- `contact/.project=Dune%20House.html`
-- `contact/.project=Foundry%20Exchange.html`
-- `contact/.project=Harrow%20Civic%20Hall.html`
-- `contact/.project=Kestrel%20Ridge%20House.html`
-- `contact/.project=Larch%20Court.html`
-- `contact/.project=Quay%20Forty.html`
-- `contact/.project=The%20Copper%20Stair.html`
-
-The eight individual project URLs are existing routing aliases, not long-form
-project detail documents. They continue to replace themselves with the project
-index and now preserve query strings and a supplied hash (default `#all-projects`):
-
-- `projects/almond-terrace.html`
-- `projects/copper-stair.html`
-- `projects/dune-house.html`
-- `projects/foundry-exchange.html`
-- `projects/harrow-civic-hall.html`
-- `projects/kestrel-ridge.html`
-- `projects/larch-court.html`
-- `projects/quay-forty.html`
-
-Aliases do not start a pointless Lenis/GSAP runtime before redirecting. Their
-actual destination uses the global runtime. Existing meta-refresh and visible
-link fallbacks remain available if JavaScript is disabled.
 
 Audited the shared base module, navigation, header/menu, project filters and
 previews, sliders, services accordion/FAQ, sticky workflow, hero/drone sticky
@@ -147,8 +120,7 @@ new generated build does not overwrite it.
 - Keyboard scrolling/focus keys can cancel pending smooth inertia before the
   browser performs its native action; no key events are prevented. Form controls
   and editable content retain normal editing behaviour.
-- Query strings and hashes remain part of the destination URL. Project redirects
-  use `location.replace` so Back does not loop through an alias.
+- Query strings and hashes remain part of the destination URL.
 - External links, downloads, assets, mail/telephone links, non-self targets,
   modified clicks, middle clicks and component-prevented clicks stay native.
 
@@ -180,7 +152,7 @@ A small addition to each existing head startup script consumes a short-lived
 session intent before first paint. This skips a repeated loader only for an
 intentional internal arrival. The destination uses entry CSS if a native
 transition is unavailable or skipped. Reloads retain their starter loader.
-Alias redirects forward the intent. Direct fragment links remain in-page moves.
+Direct fragment links remain in-page moves.
 
 Back/forward-cache restoration cancels a stale outgoing animation, retains the
 Lenis instance, and resumes one ticker. Supporting browsers use native snapshots
@@ -211,7 +183,6 @@ Created:
 - `assets/site-scroll.js` — shared scrolling, anchors, lifecycle and link transitions.
 - `assets/site-navigation.css` — overlapping snapshot animations, fallback entrance and scroll compatibility.
 - `assets/page-transitions.js` — early native transition lifecycle and navigation exceptions.
-- `assets/project-redirect.js` — lightweight URL/history/intent forwarding for aliases.
 - `tests/site-scroll.test.mjs` — isolated controller/history/accessibility/lifecycle tests.
 - `tests/site-integration.test.mjs` — all-page loading/link/runtime checks.
 - `NAVIGATION.md` — this implementation and verification report.
@@ -219,10 +190,8 @@ Created:
 Modified:
 
 - The generated base module listed above: only the three integration changes.
-- The 15 full HTML documents listed above: entry-intent code in the existing head
-  script and one shared stylesheet link.
-- The eight redirect documents listed above: the shared redirect script, before
-  the existing native fallback.
+- The root HTML documents and directory indexes each load one shared stylesheet
+  and process entry intent in the head script.
 
 All page-body markup, existing stylesheets, images, fonts, model assets, page
 content, section order and existing custom animation scripts match the fresh
@@ -237,15 +206,9 @@ node --test tests/site-*.test.mjs
 git diff --check
 ```
 
-**16 automated tests passed.** These cover all 23 documents; script uniqueness;
-relative asset/link/fragment/redirect paths; one Lenis/ticker; native touch/nested
-configuration; reduced-motion changes; valid/missing/encoded anchors; focus and
-history; special links; page fades and failure recovery; initial hashes/reloads;
-simulated native history restoration; keyboard input; hidden tabs/cache cleanup;
-and all alias redirects. All custom/shared scripts passed syntax checks.
-
-Source comparisons verified unchanged bodies on all 23 documents, unchanged
-existing CSS/media/fonts/custom animations and the three-only bundle bridge.
+The tests cover all 11 HTML entries, script uniqueness, local links and assets,
+the Lenis ticker, native touch and nested scrolling, reduced motion, anchor
+handling, focus and history, page transitions, reloads, and cache cleanup.
 Tests use controlled DOM/library fixtures plus actual repository sources; they
 are **not real-browser tests**. The available browser list was empty. No browser
 console, live wheel/touch feel, visual/viewport or real history restoration
@@ -260,16 +223,12 @@ Manual checks still required:
    URLs, repeated anchors, reload at a saved position and rapid anchor clicks.
 3. Test Back/Forward with and without bfcache, including after scrolling away
    from an anchor, menu interaction and navigating away mid-fade.
-4. Visit all eight project aliases with query/hash state. They are redirects,
-   not project-detail content; an ID absent from the project index cannot be
-   created by the scrolling system.
-5. Test natural scrolling in native textarea/menu/modal/carousel containers where
+4. Test natural scrolling in native textarea/menu/modal/carousel containers where
    available, plus the documented opt-outs for any custom future component.
-6. Test reduced motion on initial load and after changing the OS preference,
+5. Test reduced motion on initial load and after changing the OS preference,
    blocked session storage, disabled JavaScript, slow navigation and animation
    cancellation. With storage blocked, native navigation works but the token-based
-   arrival fade may be unavailable. JavaScript-disabled aliases use the original
-   fixed-target meta fallback rather than preserving arbitrary query/hash state.
-7. Check the browser console for module errors, network failures, missing assets,
+   arrival fade may be unavailable.
+6. Check the browser console for module errors, network failures, missing assets,
    focus/scroll jumps and unwanted persisted opacity. Use a local HTTP server or
    the deployed site; file-URL module loading follows browser restrictions.
