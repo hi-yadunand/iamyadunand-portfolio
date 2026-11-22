@@ -63,7 +63,7 @@ test('all local HTML links, fragments and relative asset references resolve', ()
 
 test('shared bundle bridges the existing libraries without creating another scroll engine or ticker', () => {
   const bundle = source('_astro/BaseLayout.astro_astro_type_script_index_0_lang.Dpw5V1aT.js');
-  const scroll = source('assets/site-scroll.js');
+  const scroll = source('assets/js/site-scroll.js');
   assert.equal((bundle.match(/initSiteScroll\(\{Lenis:Cc,gsap:hi,ScrollTrigger:Q\}\)/g) || []).length, 1);
   assert.equal((scroll.match(/new Lenis\(/g) || []).length, 1);
   assert.equal((scroll.match(/gsap\.ticker\.add\(tick\)/g) || []).length, 1);

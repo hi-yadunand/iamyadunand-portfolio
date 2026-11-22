@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import vm from 'node:vm';
 
-const source = readFileSync(new URL('../assets/preloader.js', import.meta.url), 'utf8');
+const source = readFileSync(new URL('../assets/js/preloader.js', import.meta.url), 'utf8');
 const bundle = readFileSync(new URL('../_astro/BaseLayout.astro_astro_type_script_index_0_lang.Dpw5V1aT.js', import.meta.url), 'utf8');
 
 function animationFixture() {

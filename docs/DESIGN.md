@@ -100,12 +100,12 @@ the enquiry form on the right. Form controls have bottom borders, the service
 choices are rounded pills, and the submit button has a small outlined circle.
 The reference portrait is published at
 `https://cdn.prod.website-files.com/6978dadfad803d74561d3cfc/6979ead3b10a3cca85c1cf7e_foioter-img.avif`;
-the implementation uses the existing local `images/iamyadunandhero.webp` instead.
+the implementation uses the existing local `images/profile/iamyadunandhero.webp` instead.
 
 Portfolio adaptation: retain Inter Tight, personal copy and contact details,
 white text, and the orange interaction accent. The existing black ASCII
 background files, horizon placement, palette, opacity, and animation settings
-are unchanged. New layout styles live separately in `assets/contact-layout.css`.
+are unchanged. New layout styles live separately in `assets/css/contact-layout.css`.
 The 2.5vw side gutters, 1.5vw column gap, responsive 48–88px heading, and generous
 field spacing are implementation estimates based on the supplied images, not
 extracted CSS. Below 768px the columns stack; this is an implementation choice
@@ -138,8 +138,8 @@ the earlier shuffle. Transform and opacity animations run on compositor
 layers, and the counter remains near the bottom. The percentage follows the
 entrance animation timeline.
 
-Shared styles and animation live in `assets/preloader.css` and
-`assets/preloader.js`. All rendered pages use the same markup. The existing
+Shared styles and animation live in `assets/css/preloader.css` and
+`assets/js/preloader.js`. All rendered pages use the same markup. The existing
 session flag skips repeat direct visits, while every browser reload replays
 the loader on any page. Internal links retain their arrival fade, and
 reduced-motion visitors skip the loader. The existing

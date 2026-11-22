@@ -1,6 +1,7 @@
 # Phase 3 — Performance review and optimisation
 
 Baseline: 2026-11-07, current working tree including the approved footer reveal.
+The paths in this report refer to that performance pass.
 Design, content, scroll feel and animation appearance are frozen.
 
 ## Baseline findings

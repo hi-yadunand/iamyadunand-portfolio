@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import vm from 'node:vm';
 
-const source = readFileSync(new URL('../assets/site-scroll.js', import.meta.url), 'utf8');
+const source = readFileSync(new URL('../assets/js/site-scroll.js', import.meta.url), 'utf8');
 class Events {
   handlers = new Map();
   addEventListener(name, fn, options = {}) {
@@ -351,7 +351,7 @@ test('extensionless document navigation keeps transitions, query strings and fra
   assert.equal(reduced.click(reduced.link('/studio')).defaultPrevented, false);
   assert.equal(reduced.animations.length, 0);
   const native = fixture();
-  for (const href of ['/assets/drone-services.js', '/images/iamyadunandhero.webp', '/robots.txt']) {
+  for (const href of ['/assets/js/drone-services.js', '/images/profile/iamyadunandhero.webp', '/robots.txt']) {
     assert.equal(native.click(native.link(href)).defaultPrevented, false);
   }
 });

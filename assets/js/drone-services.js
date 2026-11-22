@@ -290,7 +290,7 @@ ready(() => {
   };
 
   gltfLoader.load(
-    new URL("./models/drone.glb", import.meta.url).href,
+    new URL("../models/drone.glb", import.meta.url).href,
     (gltf) => {
       dracoLoader.dispose();
       if (disposed) {

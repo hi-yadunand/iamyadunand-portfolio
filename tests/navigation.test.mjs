@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import vm from 'node:vm';
 
-const source = readFileSync(new URL('../assets/navigation.js', import.meta.url), 'utf8');
+const source = readFileSync(new URL('../assets/js/navigation.js', import.meta.url), 'utf8');
 
 test('homepage header stays white during the loader and follows section colors after reveal', () => {
   const attributes = new Set(['data-on-dark']);
