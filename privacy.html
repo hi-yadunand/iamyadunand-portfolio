@@ -43,6 +43,7 @@
       } catch (e) {}
     })();
     </script>
+<script src="/assets/js/theme.js"></script>
 <script src="/assets/js/page-transitions.js"></script><link rel="preload" href="_astro/inter-tight-latin-wght-normal.DX-nOvPD.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="_astro/geist-mono-latin-wght-normal.XN7g48iV.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="assets/css/navigation.css" as="style">
@@ -53,6 +54,7 @@
 <link rel="stylesheet" href="assets/css/portfolio-footer.css">
   <link rel="canonical" href="https://iamyadunand.com/privacy">
 <link rel="stylesheet" href="/assets/css/preloader.css">
+  <link rel="stylesheet" href="/assets/css/theme.css">
 </head><body><div data-preloader aria-hidden="true">
     <div class="preloader__stack">
       <div data-preloader-card class="preloader__card"><img class="preloader__image" src="/images/case-studies/karuvin.webp" alt="" width="720" height="480" loading="eager" decoding="async"></div>
@@ -70,7 +72,11 @@
             class="roll"><span data-text="Projects">Projects</span></span></a><a href="/services"><span
             class="roll"><span data-text="Services">Services</span></span></a><a href="/contact"><span
             class="roll"><span data-text="Contact">Contact</span></span></a></nav>
-      <div class="flex items-center justify-end gap-6">
+      <div class="flex items-center justify-end gap-6 theme-nav-actions">
+        <button type="button" class="theme-toggle" data-theme-toggle aria-label="Dark theme" aria-pressed="false" hidden>
+          <span class="theme-toggle__sun" aria-hidden="true"></span>
+          <span class="theme-toggle__moon" aria-hidden="true"></span>
+        </button>
         <a href="/contact#brief" class="btn hidden !py-1.5 md:inline-flex"><span class="roll"><span
               data-text="Let's talk">Let's talk</span></span></a>
         <button type="button" data-menu-toggle aria-expanded="false" class="text-sm lg:hidden"><span class="roll"><span
