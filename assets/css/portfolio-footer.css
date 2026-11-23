@@ -55,10 +55,8 @@
   padding-top: clamp(1.75rem, 3.5vw, 3.5rem);
   color: #bdb9b0;
   font-family: var(--font-sans);
-  font-size: clamp(0.75rem, 1vw, 1rem);
-  line-height: 1.75;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
+  font-size: var(--text-sm);
+  line-height: var(--text-sm--line-height);
 }
 
 .portfolio-footer__top {
@@ -69,7 +67,14 @@
 }
 
 .portfolio-footer__label {
+  margin-bottom: 0.375rem;
   color: #969289;
+  font-weight: 500;
+}
+
+.portfolio-footer__top ul {
+  display: grid;
+  gap: 0.375rem;
 }
 
 .portfolio-footer__content a {
@@ -93,7 +98,6 @@
 .portfolio-footer__contact {
   min-width: 0;
   overflow-wrap: anywhere;
-  text-transform: none;
 }
 
 .portfolio-footer__profile-video {
@@ -169,7 +173,12 @@
 
   .portfolio-footer__rule {
     gap: 0.5rem;
-    letter-spacing: normal;
+  }
+}
+
+@media (max-width: 22rem) {
+  .portfolio-footer__content {
+    padding-inline: 0.75rem;
   }
 }
 
