@@ -35,7 +35,7 @@ test('every rendered document loads one base runtime, one navigation stylesheet 
     assert.equal(transitionScript.length, 1, file);
     assert(html.indexOf(transitionScript[0]) < html.indexOf('</head>'), file);
   }
-  assert.equal(htmlFiles.length, 11);
+  assert.equal(htmlFiles.length, 9);
 });
 
 test('all local HTML links, fragments and relative asset references resolve', () => {
@@ -75,7 +75,7 @@ test('shared bundle bridges the existing libraries without creating another scro
 });
 
 test('clean routes have real directory entry pages with root asset paths', () => {
-  for (const route of ['studio', 'projects', 'services', 'contact', 'privacy']) {
+  for (const route of ['projects', 'services', 'contact', 'privacy']) {
     const html = source(`${route}/index.html`);
     assert(html.includes('<main'), route);
     assert(html.includes(`href="https://iamyadunand.com/${route}"`), route);

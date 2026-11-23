@@ -62,6 +62,7 @@
   <link rel="stylesheet" href="/assets/css/project-cards.css">
   <link rel="stylesheet" href="/assets/css/hero-code.css">
   <link rel="stylesheet" href="/assets/css/portfolio-footer.css">
+  <link rel="stylesheet" href="/assets/css/projects-intro.css">
   <link rel="canonical" href="https://iamyadunand.com/projects">
 <link rel="stylesheet" href="/assets/css/preloader.css">
   <link rel="stylesheet" href="/assets/css/theme.css">
@@ -80,7 +81,7 @@
     <div class="shell grid grid-cols-[1fr_auto] items-center gap-6 py-4 lg:grid-cols-[1fr_auto_1fr]"><a
         href="/" class="flex items-center gap-2 text-lg font-medium tracking-[-0.03em]"
         aria-label="Yadunand Pavithran, home">Yadunand Pavithran</a>
-      <nav class="hidden items-center gap-7 text-sm lg:flex" aria-label="Main"><a href="/"><span class="roll"><span data-text="Home">Home</span></span></a><a href="/studio" aria-current="location"><span
+      <nav class="hidden items-center gap-7 text-sm lg:flex" aria-label="Main"><a href="/"><span class="roll"><span data-text="Home">Home</span></span></a><a href="/projects" aria-current="page"><span
             class="roll"><span data-text="Projects">Projects</span></span></a><a href="/services"><span
             class="roll"><span data-text="Services">Services</span></span></a><a href="/contact"><span
             class="roll"><span data-text="Contact">Contact</span></span></a></nav>
@@ -101,7 +102,7 @@
       <nav class="flex flex-col justify-end md:col-span-7" aria-label="Menu"><a href="/"
           data-menu-link="true"
           class="display flex items-baseline gap-4 border-t border-line-light py-2 text-[clamp(2.75rem,8svh,6rem)] transition-colors hover:text-signal"><span
-            class="label text-signal">01</span>Home</a><a href="/studio" aria-current="location"
+            class="label text-signal">01</span>Home</a><a href="/projects" aria-current="page"
           data-menu-link="true"
           class="display flex items-baseline gap-4 border-t border-line-light py-2 text-[clamp(2.75rem,8svh,6rem)] transition-colors hover:text-signal"><span
             class="label text-signal">02</span>Projects</a><a href="/services" data-menu-link="true"
@@ -120,21 +121,91 @@
   </div>
   <main>
     <div>
-      <section class="pt-28 md:pt-36">
-        <div class="shell">
-          <h1 class="display text-display-2xl"><span class="block" data-lines="load">Projects</span></h1>
+      <section class="projects-intro pt-28 md:pt-36">
+        <div class="shell projects-intro__copy">
+          <h1 class="display text-display-2xl"><span class="block" data-lines="load">Projects,<br>with purpose.</span></h1>
           <div data-load class="mt-8 grid gap-4 border-t border-line pt-3 md:mt-12 md:grid-cols-12">
-            <p class="label md:col-span-6">Project register</p>
+            <p class="label md:col-span-6">Selected work · Websites, web apps, robotics</p>
             <p class="max-w-xl text-lg leading-[1.25] tracking-[-0.02em] md:col-span-6 md:text-xl">Websites, web applications, and robotics projects I’ve designed and built.</p>
+          </div>
+        </div>
+        <div class="mt-10 md:mt-16">
+          <div data-clip class="relative aspect-[4/3] overflow-hidden bg-ink/5 md:aspect-[21/9]">
+            <div class="absolute inset-0 project-preview project-preview--studio justify-center">
+              <img src="/images/projects/codeandthrive.webp" alt="Code and Thrive digital product and growth studio website" width="1600" height="862" loading="eager" decoding="async" style="max-height: 100%; width: auto; max-width: 100%;">
+            </div>
           </div>
         </div>
       </section>
     </div>
     <div>
-      <section id="all-projects" data-filter data-view="index" class="mt-20 md:mt-32" style="scroll-margin-top: 6rem;">
+      <section class="mt-24 md:mt-40">
+        <div class="shell">
+          <div class="label flex items-baseline justify-between gap-6 border-t border-current/20 pt-3">
+            <p class="flex gap-4"><span class="text-signal">A–02</span><span>The approach</span></p>
+          </div>
+          <p data-wordfill class="mt-12 text-display-lg leading-[1] font-[450] tracking-[-0.04em] md:mt-20 md:indent-[16.66%]">I design and build digital experiences, combining software engineering, thoughtful interfaces, and a curiosity for how things work.</p>
+          <div class="mt-12 grid gap-8 md:mt-20 md:grid-cols-12">
+            <p data-reveal class="max-w-md text-base leading-[1.35] tracking-[-0.01em] text-graphite md:col-span-3 md:col-start-7">I build end-to-end digital solutions, combining software engineering, AI integration, and problem-solving to turn complex ideas into practical applications.</p>
+            <p data-reveal class="max-w-md text-base leading-[1.35] tracking-[-0.01em] text-graphite md:col-span-3">Working across design, development, and deployment, I transform real-world business challenges into scalable products through thoughtful engineering and intelligent technology.</p>
+          </div>
+        </div>
+      </section>
+    </div>
+    <div>
+      <section class="mt-24 md:mt-40">
+        <div class="shell">
+          <div class="label flex items-baseline justify-between gap-6 border-t border-current/20 pt-3">
+            <p class="flex gap-4"><span class="text-signal">A–03</span><span>Selected projects</span></p>
+          </div>
+          <div class="mt-10 space-y-16 md:mt-16 md:space-y-32">
+            <article class="grid items-end gap-6 md:grid-cols-12">
+              <div data-clip class="relative aspect-[4/3] overflow-hidden bg-ink/5 md:col-span-7"><div class="absolute inset-0 project-preview"><img src="/images/projects/zappoapp.webp" alt="ZAPPO sports booking platform with venue discovery and player matching" width="1600" height="862" loading="lazy" decoding="async"></div></div>
+              <div class="md:col-span-4 md:col-start-9">
+                <h3 class="display text-display-md"><span class="block" data-lines>Zappo</span></h3>
+                <p class="label mt-4 text-signal">Web app · 2026</p>
+                <p data-reveal class="mt-4 text-lg leading-[1.3] tracking-[-0.015em] text-graphite">A responsive sports booking platform. Venue discovery, slot booking, and real-time availability, built with React.js and REST APIs.</p>
+                <div data-reveal class="mt-6"><a href="https://zappoapp.com/" target="_blank" rel="noopener noreferrer" class="btn">
+                  <span class="roll"><span data-text="Visit project">Visit project</span></span><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1" aria-hidden="true" class="size-3.5"><path d="M4 12 12 4M5 4h7v7"></path></svg>
+                </a></div>
+              </div>
+            </article>
+            <article class="grid items-end gap-6 md:grid-cols-12">
+              <div data-clip class="relative aspect-[4/3] overflow-hidden bg-ink/5 md:col-span-7 md:order-2 md:col-start-6"><div class="absolute inset-0 project-preview project-preview--studio"><img src="/images/projects/codeandthrive.webp" alt="Code and Thrive digital product and growth studio website" width="1600" height="862" loading="lazy" decoding="async"></div></div>
+              <div class="md:col-span-4 md:order-1 md:col-start-1 md:row-start-1">
+                <h3 class="display text-display-md"><span class="block" data-lines>Code &amp;<br>Thrive</span></h3>
+                <p class="label mt-4 text-signal">Design &amp; code · 2025</p>
+                <p data-reveal class="mt-4 text-lg leading-[1.3] tracking-[-0.015em] text-graphite">Digital experiences that bring web development, UI/UX design, branding, and SEO together.</p>
+                <div data-reveal class="mt-6"><a href="https://codeandthrive.studio/" target="_blank" rel="noopener noreferrer" class="btn">
+                  <span class="roll"><span data-text="Visit project">Visit project</span></span><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1" aria-hidden="true" class="size-3.5"><path d="M4 12 12 4M5 4h7v7"></path></svg>
+                </a></div>
+              </div>
+            </article>
+            <article class="grid items-end gap-6 md:grid-cols-12">
+              <div data-clip class="relative aspect-[4/3] overflow-hidden bg-ink/5 md:col-span-7"><div class="absolute inset-0 project-robot" role="img"
+                    aria-label="TARSX robot concept with four brushed metal columns and an orange status light">
+                    <span class="label" aria-hidden="true">TARSX / Experiment 03</span>
+                    <div class="project-robot__body" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+                    <span class="label" aria-hidden="true">Raspberry Pi · Python · AI</span>
+                  </div></div>
+              <div class="md:col-span-4 md:col-start-9">
+                <h3 class="display text-display-md"><span class="block" data-lines>TARSX<br>Robot</span></h3>
+                <p class="label mt-4 text-signal">Robotics · 2024</p>
+                <p data-reveal class="mt-4 text-lg leading-[1.3] tracking-[-0.015em] text-graphite">A real-life TARS-inspired robot, combining custom hardware, embedded systems, and conversational AI.</p>
+                <div data-reveal class="mt-6"><a href="https://tarsx.space/" target="_blank" rel="noopener noreferrer" class="btn">
+                  <span class="roll"><span data-text="Visit project">Visit project</span></span><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1" aria-hidden="true" class="size-3.5"><path d="M4 12 12 4M5 4h7v7"></path></svg>
+                </a></div>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+    </div>
+    <div>
+<section id="all-projects" data-filter data-view="index" class="mt-20 md:mt-32" style="scroll-margin-top: 6rem;">
         <div class="shell" data-preview>
           <div class="label flex items-baseline justify-between gap-6 border-t border-current/20 pt-3">
-            <p class="flex gap-4"><span class="text-signal">A–02</span><span>All projects</span></p>
+            <p class="flex gap-4"><span class="text-signal">A–04</span><span>All projects</span></p>
             <p class="text-right opacity-60">Register · 11</p>
           </div>
           <div class="label mt-10 flex flex-wrap items-center justify-between gap-x-8 gap-y-3" data-reveal>
@@ -403,7 +474,111 @@
       </section>
     </div>
     <div>
-      <section class="mt-24 md:mt-40">
+      <section data-projects-gallery class="mt-24 md:mt-40">
+<div class="shell">
+<div class="label flex items-baseline justify-between gap-6 border-t border-current/20 pt-3 ">
+<p class="flex gap-4">
+<span class="text-signal">A–06</span>
+<span>Around the projects</span>
+</p>
+</div>
+<div class="mt-10 grid gap-6 md:mt-16 md:grid-cols-12 md:gap-y-16">
+<div data-clip class="relative overflow-hidden md:col-span-5 aspect-[4/5]">
+<div data-parallax="6" class="absolute inset-0">
+<img src="/images/case-studies/tenorra-labs.webp" alt="Tenorra Labs Private Limited corporate website showcasing consumer technology innovation, Zappo and sports-focused digital products." width="720" height="480" loading="lazy" decoding="async" class="absolute inset-0 size-full object-cover" style="object-position: 65% center;">
+</div>
+</div>
+<div data-clip class="relative overflow-hidden md:col-span-4 md:col-start-8 md:mt-40 aspect-[3/4]">
+<div data-parallax="6" class="absolute inset-0">
+<img src="/images/case-studies/lobiatek.webp" alt="Lobiatek Dubai technology solutions website showcasing CCTV, access control, networking, fire safety and GPS services." width="720" height="480" loading="lazy" decoding="async" class="absolute inset-0 size-full object-cover" style="object-position: 65% center;">
+</div>
+</div>
+<div data-clip class="relative overflow-hidden md:col-span-7 md:col-start-2 aspect-[16/10]">
+<div data-parallax="6" class="absolute inset-0">
+<img src="/images/case-studies/btpc4e.webp" alt="A Refined Enterprise Digital Experience for BTPC4E" width="720" height="480" loading="lazy" decoding="async" class="absolute inset-0 size-full object-cover" style="object-position: center;">
+</div>
+</div>
+<div data-clip class="relative overflow-hidden md:col-span-3 md:col-start-10 aspect-square">
+<div data-parallax="6" class="absolute inset-0">
+<img src="/images/case-studies/karuvin.webp" alt="Karuvin Singapore mechanical and electrical services website featuring M&amp;E maintenance, installation and business support services." width="720" height="480" loading="lazy" decoding="async" class="absolute inset-0 size-full object-cover" style="object-position: 60% center;">
+</div>
+</div>
+</div>
+</div>
+</section>
+    </div>
+    <div>
+      <section data-projects-marquee class="mt-24 overflow-hidden md:mt-40">
+<div class="animate-marquee flex w-max">
+<div class="flex shrink-0 items-center">
+<span class="flex items-center">
+<span class="display text-display-xl whitespace-nowrap">Discover</span>
+<span class="mx-[3vw] h-[0.08em] w-[6vw] bg-signal text-display-xl">
+</span>
+</span>
+<span class="flex items-center">
+<span class="display text-display-xl whitespace-nowrap">Design</span>
+<span class="mx-[3vw] h-[0.08em] w-[6vw] bg-signal text-display-xl">
+</span>
+</span>
+<span class="flex items-center">
+<span class="display text-display-xl whitespace-nowrap">Develop</span>
+<span class="mx-[3vw] h-[0.08em] w-[6vw] bg-signal text-display-xl">
+</span>
+</span>
+<span class="flex items-center">
+<span class="display text-display-xl whitespace-nowrap">Deploy</span>
+<span class="mx-[3vw] h-[0.08em] w-[6vw] bg-signal text-display-xl">
+</span>
+</span>
+<span class="flex items-center">
+<span class="display text-display-xl whitespace-nowrap">Refine</span>
+<span class="mx-[3vw] h-[0.08em] w-[6vw] bg-signal text-display-xl">
+</span>
+</span>
+<span class="flex items-center">
+<span class="display text-display-xl whitespace-nowrap">Repeat</span>
+<span class="mx-[3vw] h-[0.08em] w-[6vw] bg-signal text-display-xl">
+</span>
+</span>
+</div>
+<div aria-hidden="true" class="flex shrink-0 items-center">
+<span class="flex items-center">
+<span class="display text-display-xl whitespace-nowrap">Discover</span>
+<span class="mx-[3vw] h-[0.08em] w-[6vw] bg-signal text-display-xl">
+</span>
+</span>
+<span class="flex items-center">
+<span class="display text-display-xl whitespace-nowrap">Design</span>
+<span class="mx-[3vw] h-[0.08em] w-[6vw] bg-signal text-display-xl">
+</span>
+</span>
+<span class="flex items-center">
+<span class="display text-display-xl whitespace-nowrap">Develop</span>
+<span class="mx-[3vw] h-[0.08em] w-[6vw] bg-signal text-display-xl">
+</span>
+</span>
+<span class="flex items-center">
+<span class="display text-display-xl whitespace-nowrap">Deploy</span>
+<span class="mx-[3vw] h-[0.08em] w-[6vw] bg-signal text-display-xl">
+</span>
+</span>
+<span class="flex items-center">
+<span class="display text-display-xl whitespace-nowrap">Refine</span>
+<span class="mx-[3vw] h-[0.08em] w-[6vw] bg-signal text-display-xl">
+</span>
+</span>
+<span class="flex items-center">
+<span class="display text-display-xl whitespace-nowrap">Repeat</span>
+<span class="mx-[3vw] h-[0.08em] w-[6vw] bg-signal text-display-xl">
+</span>
+</span>
+</div>
+</div>
+</section>
+    </div>
+    <div>
+<section class="mt-24 md:mt-40">
         <div class="shell border-t border-line py-14 text-center md:py-24">
           <p class="label mb-8 text-signal">HAVE AN IDEA?</p>
           <h2 aria-label="Let's create what's next." class="display text-display-xl" data-reveal><span>Let's
@@ -442,7 +617,7 @@
             <p class="label mb-4 text-paper/50">Explore</p>
             <ul class="space-y-1.5 text-sm">
               <li><a href="/"><span class="roll"><span data-text="Home">Home</span></span></a></li>
-              <li><a href="/studio"><span class="roll"><span data-text="Projects">Projects</span></span></a></li>
+              <li><a href="/projects"><span class="roll"><span data-text="Projects">Projects</span></span></a></li>
               <li><a href="/services"><span class="roll"><span data-text="Services">Services</span></span></a></li>
               <li><a href="/contact"><span class="roll"><span data-text="Contact">Contact</span></span></a></li>
             </ul>

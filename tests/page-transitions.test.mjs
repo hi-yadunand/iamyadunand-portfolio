@@ -19,7 +19,7 @@ function fixture({ supported = true, reduced = false, loaded = true, loaderHidde
     documentElement: root,
     querySelector: () => ({ style: { display: loaderHidden ? 'none' : '' } }),
   });
-  const location = { href: 'https://portfolio.test/studio', origin: 'https://portfolio.test', pathname: '/studio', search: '' };
+  const location = { href: 'https://portfolio.test/projects', origin: 'https://portfolio.test', pathname: '/projects', search: '' };
   const context = vm.createContext({ document, window, location, URL });
   vm.runInContext(source, context);
   const dispatch = (target, type, properties = {}) => target.dispatchEvent(Object.assign(new Event(type), properties));
@@ -80,7 +80,7 @@ test('Home uses normal page transitions while current-page reloads and opt-outs 
   let transition = f.transition();
   f.dispatch(f.window, 'pageswap', { viewTransition: transition });
   assert.equal(transition.skips, 0, 'Home navigation can use the native page transition');
-  for (const [href, attrs] of [['/studio', []], ['/contact', ['data-no-transition']], ['/contact', ['data-native-navigation']]]) {
+  for (const [href, attrs] of [['/projects', []], ['/contact', ['data-no-transition']], ['/contact', ['data-native-navigation']]]) {
     f.click(href, attrs);
     transition = f.transition();
     f.dispatch(f.window, 'pageswap', { viewTransition: transition });

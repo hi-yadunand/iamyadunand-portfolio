@@ -18,9 +18,7 @@ changes and the approved footer effect were captured in the baseline and retaine
 
 ## Public page URLs
 
-Navigation uses `/`, `/studio`, `/projects`, `/services`, `/contact` and
-`/privacy`.
-The deployed host was checked directly and serves these extensionless routes.
+Navigation uses `/`, `/projects`, `/services`, `/contact` and `/privacy`.
 
 The existing early page helper replaces an old `.html` address with its clean
 equivalent before processing arrival animations. Query strings, fragments and
@@ -30,7 +28,7 @@ links use the clean public addresses.
 The existing transition handler also recognizes extensionless document links.
 Assets, external links, downloads and reduced-motion navigation stay native.
 File-only preview servers, including VS Code Live Server, now use generated
-directory indexes for `/studio`, `/projects`, `/services`, `/contact` and
+directory indexes for `/projects`, `/services`, `/contact` and
 `/privacy`. Both forms with and without a trailing slash load the actual page;
 the early helper normalizes the visible URL to its clean form. Assets in these
 entry documents use root paths so they also load before normalization. Directory
@@ -40,20 +38,19 @@ The root `.html` documents remain the editing source. After changing one, run
 `node scripts/sync-routes.mjs` to update the directory entry pages. Run
 `node scripts/sync-routes.mjs --check` to verify that they are current. Production
 hosting can serve either the root HTML file or directory index with the same
-content and canonical URL. The five indexes and six root documents are the
-site's 11 HTML entries. The old architecture project URLs and duplicate contact
+content and canonical URL. The four indexes and five root documents are the
+site's nine HTML entries. The old architecture project URLs and duplicate contact
 URLs have been retired. Use `/projects#all-projects` and `/contact` instead.
 
 ## Coverage and repository audit
 
-Each of the six root documents and five generated directory indexes uses the
+Each of the five root documents and four generated directory indexes uses the
 shared Lenis/GSAP integration. The root documents are
 
 - `index.html`
 - `projects.html`
 - `services.html`
 - `contact.html`
-- `studio.html`
 - `privacy.html`
 
 Audited the shared base module, navigation, header/menu, project filters and
@@ -219,7 +216,7 @@ node --test tests/site-*.test.mjs
 git diff --check
 ```
 
-The tests cover all 11 HTML entries, script uniqueness, local links and assets,
+The tests cover all nine HTML entries, script uniqueness, local links and assets,
 the Lenis ticker, native touch and nested scrolling, reduced motion, anchor
 handling, focus and history, page transitions, reloads, and cache cleanup.
 Tests use controlled DOM/library fixtures plus actual repository sources; they

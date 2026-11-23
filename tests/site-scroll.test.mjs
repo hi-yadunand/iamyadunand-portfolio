@@ -107,7 +107,7 @@ test('anchors update history once, use the fixed-header offset and manage focus'
 });
 
 test('Home navigates normally from other pages and reloads when already at home', () => {
-  for (const path of ['/', '/contact', '/studio', '/?from=work#projects']) {
+  for (const path of ['/', '/contact', '/projects', '/?from=work#projects']) {
     const f = fixture({ url: `https://portfolio.test${path}`, nativeTransitions: true });
     let reloads = 0;
     f.location.reload = () => reloads++;
@@ -116,7 +116,7 @@ test('Home navigates normally from other pages and reloads when already at home'
     const event = f.click(f.link('/'));
     assert(event.defaultPrevented);
     assert.equal(reloads, path === '/' ? 1 : 0, path);
-    if (path === '/contact' || path === '/studio') {
+    if (path === '/contact' || path === '/projects') {
       assert.deepEqual(f.assigned, ['https://portfolio.test/']);
       assert.equal(f.storage.has('yadunand-loaded'), true);
       assert.equal(JSON.parse(f.storage.get('portfolio-page-entry')).to, 'https://portfolio.test/');
@@ -139,7 +139,7 @@ test('Home navigates normally from other pages and reloads when already at home'
 });
 
 test('current-page navigation reloads every route, including home and section fragments', () => {
-  for (const path of ['/', '/studio', '/projects', '/services', '/contact', '/privacy']) {
+  for (const path of ['/', '/projects', '/services', '/contact', '/privacy']) {
     for (const hash of ['', '#brief']) {
       for (const reduced of [false, true]) {
         const f = fixture({ url: `https://portfolio.test${path}${hash}`, reduced, nativeTransitions: true });
@@ -201,10 +201,10 @@ test('native overlapping page navigation starts immediately without transforming
   assert.equal(f.lenis.calls.length, 0);
   assert.equal(f.root.hasAttribute('data-site-leaving'), false);
   assert.equal(JSON.parse(f.storage.get('portfolio-page-entry')).to, f.assigned[0]);
-  f.click(f.link('/studio'));
+  f.click(f.link('/projects'));
   assert.equal(f.assigned.length, 1, 'one pending navigation at a time');
   [...f.timers.values()][0].fn();
-  f.click(f.link('/studio'));
+  f.click(f.link('/projects'));
   assert.equal(f.assigned.length, 2, 'a cancelled navigation can recover');
 
   const g = fixture({ nativeTransitions: true });
@@ -324,7 +324,7 @@ test('homepage head disables saved-scroll restoration before a reload paints', (
 });
 
 test('every rendered page replays its loader on reload after a previous visit', () => {
-  const routes = ['studio', 'projects', 'services', 'contact', 'privacy'];
+  const routes = ['projects', 'services', 'contact', 'privacy'];
   const pages = ['index.html', ...routes.flatMap(route => [`${route}.html`, `${route}/index.html`])];
   for (const page of pages) {
     const script = readFileSync(new URL(`../${page}`, import.meta.url), 'utf8').match(/<script>([\s\S]*?)<\/script>/)[1];
@@ -348,7 +348,7 @@ test('extensionless document navigation keeps transitions, query strings and fra
   assert.equal(f.assigned[0], 'https://portfolio.test/contact?project=Robot#brief');
   assert.equal(JSON.parse(f.storage.get('portfolio-page-entry')).to, f.assigned[0]);
   const reduced = fixture({ reduced: true });
-  assert.equal(reduced.click(reduced.link('/studio')).defaultPrevented, false);
+  assert.equal(reduced.click(reduced.link('/projects')).defaultPrevented, false);
   assert.equal(reduced.animations.length, 0);
   const native = fixture();
   for (const href of ['/assets/js/drone-services.js', '/images/profile/iamyadunandhero.webp', '/robots.txt']) {
@@ -360,12 +360,12 @@ test('legacy page URLs normalize before arrival animation without losing URL or 
   const script = readFileSync(new URL('../index.html', import.meta.url), 'utf8').match(/<script>([\s\S]*?)<\/script>/)[1];
   for (const [original, expected] of [
     ['/index.html?from=home#top', '/?from=home#top'],
-    ['/studio.html?filter=web#selected-work', '/studio?filter=web#selected-work'],
+    ['/projects.html?filter=web#all-projects', '/projects?filter=web#all-projects'],
     ['/services.html#faq', '/services#faq'],
     ['/contact.html?project=Robot#brief', '/contact?project=Robot#brief'],
     ['/projects.html', '/projects'], ['/privacy.html', '/privacy'],
-    ['/studio', '/studio'], ['/', '/'],
-    ['/studio/', '/studio'], ['/studio/index.html', '/studio'],
+    ['/projects', '/projects'], ['/', '/'],
+    ['/projects/index.html', '/projects'],
     ['/services/?from=nav#faq', '/services?from=nav#faq'],
     ['/contact/?project=Robot#brief', '/contact?project=Robot#brief'],
     ['/contact/index.html?project=Robot#brief', '/contact?project=Robot#brief'],

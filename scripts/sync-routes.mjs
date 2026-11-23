@@ -2,7 +2,7 @@ import {mkdir, readFile, writeFile} from 'node:fs/promises';
 
 // Directory indexes support file-only servers as well as clean-URL hosting.
 // Edit the root HTML documents, then run this script to refresh these copies.
-const routes = ['studio', 'projects', 'services', 'contact', 'privacy'];
+const routes = ['projects', 'services', 'contact', 'privacy'];
 const root = new URL('../', import.meta.url);
 const check = process.argv.includes('--check');
 
