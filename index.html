@@ -58,7 +58,6 @@
   </script>
 <script src="/assets/js/theme.js"></script>
 <script src="/assets/js/page-transitions.js"></script>
-  <link rel="preload" href="_astro/inter-tight-latin-wght-normal.DX-nOvPD.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="_astro/geist-mono-latin-wght-normal.XN7g48iV.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="assets/css/navigation.css" as="style">
 <link rel="stylesheet" href="_astro/BaseLayout.B-BnKKTW.css">
@@ -905,48 +904,38 @@
   </main>
   <div data-footer-reveal-stage data-dark>
   <footer data-profile-footer data-footer-reveal class="overflow-hidden bg-ink text-paper">
-    <div class="shell pt-16 md:pt-24">
+    <div class="portfolio-footer__content shell">
       <div class="portfolio-footer__top">
-        <div class="portfolio-footer__intro">
-          <video data-profile-video class="portfolio-footer__profile-video" muted playsinline preload="metadata"
-            width="540" height="540" aria-label="Video profile of Yadunand Pavithran">
-            <source src="assets/video/howdyiamyadunand.mp4#t=0.001" type="video/mp4">
-          </video>
-          <div class="mt-8 flex flex-col items-start gap-1 text-lg tracking-[-0.02em]"><a
-              data-profile-video-trigger href="mailto:yadunandpavithran05@gmail.com"><span class="roll"><span
-                  data-text="yadunandpavithran05@gmail.com">yadunandpavithran05@gmail.com</span></span></a></div>
+        <video data-profile-video class="portfolio-footer__profile-video" muted playsinline preload="metadata"
+          width="540" height="540" aria-label="Video profile of Yadunand Pavithran">
+          <source src="assets/video/howdyiamyadunand.mp4#t=0.001" type="video/mp4">
+        </video>
+        <div>
+          <p class="portfolio-footer__label">Explore</p>
+          <ul>
+            <li><a href="/">Home</a></li>
+            <li><a href="/projects">Projects</a></li>
+            <li><a href="/services">Services</a></li>
+            <li><a href="/contact">Contact</a></li>
+          </ul>
         </div>
-        <div class="portfolio-footer__links">
-          <div>
-            <p class="label mb-4 text-paper/50">Explore</p>
-            <ul class="space-y-1.5 text-sm">
-              <li><a href="/"><span class="roll"><span data-text="Home">Home</span></span></a></li>
-              <li><a href="/projects"><span class="roll"><span data-text="Projects">Projects</span></span></a></li>
-              <li><a href="/services"><span class="roll"><span data-text="Services">Services</span></span></a></li>
-              <li><a href="/contact"><span class="roll"><span data-text="Contact">Contact</span></span></a></li>
-            </ul>
-          </div>
-<div>
-            <p class="label mb-4 text-paper/50">Follow</p>
-            <ul class="space-y-1.5 text-sm">
-              <li><a href="https://github.com/hi-yadunand" target="_blank" rel="noopener noreferrer"><span class="roll"><span
-                      data-text="GitHub">GitHub</span></span></a></li>
-              <li><a href="https://www.linkedin.com/in/yadunand-pavithran/" target="_blank" rel="noopener noreferrer"><span class="roll"><span
-                      data-text="LinkedIn">LinkedIn</span></span></a></li>
-            </ul>
-          </div>
+        <div>
+          <p class="portfolio-footer__label">Follow</p>
+          <ul>
+            <li><a href="https://github.com/hi-yadunand" target="_blank" rel="noopener noreferrer">GitHub</a></li>
+            <li><a href="https://www.linkedin.com/in/yadunand-pavithran/" target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
+          </ul>
         </div>
       </div>
-      <div
-        class="label mt-16 flex flex-wrap justify-between gap-x-8 gap-y-2 border-t border-line-light pt-3 text-paper/60">
+      <div class="portfolio-footer__rule">
+        <a class="portfolio-footer__contact" data-profile-video-trigger href="mailto:yadunandpavithran05@gmail.com">yadunandpavithran05@gmail.com</a>
         <p>Portfolio@26</p>
       </div>
     </div>
-    <p data-reveal
-      class="portfolio-footer__wordmark mt-6 flex items-baseline pb-[0.06em] pl-3 leading-none font-[450] tracking-[-0.06em] md:pl-6">
+    <p class="portfolio-footer__wordmark">
       <a data-profile-video-trigger href="mailto:yadunandpavithran05@gmail.com" class="portfolio-footer__talk-link">
-        Let's <span class="hero-code" data-particle-text><span class="hero-code__text">talk</span><canvas
-            class="hero-code__canvas" aria-hidden="true"></canvas></span>
+        <span class="portfolio-footer__talk-text">Let's talk</span>
+        <canvas class="portfolio-footer__halftone" aria-hidden="true"></canvas>
       </a>
     </p>
   </footer>
@@ -955,7 +944,7 @@
   <script type="module" src="assets/js/hero-code-particles.js"></script>
   <script type="module" src="assets/js/portfolio-footer.js"></script>
   <script type="module" src="assets/js/footer-reveal.js"></script>
-  <script type="module" src="assets/js/footer-ascii.js"></script>
+  <script type="module" src="assets/js/footer-halftone.js"></script>
   <script type="module" src="assets/js/testimonial-slider.js"></script>
   <script type="module" src="assets/js/drone-loader.js"></script>
   <script type="module" src="assets/vendor/cloudflare-beacon.js"

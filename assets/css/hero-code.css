@@ -11,26 +11,28 @@
 
 .hero-code__canvas {
   position: absolute;
-  top: -28px;
-  left: -28px;
+  top: calc(-1 * var(--halftone-padding, 0px));
+  left: calc(-1 * var(--halftone-padding, 0px));
+  width: calc(100% + 2 * var(--halftone-padding, 0px));
+  height: calc(100% + 2 * var(--halftone-padding, 0px));
   pointer-events: none;
   opacity: 0;
 }
 
-.hero-code.is-particle-ready .hero-code__text {
+.hero-code[data-halftone-ready] .hero-code__text {
   color: transparent;
 }
 
-.hero-code.is-particle-ready .hero-code__canvas {
+.hero-code[data-halftone-ready] .hero-code__canvas {
   opacity: 1;
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .hero-code.is-particle-ready .hero-code__text {
+@media (forced-colors: active) {
+  .hero-code[data-halftone-ready] .hero-code__text {
     color: inherit;
   }
 
-  .hero-code.is-particle-ready .hero-code__canvas {
-    opacity: 0;
+  .hero-code__canvas {
+    display: none;
   }
 }

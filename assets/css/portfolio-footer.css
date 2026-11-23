@@ -15,11 +15,25 @@
 
 [data-profile-footer] {
   position: relative;
+  display: flex;
+  flex-direction: column;
+  min-height: clamp(34rem, 76vh, 55rem);
+  min-height: clamp(34rem, 76svh, 55rem);
+  row-gap: clamp(4rem, 12svh, 9rem);
   isolation: isolate;
-  background-color: #080808;
-  background-image:
-    radial-gradient(ellipse at 50% 100%, rgb(35 35 35 / 28%), transparent 70%),
-    linear-gradient(180deg, #030303 0%, #080808 42%, #171717 100%);
+  overflow: hidden;
+  color: #e9e4da;
+  background: #0f0f0e;
+}
+
+[data-profile-footer]::after {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background-image: var(--footer-grain, none);
+  opacity: 0.04;
+  pointer-events: none;
+  content: "";
 }
 
 /* Benjamin Creative's footer uses a -170px to 0px in-view translation.
@@ -28,7 +42,7 @@
   position: relative;
   overflow: hidden;
   overflow: clip;
-  background-color: #080808;
+  background-color: #0f0f0e;
 }
 
 @media (prefers-reduced-motion: no-preference) {
@@ -37,76 +51,140 @@
   }
 }
 
-.portfolio-footer__background {
-  position: absolute;
-  inset: 0;
-  z-index: -1;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
+.portfolio-footer__content {
+  padding-top: clamp(1.75rem, 3.5vw, 3.5rem);
+  color: #bdb9b0;
+  font-family: var(--font-sans);
+  font-size: clamp(0.75rem, 1vw, 1rem);
+  line-height: 1.75;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
 }
 
 .portfolio-footer__top {
   display: grid;
-  grid-template-columns: minmax(0, 1fr);
+  grid-template-columns: minmax(0, 1.2fr) repeat(2, minmax(0, 1fr));
   align-items: start;
-  gap: 3rem;
+  gap: clamp(1.25rem, 3vw, 3rem);
 }
 
-.portfolio-footer__intro {
+.portfolio-footer__label {
+  color: #969289;
+}
+
+.portfolio-footer__content a {
+  text-decoration: underline;
+  text-decoration-color: transparent;
+  text-underline-offset: 0.28em;
+  transition: color 200ms ease, text-decoration-color 200ms ease;
+}
+
+.portfolio-footer__content a:hover,
+.portfolio-footer__content a:focus-visible {
+  color: #e9e4da;
+  text-decoration-color: currentColor;
+}
+
+.portfolio-footer__content a:focus-visible {
+  outline: 1px solid currentColor;
+  outline-offset: 3px;
+}
+
+.portfolio-footer__contact {
   min-width: 0;
+  overflow-wrap: anywhere;
+  text-transform: none;
 }
 
 .portfolio-footer__profile-video {
   display: block;
-  width: clamp(7rem, 12.5vw, 12rem);
+  width: clamp(5.5rem, 8vw, 9rem);
   max-width: 100%;
   height: auto;
-  aspect-ratio: 1 / 1;
+  aspect-ratio: 1;
   object-fit: cover;
-  border-radius: 0;
   background: #111;
 }
 
+.portfolio-footer__rule {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-top: clamp(1.5rem, 3vw, 2.75rem);
+  padding-top: 0.875rem;
+  border-top: 1px solid #e9e4da26;
+}
+
+.portfolio-footer__rule > p {
+  color: #969289;
+  white-space: nowrap;
+}
+
 .portfolio-footer__wordmark {
-  /* Fit the name while preserving the reference size on wide screens. */
-  font-size: min(331px, calc((100vw - 3rem) / 3.98));
-  /* Trim the padding and unused descender space below this lettering. */
-  padding-bottom: 0;
-  margin-bottom: -0.08em;
+  margin-top: auto;
+  font-family: var(--font-sans);
+  font-weight: 800;
 }
 
 .portfolio-footer__talk-link {
-  display: inline-block;
+  position: relative;
+  display: block;
+  height: 21vw;
+}
+
+.portfolio-footer__talk-text {
+  position: absolute;
+  inset: auto 0 -0.24em;
+  overflow: hidden;
+  font-size: 22.5vw;
+  line-height: 1;
+  text-align: center;
   white-space: nowrap;
 }
 
 .portfolio-footer__talk-link:focus-visible {
   outline: 2px solid currentColor;
-  outline-offset: 0.1em;
+  outline-offset: -3px;
 }
 
-.portfolio-footer__intro a[href^="mailto:"] {
-  font-size: clamp(0.875rem, 4vw, 1.125rem);
-}
-
-.portfolio-footer__links {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+.portfolio-footer__halftone {
+  position: absolute;
+  inset: 0;
+  display: block;
   width: 100%;
-  justify-self: start;
-  align-items: start;
-  gap: 2rem;
+  height: 100%;
+  pointer-events: none;
 }
 
-@media (min-width: 64rem) {
-  .portfolio-footer__top {
-    grid-template-columns: minmax(0, 1fr) minmax(16rem, 24rem);
-    column-gap: clamp(3rem, 6vw, 6rem);
+[data-halftone-ready] .portfolio-footer__talk-text {
+  color: transparent;
+}
+
+@media (max-width: 46rem) {
+  [data-profile-footer] {
+    min-height: 0;
+    row-gap: clamp(3rem, 15vw, 6rem);
   }
 
-  .portfolio-footer__links {
-    justify-self: end;
-    column-gap: clamp(2rem, 3vw, 3rem);
+  .portfolio-footer__rule {
+    gap: 0.5rem;
+    letter-spacing: normal;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .portfolio-footer__content a {
+    transition: none;
+  }
+}
+
+@media (forced-colors: active) {
+  [data-halftone-ready] .portfolio-footer__talk-text {
+    color: LinkText;
+  }
+
+  .portfolio-footer__halftone {
+    display: none;
   }
 }
