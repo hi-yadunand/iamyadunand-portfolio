@@ -90,9 +90,14 @@ if (portal) {
 
     const scale = geometry.scale ** easeBetween(0.09, 0.94, progress);
     const translation = (scale - 1) / (geometry.scale - 1);
+    const tilt = -8 * easeBetween(0.12, 0.50, progress) * (1 - easeBetween(0.58, 0.88, progress));
+    const { centerX, centerY } = geometry;
+    const shiftX = geometry.x * translation - centerX;
+    const shiftY = geometry.y * translation - centerY;
+    // Roll around the viewport center so the end of the zoom stays aligned with the glyph.
     heading.style.setProperty(
       "--footer-portal-camera",
-      progress <= 0.09 ? "none" : `translate(${geometry.x * translation}px, ${geometry.y * translation}px) scale(${scale})`,
+      progress <= 0.09 ? "none" : `translate(${centerX}px, ${centerY}px) rotate(${tilt}deg) translate(${shiftX}px, ${shiftY}px) scale(${scale})`,
     );
     const detail = 1 - easeBetween(0.04, 0.26, progress);
     portal.style.setProperty("--footer-portal-detail-opacity", detail);
@@ -137,9 +142,13 @@ if (portal) {
     const scale = Math.max(2, Math.hypot(width, height) / (2 * ink.radius * fontSize) * 1.08);
     const inkX = glyph.getBoundingClientRect().left - headingBounds.left + ink.x * fontSize;
     const inkY = baseline.getBoundingClientRect().top - headingBounds.top + ink.y * fontSize;
+    const centerX = pinBounds.left - headingBounds.left + width / 2;
+    const centerY = pinBounds.top - headingBounds.top + height / 2;
     geometry = {
-      x: pinBounds.left - headingBounds.left + width / 2 - inkX * scale,
-      y: pinBounds.top - headingBounds.top + height / 2 - inkY * scale,
+      x: centerX - inkX * scale,
+      y: centerY - inkY * scale,
+      centerX,
+      centerY,
       scale,
       travel: Math.max(1, portal.clientHeight - height),
     };
