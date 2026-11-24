@@ -68,11 +68,12 @@ project register is available at `/projects`.
 
 ## Services accordion
 
-Five service cards start collapsed. Opening a card reveals its description and
-feature tags, highlights its toggle in orange, and blurs the other cards.
-Selecting another card moves the highlight. Closing the open card clears the
-blur. A keyboard-focused card stays sharp. The shared accordion handles
-expansion and refreshes scroll animation positions after each change.
+Five square-cornered service cards sit directly on the page. Hovering over a
+card reveals its description and feature tags, highlights its toggle in
+orange, and blurs the other cards. Moving outside the list closes the hover
+preview. Touch and keyboard users can activate the buttons to open and close
+cards. A keyboard-focused card stays sharp. Scroll animation positions
+refresh after the card list changes height.
 
 ## Contact page layout
 
