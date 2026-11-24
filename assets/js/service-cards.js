@@ -3,7 +3,7 @@ import { requestSiteRefresh } from './site-scroll.js';
 const list = document.querySelector('.service-cards');
 
 if (list) {
-  let openCard = null;
+  let openCard = list.querySelector('.service-card[data-open]');
   let hovering = false;
 
   function setOpenCard(card) {

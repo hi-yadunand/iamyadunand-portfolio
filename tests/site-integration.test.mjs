@@ -90,6 +90,23 @@ test('clean routes have real directory entry pages with root asset paths', () =>
   }
 });
 
+test('every page except Contact uses the footer scroll reveal', () => {
+  for (const file of htmlFiles) {
+    const html = readFileSync(file, 'utf8');
+    const contact = ['contact.html', path.join('contact', 'index.html')].includes(path.relative(root, file));
+    const panels = html.match(/<section\s+data-footer-portal\b/g) ?? [];
+    const scripts = tags(html).filter(({ tag, attrs }) =>
+      tag === 'script' && attrs.src?.endsWith('/footer-reveal.js'));
+    assert.equal(panels.length, contact ? 0 : 1, file);
+    assert.equal(scripts.length, contact ? 0 : 1, file);
+    if (contact) {
+      assert.match(html, /<\/main>\s*<footer\b[^>]*\bdata-profile-footer\b/, file);
+    } else {
+      assert.match(html, /<\/main>\s*<div data-footer-reveal-stage\b[^>]*>\s*<footer\b[^>]*\bdata-profile-footer\b/, file);
+    }
+  }
+});
+
 test('page links and canonical URLs use extensionless routes', () => {
   for (const file of htmlFiles) {
     const html = readFileSync(file, 'utf8');

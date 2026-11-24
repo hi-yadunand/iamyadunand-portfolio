@@ -41,6 +41,13 @@ Live browser animation comparison was unavailable. Capture data and local scene
 settings support the treatment, but exact motion and shader fidelity are not
 claimed.
 
+## Footer scroll reveal
+
+Home, Projects, Services, and Privacy use the shared scroll reveal. The closing
+headline zooms into the period in “what’s next.” and the footer rises into view.
+Contact uses the standard footer in document flow. Reduced motion uses the
+headline and footer in document flow on every page.
+
 ## Collapsing navigation
 
 The [Lucas Studio reference](https://lucasstudio.framer.website/) was inspected
@@ -53,9 +60,10 @@ The portfolio uses Inter Tight Variable throughout the navigation bar and
 an orange square drawn in CSS. The expanded header has a transparent
 surface. The compact state has a charcoal surface, a subtle light border,
 and a light “Let’s talk” button. The portfolio's chosen width caps are
-112rem and 64rem, and the transition takes 500ms. The header compacts at 64px
-of scroll and expands again within 24px of the top. Past the homepage hero,
-the compact bar slides up on downward scroll and returns on upward scroll.
+112rem and 64rem. The bar takes 850ms to resize in either direction. The
+header compacts at 64px of scroll and expands again within 24px of the top.
+Past the homepage hero, the compact bar slides up on downward scroll and
+returns on upward scroll.
 The bar stays visible while the mobile menu is open or a keyboard user is
 focused on a navigation control. Reduced motion makes these changes instant.
 
@@ -68,12 +76,12 @@ project register is available at `/projects`.
 
 ## Services accordion
 
-Five square-cornered service cards sit directly on the page. Hovering over a
-card reveals its description and feature tags, highlights its toggle in
-orange, and blurs the other cards. Moving outside the list closes the hover
-preview. Touch and keyboard users can activate the buttons to open and close
-cards. A keyboard-focused card stays sharp. Scroll animation positions
-refresh after the card list changes height.
+Five square-cornered service cards sit directly on the page. Product & UI/UX
+Design starts open. Hovering over a card reveals its description and feature
+tags, highlights its toggle in orange, and blurs the other cards. Moving
+outside the list closes the hover preview. Touch and keyboard users can
+activate the buttons to open and close cards. A keyboard-focused card stays
+sharp. Scroll animation positions refresh after the card list changes height.
 
 ## Contact page layout
 

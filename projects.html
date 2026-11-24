@@ -575,29 +575,32 @@
 </section>
     </div>
     <div>
-<section class="mt-24 md:mt-40">
-        <div class="shell border-t border-line py-14 text-center md:py-24">
-          <p class="label mb-8 text-signal">HAVE AN IDEA?</p>
-          <h2 aria-label="Let's create what's next." class="display text-display-xl" data-reveal><span>Let's
-              create </span><span aria-hidden
-              class="portfolio-cta__illustration"><img
-                src="images/illustrations/codingdesk.webp" alt="Illustration of Yadunand coding at a desk with a laptop, coffee, and a small robot" width="1254" height="1254"
-                loading="lazy" decoding="async"></span><span class="block">what's next.</span></h2>
-          <div data-reveal class="mt-10 flex flex-wrap justify-center gap-3 md:mt-14"><a href="/contact#brief"
-              class="btn btn-solid "><span class="roll"><span data-text="Start a conversation">Start a
-                  conversation</span></span><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1"
-                aria-hidden="true" class="size-3.5">
-                <path d="M4 12 12 4M5 4h7v7"></path>
-              </svg></a><a href="#all-projects" class="btn  "><span class="roll"><span data-text="Explore my work">Explore my
-                  work</span></span><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1"
-                aria-hidden="true" class="size-3.5">
-                <path d="M4 12 12 4M5 4h7v7"></path>
-              </svg></a></div>
+      <section data-footer-portal aria-labelledby="footer-portal-title" class="mt-24 md:mt-40">
+        <div class="footer-portal__pin">
+          <div class="footer-portal__scene shell border-t border-line py-14 text-center md:py-24">
+            <p data-footer-portal-detail class="label mb-8 text-signal">HAVE AN IDEA?</p>
+            <h2 id="footer-portal-title" aria-label="Let's create what's next." class="display text-display-xl"><span data-footer-portal-copy>Let's
+                create </span><span aria-hidden data-footer-portal-copy
+                class="portfolio-cta__illustration"><img
+                  src="images/illustrations/codingdesk.webp" alt="Illustration of Yadunand coding at a desk with a laptop, coffee, and a small robot" width="1254" height="1254"
+                  loading="lazy" decoding="async"></span><span class="block"><span data-footer-portal-copy>what's next</span><span data-footer-portal-glyph><span class="footer-portal__baseline" aria-hidden="true"></span>.</span></span></h2>
+            <div data-footer-portal-detail class="mt-10 flex flex-wrap justify-center gap-3 md:mt-14"><a href="/contact#brief"
+                class="btn btn-solid "><span class="roll"><span data-text="Start a conversation">Start a
+                    conversation</span></span><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1"
+                  aria-hidden="true" class="size-3.5">
+                  <path d="M4 12 12 4M5 4h7v7"></path>
+                </svg></a><a href="#all-projects" class="btn  "><span class="roll"><span data-text="Explore my work">Explore my
+                    work</span></span><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1"
+                  aria-hidden="true" class="size-3.5">
+                  <path d="M4 12 12 4M5 4h7v7"></path>
+                </svg></a></div>
+          </div>
         </div>
       </section>
     </div>
   </main>
-  <footer data-dark data-profile-footer class="overflow-hidden bg-ink text-paper">
+  <div data-footer-reveal-stage data-dark>
+  <footer data-profile-footer class="overflow-hidden bg-ink text-paper">
     <div class="portfolio-footer__content shell">
       <div class="portfolio-footer__top">
         <video data-profile-video class="portfolio-footer__profile-video" muted playsinline preload="metadata"
@@ -633,11 +636,14 @@
       </a>
     </p>
   </footer>
+  </div>
+
   <div data-cursor aria-hidden="true"
     class="label pointer-events-none fixed top-0 left-0 z-50 -mt-9 -ml-9 hidden size-18 items-center justify-center rounded-full bg-signal text-white [@media(pointer:fine)]:flex">
   </div>
   <script type="module" src="_astro/BaseLayout.astro_astro_type_script_index_0_lang.Dpw5V1aT.js"></script>
   <script type="module" src="assets/js/portfolio-footer.js"></script>
+  <script type="module" src="assets/js/footer-reveal.js"></script>
   <script type="module" src="assets/js/footer-halftone.js"></script>
 </body>
 </html>
