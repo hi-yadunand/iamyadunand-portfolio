@@ -59,19 +59,20 @@ function initWorksWheel(section) {
   function render(now) {
     frame = 0;
     if (!reduced.matches) {
-      const offset = -register.getBoundingClientRect().top;
+      const { top, bottom } = register.getBoundingClientRect();
+      const offset = -top;
       const progress = offset - scrollLeadIn;
       const destination = progress < introDistance
         ? clamp(progress / introDistance, 0, 1)
         : Math.min(cards.length, 1 + (progress - introDistance) / scrollStep);
       const gap = destination - turn;
-      if (Math.abs(gap) < 0.003 || offset <= 0 || offset >= scrollDistance) {
+      if (Math.abs(gap) < 0.003 || bottom <= 0 || top >= window.innerHeight) {
         turn = destination;
         lastFrame = 0;
       } else {
-        // Follow quick scroll gestures without letting the drum jump several cards at once.
+        // Catch up faster during a fling while keeping every visible step continuous.
         const elapsed = lastFrame ? Math.min(now - lastFrame, 34) : 16;
-        const maxTurn = elapsed * 0.0038;
+        const maxTurn = elapsed * (0.0038 + Math.min(Math.abs(gap), 3) * 0.002);
         turn += clamp(gap * (1 - Math.exp(-elapsed / 120)), -maxTurn, maxTurn);
         lastFrame = now;
         requestRender();

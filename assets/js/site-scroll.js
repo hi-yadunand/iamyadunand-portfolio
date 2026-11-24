@@ -46,6 +46,7 @@ export function initSiteScroll({ Lenis, gsap, ScrollTrigger }) {
   const root = document.documentElement;
   const motion = window.matchMedia("(prefers-reduced-motion: reduce)");
   const navigationType = performance.getEntriesByType?.("navigation")[0]?.type;
+  const register = document.querySelector(".works-register");
   // anchors:false gives the delegated handler exclusive ownership of fragments.
   // Nested/horizontal containers and touch retain their own native scrolling.
   const lenis = new Lenis({
@@ -56,6 +57,28 @@ export function initSiteScroll({ Lenis, gsap, ScrollTrigger }) {
     anchors: false,
     allowNestedScroll: true,
     respectReducedMotion: true,
+    virtualScroll(gesture) {
+      const { event, deltaY } = gesture;
+      if (motion.matches || event.type !== "wheel" || event.ctrlKey || !deltaY ||
+          !register?.hasAttribute("data-register-scroll")) return;
+      const travel = Number.parseFloat(register.style.getPropertyValue("--register-scroll-distance"));
+      if (!(travel > 0)) return;
+
+      const current = window.scrollY;
+      const start = current + register.getBoundingClientRect().top;
+      const end = start + travel;
+      const direction = Math.sign(deltaY);
+      const entry = direction > 0 ? start : end;
+      const exit = direction > 0 ? end : start;
+      const target = lenis.targetScroll;
+      if (direction * (exit - current) <= 0 || direction * (target + deltaY - entry) <= 0) return;
+
+      // Limit queued wheel travel through the pin, including trackpad bursts.
+      const lead = Math.max(0, direction * (entry - current)) + window.innerHeight * 0.6;
+      const available = lead - direction * (target - current);
+      // A zero delta would let the browser scroll natively while Lenis is still catching up.
+      gesture.deltaY = direction * Math.min(Math.abs(deltaY), Math.max(Number.EPSILON, available));
+    },
   });
   let ticking = false;
   let suspended = false;

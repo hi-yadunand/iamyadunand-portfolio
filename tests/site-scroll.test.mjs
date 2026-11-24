@@ -28,7 +28,7 @@ class Node extends Events {
   }
   focus(options) { this.focused = options; }
 }
-function fixture({ reduced = false, url = 'https://portfolio.test/index.html', type = 'navigate', complete = false, reloadTop = false, nativeTransitions = false } = {}) {
+function fixture({ reduced = false, url = 'https://portfolio.test/index.html', type = 'navigate', complete = false, reloadTop = false, nativeTransitions = false, register = null } = {}) {
   const win = new Events(), doc = new Events(), motion = new Events(); motion.matches = reduced;
   const root = new Node(), body = new Node(), main = new Node(), target = new Node();
   if (nativeTransitions) root.setAttribute('data-native-page-transitions', '');
@@ -36,7 +36,7 @@ function fixture({ reduced = false, url = 'https://portfolio.test/index.html', t
   const location = { get href() { return current.href; }, get origin() { return current.origin; }, get pathname() { return current.pathname; }, get search() { return current.search; }, get hash() { return current.hash; }, assign(value) { assigned.push(value); }, set(value) { current = new URL(value, current); } };
   const history = { state: { existing: true }, scrollRestoration: 'auto', pushState(state, _, href) { this.state = state; entries.push(href); location.set(href); }, replaceState(state, _, href) { this.state = state; location.set(href); } };
   if (reloadTop) { root.setAttribute('data-reload-top', ''); history.scrollRestoration = 'manual'; }
-  Object.assign(doc, { documentElement: root, body, readyState: complete ? 'complete' : 'interactive', hidden: false, fonts: { status: 'loaded' }, referrer: '', getElementById: id => id === 'brief' || id === 'space id' ? target : null, getElementsByName: id => id === 'legacy' ? [target] : [], querySelector: selector => selector === 'main' ? main : selector === '[data-menu-toggle]' ? { click() { root.removeAttribute('data-menu-open'); } } : null });
+  Object.assign(doc, { documentElement: root, body, readyState: complete ? 'complete' : 'interactive', hidden: false, fonts: { status: 'loaded' }, referrer: '', getElementById: id => id === 'brief' || id === 'space id' ? target : null, getElementsByName: id => id === 'legacy' ? [target] : [], querySelector: selector => selector === 'main' ? main : selector === '.works-register' ? register : selector === '[data-menu-toggle]' ? { click() { root.removeAttribute('data-menu-open'); } } : null });
   Object.assign(win, { scrollY: 0, innerHeight: 900, scrollTo: options => { win.scrollY = options.top; }, matchMedia: () => motion });
   const requestAnimationFrame = fn => { frames.set(++sequence, fn); return sequence; };
   const cancelAnimationFrame = id => frames.delete(id);
@@ -79,6 +79,37 @@ test('one Lenis, one ticker, same scroll settings, native touch/nested configura
   assert.equal(f.lenis.options.syncTouch, false); assert.equal(f.lenis.options.allowNestedScroll, true); assert.equal(f.lenis.options.anchors, false);
   [...f.callbacks][0](2); assert.equal(f.lenis.lastFrame, 2000);
   assert.equal(f.lenis.onEvent.name, 'scroll'); assert.equal(f.lenis.onEvent.fn, f.ScrollTrigger.update);
+});
+
+test('fast wheel gestures cannot queue a jump across the pinned Register', () => {
+  const register = new Node();
+  register.setAttribute('data-register-scroll', '');
+  register.style = { getPropertyValue: () => '3422px' };
+  const f = fixture({ register });
+  const start = 5000;
+  const end = start + 3422;
+  register.getBoundingClientRect = () => ({ top: start - f.win.scrollY });
+
+  const wheel = (deltaY, { position, target = position, type = 'wheel' }) => {
+    f.win.scrollY = position;
+    f.lenis.targetScroll = target;
+    const gesture = { deltaY, event: { type } };
+    f.lenis.options.virtualScroll(gesture);
+    return gesture.deltaY;
+  };
+
+  assert.equal(wheel(3550, { position: start - 70 }), 610);
+  assert.equal(wheel(3550, { position: start + 60, target: start + 540 }), 60);
+  const saturated = wheel(3550, { position: start + 60, target: start + 600 });
+  assert.ok(saturated > 0 && saturated < 1, 'Lenis still owns a wheel event while its queue is full');
+  assert.equal(wheel(-3550, { position: end + 70 }), -610);
+  assert.equal(wheel(-100, { position: end - 400, target: end - 100 }), -100);
+  assert.equal(wheel(100, { position: end - 50 }), 100, 'the final card releases with ordinary scrolling');
+  assert.equal(wheel(3550, { position: end + 50 }), 3550);
+  assert.equal(wheel(3550, { position: start - 4000 }), 3550);
+  assert.equal(wheel(3550, { position: start + 60, type: 'touchmove' }), 3550);
+  f.motion.matches = true;
+  assert.equal(wheel(3550, { position: start + 60 }), 3550);
 });
 
 test('reduced motion uses native wheel input with no scroll ticker, including live changes', () => {
