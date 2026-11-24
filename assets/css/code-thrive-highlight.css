@@ -31,6 +31,8 @@
 [data-record-transition-active] .record-transition__incoming {
   position: relative;
   z-index: 1;
+  /* Reserve scroll travel while Services holds at the bottom of its content. */
+  margin-top: clamp(5rem, 18svh, 10rem);
 }
 
 [data-record-transition-active] .record-transition__incoming > section {

@@ -153,10 +153,6 @@ export function initSiteScroll({ Lenis, gsap, ScrollTrigger }) {
         .fromTo(outgoing, { scale: 1, filter: "brightness(1)" }, {
           scale: 0.95, filter: "brightness(0.65)", ease: "power2.out", duration: 0.7,
         }, 0)
-        // Keep the raised corner below the viewport before the panel starts rising.
-        .fromTo(record, { rotation: 5, y: () => incoming.clientWidth * 0.044 }, {
-          rotation: 0, y: 0, duration: 1,
-        }, 0)
         .fromTo(record, { scale: 0.85 }, { scale: 1, duration: 0.57, ease: "power2.inOut" }, 0.43);
 
       gsap.fromTo(record.firstElementChild, { y: distance }, {
