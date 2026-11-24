@@ -319,3 +319,8 @@ export function initSiteScroll({ Lenis, gsap, ScrollTrigger }) {
 export function requestSiteRefresh() {
   runtime?.requestRefresh();
 }
+
+export function scrollToSitePosition(position, immediate = false) {
+  if (runtime) runtime.lenis.scrollTo(position, { immediate });
+  else window.scrollTo({ top: position, behavior: immediate ? "instant" : "smooth" });
+}
