@@ -1,43 +1,105 @@
-/* Expand on scroll, then slide away on downward scroll and return on upward scroll. */
 header[data-header] {
-  background-color: transparent;
-  border-bottom: 1px solid transparent;
-  transition: transform .7s var(--ease-draft), background-color .45s ease, border-color .45s ease, color .35s ease;
+  --nav-gutter: clamp(0.75rem, 2.8vw, 3.5rem);
+  padding-top: clamp(0.75rem, 2vw, 1.75rem);
+  pointer-events: none;
+  transition: padding-top 0.5s var(--ease-draft), color 0.25s ease;
 }
 
 header[data-header] > .shell {
-  max-width: none;
-  padding: 24px 28px;
-  transition: padding .65s var(--ease-draft);
+  width: calc(100% - 2 * var(--nav-gutter));
+  max-width: 112rem;
+  min-height: 5.25rem;
+  gap: clamp(0.75rem, 2.2vw, 2rem);
+  padding: 0.75rem clamp(0.875rem, 1.8vw, 1.625rem);
+  border: 1px solid transparent;
+  border-radius: 0.625rem;
+  pointer-events: auto;
+  transition:
+    width 0.5s var(--ease-draft), max-width 0.5s var(--ease-draft),
+    min-height 0.5s var(--ease-draft), padding 0.5s var(--ease-draft),
+    background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
-header[data-header][data-expanded] > .shell {
-  padding: 16px 20px;
+header[data-header][data-compact] {
+  --nav-gutter: clamp(1rem, 5vw, 4rem);
+  padding-top: 0.875rem;
+  color: var(--color-paper);
+}
+
+header[data-header][data-compact] > .shell {
+  max-width: 64rem;
+  min-height: 3.625rem;
+  padding: 0.375rem clamp(0.625rem, 1.4vw, 1.25rem);
+  border-color: #ffffff1f;
+  background-color: #181818f2;
+  box-shadow: 0 0.5rem 1.5rem #0002;
+  backdrop-filter: blur(12px);
 }
 
 header[data-header] > .shell > a {
   white-space: nowrap;
 }
 
-@media (min-width: 768px) {
-  header[data-header][data-expanded] > .shell {
-    padding-inline: 32px;
+header[data-header] > .shell > a::before {
+  width: 0.5rem;
+  height: 0.5rem;
+  flex: none;
+  background: var(--color-signal);
+  content: "";
+}
+
+header[data-header] :is(nav, [data-menu-toggle]) {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.015em;
+  text-transform: uppercase;
+}
+
+header[data-header] nav {
+  gap: clamp(0.875rem, 1.9vw, 1.75rem);
+  font-size: 0.8125rem;
+  white-space: nowrap;
+}
+
+header[data-header] .theme-nav-actions .btn {
+  min-height: 2.5rem;
+  white-space: nowrap;
+}
+
+header[data-header][data-compact] .theme-nav-actions .btn {
+  border-color: var(--color-paper);
+  background: var(--color-paper);
+  color: var(--color-ink);
+}
+
+header[data-header][data-compact] .theme-nav-actions .btn:hover {
+  border-color: var(--color-signal);
+  background: var(--color-signal);
+  color: #fff;
+}
+
+header[data-header] :is(a, button):focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 3px;
+}
+
+@media (min-width: 64rem) {
+  header[data-header] > .shell {
+    grid-template-columns: minmax(0, 1fr) auto auto;
   }
 }
 
-@media (min-width: 1024px) {
+@media (max-width: 47.99rem) {
   header[data-header] > .shell {
-    padding: 30px clamp(32px, 9.5vw, 192px);
+    min-height: 4.25rem;
   }
-}
 
-@media (max-width: 374px) {
-  header[data-header] > .shell {
-    column-gap: 12px;
-    padding-inline: 20px;
-  }
   header[data-header] > .shell > a {
-    font-size: 16px;
+    font-size: 1rem;
+  }
+
+  header[data-header] [data-menu-toggle] {
+    min-height: 2.75rem;
   }
 }
 

@@ -28,7 +28,7 @@ class Node extends Events {
   }
   focus(options) { this.focused = options; }
 }
-function fixture({ reduced = false, url = 'https://portfolio.test/index.html', type = 'navigate', complete = false, reloadTop = false, nativeTransitions = false, register = null } = {}) {
+function fixture({ reduced = false, url = 'https://portfolio.test/index.html', type = 'navigate', complete = false, reloadTop = false, nativeTransitions = false, register = null, portal = null } = {}) {
   const win = new Events(), doc = new Events(), motion = new Events(); motion.matches = reduced;
   const root = new Node(), body = new Node(), main = new Node(), target = new Node();
   if (nativeTransitions) root.setAttribute('data-native-page-transitions', '');
@@ -36,7 +36,7 @@ function fixture({ reduced = false, url = 'https://portfolio.test/index.html', t
   const location = { get href() { return current.href; }, get origin() { return current.origin; }, get pathname() { return current.pathname; }, get search() { return current.search; }, get hash() { return current.hash; }, assign(value) { assigned.push(value); }, set(value) { current = new URL(value, current); } };
   const history = { state: { existing: true }, scrollRestoration: 'auto', pushState(state, _, href) { this.state = state; entries.push(href); location.set(href); }, replaceState(state, _, href) { this.state = state; location.set(href); } };
   if (reloadTop) { root.setAttribute('data-reload-top', ''); history.scrollRestoration = 'manual'; }
-  Object.assign(doc, { documentElement: root, body, readyState: complete ? 'complete' : 'interactive', hidden: false, fonts: { status: 'loaded' }, referrer: '', getElementById: id => id === 'brief' || id === 'space id' ? target : null, getElementsByName: id => id === 'legacy' ? [target] : [], querySelector: selector => selector === 'main' ? main : selector === '.works-register' ? register : selector === '[data-menu-toggle]' ? { click() { root.removeAttribute('data-menu-open'); } } : null });
+  Object.assign(doc, { documentElement: root, body, readyState: complete ? 'complete' : 'interactive', hidden: false, fonts: { status: 'loaded' }, referrer: '', getElementById: id => id === 'brief' || id === 'space id' ? target : null, getElementsByName: id => id === 'legacy' ? [target] : [], querySelector: selector => selector === 'main' ? main : selector === '.works-register' ? register : selector === '[data-footer-portal]' ? portal : selector === '[data-menu-toggle]' ? { click() { root.removeAttribute('data-menu-open'); } } : null });
   Object.assign(win, { scrollY: 0, innerHeight: 900, scrollTo: options => { win.scrollY = options.top; }, matchMedia: () => motion });
   const requestAnimationFrame = fn => { frames.set(++sequence, fn); return sequence; };
   const cancelAnimationFrame = id => frames.delete(id);
@@ -81,14 +81,21 @@ test('one Lenis, one ticker, same scroll settings, native touch/nested configura
   assert.equal(f.lenis.onEvent.name, 'scroll'); assert.equal(f.lenis.onEvent.fn, f.ScrollTrigger.update);
 });
 
-test('fast wheel gestures cannot queue a jump across the pinned Register', () => {
+test('fast wheel gestures are limited at the first active pin in either direction', () => {
   const register = new Node();
   register.setAttribute('data-register-scroll', '');
   register.style = { getPropertyValue: () => '3422px' };
-  const f = fixture({ register });
+  const portal = new Node();
+  portal.setAttribute('data-footer-portal-active', '');
+  portal.clientHeight = 2520;
+  portal.querySelector = () => ({ clientHeight: 900 });
+  const f = fixture({ register, portal });
   const start = 5000;
   const end = start + 3422;
+  const portalStart = 12000;
+  const portalEnd = portalStart + 1620;
   register.getBoundingClientRect = () => ({ top: start - f.win.scrollY });
+  portal.getBoundingClientRect = () => ({ top: portalStart - f.win.scrollY });
 
   const wheel = (deltaY, { position, target = position, type = 'wheel' }) => {
     f.win.scrollY = position;
@@ -106,6 +113,11 @@ test('fast wheel gestures cannot queue a jump across the pinned Register', () =>
   assert.equal(wheel(-100, { position: end - 400, target: end - 100 }), -100);
   assert.equal(wheel(100, { position: end - 50 }), 100, 'the final card releases with ordinary scrolling');
   assert.equal(wheel(3550, { position: end + 50 }), 3550);
+  assert.equal(wheel(10000, { position: start - 70 }), 610);
+  assert.equal(Math.round(wheel(3550, { position: portalStart - 70 })), 565);
+  assert.equal(Math.round(wheel(-10000, { position: portalEnd + 70 })), -565);
+  assert.equal(wheel(80, { position: portalStart + 260 }), 80);
+  assert.equal(wheel(3550, { position: portalEnd + 50 }), 3550);
   assert.equal(wheel(3550, { position: start - 4000 }), 3550);
   assert.equal(wheel(3550, { position: start + 60, type: 'touchmove' }), 3550);
   f.motion.matches = true;

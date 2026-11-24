@@ -38,10 +38,21 @@ test('homepage header stays white during the loader and follows section colors a
   document.dispatchEvent(new Event('portfolio:preloader-complete'));
   assert(attributes.has('data-on-dark'), 'the restored homepage hero uses white text');
 
+  window.scrollY = 64;
+  window.dispatchEvent(new Event('scroll'));
+  assert(attributes.has('data-compact'), 'scrolling down compacts the navigation');
+  window.scrollY = 40;
+  window.dispatchEvent(new Event('scroll'));
+  assert(attributes.has('data-compact'), 'small reversals keep the compact state stable');
+  window.scrollY = 24;
+  window.dispatchEvent(new Event('scroll'));
+  assert.equal(attributes.has('data-compact'), false, 'the wide header returns near the top');
+
   window.scrollY = 1800;
   rect = { top: -1800, bottom: -100, height: 1700 };
   window.dispatchEvent(new Event('scroll'));
   assert.equal(attributes.has('data-on-dark'), false, 'light sections still use dark text');
+  assert(!attributes.has('data-hidden'), 'the compact header stays visible further down the page');
 
   controller.abort();
   rect = { top: 0, bottom: 1700, height: 1700 };

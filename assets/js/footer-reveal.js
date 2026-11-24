@@ -97,11 +97,12 @@ if (portal) {
     if (immediate || shownOffset === undefined || offset <= -height || (offset <= 0 && shownOffset <= 0)) {
       shownOffset = offset;
     } else {
-      const elapsed = lastFrame === undefined ? 16 : Math.min(now - lastFrame, 34);
+      const elapsed = lastFrame === undefined ? 16 : Math.max(1, Math.min(now - lastFrame, 34));
       const from = Math.max(0, shownOffset);
-      const step = (offset - from) * (1 - Math.exp(-elapsed / 85));
-      const maxStep = travel * elapsed / 850;
-      shownOffset = from + Math.max(-maxStep, Math.min(maxStep, step));
+      const step = (offset - from) * (1 - Math.exp(-elapsed / 120));
+      const maxStep = travel * elapsed / 1400;
+      // Approach the speed limit gradually as the scroll position pulls ahead.
+      shownOffset = from + maxStep * Math.tanh(step / maxStep);
     }
     if (Math.abs(offset - shownOffset) < 0.75) shownOffset = offset;
     lastFrame = offset === shownOffset ? undefined : now;

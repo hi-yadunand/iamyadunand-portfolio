@@ -30,7 +30,7 @@
 @media (prefers-reduced-motion: no-preference) {
   [data-footer-portal-active] {
     --footer-portal-height: 100svh;
-    --footer-portal-travel: 145svh;
+    --footer-portal-travel: 180svh;
     min-height: calc(var(--footer-portal-height) + var(--footer-portal-travel));
   }
 
