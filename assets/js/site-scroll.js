@@ -117,6 +117,79 @@ export function initSiteScroll({ Lenis, gsap, ScrollTrigger }) {
   gsap.ticker.lagSmoothing(0);
   lenis.on("scroll", ScrollTrigger.update);
 
+  const transition = document.querySelector("[data-record-transition]");
+  if (transition) {
+    const outgoing = transition.querySelector(".record-transition__outgoing");
+    const incoming = transition.querySelector(".record-transition__incoming");
+    const record = incoming.firstElementChild;
+    const media = gsap.matchMedia();
+    // Keep the content inside the dark section at both ends of the scroll.
+    const distance = () => Math.min(
+      window.innerHeight * 0.085,
+      Number.parseFloat(window.getComputedStyle(record).paddingTop) * 0.75,
+    );
+    media.add("(prefers-reduced-motion: no-preference)", () => {
+      transition.setAttribute("data-record-transition-active", "");
+      const measure = () => {
+        const pinTop = Math.min(0, window.innerHeight - outgoing.offsetHeight);
+        transition.style.setProperty("--record-transition-pin-top", `${pinTop}px`);
+        transition.style.setProperty("--record-transition-origin", `${window.innerHeight / 2 - pinTop}px`);
+      };
+      measure();
+      const resize = "ResizeObserver" in window ? new ResizeObserver(measure) : null;
+      resize?.observe(outgoing);
+      window.addEventListener("resize", measure);
+
+      gsap.timeline({
+        defaults: { ease: "none" },
+        scrollTrigger: {
+          trigger: incoming,
+          start: "top bottom",
+          end: "top top",
+          scrub: true,
+          invalidateOnRefresh: true,
+        },
+      })
+        .fromTo(outgoing, { scale: 1, filter: "brightness(1)" }, {
+          scale: 0.95, filter: "brightness(0.65)", ease: "power2.out", duration: 0.7,
+        }, 0)
+        // Keep the raised corner below the viewport before the panel starts rising.
+        .fromTo(record, { rotation: 5, y: () => incoming.clientWidth * 0.044 }, {
+          rotation: 0, y: 0, duration: 1,
+        }, 0)
+        .fromTo(record, { scale: 0.85 }, { scale: 1, duration: 0.57, ease: "power2.inOut" }, 0.43);
+
+      gsap.fromTo(record.firstElementChild, { y: distance }, {
+        y: () => -distance(),
+        ease: "none",
+        scrollTrigger: {
+          trigger: incoming,
+          start: "top bottom",
+          end: "bottom top",
+          scrub: true,
+          invalidateOnRefresh: true,
+        },
+      });
+
+      const revealFocusedService = (event) => {
+        const top = incoming.getBoundingClientRect().top;
+        if (event.target.matches(":focus-visible") && top < window.innerHeight) {
+          scrollToSitePosition(window.scrollY + top - window.innerHeight, true);
+        }
+      };
+      outgoing.addEventListener("focusin", revealFocusedService);
+      return () => {
+        resize?.disconnect();
+        window.removeEventListener("resize", measure);
+        outgoing.removeEventListener("focusin", revealFocusedService);
+        transition.removeAttribute("data-record-transition-active");
+        transition.style.removeProperty("--record-transition-pin-top");
+        transition.style.removeProperty("--record-transition-origin");
+      };
+    });
+    signal.addEventListener("abort", () => media.revert(), { once: true });
+  }
+
   const closeMenu = () => {
     if (root.hasAttribute("data-menu-open")) document.querySelector("[data-menu-toggle]")?.click();
   };

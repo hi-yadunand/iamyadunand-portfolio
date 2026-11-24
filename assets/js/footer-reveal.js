@@ -58,6 +58,7 @@ function measureGlyph(character, font) {
 if (portal) {
   const pin = portal.querySelector(".footer-portal__pin");
   const scene = portal.querySelector(".footer-portal__scene");
+  const footerStage = document.querySelector("[data-footer-reveal-stage]");
   const heading = portal.querySelector("h2");
   const glyph = heading.querySelector("[data-footer-portal-glyph]");
   const baseline = glyph.querySelector(".footer-portal__baseline");
@@ -68,10 +69,14 @@ if (portal) {
   let ink;
   let geometry;
   let frame = 0;
+  let shownOffset;
+  let lastFrame;
   let lastProgress;
 
   const reset = () => {
     geometry = null;
+    shownOffset = undefined;
+    lastFrame = undefined;
     portal.removeAttribute("data-footer-portal-active");
     portal.removeAttribute("data-footer-portal-dark");
     heading.style.removeProperty("--footer-portal-camera");
@@ -80,12 +85,34 @@ if (portal) {
     portal.style.removeProperty("--footer-portal-detail-hit");
     portal.style.removeProperty("--footer-portal-surface-opacity");
     portal.style.removeProperty("--footer-portal-tint");
+    pin.style.removeProperty("--footer-portal-pin-shift");
+    footerStage.style.removeProperty("--footer-portal-footer-shift");
   };
 
-  const paint = () => {
+  const paint = (now, immediate = false) => {
     frame = 0;
     if (!geometry) return;
-    const progress = clamp(-portal.getBoundingClientRect().top / geometry.travel);
+    const offset = -portal.getBoundingClientRect().top;
+    const { travel, height } = geometry;
+    if (immediate || shownOffset === undefined || offset <= -height || (offset <= 0 && shownOffset <= 0)) {
+      shownOffset = offset;
+    } else {
+      const elapsed = lastFrame === undefined ? 16 : Math.min(now - lastFrame, 34);
+      const from = Math.max(0, shownOffset);
+      const step = (offset - from) * (1 - Math.exp(-elapsed / 85));
+      const maxStep = travel * elapsed / 850;
+      shownOffset = from + Math.max(-maxStep, Math.min(maxStep, step));
+    }
+    if (Math.abs(offset - shownOffset) < 0.75) shownOffset = offset;
+    lastFrame = offset === shownOffset ? undefined : now;
+    if (lastFrame !== undefined) schedule();
+
+    // Keep the sticky scene and footer entrance aligned while the camera catches up.
+    const lag = Math.max(0, offset - shownOffset);
+    pin.style.setProperty("--footer-portal-pin-shift", `${Math.min(lag, Math.max(0, offset - travel))}px`);
+    footerStage.style.setProperty("--footer-portal-footer-shift", `${lag}px`);
+
+    const progress = clamp(shownOffset / travel);
     if (progress === lastProgress) return;
     lastProgress = progress;
 
@@ -146,28 +173,42 @@ if (portal) {
     const inkY = baseline.getBoundingClientRect().top - headingBounds.top + ink.y * fontSize;
     const centerX = pinBounds.left - headingBounds.left + width / 2;
     const centerY = pinBounds.top - headingBounds.top + height / 2;
+    const travel = Math.max(1, portal.clientHeight - height);
+    if (geometry && shownOffset > 0) {
+      // Keep the current frame when the mobile browser chrome changes the viewport.
+      shownOffset = clamp(shownOffset / geometry.travel) * travel + Math.max(0, shownOffset - geometry.travel);
+    }
     geometry = {
       centerX,
       centerY,
       inkX,
       inkY,
       scale,
-      travel: Math.max(1, portal.clientHeight - height),
+      height,
+      travel,
     };
+    lastFrame = undefined;
     lastProgress = undefined;
     schedule();
   };
 
   window.addEventListener("scroll", schedule, { passive: true, signal });
   window.addEventListener("resize", measure, { signal });
-  window.addEventListener("pageshow", measure, { signal });
+  window.addEventListener("pageshow", () => {
+    shownOffset = undefined;
+    measure();
+  }, { signal });
   motion.addEventListener("change", measure, { signal });
   document.addEventListener("portfolio:preloader-complete", measure, { signal });
   scene.addEventListener("focusin", (event) => {
     if (!geometry || !event.target.matches(":focus-visible") || !lastProgress) return;
     scrollToSitePosition(window.scrollY + portal.getBoundingClientRect().top, true);
     cancelAnimationFrame(frame);
-    paint();
+    paint(performance.now(), true);
+  }, { signal });
+  footerStage.addEventListener("focusin", () => {
+    cancelAnimationFrame(frame);
+    paint(performance.now(), true);
   }, { signal });
   window.addEventListener("pagehide", (event) => {
     if (event.persisted) return;

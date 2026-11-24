@@ -90,12 +90,6 @@
   [data-marquee-motion] .testimonial-marquee__card {
     inline-size: clamp(16rem, 76vw, 21rem);
   }
-
-  @media (hover: hover) {
-    [data-marquee-motion][data-marquee-visible] .testimonial-marquee__rows:hover .testimonial-marquee__track {
-      animation-play-state: paused;
-    }
-  }
 }
 
 @keyframes testimonial-marquee {

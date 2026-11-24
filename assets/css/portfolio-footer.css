@@ -37,6 +37,7 @@
   [data-footer-portal-active] .footer-portal__pin {
     position: sticky;
     top: 0;
+    translate: 0 var(--footer-portal-pin-shift, 0px);
     display: grid;
     align-items: center;
     height: var(--footer-portal-height);
@@ -84,6 +85,11 @@
   /* Bring the footer into the last part of the zoom as the ink fills the pin. */
   main:has([data-footer-portal-active]) + [data-footer-reveal-stage] {
     margin-block-start: -22svh;
+    background-color: transparent;
+  }
+
+  main:has([data-footer-portal-active]) + [data-footer-reveal-stage] > [data-profile-footer] {
+    translate: 0 var(--footer-portal-footer-shift, 0px);
   }
 }
 
@@ -91,8 +97,8 @@
   position: relative;
   display: flex;
   flex-direction: column;
-  min-height: 100vh;
-  min-height: 100dvh;
+  min-height: clamp(34rem, 76vh, 55rem);
+  min-height: clamp(34rem, 76svh, 55rem);
   row-gap: clamp(4rem, 12svh, 9rem);
   isolation: isolate;
   overflow: hidden;
@@ -233,6 +239,7 @@
 
 @media (max-width: 46rem) {
   [data-profile-footer] {
+    min-height: 0;
     row-gap: clamp(3rem, 15vw, 6rem);
   }
 

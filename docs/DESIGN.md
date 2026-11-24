@@ -184,5 +184,6 @@ and validation details. Live browser comparison remains unavailable.
 [Marquee 01](https://21st.dev/@shadcnspace/components/marquee-01) uses compact
 cards in two opposing horizontal lanes with faded edges. A–09 takes those
 motion and layout cues with eight notes, portfolio project images, and
-borderless cards in both themes. The lanes pause on hover. The static layout
-shows all notes when reduced motion is preferred or JavaScript is unavailable.
+borderless cards in both themes. The lanes loop continuously while visible.
+The static layout shows all notes when reduced motion is preferred or
+JavaScript is unavailable.

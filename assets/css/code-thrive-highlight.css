@@ -13,3 +13,28 @@
   transform: translateY(-50%);
   box-shadow: 0 1rem 3rem #11111118;
 }
+
+[data-record-transition-active] {
+  isolation: isolate;
+  overflow: clip;
+  background: #111;
+}
+
+[data-record-transition-active] .record-transition__outgoing {
+  position: sticky;
+  top: var(--record-transition-pin-top, 0px);
+  min-height: 100dvh;
+  background: var(--color-page);
+  transform-origin: 50% var(--record-transition-origin, center);
+}
+
+[data-record-transition-active] .record-transition__incoming {
+  position: relative;
+  z-index: 1;
+}
+
+[data-record-transition-active] .record-transition__incoming > section {
+  min-height: 100dvh;
+  margin-top: 0;
+  transform-origin: 50% 0;
+}
