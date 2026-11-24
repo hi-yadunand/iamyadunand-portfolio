@@ -75,6 +75,7 @@ if (portal) {
     portal.removeAttribute("data-footer-portal-active");
     portal.removeAttribute("data-footer-portal-dark");
     heading.style.removeProperty("--footer-portal-camera");
+    portal.style.removeProperty("--footer-portal-copy-opacity");
     portal.style.removeProperty("--footer-portal-detail-opacity");
     portal.style.removeProperty("--footer-portal-detail-hit");
     portal.style.removeProperty("--footer-portal-surface-opacity");
@@ -88,21 +89,22 @@ if (portal) {
     if (progress === lastProgress) return;
     lastProgress = progress;
 
-    const scale = geometry.scale ** easeBetween(0.09, 0.94, progress);
-    const translation = (scale - 1) / (geometry.scale - 1);
+    const scale = geometry.scale ** easeBetween(0.15, 0.85, progress);
+    const aim = easeBetween(0.09, 0.43, progress);
     const tilt = -8 * easeBetween(0.12, 0.50, progress) * (1 - easeBetween(0.58, 0.88, progress));
-    const { centerX, centerY } = geometry;
-    const shiftX = geometry.x * translation - centerX;
-    const shiftY = geometry.y * translation - centerY;
-    // Roll around the viewport center so the end of the zoom stays aligned with the glyph.
+    const { centerX, centerY, inkX, inkY } = geometry;
+    // Center the glyph early, then keep it fixed while the zoom and roll continue.
+    const shiftX = (inkX - centerX) * (1 - aim) - inkX * scale;
+    const shiftY = (inkY - centerY) * (1 - aim) - inkY * scale;
     heading.style.setProperty(
       "--footer-portal-camera",
       progress <= 0.09 ? "none" : `translate(${centerX}px, ${centerY}px) rotate(${tilt}deg) translate(${shiftX}px, ${shiftY}px) scale(${scale})`,
     );
+    portal.style.setProperty("--footer-portal-copy-opacity", 1 - easeBetween(0.38, 0.56, progress));
     const detail = 1 - easeBetween(0.04, 0.26, progress);
     portal.style.setProperty("--footer-portal-detail-opacity", detail);
     portal.style.setProperty("--footer-portal-detail-hit", detail > 0.35 ? "auto" : "none");
-    portal.style.setProperty("--footer-portal-surface-opacity", easeBetween(0.78, 0.98, progress));
+    portal.style.setProperty("--footer-portal-surface-opacity", easeBetween(0.85, 0.98, progress));
     portal.style.setProperty("--footer-portal-tint", `${100 * easeBetween(0.61, 0.93, progress)}%`);
     portal.toggleAttribute("data-footer-portal-dark", progress >= 0.82);
   };
@@ -145,10 +147,10 @@ if (portal) {
     const centerX = pinBounds.left - headingBounds.left + width / 2;
     const centerY = pinBounds.top - headingBounds.top + height / 2;
     geometry = {
-      x: centerX - inkX * scale,
-      y: centerY - inkY * scale,
       centerX,
       centerY,
+      inkX,
+      inkY,
       scale,
       travel: Math.max(1, portal.clientHeight - height),
     };

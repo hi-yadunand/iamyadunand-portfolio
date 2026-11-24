@@ -59,6 +59,10 @@
     color: color-mix(in srgb, var(--color-paper), var(--portfolio-footer-surface) var(--footer-portal-tint, 0%));
   }
 
+  [data-footer-portal-active] [data-footer-portal-copy] {
+    opacity: var(--footer-portal-copy-opacity, 1);
+  }
+
   [data-footer-portal-active] [data-footer-portal-detail] {
     opacity: var(--footer-portal-detail-opacity, 1);
     pointer-events: var(--footer-portal-detail-hit, auto);
@@ -87,8 +91,8 @@
   position: relative;
   display: flex;
   flex-direction: column;
-  min-height: clamp(34rem, 76vh, 55rem);
-  min-height: clamp(34rem, 76svh, 55rem);
+  min-height: 100vh;
+  min-height: 100dvh;
   row-gap: clamp(4rem, 12svh, 9rem);
   isolation: isolate;
   overflow: hidden;
@@ -229,7 +233,6 @@
 
 @media (max-width: 46rem) {
   [data-profile-footer] {
-    min-height: 0;
     row-gap: clamp(3rem, 15vw, 6rem);
   }
 
