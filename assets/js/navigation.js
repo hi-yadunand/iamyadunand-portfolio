@@ -4,7 +4,7 @@ export function initNavigation(signal) {
   if (!header) return;
 
   const root = document.documentElement;
-  const hero = document.querySelector('[data-hero]');
+  const intro = document.querySelector('[data-nav-intro]');
   const darkSections = [...document.querySelectorAll('[data-dark]')];
   let compact = false;
   let previousScrollY = Math.max(0, window.scrollY);
@@ -16,8 +16,8 @@ export function initNavigation(signal) {
     const loading = root.hasAttribute('data-preloader-active');
     // Read section geometry before changing header attributes, avoiding a
     // style write followed immediately by a forced layout on every scroll.
-    const canHide = hero && nextCompact && !loading &&
-      hero.getBoundingClientRect().bottom <= 0 &&
+    const canHide = nextCompact && !loading && intro &&
+      intro.getBoundingClientRect().bottom <= 0 &&
       !root.hasAttribute('data-menu-open') && !header.matches(':has(:focus-visible)');
     const viewportHeight = window.innerHeight;
     const onDark = darkSections.some((section) => {

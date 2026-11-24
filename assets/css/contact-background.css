@@ -11,10 +11,6 @@ html[data-contact-page] {
   background: var(--color-page);
 }
 
-[data-contact-page] header[data-header] {
-  color: var(--color-paper, #f4f4f4);
-}
-
 .contact-page {
   position: relative;
   isolation: isolate;

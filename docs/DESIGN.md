@@ -62,8 +62,9 @@ surface. The compact state has a charcoal surface, a subtle light border,
 and a light “Let’s talk” button. The portfolio's chosen width caps are
 112rem and 64rem. The bar takes 850ms to resize in either direction. The
 header compacts at 64px of scroll and expands again within 24px of the top.
-Past the homepage hero, the compact bar slides up on downward scroll and
-returns on upward scroll.
+On every page, the compact bar slides up once the opening content scrolls
+out of view. It returns on upward scroll. The same navigation styles adapt
+the text color for dark backgrounds, including the Contact page.
 The bar stays visible while the mobile menu is open or a keyboard user is
 focused on a navigation control. Reduced motion makes these changes instant.
 

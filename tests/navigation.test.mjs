@@ -5,21 +5,20 @@ import vm from 'node:vm';
 
 const source = readFileSync(new URL('../assets/js/navigation.js', import.meta.url), 'utf8');
 
-test('homepage header follows the theme and scroll direction after the loader', () => {
+function setupNavigation({ introHeight = 1700, darkIntro = true } = {}) {
   const attributes = new Set(['data-on-dark']);
   const rootAttributes = new Set(['data-preloader-active']);
-  let keyboardFocus = false;
   const header = Object.assign(new EventTarget(), {
-    matches: () => keyboardFocus,
+    matches: () => false,
     removeAttribute: name => attributes.delete(name),
     toggleAttribute(name, enabled) { if (enabled) attributes.add(name); else attributes.delete(name); },
   });
-  let rect = { top: 400, bottom: 400, height: 0 };
-  const hero = { dataset: { dark: '0:0.32' }, getBoundingClientRect: () => rect };
+  const rect = { top: 400, bottom: 400, height: 0 };
+  const intro = { dataset: { dark: '0:0.32' }, getBoundingClientRect: () => rect };
   const document = Object.assign(new EventTarget(), {
     documentElement: { hasAttribute: name => rootAttributes.has(name) },
-    querySelector: selector => selector === '[data-header]' ? header : hero,
-    querySelectorAll: () => [hero],
+    querySelector: selector => selector === '[data-header]' ? header : intro,
+    querySelectorAll: () => darkIntro ? [intro] : [],
   });
   const window = Object.assign(new EventTarget(), {
     scrollY: 0, innerHeight: 1000,
@@ -31,15 +30,20 @@ test('homepage header follows the theme and scroll direction after the loader', 
   vm.runInContext(source.replace('export ', '') + '\ninitNavigation(signal);', context);
   function scrollTo(top) {
     window.scrollY = top;
-    rect = { top: -top, bottom: 1700 - top, height: 1700 };
+    Object.assign(rect, { top: -top, bottom: introHeight - top, height: introHeight });
     window.dispatchEvent(new Event('scroll'));
   }
+  return { attributes, rootAttributes, header, rect, document, window, controller, scrollTo };
+}
+
+test('homepage header follows the theme and scroll direction after the loader', () => {
+  const { attributes, rootAttributes, header, rect, document, window, controller, scrollTo } = setupNavigation();
   assert(attributes.has('data-on-dark'), 'collapsed loader geometry must not turn the header black');
   window.dispatchEvent(new Event('resize'));
   assert(attributes.has('data-on-dark'));
 
   rootAttributes.delete('data-preloader-active');
-  rect = { top: 0, bottom: 1700, height: 1700 };
+  Object.assign(rect, { top: 0, bottom: 1700, height: 1700 });
   document.dispatchEvent(new Event('portfolio:preloader-complete'));
   assert(attributes.has('data-on-dark'), 'the restored homepage hero uses white text');
 
@@ -66,19 +70,55 @@ test('homepage header follows the theme and scroll direction after the loader', 
   rootAttributes.delete('data-menu-open');
   scrollTo(1840);
   assert(attributes.has('data-hidden'));
-  keyboardFocus = true;
+  header.matches = () => true;
   header.dispatchEvent(new Event('focusin'));
   assert(!attributes.has('data-hidden'), 'keyboard focus reveals the header');
   scrollTo(1860);
   assert(!attributes.has('data-hidden'), 'the focused navigation control remains visible');
 
   controller.abort();
-  rect = { top: 0, bottom: 1700, height: 1700 };
+  Object.assign(rect, { top: 0, bottom: 1700, height: 1700 });
   document.dispatchEvent(new Event('portfolio:preloader-complete'));
   assert.equal(attributes.has('data-on-dark'), false, 'cleanup removes the reveal listener');
 });
 
-test('homepage markup starts with white navigation before scripts initialize', () => {
-  const html = readFileSync(new URL('../index.html', import.meta.url), 'utf8');
-  assert.match(html, /<header\b[^>]*\bdata-header\b[^>]*\bdata-on-dark\b/);
+test('inner pages keep the compact header in view until their intro ends', () => {
+  const { attributes, rootAttributes, document, scrollTo } = setupNavigation({ introHeight: 640, darkIntro: false });
+  scrollTo(640);
+  assert(!attributes.has('data-hidden'), 'the header stays visible during the loader');
+  rootAttributes.delete('data-preloader-active');
+  document.dispatchEvent(new Event('portfolio:preloader-complete'));
+
+  scrollTo(64);
+  assert(attributes.has('data-compact'));
+  assert(!attributes.has('data-hidden'), 'the compact bar appears before the slide');
+  scrollTo(639);
+  assert(!attributes.has('data-hidden'), 'the compact bar stays visible through the intro');
+  scrollTo(640);
+  assert(attributes.has('data-hidden'));
+  scrollTo(720);
+  scrollTo(710);
+  assert(!attributes.has('data-hidden'), 'upward scroll shows the bar away from the top');
+  assert(attributes.has('data-compact'));
+  scrollTo(0);
+  assert(!attributes.has('data-compact'));
+});
+
+test('all pages use the same desktop and mobile navigation with a local intro', () => {
+  const read = file => readFileSync(new URL('../' + file, import.meta.url), 'utf8');
+  const normalize = markup => markup.replace(/ aria-current="page"| data-on-dark/g, '')
+    .replace(/>\s+</g, '><').replace(/\s+/g, ' ').trim();
+  const home = read('index.html');
+  const homeHeader = normalize(home.match(/<header\b[\s\S]*?<\/header>/)[0]);
+  const homeMenu = normalize(home.match(/<div data-menu\b[\s\S]*?(?=<main\b)/)[0]);
+
+  for (const file of ['index.html', 'projects.html', 'services.html', 'contact.html', 'privacy.html']) {
+    const html = read(file);
+    const header = html.match(/<header\b[\s\S]*?<\/header>/)[0];
+    const menu = html.match(/<div data-menu\b[\s\S]*?(?=<main\b)/)[0];
+    assert.equal(normalize(header), homeHeader, file);
+    assert.equal(normalize(menu), homeMenu, file);
+    assert.equal((html.match(/\bdata-nav-intro\b/g) || []).length, 1, file);
+    if (file === 'index.html' || file === 'contact.html') assert.match(header, /\bdata-on-dark\b/, file);
+  }
 });
