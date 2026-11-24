@@ -1,3 +1,7 @@
+:root {
+  --portfolio-footer-surface: #0f0f0e;
+}
+
 .portfolio-cta__illustration {
   display: inline-block;
   width: 1.5em;
@@ -13,6 +17,72 @@
   object-fit: contain;
 }
 
+:root[data-theme="dark"] .portfolio-cta__illustration img {
+  filter: invert(1);
+}
+
+.footer-portal__baseline {
+  display: inline-block;
+  width: 0;
+  height: 0;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  [data-footer-portal-active] {
+    --footer-portal-height: 100svh;
+    --footer-portal-travel: 145svh;
+    min-height: calc(var(--footer-portal-height) + var(--footer-portal-travel));
+  }
+
+  [data-footer-portal-active] .footer-portal__pin {
+    position: sticky;
+    top: 0;
+    display: grid;
+    align-items: center;
+    height: var(--footer-portal-height);
+    overflow: clip;
+    isolation: isolate;
+    background: var(--color-page);
+  }
+
+  [data-footer-portal-active] .footer-portal__scene {
+    padding-block: min(6svh, 5rem);
+  }
+
+  [data-footer-portal-active] h2 {
+    font-size: min(var(--text-display-xl), 21svh);
+    transform: var(--footer-portal-camera, none);
+    transform-origin: top left;
+  }
+
+  :root[data-theme="dark"] [data-footer-portal-active] h2 {
+    color: color-mix(in srgb, var(--color-paper), var(--portfolio-footer-surface) var(--footer-portal-tint, 0%));
+  }
+
+  [data-footer-portal-active] [data-footer-portal-detail] {
+    opacity: var(--footer-portal-detail-opacity, 1);
+    pointer-events: var(--footer-portal-detail-hit, auto);
+  }
+
+  [data-footer-portal-active] .footer-portal__pin::after {
+    position: absolute;
+    inset: 0;
+    background: var(--portfolio-footer-surface);
+    opacity: var(--footer-portal-surface-opacity, 0);
+    pointer-events: none;
+    content: "";
+  }
+
+  :root:has([data-footer-portal-dark]) [data-header] {
+    color: var(--color-paper);
+  }
+
+  /* Bring the footer into the last part of the zoom as the ink fills the pin. */
+  main:has([data-footer-portal-active]) + [data-footer-reveal-stage] {
+    margin-block-start: -22svh;
+  }
+}
+
 [data-profile-footer] {
   position: relative;
   display: flex;
@@ -23,7 +93,7 @@
   isolation: isolate;
   overflow: hidden;
   color: #e9e4da;
-  background: #0f0f0e;
+  background: var(--portfolio-footer-surface);
 }
 
 [data-profile-footer]::after {
@@ -36,19 +106,11 @@
   content: "";
 }
 
-/* Benjamin Creative's footer uses a -170px to 0px in-view translation.
-   The natural-height stage clips it beneath the preceding section. */
 [data-footer-reveal-stage] {
   position: relative;
   overflow: hidden;
   overflow: clip;
-  background-color: #0f0f0e;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  [data-footer-parallax-active] > [data-footer-reveal] {
-    transform: translate3d(0, var(--footer-reveal-y, 0px), 0);
-  }
+  background-color: var(--portfolio-footer-surface);
 }
 
 .portfolio-footer__content {

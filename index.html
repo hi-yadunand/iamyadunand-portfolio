@@ -68,7 +68,7 @@
   <link rel="stylesheet" href="assets/css/hero-code.css">
   <link rel="stylesheet" href="assets/css/code-thrive-highlight.css">
   <link rel="stylesheet" href="assets/css/portfolio-footer.css">
-  <link rel="stylesheet" href="assets/css/testimonial-slider.css">
+  <link rel="stylesheet" href="assets/css/testimonial-marquee.css">
   <link rel="canonical" href="https://iamyadunand.com/">
 <link rel="stylesheet" href="/assets/css/preloader.css">
   <link rel="stylesheet" href="/assets/css/theme.css">
@@ -769,69 +769,111 @@
       </section>
     </div>
     <div>
-      <section data-testimonial-slider class="mt-24 md:mt-40">
+      <section data-testimonial-marquee aria-labelledby="project-notes-heading" class="mt-24 md:mt-40">
         <div class="shell">
-          <div class="label flex items-baseline justify-between gap-6 border-t border-current/20 pt-3 ">
-            <p class="flex gap-4"><span class="text-signal">A–09</span><span>Project notes</span></p>
+          <div class="label border-t border-current/20 pt-3">
+            <h2 id="project-notes-heading" class="flex gap-4"><span class="text-signal">A–09</span><span>Project notes</span></h2>
           </div>
-          <div data-slider-viewport class="mt-10 grid grid-cols-1 md:mt-16">
-            <figure data-slide class="col-start-1 row-start-1 grid gap-6 md:grid-cols-12">
-              <div class="relative aspect-square w-24 overflow-hidden md:col-span-2 md:w-full"><img src="images/case-studies/zappo.webp" alt="Zappo sports booking app" width="720" height="480" loading="lazy" decoding="async" class="absolute inset-0 size-full object-cover"></div>
-              <div class="md:col-span-9 md:col-start-4"><p class="display text-display-md">A responsive sports booking platform, bringing venue discovery, slot booking, and real-time availability into one experience.</p><figcaption class="label mt-6 md:mt-10">Zappo<span class="text-graphite"> · React.js · REST APIs</span></figcaption></div>
-            </figure>
-            <figure data-slide class="col-start-1 row-start-1 grid gap-6 md:grid-cols-12">
-              <div class="relative aspect-square w-24 overflow-hidden md:col-span-2 md:w-full"><img src="images/projects/codeandthrive.webp" alt="Code and Thrive website" width="720" height="480" loading="lazy" decoding="async" class="absolute inset-0 size-full object-cover"></div>
-              <div class="md:col-span-9 md:col-start-4"><p class="display text-display-md">Web development, UI/UX design, branding, and SEO brought together to build a connected digital presence.</p><figcaption class="label mt-6 md:mt-10">Code and Thrive<span class="text-graphite"> · Design · Development</span></figcaption></div>
-            </figure>
-            <figure data-slide class="col-start-1 row-start-1 grid gap-6 md:grid-cols-12">
-              <div class="relative aspect-square w-24 overflow-hidden md:col-span-2 md:w-full"><img src="images/services/frontend-engineering.webp" alt="TARSX robot" width="720" height="480" loading="lazy" decoding="async" class="absolute inset-0 size-full object-cover"></div>
-              <div class="md:col-span-9 md:col-start-4"><p class="display text-display-md">A real-life TARS-inspired robot, combining custom hardware, embedded systems, and conversational AI.</p><figcaption class="label mt-6 md:mt-10">TARSX Robot<span class="text-graphite"> · Raspberry Pi · Python · AI</span></figcaption></div>
-            </figure>
-            <figure data-slide class="col-start-1 row-start-1 grid gap-6 md:grid-cols-12">
-              <div class="relative aspect-square w-24 overflow-hidden md:col-span-2 md:w-full"><img src="images/projects/startupgrow-lossless.webp" alt="Startup Grow project" width="720" height="480" loading="lazy" decoding="async" class="absolute inset-0 size-full object-cover"></div>
-              <div class="md:col-span-9 md:col-start-4"><p class="display text-display-md">Turning ideas into practical web applications through design, development, and iteration.</p><figcaption class="label mt-6 md:mt-10">Startup Grow<span class="text-graphite"> · Full-stack development</span></figcaption></div>
-            </figure>
-          </div>
-          <div class="label mt-8 flex items-center justify-between border-t border-line pt-3 md:mt-12">
-            <p class="tabular-nums"><span data-slider-count>01</span> / 04</p>
-            <div class="flex gap-5"><button type="button" data-slider-prev aria-label="Previous project note"
-                class="transition-colors hover:text-signal"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor"
-                  stroke-width="1" aria-hidden="true" class="size-4">
-                  <path d="M14 8H2M7 3 2 8l5 5"></path>
-                </svg></button><button type="button" data-slider-next aria-label="Next project note"
-                class="transition-colors hover:text-signal"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor"
-                  stroke-width="1" aria-hidden="true" class="size-4">
-                  <path d="M2 8h12M9 3l5 5-5 5"></path>
-                </svg></button></div>
+          <div class="testimonial-marquee__rows mt-10 md:mt-16">
+            <div class="testimonial-marquee__row">
+              <div class="testimonial-marquee__track">
+                <div class="testimonial-marquee__group">
+                  <figure class="testimonial-marquee__card">
+                    <figcaption>
+                      <img src="images/case-studies/zappo.webp" alt="Zappo sports booking app" width="720" height="480" loading="lazy" decoding="async">
+                      <div><strong>Zappo</strong><span>React.js · REST APIs</span></div>
+                    </figcaption>
+                    <p>A responsive sports booking platform, bringing venue discovery, slot booking, and real-time availability into one experience.</p>
+                  </figure>
+                  <figure class="testimonial-marquee__card">
+                    <figcaption>
+                      <img src="images/projects/codeandthrive.webp" alt="Code and Thrive website" width="720" height="480" loading="lazy" decoding="async">
+                      <div><strong>Code and Thrive</strong><span>Design · Development</span></div>
+                    </figcaption>
+                    <p>Web development, UI/UX design, branding, and SEO brought together to build a connected digital presence.</p>
+                  </figure>
+                  <figure class="testimonial-marquee__card">
+                    <figcaption>
+                      <img src="images/case-studies/tenorra-labs.webp" alt="Tenorra Labs website shown on a laptop and phone" width="720" height="480" loading="lazy" decoding="async">
+                      <div><strong>Tenorra Labs</strong><span>Website · 2024</span></div>
+                    </figcaption>
+                    <p>A corporate website showcasing Tenorra Labs’ consumer technology work, including Zappo and its sports-focused digital products.</p>
+                  </figure>
+                  <figure class="testimonial-marquee__card">
+                    <figcaption>
+                      <img src="images/case-studies/zion-piling.webp" alt="Zion Piling website and CRM" width="720" height="480" loading="lazy" decoding="async">
+                      <div><strong>Zion Piling</strong><span>Website · CRM · 2026</span></div>
+                    </figcaption>
+                    <p>A website for piling and foundation services, paired with a CRM for managing customer enquiries and projects.</p>
+                  </figure>
+                </div>
+              </div>
+            </div>
+            <div class="testimonial-marquee__row">
+              <div class="testimonial-marquee__track">
+                <div class="testimonial-marquee__group">
+                  <figure class="testimonial-marquee__card">
+                    <figcaption>
+                      <img src="images/services/frontend-engineering.webp" alt="TARSX robot" width="720" height="480" loading="lazy" decoding="async">
+                      <div><strong>TARSX Robot</strong><span>Raspberry Pi · Python · AI</span></div>
+                    </figcaption>
+                    <p>A real-life TARS-inspired robot, combining custom hardware, embedded systems, and conversational AI.</p>
+                  </figure>
+                  <figure class="testimonial-marquee__card">
+                    <figcaption>
+                      <img src="images/projects/startupgrow-lossless.webp" alt="Startup Grow project" width="720" height="480" loading="lazy" decoding="async">
+                      <div><strong>Startup Grow</strong><span>Full-stack development</span></div>
+                    </figcaption>
+                    <p>Turning ideas into practical web applications through design, development, and iteration.</p>
+                  </figure>
+                  <figure class="testimonial-marquee__card">
+                    <figcaption>
+                      <img src="images/case-studies/lobiatek.webp" alt="Lobiatek technology services website" width="720" height="480" loading="lazy" decoding="async">
+                      <div><strong>Lobiatek</strong><span>Website · 2025</span></div>
+                    </figcaption>
+                    <p>A website for a Dubai technology provider, covering CCTV, access control, networking, fire safety, and GPS services.</p>
+                  </figure>
+                  <figure class="testimonial-marquee__card">
+                    <figcaption>
+                      <img src="images/case-studies/spakgen.webp" alt="Spakgen cleaning services website" width="720" height="480" loading="lazy" decoding="async">
+                      <div><strong>Spakgen</strong><span>Website · 2023</span></div>
+                    </figcaption>
+                    <p>A website presenting Spakgen’s professional cleaning services in Singapore, with its blue and yellow branding.</p>
+                  </figure>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </section>
     </div>
     <div>
-      <section class="mt-24 md:mt-40">
-        <div class="shell border-t border-line py-14 text-center md:py-24">
-          <p class="label mb-8 text-signal">HAVE AN IDEA?</p>
-          <h2 aria-label="Let's create what's next." class="display text-display-xl" data-reveal><span>Let's
-              create </span><span aria-hidden
-              class="portfolio-cta__illustration"><img
-                src="images/illustrations/codingdesk.webp" alt="Illustration of Yadunand coding at a desk with a laptop, coffee, and a small robot" width="1254" height="1254"
-                loading="lazy" decoding="async"></span><span class="block">what's next.</span></h2>
-          <div data-reveal class="mt-10 flex flex-wrap justify-center gap-3 md:mt-14"><a href="/contact#brief"
-              class="btn btn-solid "><span class="roll"><span data-text="Start a conversation">Start a
-                  conversation</span></span><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1"
-                aria-hidden="true" class="size-3.5">
-                <path d="M4 12 12 4M5 4h7v7"></path>
-              </svg></a><a href="/projects" class="btn  "><span class="roll"><span data-text="Explore my work">Explore my
-                  work</span></span><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1"
-                aria-hidden="true" class="size-3.5">
-                <path d="M4 12 12 4M5 4h7v7"></path>
-              </svg></a></div>
+      <section data-footer-portal aria-labelledby="footer-portal-title" class="mt-24 md:mt-40">
+        <div class="footer-portal__pin">
+          <div class="footer-portal__scene shell border-t border-line py-14 text-center md:py-24">
+            <p data-footer-portal-detail class="label mb-8 text-signal">HAVE AN IDEA?</p>
+            <h2 id="footer-portal-title" aria-label="Let's create what's next." class="display text-display-xl"><span>Let's
+                create </span><span aria-hidden
+                class="portfolio-cta__illustration"><img
+                  src="images/illustrations/codingdesk.webp" alt="Illustration of Yadunand coding at a desk with a laptop, coffee, and a small robot" width="1254" height="1254"
+                  loading="lazy" decoding="async"></span><span class="block">what's <span data-footer-portal-glyph><span class="footer-portal__baseline" aria-hidden="true"></span>n</span>ext.</span></h2>
+            <div data-footer-portal-detail class="mt-10 flex flex-wrap justify-center gap-3 md:mt-14"><a href="/contact#brief"
+                class="btn btn-solid "><span class="roll"><span data-text="Start a conversation">Start a
+                    conversation</span></span><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1"
+                  aria-hidden="true" class="size-3.5">
+                  <path d="M4 12 12 4M5 4h7v7"></path>
+                </svg></a><a href="/projects" class="btn  "><span class="roll"><span data-text="Explore my work">Explore my
+                    work</span></span><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1"
+                  aria-hidden="true" class="size-3.5">
+                  <path d="M4 12 12 4M5 4h7v7"></path>
+                </svg></a></div>
+          </div>
         </div>
       </section>
     </div>
   </main>
   <div data-footer-reveal-stage data-dark>
-  <footer data-profile-footer data-footer-reveal class="overflow-hidden bg-ink text-paper">
+  <footer data-profile-footer class="overflow-hidden bg-ink text-paper">
     <div class="portfolio-footer__content shell">
       <div class="portfolio-footer__top">
         <video data-profile-video class="portfolio-footer__profile-video" muted playsinline preload="metadata"
@@ -873,7 +915,7 @@
   <script type="module" src="assets/js/portfolio-footer.js"></script>
   <script type="module" src="assets/js/footer-reveal.js"></script>
   <script type="module" src="assets/js/footer-halftone.js"></script>
-  <script type="module" src="assets/js/testimonial-slider.js"></script>
+  <script type="module" src="assets/js/testimonial-marquee.js"></script>
   <script type="module" src="assets/js/works-wheel.js"></script>
   <script type="module" src="assets/js/drone-loader.js"></script>
   <script type="module" src="assets/vendor/cloudflare-beacon.js"

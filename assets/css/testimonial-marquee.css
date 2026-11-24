@@ -1,0 +1,105 @@
+.testimonial-marquee__rows {
+  --marquee-gap: 1rem;
+  display: grid;
+  gap: var(--marquee-gap);
+  max-inline-size: 68rem;
+  margin-inline: auto;
+}
+
+.testimonial-marquee__group {
+  display: grid;
+  gap: var(--marquee-gap);
+}
+
+.testimonial-marquee__card {
+  min-inline-size: 0;
+  padding: 1.125rem;
+  border-radius: 0.625rem;
+  background: color-mix(in srgb, currentColor 2%, transparent);
+}
+
+.testimonial-marquee__card figcaption {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  line-height: 1.25;
+}
+
+.testimonial-marquee__card img {
+  flex: none;
+  inline-size: 2.75rem;
+  block-size: 2.75rem;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.testimonial-marquee__card strong {
+  display: block;
+  font-weight: 600;
+}
+
+.testimonial-marquee__card span {
+  display: block;
+  margin-block-start: 0.1875rem;
+  color: var(--color-graphite);
+  font-size: 0.8125rem;
+}
+
+.testimonial-marquee__card p {
+  margin-block-start: 0.875rem;
+  line-height: 1.45;
+}
+
+[data-testimonial-marquee] [data-marquee-copy] {
+  display: none;
+}
+
+@media (min-width: 40rem) {
+  .testimonial-marquee__group {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  [data-marquee-motion] .testimonial-marquee__row {
+    --marquee-fade: clamp(1rem, 7vw, 6rem);
+    overflow: hidden;
+    mask-image: linear-gradient(to right, transparent, #000 var(--marquee-fade), #000 calc(100% - var(--marquee-fade)), transparent);
+  }
+
+  [data-marquee-motion] .testimonial-marquee__track {
+    display: flex;
+    inline-size: max-content;
+    animation: testimonial-marquee 44s linear infinite paused;
+  }
+
+  [data-marquee-motion] .testimonial-marquee__row:nth-child(even) .testimonial-marquee__track {
+    animation-direction: reverse;
+    animation-delay: -5.5s;
+  }
+
+  [data-marquee-motion][data-marquee-visible] .testimonial-marquee__track {
+    animation-play-state: running;
+  }
+
+  [data-marquee-motion] .testimonial-marquee__group {
+    display: flex;
+    padding-inline-end: var(--marquee-gap);
+  }
+
+  [data-marquee-motion] .testimonial-marquee__card {
+    inline-size: clamp(16rem, 76vw, 21rem);
+  }
+
+  @media (hover: hover) {
+    [data-marquee-motion][data-marquee-visible] .testimonial-marquee__rows:hover .testimonial-marquee__track {
+      animation-play-state: paused;
+    }
+  }
+}
+
+@keyframes testimonial-marquee {
+  to {
+    transform: translateX(-50%);
+  }
+}
