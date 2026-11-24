@@ -27,12 +27,14 @@ function initWorksWheel(section) {
   const reduced = matchMedia("(prefers-reduced-motion: reduce)");
   const wide = matchMedia("(min-width: 56rem), (min-width: 42rem) and (max-height: 34rem)");
   let scrollLeadIn = 0;
+  let introDistance = 1;
   let scrollStep = 1;
   let scrollDistance = 0;
   let turn = 0;
   let paintedTurn;
   let selected = -1;
   let frame = 0;
+  let lastFrame = 0;
   let drag;
   let moved = false;
   let cardHeight = 1;
@@ -54,16 +56,31 @@ function initWorksWheel(section) {
     });
   }
 
-  function render() {
+  function render(now) {
     frame = 0;
     if (!reduced.matches) {
-      // Let the centered ring rest through the first part of the pinned scroll.
-      const progress = -register.getBoundingClientRect().top - scrollLeadIn;
-      turn = clamp(progress / scrollStep, 0, cards.length);
+      const offset = -register.getBoundingClientRect().top;
+      const progress = offset - scrollLeadIn;
+      const destination = progress < introDistance
+        ? clamp(progress / introDistance, 0, 1)
+        : Math.min(cards.length, 1 + (progress - introDistance) / scrollStep);
+      const gap = destination - turn;
+      if (Math.abs(gap) < 0.003 || offset <= 0 || offset >= scrollDistance) {
+        turn = destination;
+        lastFrame = 0;
+      } else {
+        // Follow quick scroll gestures without letting the drum jump several cards at once.
+        const elapsed = lastFrame ? Math.min(now - lastFrame, 34) : 16;
+        const maxTurn = elapsed * 0.0038;
+        turn += clamp(gap * (1 - Math.exp(-elapsed / 120)), -maxTurn, maxTurn);
+        lastFrame = now;
+        requestRender();
+      }
     }
     if (paintedTurn === turn) return;
     paintedTurn = turn;
-    const morph = clamp(turn, 0, 1);
+    const intro = clamp(turn, 0, 1);
+    const morph = intro * intro * (3 - 2 * intro);
     const position = Math.max(0, turn - 1);
     const drumRadius = cardHeight * 2.22;
     const bow = cardHeight * 1.82;
@@ -93,8 +110,10 @@ function initWorksWheel(section) {
       turn = Math.round(destination);
     } else {
       const start = window.scrollY + register.getBoundingClientRect().top;
-      const offset = destination > 0 ? scrollLeadIn + scrollStep * destination : 0;
+      const travel = destination <= 1 ? introDistance * destination : introDistance + scrollStep * (destination - 1);
+      const offset = destination > 0 ? scrollLeadIn + travel : 0;
       scrollToSitePosition(start + offset, immediate);
+      if (immediate) turn = destination;
     }
     requestRender();
   }
@@ -104,8 +123,11 @@ function initWorksWheel(section) {
     const height = viewport.clientHeight;
     if (!width || !height) return;
     scrollLeadIn = Math.round(clamp(window.innerHeight * 0.12, 64, 120));
-    scrollStep = Math.round(clamp(window.innerHeight * 0.27, 140, 245));
-    scrollDistance = scrollLeadIn + scrollStep * cards.length;
+    scrollStep = Math.round(clamp(window.innerHeight * 0.36, 175, 340));
+    introDistance = Math.round(scrollStep * 1.55);
+    // Give the last project a little scroll room for the eased motion to settle.
+    const endHold = Math.round(clamp(window.innerHeight * 0.25, 125, 220));
+    scrollDistance = scrollLeadIn + introDistance + scrollStep * (cards.length - 1) + endHold;
     register.style.setProperty("--register-scroll-distance", `${scrollDistance}px`);
     const cardWidth = Math.min(width * (wide.matches ? 0.35 : 0.79), height * 0.56);
     cardHeight = cardWidth / 1.5;
@@ -179,6 +201,7 @@ function initWorksWheel(section) {
 
   cards.forEach(({ button }, index) => button.addEventListener("click", () => choose(index + 1)));
   function configureScroll() {
+    lastFrame = 0;
     if (reduced.matches) turn = Math.round(turn);
     register.toggleAttribute("data-register-scroll", !reduced.matches);
     measure();
