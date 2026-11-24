@@ -1,8 +1,13 @@
 header[data-header] {
   --nav-gutter: clamp(0.75rem, 2.8vw, 3.5rem);
   padding-top: clamp(0.75rem, 2vw, 1.75rem);
+  font-family: var(--font-sans);
   pointer-events: none;
-  transition: padding-top 0.5s var(--ease-draft), color 0.25s ease;
+  transition: transform 0.5s var(--ease-draft), padding-top 0.5s var(--ease-draft), color 0.25s ease;
+}
+
+header[data-header][data-hidden] {
+  transform: translateY(calc(-100% - 2rem));
 }
 
 header[data-header] > .shell {
@@ -49,7 +54,6 @@ header[data-header] > .shell > a::before {
 }
 
 header[data-header] :is(nav, [data-menu-toggle]) {
-  font-family: var(--font-mono);
   font-size: 0.75rem;
   letter-spacing: 0.015em;
   text-transform: uppercase;

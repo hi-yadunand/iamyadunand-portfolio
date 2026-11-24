@@ -49,13 +49,15 @@ capture of the homepage. The wide hero header places the brand on the left
 and the navigation and call to action on the right. On scroll, the supplied
 capture shows a centered, dark floating bar with a light call to action.
 
-The portfolio uses its Inter Tight wordmark, Geist Mono navigation labels,
-and an orange square drawn in CSS. The expanded header has a transparent
+The portfolio uses Inter Tight Variable throughout the navigation bar and
+an orange square drawn in CSS. The expanded header has a transparent
 surface. The compact state has a charcoal surface, a subtle light border,
 and a light “Let’s talk” button. The portfolio's chosen width caps are
 112rem and 64rem, and the transition takes 500ms. The header compacts at 64px
-of scroll and expands again within 24px of the top. Mobile retains the
-theme toggle and menu, with an instant layout change under reduced motion.
+of scroll and expands again within 24px of the top. Past the homepage hero,
+the compact bar slides up on downward scroll and returns on upward scroll.
+The bar stays visible while the mobile menu is open or a keyboard user is
+focused on a navigation control. Reduced motion makes these changes instant.
 
 Brand and content: loading screens and titles use Yadunand Pavithran. Navigation
 images use local portfolio assets. Project notes describe existing work rather
