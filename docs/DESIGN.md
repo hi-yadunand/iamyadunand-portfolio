@@ -68,16 +68,11 @@ project register is available at `/projects`.
 
 ## Services accordion
 
-The five services use the original click-to-open accordion in normal document
-flow. The first service opens initially. Clicking a title closes the previous
-panel and slides open the selected service; clicking it again closes it. The
-existing shared accordion controller provides the interaction and refreshes
-scroll animation positions after the panel transition. Titles, plus/cross
-icons, images, descriptions, and feature lists are preserved.
-
-The services section has no sticky stage, extra scroll distance, automatic
-selection, wheel interception, or scroll locking. Mobile uses the same click
-interaction. The temporary services scroll script and stylesheet are removed.
+Five service cards start collapsed. Opening a card reveals its description and
+feature tags, highlights its toggle in orange, and blurs the other cards.
+Selecting another card moves the highlight. Closing the open card clears the
+blur. A keyboard-focused card stays sharp. The shared accordion handles
+expansion and refreshes scroll animation positions after each change.
 
 ## Contact page layout
 
