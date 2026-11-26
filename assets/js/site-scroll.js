@@ -169,9 +169,49 @@ export function initSiteScroll({ Lenis, gsap, ScrollTrigger }) {
   const workflow = document.querySelector("[data-workflow]");
   if (workflow) {
     const path = workflow.querySelector("[data-workflow-path]");
+    const svg = path.ownerSVGElement;
+    const mobile = window.matchMedia("(width < 64rem)");
+    const desktopPath = path.getAttribute("d");
+    const desktopViewBox = svg.getAttribute("viewBox");
+    const fitStroke = () => {
+      if (!mobile.matches) {
+        if (svg.hasAttribute("data-workflow-fitted")) {
+          svg.setAttribute("viewBox", desktopViewBox);
+          path.setAttribute("d", desktopPath);
+          svg.removeAttribute("data-workflow-fitted");
+        }
+        return;
+      }
+
+      const width = svg.clientWidth;
+      const height = svg.clientHeight;
+      if (!width || height < 72) return;
+
+      // Draw the mobile curl in CSS pixels and stretch only the spacing between bends.
+      svg.setAttribute("viewBox", `${24 - width / 2} 0 ${width} ${height}`);
+      let curve = "M22 10 C38 10 42 33 26 36 C12 40 8 21 20 20 C31 19 32 40 32 54";
+      const bends = [16, 32, 16, 32, 16, 32, 24];
+      const distance = (height - 66) / bends.length;
+      let x = 32;
+      let y = 54;
+      for (const bend of bends) {
+        const nextY = y + distance;
+        curve += ` C${x} ${y + distance * 0.45} ${bend} ${nextY - distance * 0.45} ${bend} ${nextY}`;
+        x = bend;
+        y = nextY;
+      }
+      path.setAttribute("d", curve);
+      svg.setAttribute("data-workflow-fitted", "");
+    };
+    fitStroke();
+    const strokeResize = "ResizeObserver" in window ? new ResizeObserver(fitStroke) : null;
+    strokeResize?.observe(svg);
+    mobile.addEventListener("change", fitStroke, { signal });
+    window.addEventListener("resize", fitStroke, { signal });
+
     const media = gsap.matchMedia();
     media.add("(prefers-reduced-motion: no-preference)", () => {
-      gsap.fromTo(path, { attr: { "stroke-dashoffset": 0.9 } }, {
+      gsap.fromTo(path, { attr: { "stroke-dashoffset": () => mobile.matches ? 0.97 : 0.9 } }, {
         attr: { "stroke-dashoffset": 0 },
         ease: "none",
         scrollTrigger: {
@@ -179,6 +219,7 @@ export function initSiteScroll({ Lenis, gsap, ScrollTrigger }) {
           start: "top 82%",
           end: "bottom 90%",
           scrub: 0.35,
+          invalidateOnRefresh: true,
         },
       });
       for (const step of workflow.querySelectorAll(".workflow__step")) {
@@ -196,7 +237,10 @@ export function initSiteScroll({ Lenis, gsap, ScrollTrigger }) {
         });
       }
     });
-    signal.addEventListener("abort", () => media.revert(), { once: true });
+    signal.addEventListener("abort", () => {
+      strokeResize?.disconnect();
+      media.revert();
+    }, { once: true });
   }
 
   const transition = document.querySelector("[data-record-transition]");

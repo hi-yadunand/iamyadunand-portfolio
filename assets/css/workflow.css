@@ -16,10 +16,14 @@
   pointer-events: none;
 }
 
+.workflow__stroke[data-workflow-fitted] {
+  stroke-width: 4.5;
+}
+
 .workflow__steps {
   display: flex;
   flex-direction: column;
-  padding-block-start: clamp(7rem, 19svh, 11rem);
+  padding-block-start: clamp(4.75rem, 12svh, 6.5rem);
 }
 
 .workflow__step {
@@ -52,6 +56,10 @@
 }
 
 @media (min-width: 64rem) {
+  .workflow__steps {
+    padding-block-start: clamp(7rem, 19svh, 11rem);
+  }
+
   .workflow__step {
     min-height: 47svh;
     border: 0;
