@@ -166,6 +166,39 @@ export function initSiteScroll({ Lenis, gsap, ScrollTrigger }) {
     signal.addEventListener("abort", () => media.revert(), { once: true });
   }
 
+  const workflow = document.querySelector("[data-workflow]");
+  if (workflow) {
+    const path = workflow.querySelector("[data-workflow-path]");
+    const media = gsap.matchMedia();
+    media.add("(prefers-reduced-motion: no-preference)", () => {
+      gsap.fromTo(path, { attr: { "stroke-dashoffset": 0.9 } }, {
+        attr: { "stroke-dashoffset": 0 },
+        ease: "none",
+        scrollTrigger: {
+          trigger: workflow,
+          start: "top 82%",
+          end: "bottom 90%",
+          scrub: 0.35,
+        },
+      });
+      for (const step of workflow.querySelectorAll(".workflow__step")) {
+        gsap.fromTo(step.children, { opacity: 0, y: 20 }, {
+          opacity: 1,
+          y: 0,
+          ease: "sine.out",
+          clearProps: "opacity,transform",
+          scrollTrigger: {
+            trigger: step,
+            start: "top 75%",
+            end: "top 53%",
+            scrub: 0.35,
+          },
+        });
+      }
+    });
+    signal.addEventListener("abort", () => media.revert(), { once: true });
+  }
+
   const transition = document.querySelector("[data-record-transition]");
   if (transition) {
     const outgoing = transition.querySelector(".record-transition__outgoing");

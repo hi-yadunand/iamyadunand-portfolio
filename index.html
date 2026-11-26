@@ -70,6 +70,7 @@
   <link rel="stylesheet" href="assets/css/code-thrive-highlight.css">
   <link rel="stylesheet" href="assets/css/portfolio-footer.css">
   <link rel="stylesheet" href="assets/css/testimonial-marquee.css">
+  <link rel="stylesheet" href="assets/css/workflow.css">
   <link rel="canonical" href="https://iamyadunand.com/">
 <link rel="stylesheet" href="/assets/css/preloader.css">
   <link rel="stylesheet" href="/assets/css/theme.css">
@@ -665,100 +666,55 @@
       </section>
     </div>
     <div>
-      <section data-process class="mt-24 md:mt-40">
+      <section aria-labelledby="workflow-title" class="mt-24 md:mt-40">
         <div class="shell">
           <div class="label flex items-baseline justify-between gap-6 border-t border-current/20 pt-3 ">
             <p class="flex gap-4"><span class="text-signal">A–07</span><span>How I work</span></p>
             <p class="text-right opacity-60">05 stages</p>
           </div>
-          <h2 class="display mt-10 max-w-[16ch] text-display-xl md:mt-16"><span class="block" data-lines>From an idea<br>to launch.</span></h2>
-          <div class="mt-12 grid gap-6 md:mt-20 lg:grid-cols-12">
-            <div class="hidden lg:col-span-6 lg:block">
-              <div class="sticky top-20 flex h-[calc(100svh-7rem)] gap-6">
-                <div aria-hidden
-                  class="h-[1em] overflow-hidden text-[clamp(5rem,9vw,10rem)] leading-none font-[450] tracking-[-0.05em] tabular-nums">
-                  <div data-process-numeral>
-                    <div class="h-[1em]">01</div>
-                    <div class="h-[1em]">02</div>
-                    <div class="h-[1em]">03</div>
-                    <div class="h-[1em]">04</div>
-                    <div class="h-[1em]">05</div>
-                  </div>
-                </div>
-                <div class="stack relative flex-1 overflow-hidden bg-ink/5">
-                  <div data-process-img data-active class="absolute inset-0"><img
-                      src="images/workflow/discover.webp"
-                      sizes="33vw" alt="Graphite viewfinder and an orange thread connecting textured research cards" width="1122" height="1402"
-                      loading="lazy" decoding="async" class="absolute inset-0 size-full object-cover "></div>
-                  <div data-process-img class="absolute inset-0"><img
-                      src="images/workflow/design.webp"
-                      sizes="33vw" alt="Layered translucent prototype frames with ivory interface components and an orange control" width="1122" height="1402"
-                      loading="lazy" decoding="async" class="absolute inset-0 size-full object-cover "></div>
-                  <div data-process-img class="absolute inset-0"><img
-                      src="images/workflow/develop.webp"
-                      sizes="33vw" alt="Interlocking graphite and ivory software modules joined by an orange connector" width="1122" height="1402"
-                      loading="lazy" decoding="async" class="absolute inset-0 size-full object-cover "></div>
-                  <div data-process-img class="absolute inset-0"><img
-                      src="images/workflow/deploy.webp"
-                      sizes="33vw" alt="An orange route passing through a graphite portal toward a new destination" width="1122" height="1402"
-                      loading="lazy" decoding="async" class="absolute inset-0 size-full object-cover "></div>
-                  <div data-process-img class="absolute inset-0"><img
-                      src="images/workflow/refine.webp"
-                      sizes="33vw" alt="An orange feedback loop around a graphite track with progressively refined component tiles" width="1122" height="1402"
-                      loading="lazy" decoding="async" class="absolute inset-0 size-full object-cover "></div>
-                </div>
-              </div>
-            </div>
-            <ol class="lg:col-span-5 lg:col-start-8">
-              <li data-process-step data-active
-                class="border-t border-line py-8 lg:flex lg:min-h-[70svh] lg:flex-col lg:justify-center lg:border-0 lg:py-0">
-                <p class="label text-signal lg:hidden">01</p>
-                <h3 class="display mt-3 text-display-md lg:mt-0">Discover</h3>
+          <h2 id="workflow-title" class="display mt-10 max-w-[16ch] text-display-xl md:mt-16"><span class="block" data-lines>From an idea<br>to launch.</span></h2>
+          <div class="workflow mt-12 md:mt-20" data-workflow>
+            <svg class="workflow__stroke" viewBox="0 0 128 1200" width="128" height="1200"
+              preserveAspectRatio="none" fill="none" aria-hidden="true" focusable="false">
+              <path data-workflow-path pathLength="1" stroke-dasharray="1 1" stroke-dashoffset="0"
+                stroke-linecap="round" stroke-linejoin="round"
+                d="M55 15
+                C105 18 106 69 68 70
+                C25 71 23 30 55 30
+                C79 30 88 63 86 97
+                C84 161 43 174 43 242
+                S85 332 85 406
+                S43 494 43 568
+                S85 653 85 730
+                S43 815 43 892
+                S85 982 85 1054
+                S64 1129 64 1185"></path>
+            </svg>
+            <ol class="workflow__steps">
+              <li class="workflow__step">
+                <p class="label text-signal">01</p>
+                <h3 class="display mt-3 text-display-md">Discover</h3>
                 <p class="mt-4 max-w-md text-lg leading-[1.3] tracking-[-0.015em] text-graphite">I start by understanding your goals, audience, and what your product needs to do. Together, we define the scope, priorities, and experience we want to create.</p>
-                <div class="relative mt-6 aspect-[4/3] overflow-hidden lg:hidden"><img
-                    src="images/workflow/discover.webp"
-                    sizes="100vw" alt="Graphite viewfinder and an orange thread connecting textured research cards" width="1122" height="1402"
-                    loading="lazy" decoding="async" class="absolute inset-0 size-full object-cover "></div>
               </li>
-              <li data-process-step
-                class="border-t border-line py-8 lg:flex lg:min-h-[70svh] lg:flex-col lg:justify-center lg:border-0 lg:py-0">
-                <p class="label text-signal lg:hidden">02</p>
-                <h3 class="display mt-3 text-display-md lg:mt-0">Design</h3>
+              <li class="workflow__step">
+                <p class="label text-signal">02</p>
+                <h3 class="display mt-3 text-display-md">Design</h3>
                 <p class="mt-4 max-w-md text-lg leading-[1.3] tracking-[-0.015em] text-graphite">I turn the brief into user flows, wireframes, and prototypes. Layout, typography, and visual identity come together before I move into development.</p>
-                <div class="relative mt-6 aspect-[4/3] overflow-hidden lg:hidden"><img
-                    src="images/workflow/design.webp"
-                    sizes="100vw" alt="Layered translucent prototype frames with ivory interface components and an orange control" width="1122" height="1402"
-                    loading="lazy" decoding="async" class="absolute inset-0 size-full object-cover "></div>
               </li>
-              <li data-process-step
-                class="border-t border-line py-8 lg:flex lg:min-h-[70svh] lg:flex-col lg:justify-center lg:border-0 lg:py-0">
-                <p class="label text-signal lg:hidden">03</p>
-                <h3 class="display mt-3 text-display-md lg:mt-0">Develop</h3>
+              <li class="workflow__step">
+                <p class="label text-signal">03</p>
+                <h3 class="display mt-3 text-display-md">Develop</h3>
                 <p class="mt-4 max-w-md text-lg leading-[1.3] tracking-[-0.015em] text-graphite">I build responsive websites and web applications with reusable interfaces and the integrations they need. Each interaction is shaped around how people will use the product.</p>
-                <div class="relative mt-6 aspect-[4/3] overflow-hidden lg:hidden"><img
-                    src="images/workflow/develop.webp"
-                    sizes="100vw" alt="Interlocking graphite and ivory software modules joined by an orange connector" width="1122" height="1402"
-                    loading="lazy" decoding="async" class="absolute inset-0 size-full object-cover "></div>
               </li>
-              <li data-process-step
-                class="border-t border-line py-8 lg:flex lg:min-h-[70svh] lg:flex-col lg:justify-center lg:border-0 lg:py-0">
-                <p class="label text-signal lg:hidden">04</p>
-                <h3 class="display mt-3 text-display-md lg:mt-0">Deploy</h3>
+              <li class="workflow__step">
+                <p class="label text-signal">04</p>
+                <h3 class="display mt-3 text-display-md">Deploy</h3>
                 <p class="mt-4 max-w-md text-lg leading-[1.3] tracking-[-0.015em] text-graphite">I test the experience across screen sizes, check the details, and prepare it for launch. Performance, accessibility, and SEO foundations are part of the process.</p>
-                <div class="relative mt-6 aspect-[4/3] overflow-hidden lg:hidden"><img
-                    src="images/workflow/deploy.webp"
-                    sizes="100vw" alt="An orange route passing through a graphite portal toward a new destination" width="1122" height="1402"
-                    loading="lazy" decoding="async" class="absolute inset-0 size-full object-cover "></div>
               </li>
-              <li data-process-step
-                class="border-t border-line py-8 lg:flex lg:min-h-[70svh] lg:flex-col lg:justify-center lg:border-0 lg:py-0">
-                <p class="label text-signal lg:hidden">05</p>
-                <h3 class="display mt-3 text-display-md lg:mt-0">Refine &amp; Repeat</h3>
+              <li class="workflow__step">
+                <p class="label text-signal">05</p>
+                <h3 class="display mt-3 text-display-md">Refine &amp; Repeat</h3>
                 <p class="mt-4 max-w-md text-lg leading-[1.3] tracking-[-0.015em] text-graphite">After launch, I use feedback to improve the experience and plan the next iteration. I keep refining the product as new needs and ideas take shape.</p>
-                <div class="relative mt-6 aspect-[4/3] overflow-hidden lg:hidden"><img
-                    src="images/workflow/refine.webp"
-                    sizes="100vw" alt="An orange feedback loop around a graphite track with progressively refined component tiles" width="1122" height="1402"
-                    loading="lazy" decoding="async" class="absolute inset-0 size-full object-cover "></div>
               </li>
             </ol>
           </div>
