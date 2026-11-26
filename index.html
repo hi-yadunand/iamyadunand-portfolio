@@ -65,7 +65,8 @@
   <link rel="stylesheet" href="assets/css/drone-band.css">
   <link rel="stylesheet" href="assets/css/project-cards.css">
   <link rel="stylesheet" href="assets/css/works-wheel.css">
-  <link rel="stylesheet" href="assets/css/hero-code.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anton&amp;display=swap">
+  <link rel="stylesheet" href="assets/css/helix-hero.css">
   <link rel="stylesheet" href="assets/css/code-thrive-highlight.css">
   <link rel="stylesheet" href="assets/css/portfolio-footer.css">
   <link rel="stylesheet" href="assets/css/testimonial-marquee.css">
@@ -128,27 +129,129 @@
   </div>
   <main>
     <div>
-      <section data-hero data-nav-intro data-dark="0:0.32" class="relative h-[170svh] bg-page">
-        <div class="sticky top-0 h-svh overflow-hidden">
-          <div data-hero-frame class="absolute inset-0 overflow-hidden bg-ink text-white">
-            <div data-hero-media class="absolute inset-0"><img src="images/profile/iamyadunandhero.webp"
-                alt="Yadunand Pavithran sitting on a balcony overlooking the greenery" width="1537" height="1023"
-                loading="eager" fetchpriority="high" decoding="async" class="absolute inset-0 size-full object-cover" />
-            </div>
-            <div class="absolute inset-0 bg-gradient-to-t from-ink/70 via-ink/10 to-ink/25"></div>
+      <section class="helix-hero" data-helix-hero data-nav-intro data-dark="0:Infinity" aria-labelledby="home-title">
+        <div class="helix-hero__stage">
+          <div class="helix-hero__intro">
+            <h1 class="helix-hero__title" id="home-title" aria-label="Hey, I’m Yadunand Pavithran">
+              <span class="helix-hero__line helix-hero__line--greeting" aria-hidden="true">
+                <span data-helix-letters>Hey, I’m</span>
+                <img class="helix-hero__portrait" src="images/profile/iamyadunandhero.webp" alt=""
+                  width="1537" height="1023" fetchpriority="high" decoding="async">
+              </span>
+              <span class="helix-hero__line helix-hero__line--name" data-helix-letters aria-hidden="true">Yadunand</span>
+            </h1>
           </div>
-          <div data-hero-copy class="absolute inset-0 text-white">
-            <div class="shell flex h-full flex-col justify-end pb-6 md:pb-8">
-              <div class="grid items-end gap-6 md:grid-cols-12">
-                <h1 class="hero-headline display text-display-xl">
-                  <span class="block" data-lines="load">Creating experiences</span>
-                  <span class="block" data-load>through <span class="hero-code" data-hero-code><span
-                        class="hero-code__text">code.</span><canvas class="hero-code__canvas"
-                        aria-hidden="true"></canvas></span></span>
-                </h1>
-              </div>
+          <div class="helix-hero__view" aria-hidden="true">
+            <div class="helix-hero__axis">
+              <div class="helix-hero__ribbon" data-helix-images="images/case-studies/karuvin.webp
+                images/projects/codeandthrive.webp images/case-studies/lobiatek.webp
+                images/case-studies/zappo.webp images/projects/startupgrow.webp
+                images/case-studies/spakgen.webp images/case-studies/tenorra-labs.webp
+                images/case-studies/zion-piling.webp"></div>
             </div>
           </div>
+          <div class="helix-hero__footer shell">
+            <p>Creating experiences through code.</p>
+            <span class="helix-hero__hint" aria-hidden="true">Scroll to explore <span>↓</span></span>
+          </div>
+        </div>
+      </section>
+    </div>
+    <div>
+      <section data-recent-work class="mt-24 md:mt-40">
+        <div class="shell">
+          <div class="label flex items-baseline justify-between gap-6 border-t border-current/20 pt-3 ">
+            <p class="flex gap-4"><span class="text-signal">A–03</span><span>Selected projects</span></p>
+            <p class="text-right opacity-60">04 selected projects</p>
+          </div>
+          <h2 class="display mt-10 text-display-xl md:mt-16"><span class="block" data-lines>Recent work</span></h2>
+          <div class="mt-12 grid gap-x-6 gap-y-12 md:mt-20 md:grid-cols-12 md:gap-y-20">
+            <div class="md:col-span-7">
+              <a href="https://zappoapp.com/" target="_blank" rel="noopener noreferrer" data-cursor-label="Visit"
+                class="group block" data-project-entrance="left">
+                <div data-project-preview class="relative overflow-hidden bg-ink/5 aspect-[4/3]">
+                  <div class="absolute inset-0 project-preview">
+                    <img src="images/projects/zappoapp.webp"
+                      alt="ZAPPO sports booking platform with venue discovery and player matching" width="1600"
+                      height="862" loading="lazy" decoding="async">
+                  </div>
+                </div>
+                <div
+                  class="project-card__caption mt-3 flex items-baseline justify-between gap-6 text-sm font-medium tracking-[-0.01em]">
+                  <p class="project-card__name flex gap-4"><span class="label pt-0.5 text-signal">01</span>ZAPPO<svg
+                      class="project-card__arrow" viewBox="0 0 16 16" fill="none" stroke="currentColor"
+                      aria-hidden="true">
+                      <path d="M4 12 12 4M5 4h7v7"></path>
+                    </svg></p>
+                  <p class="label shrink-0 text-graphite">Development · 2026</p>
+                </div>
+              </a>
+            </div>
+            <div class="md:col-span-4 md:col-start-9 md:mt-56">
+              <a href="https://codeandthrive.studio/" target="_blank" rel="noopener noreferrer"
+                data-cursor-label="Visit" class="group block" data-project-entrance="right">
+                <div data-project-preview class="relative overflow-hidden bg-ink/5 aspect-[3/4]">
+                  <div class="absolute inset-0 project-preview project-preview--studio">
+                    <img src="images/projects/codeandthrive.webp" alt="Code and Thrive digital product and growth studio website"
+                      width="1600" height="862" loading="lazy" decoding="async">
+                  </div>
+                </div>
+                <div
+                  class="project-card__caption mt-3 flex items-baseline justify-between gap-6 text-sm font-medium tracking-[-0.01em]">
+                  <p class="project-card__name flex gap-4"><span class="label pt-0.5 text-signal">02</span>Code &amp;
+                    Thrive<svg class="project-card__arrow" viewBox="0 0 16 16" fill="none" stroke="currentColor"
+                      aria-hidden="true">
+                      <path d="M4 12 12 4M5 4h7v7"></path>
+                    </svg></p>
+                  <p class="label shrink-0 text-graphite">Design &amp; Code · 2025</p>
+                </div>
+              </a>
+            </div>
+            <div class="md:col-span-4 md:col-start-2 md:-mt-16">
+              <a href="https://tarsx.space/" target="_blank" rel="noopener noreferrer" data-cursor-label="Visit"
+                class="group block" data-project-entrance="up">
+                <div data-project-preview class="relative overflow-hidden bg-ink/5 aspect-[3/4]">
+                  <div class="absolute inset-0 project-robot" role="img"
+                    aria-label="TARSX robot concept with four brushed metal columns and an orange status light">
+                    <span class="label" aria-hidden="true">TARSX / Experiment 03</span>
+                    <div class="project-robot__body" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+                    <span class="label" aria-hidden="true">Raspberry Pi · Python · AI</span>
+                  </div>
+                </div>
+                <div
+                  class="project-card__caption mt-3 flex items-baseline justify-between gap-6 text-sm font-medium tracking-[-0.01em]">
+                  <p class="project-card__name flex gap-4"><span class="label pt-0.5 text-signal">03</span>TARSX
+                    Robot<svg class="project-card__arrow" viewBox="0 0 16 16" fill="none" stroke="currentColor"
+                      aria-hidden="true">
+                      <path d="M4 12 12 4M5 4h7v7"></path>
+                    </svg></p>
+                  <p class="label shrink-0 text-graphite">Robotics · 2024</p>
+                </div>
+              </a>
+            </div>
+            <div class="md:col-span-6 md:col-start-7 md:mt-32">
+              <a href="https://startup-grow-sand.vercel.app/" target="_blank" rel="noopener noreferrer" data-cursor-label="Visit" class="group block" data-project-entrance="up">
+                <div data-project-preview class="relative overflow-hidden bg-ink/5 aspect-[16/11]">
+                  <div class="absolute inset-0 project-preview project-preview--startup">
+                    <img src="images/projects/startupgrow.webp"
+                      alt="Startup Grow website preview with the headline Startup Growth Made Simple" width="1600"
+                      height="862" loading="lazy" decoding="async">
+                  </div>
+                </div>
+                <div
+                  class="project-card__caption mt-3 flex items-baseline justify-between gap-6 text-sm font-medium tracking-[-0.01em]">
+                  <p class="project-card__name flex gap-4"><span class="label pt-0.5 text-signal">04</span>Startup Grow<svg class="project-card__arrow" viewBox="0 0 16 16" fill="none" stroke="currentColor" aria-hidden="true"><path d="M4 12 12 4M5 4h7v7"></path></svg></p>
+                  <p class="label shrink-0 text-graphite">Full Stack · 2026</p>
+                </div>
+              </a>
+            </div>
+          </div>
+          <div data-reveal class="mt-14 flex justify-center md:mt-20"><a href="/projects"
+              class="btn btn-solid "><span class="roll"><span data-text="All projects">All projects</span></span><svg
+                viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1" aria-hidden="true"
+                class="size-3.5">
+                <path d="M4 12 12 4M5 4h7v7"></path>
+              </svg></a></div>
         </div>
       </section>
     </div>
@@ -174,104 +277,6 @@
                   </svg></a></div>
             </div>
           </div>
-        </div>
-      </section>
-    </div>
-    <div>
-      <section class="mt-24 md:mt-40">
-        <div class="shell">
-          <div class="label flex items-baseline justify-between gap-6 border-t border-current/20 pt-3 ">
-            <p class="flex gap-4"><span class="text-signal">A–03</span><span>Selected projects</span></p>
-            <p class="text-right opacity-60">04 selected projects</p>
-          </div>
-          <h2 class="display mt-10 text-display-xl md:mt-16"><span class="block" data-lines>Recent work</span></h2>
-          <div class="mt-12 grid gap-x-6 gap-y-12 md:mt-20 md:grid-cols-12 md:gap-y-20">
-            <div class="md:col-span-7">
-              <a href="https://zappoapp.com/" target="_blank" rel="noopener noreferrer" data-cursor-label="Visit"
-                class="group block">
-                <div data-clip class="relative overflow-hidden bg-ink/5 aspect-[4/3]">
-                  <div class="absolute inset-0 project-preview">
-                    <img src="images/projects/zappoapp.webp"
-                      alt="ZAPPO sports booking platform with venue discovery and player matching" width="1600"
-                      height="862" loading="lazy" decoding="async">
-                  </div>
-                </div>
-                <div
-                  class="project-card__caption mt-3 flex items-baseline justify-between gap-6 text-sm font-medium tracking-[-0.01em]">
-                  <p class="project-card__name flex gap-4"><span class="label pt-0.5 text-signal">01</span>ZAPPO<svg
-                      class="project-card__arrow" viewBox="0 0 16 16" fill="none" stroke="currentColor"
-                      aria-hidden="true">
-                      <path d="M4 12 12 4M5 4h7v7"></path>
-                    </svg></p>
-                  <p class="label shrink-0 text-graphite">Development · 2026</p>
-                </div>
-              </a>
-            </div>
-            <div class="md:col-span-4 md:col-start-9 md:mt-56">
-              <a href="https://codeandthrive.studio/" target="_blank" rel="noopener noreferrer"
-                data-cursor-label="Visit" class="group block">
-                <div data-clip class="relative overflow-hidden bg-ink/5 aspect-[3/4]">
-                  <div class="absolute inset-0 project-preview project-preview--studio">
-                    <img src="images/projects/codeandthrive.webp" alt="Code and Thrive digital product and growth studio website"
-                      width="1600" height="862" loading="lazy" decoding="async">
-                  </div>
-                </div>
-                <div
-                  class="project-card__caption mt-3 flex items-baseline justify-between gap-6 text-sm font-medium tracking-[-0.01em]">
-                  <p class="project-card__name flex gap-4"><span class="label pt-0.5 text-signal">02</span>Code &amp;
-                    Thrive<svg class="project-card__arrow" viewBox="0 0 16 16" fill="none" stroke="currentColor"
-                      aria-hidden="true">
-                      <path d="M4 12 12 4M5 4h7v7"></path>
-                    </svg></p>
-                  <p class="label shrink-0 text-graphite">Design &amp; Code · 2025</p>
-                </div>
-              </a>
-            </div>
-            <div class="md:col-span-4 md:col-start-2 md:-mt-16">
-              <a href="https://tarsx.space/" target="_blank" rel="noopener noreferrer" data-cursor-label="Visit"
-                class="group block">
-                <div data-clip class="relative overflow-hidden bg-ink/5 aspect-[3/4]">
-                  <div class="absolute inset-0 project-robot" role="img"
-                    aria-label="TARSX robot concept with four brushed metal columns and an orange status light">
-                    <span class="label" aria-hidden="true">TARSX / Experiment 03</span>
-                    <div class="project-robot__body" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
-                    <span class="label" aria-hidden="true">Raspberry Pi · Python · AI</span>
-                  </div>
-                </div>
-                <div
-                  class="project-card__caption mt-3 flex items-baseline justify-between gap-6 text-sm font-medium tracking-[-0.01em]">
-                  <p class="project-card__name flex gap-4"><span class="label pt-0.5 text-signal">03</span>TARSX
-                    Robot<svg class="project-card__arrow" viewBox="0 0 16 16" fill="none" stroke="currentColor"
-                      aria-hidden="true">
-                      <path d="M4 12 12 4M5 4h7v7"></path>
-                    </svg></p>
-                  <p class="label shrink-0 text-graphite">Robotics · 2024</p>
-                </div>
-              </a>
-            </div>
-            <div class="md:col-span-6 md:col-start-7 md:mt-32">
-              <a href="https://startup-grow-sand.vercel.app/" target="_blank" rel="noopener noreferrer" data-cursor-label="Visit" class="group block">
-                <div data-clip class="relative overflow-hidden bg-ink/5 aspect-[16/11]">
-                  <div class="absolute inset-0 project-preview project-preview--startup">
-                    <img src="images/projects/startupgrow.webp"
-                      alt="Startup Grow website preview with the headline Startup Growth Made Simple" width="1600"
-                      height="862" loading="lazy" decoding="async">
-                  </div>
-                </div>
-                <div
-                  class="project-card__caption mt-3 flex items-baseline justify-between gap-6 text-sm font-medium tracking-[-0.01em]">
-                  <p class="project-card__name flex gap-4"><span class="label pt-0.5 text-signal">04</span>Startup Grow<svg class="project-card__arrow" viewBox="0 0 16 16" fill="none" stroke="currentColor" aria-hidden="true"><path d="M4 12 12 4M5 4h7v7"></path></svg></p>
-                  <p class="label shrink-0 text-graphite">Full Stack · 2026</p>
-                </div>
-              </a>
-            </div>
-          </div>
-          <div data-reveal class="mt-14 flex justify-center md:mt-20"><a href="/projects"
-              class="btn btn-solid "><span class="roll"><span data-text="All projects">All projects</span></span><svg
-                viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1" aria-hidden="true"
-                class="size-3.5">
-                <path d="M4 12 12 4M5 4h7v7"></path>
-              </svg></a></div>
         </div>
       </section>
     </div>
@@ -903,7 +908,7 @@
   </footer>
   </div>
   <script type="module" src="_astro/BaseLayout.astro_astro_type_script_index_0_lang.Dpw5V1aT.js"></script>
-  <script type="module" src="assets/js/hero-code-particles.js"></script>
+  <script type="module" src="assets/js/helix-hero.js"></script>
   <script type="module" src="assets/js/portfolio-footer.js"></script>
   <script type="module" src="assets/js/footer-reveal.js"></script>
   <script type="module" src="assets/js/footer-halftone.js"></script>

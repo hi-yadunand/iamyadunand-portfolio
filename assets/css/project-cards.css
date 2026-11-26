@@ -36,6 +36,25 @@
   margin-left: auto;
 }
 
+@media (prefers-reduced-motion: no-preference) {
+  [data-recent-work] {
+    overflow-x: clip;
+  }
+
+  [data-project-entrance]:focus-visible {
+    transform: none !important;
+    opacity: 1 !important;
+  }
+
+  [data-project-entrance]:focus-visible [data-project-preview] {
+    filter: none !important;
+  }
+
+  [data-project-entrance]:focus-visible .project-card__caption {
+    opacity: 1 !important;
+  }
+}
+
 .project-card__name {
   align-items: baseline;
 }

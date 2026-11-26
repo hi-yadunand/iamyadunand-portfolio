@@ -131,6 +131,41 @@ export function initSiteScroll({ Lenis, gsap, ScrollTrigger }) {
   gsap.ticker.lagSmoothing(0);
   lenis.on("scroll", ScrollTrigger.update);
 
+  const recentWork = document.querySelector("[data-recent-work]");
+  if (recentWork) {
+    const media = gsap.matchMedia();
+    const wide = window.matchMedia("(min-width: 48rem)");
+    media.add("(prefers-reduced-motion: no-preference)", () => {
+      for (const card of recentWork.querySelectorAll("[data-project-entrance]")) {
+        const direction = card.dataset.projectEntrance;
+        const side = { left: -105, right: 105 }[direction] ?? 0;
+        const preview = card.querySelector("[data-project-preview]");
+        const caption = card.querySelector(".project-card__caption");
+
+        // Measure from the static grid cell so the preview settles just before the viewport center.
+        gsap.timeline({
+          defaults: { duration: 1, ease: "sine.out" },
+          scrollTrigger: {
+            trigger: card.parentElement,
+            start: "top bottom",
+            end: () => `top+=${preview.offsetHeight / 2} 57%`,
+            scrub: 0.35,
+            invalidateOnRefresh: true,
+          },
+        })
+          .fromTo(card, {
+            xPercent: () => wide.matches ? side : 0,
+            yPercent: () => wide.matches && side ? 0 : 42,
+            scale: 1.4, rotateX: 16, transformPerspective: 1000,
+          }, { xPercent: 0, yPercent: 0, scale: 1, rotateX: 0, clearProps: "transform" }, 0)
+          .fromTo(card, { opacity: 0 }, { opacity: 1, duration: 0.36 }, 0)
+          .fromTo(preview, { filter: "blur(7px)" }, { filter: "blur(0px)", clearProps: "filter" }, 0)
+          .fromTo(caption, { opacity: 0 }, { opacity: 1, duration: 0.5, ease: "sine.inOut" }, 0.5);
+      }
+    });
+    signal.addEventListener("abort", () => media.revert(), { once: true });
+  }
+
   const transition = document.querySelector("[data-record-transition]");
   if (transition) {
     const outgoing = transition.querySelector(".record-transition__outgoing");
