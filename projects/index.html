@@ -52,7 +52,6 @@
       } catch (e) {}
     })();
   </script>
-<script src="/assets/js/theme.js"></script>
 <script src="/assets/js/page-transitions.js"></script>
 <link rel="preload" href="/_astro/geist-mono-latin-wght-normal.XN7g48iV.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="/assets/css/navigation.css" as="style">
@@ -63,7 +62,6 @@
   <link rel="stylesheet" href="/assets/css/projects-intro.css">
   <link rel="canonical" href="https://iamyadunand.com/projects">
 <link rel="stylesheet" href="/assets/css/preloader.css">
-  <link rel="stylesheet" href="/assets/css/theme.css">
 </head>
 <body>
   <div data-preloader aria-hidden="true">
@@ -83,11 +81,7 @@
             class="roll"><span data-text="Projects">Projects</span></span></a><a href="/services"><span
             class="roll"><span data-text="Services">Services</span></span></a><a href="/contact"><span
             class="roll"><span data-text="Contact">Contact</span></span></a></nav>
-      <div class="flex items-center justify-end gap-6 theme-nav-actions">
-        <button type="button" class="theme-toggle" data-theme-toggle aria-label="Dark theme" aria-pressed="false" hidden>
-          <span class="theme-toggle__sun" aria-hidden="true"></span>
-          <span class="theme-toggle__moon" aria-hidden="true"></span>
-        </button>
+      <div class="flex items-center justify-end gap-6">
         <a href="/contact#brief" class="btn hidden !py-1.5 md:inline-flex"><span class="roll"><span
               data-text="Let's talk">Let's talk</span></span></a>
         <button type="button" data-menu-toggle aria-expanded="false" class="text-sm lg:hidden"><span class="roll"><span
@@ -145,7 +139,6 @@
           <p data-wordfill class="mt-12 text-display-lg leading-[1] font-[450] tracking-[-0.04em] md:mt-20 md:indent-[16.66%]">I design and build digital experiences, combining software engineering, thoughtful interfaces, and a curiosity for how things work.</p>
           <div class="mt-12 grid gap-8 md:mt-20 md:grid-cols-12">
             <p data-reveal class="max-w-md text-base leading-[1.35] tracking-[-0.01em] text-graphite md:col-span-3 md:col-start-7">I build end-to-end digital solutions, combining software engineering, AI integration, and problem-solving to turn complex ideas into practical applications.</p>
-            <p data-reveal class="max-w-md text-base leading-[1.35] tracking-[-0.01em] text-graphite md:col-span-3">Working across design, development, and deployment, I transform real-world business challenges into scalable products through thoughtful engineering and intelligent technology.</p>
           </div>
         </div>
       </section>
@@ -200,26 +193,13 @@
       </section>
     </div>
     <div>
-<section id="all-projects" data-filter data-view="index" class="mt-20 md:mt-32" style="scroll-margin-top: 6rem;">
+<section id="all-projects" class="mt-20 md:mt-32" style="scroll-margin-top: 6rem;">
         <div class="shell" data-preview>
           <div class="label flex items-baseline justify-between gap-6 border-t border-current/20 pt-3">
             <p class="flex gap-4"><span class="text-signal">A–04</span><span>All projects</span></p>
-            <p class="text-right opacity-60">Register · 11</p>
           </div>
-          <div class="label mt-10 flex flex-wrap items-center justify-between gap-x-8 gap-y-3" data-reveal>
-            <div class="flex flex-wrap gap-x-5 gap-y-2" role="group" aria-label="Filter by category">
-              <button type="button" data-filter-btn="all" aria-pressed="true" class="uppercase">All (<span data-filter-count>11</span>)</button>
-              <button type="button" data-filter-btn="websites" aria-pressed="false" class="uppercase">Websites</button>
-              <button type="button" data-filter-btn="web-apps" aria-pressed="false" class="uppercase">Web apps</button>
-              <button type="button" data-filter-btn="robotics" aria-pressed="false" class="uppercase">Robotics</button>
-            </div>
-            <div class="flex gap-5" role="group" aria-label="View">
-              <button type="button" data-view-btn="index" aria-pressed="true" class="uppercase">Index</button>
-              <button type="button" data-view-btn="grid" aria-pressed="false" class="uppercase">Grid</button>
-            </div>
-          </div>
-          <ul data-view-pane="index" class="mt-6 border-b border-line md:mt-10">
-            <li data-filter-item data-cat="web-apps" data-view-pane="index" data-reveal>
+          <ul class="mt-10 border-b border-line md:mt-16">
+            <li data-reveal>
               <a href="https://codeandthrive.studio/case-studies/zappo-sports-booking-app" target="_blank" rel="noopener noreferrer" data-preview-row="0"
                 class="group grid grid-cols-[2rem_1fr_auto] items-baseline gap-x-3 border-t border-line py-4 md:grid-cols-12 md:gap-x-6 md:py-5" data-cursor-label="Visit">
                 <span class="label text-signal md:col-span-1">01</span>
@@ -229,7 +209,7 @@
                 <span class="label flex items-baseline justify-end gap-3 text-graphite md:col-span-2">2026<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1" aria-hidden="true" class="project-card__arrow"><path d="M4 12 12 4M5 4h7v7"></path></svg></span>
               </a>
             </li>
-            <li data-filter-item data-cat="websites" data-view-pane="index" data-reveal>
+            <li data-reveal>
               <a href="https://codeandthrive.studio/case-studies/tenorra-labs-consumer-products-website" target="_blank" rel="noopener noreferrer" data-preview-row="1"
                 class="group grid grid-cols-[2rem_1fr_auto] items-baseline gap-x-3 border-t border-line py-4 md:grid-cols-12 md:gap-x-6 md:py-5" data-cursor-label="Visit">
                 <span class="label text-signal md:col-span-1">02</span>
@@ -239,7 +219,7 @@
                 <span class="label flex items-baseline justify-end gap-3 text-graphite md:col-span-2">2024<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1" aria-hidden="true" class="project-card__arrow"><path d="M4 12 12 4M5 4h7v7"></path></svg></span>
               </a>
             </li>
-            <li data-filter-item data-cat="websites" data-view-pane="index" data-reveal>
+            <li data-reveal>
               <a href="https://codeandthrive.studio/" target="_blank" rel="noopener noreferrer" data-preview-row="2"
                 class="group grid grid-cols-[2rem_1fr_auto] items-baseline gap-x-3 border-t border-line py-4 md:grid-cols-12 md:gap-x-6 md:py-5" data-cursor-label="Visit">
                 <span class="label text-signal md:col-span-1">03</span>
@@ -249,7 +229,7 @@
                 <span class="label flex items-baseline justify-end gap-3 text-graphite md:col-span-2">2025<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1" aria-hidden="true" class="project-card__arrow"><path d="M4 12 12 4M5 4h7v7"></path></svg></span>
               </a>
             </li>
-            <li data-filter-item data-cat="websites" data-view-pane="index" data-reveal>
+            <li data-reveal>
               <a href="https://codeandthrive.studio/case-studies/btpc4e-xelerator-enterprise-website-ai-redesign" target="_blank" rel="noopener noreferrer" data-preview-row="3"
                 class="group grid grid-cols-[2rem_1fr_auto] items-baseline gap-x-3 border-t border-line py-4 md:grid-cols-12 md:gap-x-6 md:py-5" data-cursor-label="Visit">
                 <span class="label text-signal md:col-span-1">04</span>
@@ -259,7 +239,7 @@
                 <span class="label flex items-baseline justify-end gap-3 text-graphite md:col-span-2">2026<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1" aria-hidden="true" class="project-card__arrow"><path d="M4 12 12 4M5 4h7v7"></path></svg></span>
               </a>
             </li>
-            <li data-filter-item data-cat="websites" data-view-pane="index" data-reveal>
+            <li data-reveal>
               <a href="https://codeandthrive.studio/case-studies/zion-piling-website-crm-digital-marketing" target="_blank" rel="noopener noreferrer" data-preview-row="4"
                 class="group grid grid-cols-[2rem_1fr_auto] items-baseline gap-x-3 border-t border-line py-4 md:grid-cols-12 md:gap-x-6 md:py-5" data-cursor-label="Visit">
                 <span class="label text-signal md:col-span-1">05</span>
@@ -269,7 +249,7 @@
                 <span class="label flex items-baseline justify-end gap-3 text-graphite md:col-span-2">2026<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1" aria-hidden="true" class="project-card__arrow"><path d="M4 12 12 4M5 4h7v7"></path></svg></span>
               </a>
             </li>
-            <li data-filter-item data-cat="websites" data-view-pane="index" data-reveal>
+            <li data-reveal>
               <a href="https://codeandthrive.studio/case-studies/karuvin-builds-a-stronger-digital-presence" target="_blank" rel="noopener noreferrer" data-preview-row="5"
                 class="group grid grid-cols-[2rem_1fr_auto] items-baseline gap-x-3 border-t border-line py-4 md:grid-cols-12 md:gap-x-6 md:py-5" data-cursor-label="Visit">
                 <span class="label text-signal md:col-span-1">06</span>
@@ -279,7 +259,7 @@
                 <span class="label flex items-baseline justify-end gap-3 text-graphite md:col-span-2">2025<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1" aria-hidden="true" class="project-card__arrow"><path d="M4 12 12 4M5 4h7v7"></path></svg></span>
               </a>
             </li>
-            <li data-filter-item data-cat="websites" data-view-pane="index" data-reveal>
+            <li data-reveal>
               <a href="https://codeandthrive.studio/case-studies/lobiatek-technology-solutions-website" target="_blank" rel="noopener noreferrer" data-preview-row="6"
                 class="group grid grid-cols-[2rem_1fr_auto] items-baseline gap-x-3 border-t border-line py-4 md:grid-cols-12 md:gap-x-6 md:py-5" data-cursor-label="Visit">
                 <span class="label text-signal md:col-span-1">07</span>
@@ -289,7 +269,7 @@
                 <span class="label flex items-baseline justify-end gap-3 text-graphite md:col-span-2">2025<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1" aria-hidden="true" class="project-card__arrow"><path d="M4 12 12 4M5 4h7v7"></path></svg></span>
               </a>
             </li>
-            <li data-filter-item data-cat="websites" data-view-pane="index" data-reveal>
+            <li data-reveal>
               <a href="https://codeandthrive.studio/case-studies/a1-finish-painting-website" target="_blank" rel="noopener noreferrer" data-preview-row="7"
                 class="group grid grid-cols-[2rem_1fr_auto] items-baseline gap-x-3 border-t border-line py-4 md:grid-cols-12 md:gap-x-6 md:py-5" data-cursor-label="Visit">
                 <span class="label text-signal md:col-span-1">08</span>
@@ -299,7 +279,7 @@
                 <span class="label flex items-baseline justify-end gap-3 text-graphite md:col-span-2">2024<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1" aria-hidden="true" class="project-card__arrow"><path d="M4 12 12 4M5 4h7v7"></path></svg></span>
               </a>
             </li>
-            <li data-filter-item data-cat="websites" data-view-pane="index" data-reveal>
+            <li data-reveal>
               <a href="https://codeandthrive.studio/case-studies/spakgen-cleaning-services-website-development" target="_blank" rel="noopener noreferrer" data-preview-row="8"
                 class="group grid grid-cols-[2rem_1fr_auto] items-baseline gap-x-3 border-t border-line py-4 md:grid-cols-12 md:gap-x-6 md:py-5" data-cursor-label="Visit">
                 <span class="label text-signal md:col-span-1">09</span>
@@ -309,7 +289,7 @@
                 <span class="label flex items-baseline justify-end gap-3 text-graphite md:col-span-2">2023<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1" aria-hidden="true" class="project-card__arrow"><path d="M4 12 12 4M5 4h7v7"></path></svg></span>
               </a>
             </li>
-            <li data-filter-item data-cat="robotics" data-view-pane="index" data-reveal>
+            <li data-reveal>
               <a href="https://tarsx.space/" target="_blank" rel="noopener noreferrer" data-preview-row="9"
                 class="group grid grid-cols-[2rem_1fr_auto] items-baseline gap-x-3 border-t border-line py-4 md:grid-cols-12 md:gap-x-6 md:py-5" data-cursor-label="Visit">
                 <span class="label text-signal md:col-span-1">10</span>
@@ -319,7 +299,7 @@
                 <span class="label flex items-baseline justify-end gap-3 text-graphite md:col-span-2">2024<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1" aria-hidden="true" class="project-card__arrow"><path d="M4 12 12 4M5 4h7v7"></path></svg></span>
               </a>
             </li>
-            <li data-filter-item data-cat="web-apps" data-view-pane="index" data-reveal>
+            <li data-reveal>
               <a href="https://startup-grow-sand.vercel.app/" target="_blank" rel="noopener noreferrer" data-cursor-label="Visit" data-preview-row="10"
                 class="group grid grid-cols-[2rem_1fr_auto] items-baseline gap-x-3 border-t border-line py-4 md:grid-cols-12 md:gap-x-6 md:py-5">
                 <span class="label text-signal md:col-span-1">11</span>
@@ -349,123 +329,6 @@
                     <span class="label" aria-hidden="true">Raspberry Pi · Python · AI</span>
                   </div></div>
               <div data-preview-img class="absolute inset-0"><img src="/images/projects/startupgrow.webp" alt="Startup Grow website preview with the headline Startup Growth Made Simple" width="1600" height="862" loading="lazy" decoding="async" class="absolute inset-0 size-full object-cover"></div>
-            </div>
-          </div>
-          <div data-view-pane="grid" class="mt-8 grid gap-x-6 gap-y-12 md:grid-cols-2">
-            <div data-filter-item data-cat="web-apps">
-              <a href="https://codeandthrive.studio/case-studies/zappo-sports-booking-app" target="_blank" rel="noopener noreferrer" data-cursor-label="View" class="group block">
-                <div data-clip class="relative overflow-hidden bg-ink/5 aspect-[4/3]"><div class="absolute inset-0 project-preview"><img src="/images/case-studies/zappo.webp" alt="Zappo sports booking mobile app displayed on smartphone mockups featuring venue discovery, match joining and sports venue booking." width="720" height="480" loading="lazy" decoding="async"></div></div>
-                <div class="project-card__caption mt-3 flex items-baseline justify-between gap-6 text-sm font-medium tracking-[-0.01em]">
-                  <p class="project-card__name flex gap-4"><span class="label pt-0.5 text-signal">01</span>Zappo<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1" aria-hidden="true" class="project-card__arrow"><path d="M4 12 12 4M5 4h7v7"></path></svg></p>
-                  <p class="label shrink-0 text-graphite">Web app · 2026</p>
-                </div>
-                <p class="project-card__note">A responsive sports booking platform. Venue discovery, slot booking, and real-time availability, built with React.js and REST APIs.</p>
-              </a>
-            </div>
-            <div data-filter-item data-cat="websites">
-              <a href="https://codeandthrive.studio/case-studies/tenorra-labs-consumer-products-website" target="_blank" rel="noopener noreferrer" data-cursor-label="View" class="group block">
-                <div data-clip class="relative overflow-hidden bg-ink/5 aspect-[4/3]"><div class="absolute inset-0 project-preview"><img src="/images/case-studies/tenorra-labs.webp" alt="Tenorra Labs Private Limited corporate website showcasing consumer technology innovation, Zappo and sports-focused digital products." width="720" height="480" loading="lazy" decoding="async"></div></div>
-                <div class="project-card__caption mt-3 flex items-baseline justify-between gap-6 text-sm font-medium tracking-[-0.01em]">
-                  <p class="project-card__name flex gap-4"><span class="label pt-0.5 text-signal">02</span>Tenorra Labs<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1" aria-hidden="true" class="project-card__arrow"><path d="M4 12 12 4M5 4h7v7"></path></svg></p>
-                  <p class="label shrink-0 text-graphite">Website · 2024</p>
-                </div>
-
-              </a>
-            </div>
-            <div data-filter-item data-cat="websites">
-              <a href="https://codeandthrive.studio/" target="_blank" rel="noopener noreferrer" data-cursor-label="View" class="group block">
-                <div data-clip class="relative overflow-hidden bg-ink/5 aspect-[4/3]"><div class="absolute inset-0 project-preview project-preview--studio"><img src="/images/projects/codeandthrive.webp" alt="Code and Thrive digital product and growth studio website" width="1600" height="862" loading="lazy" decoding="async"></div></div>
-                <div class="project-card__caption mt-3 flex items-baseline justify-between gap-6 text-sm font-medium tracking-[-0.01em]">
-                  <p class="project-card__name flex gap-4"><span class="label pt-0.5 text-signal">03</span>Code and Thrive<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1" aria-hidden="true" class="project-card__arrow"><path d="M4 12 12 4M5 4h7v7"></path></svg></p>
-                  <p class="label shrink-0 text-graphite">Website · 2025</p>
-                </div>
-                <p class="project-card__note">Digital experiences that bring web development, UI/UX design, branding, and SEO together.</p>
-              </a>
-            </div>
-            <div data-filter-item data-cat="websites">
-              <a href="https://codeandthrive.studio/case-studies/btpc4e-xelerator-enterprise-website-ai-redesign" target="_blank" rel="noopener noreferrer" data-cursor-label="View" class="group block">
-                <div data-clip class="relative overflow-hidden bg-ink/5 aspect-[4/3]"><div class="absolute inset-0 project-preview"><img src="/images/case-studies/btpc4e.webp" alt="A Refined Enterprise Digital Experience for BTPC4E" width="720" height="480" loading="lazy" decoding="async"></div></div>
-                <div class="project-card__caption mt-3 flex items-baseline justify-between gap-6 text-sm font-medium tracking-[-0.01em]">
-                  <p class="project-card__name flex gap-4"><span class="label pt-0.5 text-signal">04</span>BTPC4E Xelerator<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1" aria-hidden="true" class="project-card__arrow"><path d="M4 12 12 4M5 4h7v7"></path></svg></p>
-                  <p class="label shrink-0 text-graphite">Website · 2026</p>
-                </div>
-
-              </a>
-            </div>
-            <div data-filter-item data-cat="websites">
-              <a href="https://codeandthrive.studio/case-studies/zion-piling-website-crm-digital-marketing" target="_blank" rel="noopener noreferrer" data-cursor-label="View" class="group block">
-                <div data-clip class="relative overflow-hidden bg-ink/5 aspect-[4/3]"><div class="absolute inset-0 project-preview"><img src="/images/case-studies/zion-piling.webp" alt="Zion Piling website and CRM showcasing piling services, foundation construction, customer enquiries and project management." width="720" height="480" loading="lazy" decoding="async"></div></div>
-                <div class="project-card__caption mt-3 flex items-baseline justify-between gap-6 text-sm font-medium tracking-[-0.01em]">
-                  <p class="project-card__name flex gap-4"><span class="label pt-0.5 text-signal">05</span>Zion Piling<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1" aria-hidden="true" class="project-card__arrow"><path d="M4 12 12 4M5 4h7v7"></path></svg></p>
-                  <p class="label shrink-0 text-graphite">Website · 2026</p>
-                </div>
-
-              </a>
-            </div>
-            <div data-filter-item data-cat="websites">
-              <a href="https://codeandthrive.studio/case-studies/karuvin-builds-a-stronger-digital-presence" target="_blank" rel="noopener noreferrer" data-cursor-label="View" class="group block">
-                <div data-clip class="relative overflow-hidden bg-ink/5 aspect-[4/3]"><div class="absolute inset-0 project-preview"><img src="/images/case-studies/karuvin.webp" alt="Karuvin Singapore mechanical and electrical services website featuring M&amp;E maintenance, installation and business support services." width="720" height="480" loading="lazy" decoding="async"></div></div>
-                <div class="project-card__caption mt-3 flex items-baseline justify-between gap-6 text-sm font-medium tracking-[-0.01em]">
-                  <p class="project-card__name flex gap-4"><span class="label pt-0.5 text-signal">06</span>Karuvin<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1" aria-hidden="true" class="project-card__arrow"><path d="M4 12 12 4M5 4h7v7"></path></svg></p>
-                  <p class="label shrink-0 text-graphite">Website · 2025</p>
-                </div>
-
-              </a>
-            </div>
-            <div data-filter-item data-cat="websites">
-              <a href="https://codeandthrive.studio/case-studies/lobiatek-technology-solutions-website" target="_blank" rel="noopener noreferrer" data-cursor-label="View" class="group block">
-                <div data-clip class="relative overflow-hidden bg-ink/5 aspect-[4/3]"><div class="absolute inset-0 project-preview"><img src="/images/case-studies/lobiatek.webp" alt="Lobiatek Dubai technology solutions website showcasing CCTV, access control, networking, fire safety and GPS services." width="720" height="480" loading="lazy" decoding="async"></div></div>
-                <div class="project-card__caption mt-3 flex items-baseline justify-between gap-6 text-sm font-medium tracking-[-0.01em]">
-                  <p class="project-card__name flex gap-4"><span class="label pt-0.5 text-signal">07</span>Lobiatek<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1" aria-hidden="true" class="project-card__arrow"><path d="M4 12 12 4M5 4h7v7"></path></svg></p>
-                  <p class="label shrink-0 text-graphite">Website · 2025</p>
-                </div>
-
-              </a>
-            </div>
-            <div data-filter-item data-cat="websites">
-              <a href="https://codeandthrive.studio/case-studies/a1-finish-painting-website" target="_blank" rel="noopener noreferrer" data-cursor-label="View" class="group block">
-                <div data-clip class="relative overflow-hidden bg-ink/5 aspect-[4/3]"><div class="absolute inset-0 project-preview"><img src="/images/case-studies/a1-finish-painting.webp" alt="A1 Finish Painting Australia website showcasing residential and commercial painting services." width="720" height="480" loading="lazy" decoding="async"></div></div>
-                <div class="project-card__caption mt-3 flex items-baseline justify-between gap-6 text-sm font-medium tracking-[-0.01em]">
-                  <p class="project-card__name flex gap-4"><span class="label pt-0.5 text-signal">08</span>A1 Finish Painting<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1" aria-hidden="true" class="project-card__arrow"><path d="M4 12 12 4M5 4h7v7"></path></svg></p>
-                  <p class="label shrink-0 text-graphite">Website · 2024</p>
-                </div>
-
-              </a>
-            </div>
-            <div data-filter-item data-cat="websites">
-              <a href="https://codeandthrive.studio/case-studies/spakgen-cleaning-services-website-development" target="_blank" rel="noopener noreferrer" data-cursor-label="View" class="group block">
-                <div data-clip class="relative overflow-hidden bg-ink/5 aspect-[4/3]"><div class="absolute inset-0 project-preview"><img src="/images/case-studies/spakgen.webp" alt="Spakgen professional cleaning services website featuring blue and yellow branding and cleaning service imagery." width="720" height="480" loading="lazy" decoding="async"></div></div>
-                <div class="project-card__caption mt-3 flex items-baseline justify-between gap-6 text-sm font-medium tracking-[-0.01em]">
-                  <p class="project-card__name flex gap-4"><span class="label pt-0.5 text-signal">09</span>Spakgen<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1" aria-hidden="true" class="project-card__arrow"><path d="M4 12 12 4M5 4h7v7"></path></svg></p>
-                  <p class="label shrink-0 text-graphite">Website · 2023</p>
-                </div>
-
-              </a>
-            </div>
-            <div data-filter-item data-cat="robotics">
-              <a href="https://tarsx.space/" target="_blank" rel="noopener noreferrer" data-cursor-label="View" class="group block">
-                <div data-clip class="relative overflow-hidden bg-ink/5 aspect-[4/3]"><div class="absolute inset-0 project-robot" role="img"
-                    aria-label="TARSX robot concept with four brushed metal columns and an orange status light">
-                    <span class="label" aria-hidden="true">TARSX / Experiment 03</span>
-                    <div class="project-robot__body" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
-                    <span class="label" aria-hidden="true">Raspberry Pi · Python · AI</span>
-                  </div></div>
-                <div class="project-card__caption mt-3 flex items-baseline justify-between gap-6 text-sm font-medium tracking-[-0.01em]">
-                  <p class="project-card__name flex gap-4"><span class="label pt-0.5 text-signal">10</span>TARSX Robot<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1" aria-hidden="true" class="project-card__arrow"><path d="M4 12 12 4M5 4h7v7"></path></svg></p>
-                  <p class="label shrink-0 text-graphite">Robotics · 2024</p>
-                </div>
-                <p class="project-card__note">A real-life TARS-inspired robot, combining custom hardware, embedded systems, and conversational AI.</p>
-              </a>
-            </div>
-            <div data-filter-item data-cat="web-apps">
-              <a href="https://startup-grow-sand.vercel.app/" target="_blank" rel="noopener noreferrer" data-cursor-label="Visit" class="group block">
-                <div data-clip class="relative overflow-hidden bg-ink/5 aspect-[4/3]"><div class="absolute inset-0 project-preview project-preview--startup"><img src="/images/projects/startupgrow.webp" alt="Startup Grow website preview with the headline Startup Growth Made Simple" width="1600" height="862" loading="lazy" decoding="async"></div></div>
-                <div class="project-card__caption mt-3 flex items-baseline justify-between gap-6 text-sm font-medium tracking-[-0.01em]">
-                  <p class="project-card__name flex gap-4"><span class="label pt-0.5 text-signal">11</span>Startup Grow<svg class="project-card__arrow" viewBox="0 0 16 16" fill="none" stroke="currentColor" aria-hidden="true"><path d="M4 12 12 4M5 4h7v7"></path></svg></p>
-                  <p class="label shrink-0 text-graphite">Full stack · 2026</p>
-                </div>
-
-              </a>
             </div>
           </div>
         </div>

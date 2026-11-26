@@ -17,10 +17,6 @@
   object-fit: contain;
 }
 
-:root[data-theme="dark"] .portfolio-cta__illustration img {
-  filter: invert(1);
-}
-
 .footer-portal__baseline {
   display: inline-block;
   width: 0;
@@ -54,10 +50,6 @@
     font-size: min(var(--text-display-xl), 21svh);
     transform: var(--footer-portal-camera, none);
     transform-origin: top left;
-  }
-
-  :root[data-theme="dark"] [data-footer-portal-active] h2 {
-    color: color-mix(in srgb, var(--color-paper), var(--portfolio-footer-surface) var(--footer-portal-tint, 0%));
   }
 
   [data-footer-portal-active] [data-footer-portal-copy] {

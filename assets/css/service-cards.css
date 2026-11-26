@@ -6,11 +6,6 @@
   gap: clamp(0.625rem, 1vw, 1rem);
 }
 
-:root[data-theme="dark"] .service-cards {
-  --service-card-surface: #222;
-  --service-card-muted: #333;
-}
-
 .service-card {
   background: var(--service-card-surface);
   transition: filter 0.3s ease;

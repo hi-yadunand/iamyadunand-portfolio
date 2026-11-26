@@ -84,7 +84,6 @@ if (portal) {
     portal.style.removeProperty("--footer-portal-detail-opacity");
     portal.style.removeProperty("--footer-portal-detail-hit");
     portal.style.removeProperty("--footer-portal-surface-opacity");
-    portal.style.removeProperty("--footer-portal-tint");
     pin.style.removeProperty("--footer-portal-pin-shift");
     footerStage.style.removeProperty("--footer-portal-footer-shift");
   };
@@ -133,7 +132,6 @@ if (portal) {
     portal.style.setProperty("--footer-portal-detail-opacity", detail);
     portal.style.setProperty("--footer-portal-detail-hit", detail > 0.35 ? "auto" : "none");
     portal.style.setProperty("--footer-portal-surface-opacity", easeBetween(0.85, 0.98, progress));
-    portal.style.setProperty("--footer-portal-tint", `${100 * easeBetween(0.61, 0.93, progress)}%`);
     portal.toggleAttribute("data-footer-portal-dark", progress >= 0.82);
   };
 
