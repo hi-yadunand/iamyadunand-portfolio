@@ -259,27 +259,22 @@ export function initSiteScroll({ Lenis, gsap, ScrollTrigger }) {
       const measure = () => {
         const pinTop = Math.min(0, window.innerHeight - outgoing.offsetHeight);
         transition.style.setProperty("--record-transition-pin-top", `${pinTop}px`);
-        transition.style.setProperty("--record-transition-origin", `${window.innerHeight / 2 - pinTop}px`);
       };
       measure();
       const resize = "ResizeObserver" in window ? new ResizeObserver(measure) : null;
       resize?.observe(outgoing);
       window.addEventListener("resize", measure);
 
-      gsap.timeline({
-        defaults: { ease: "none" },
+      gsap.fromTo(record, { "--record-edge-progress": 1 }, {
+        "--record-edge-progress": 0,
+        ease: "none",
         scrollTrigger: {
           trigger: incoming,
           start: "top bottom",
-          end: "top top",
+          end: "top 30%",
           scrub: true,
-          invalidateOnRefresh: true,
         },
-      })
-        .fromTo(outgoing, { scale: 1, filter: "brightness(1)" }, {
-          scale: 0.95, filter: "brightness(0.65)", ease: "power2.out", duration: 0.7,
-        }, 0)
-        .fromTo(record, { scale: 0.85 }, { scale: 1, duration: 0.57, ease: "power2.inOut" }, 0.43);
+      });
 
       gsap.fromTo(record.firstElementChild, { y: distance }, {
         y: () => -distance(),
@@ -306,7 +301,6 @@ export function initSiteScroll({ Lenis, gsap, ScrollTrigger }) {
         outgoing.removeEventListener("focusin", revealFocusedService);
         transition.removeAttribute("data-record-transition-active");
         transition.style.removeProperty("--record-transition-pin-top");
-        transition.style.removeProperty("--record-transition-origin");
       };
     });
     signal.addEventListener("abort", () => media.revert(), { once: true });

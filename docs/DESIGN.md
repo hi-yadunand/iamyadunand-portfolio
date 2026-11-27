@@ -179,6 +179,20 @@ fallback animates each document separately. Home and reloads retain the starter
 loader, and reduced motion skips both effects. See `NAVIGATION.md` for behavior
 and validation details. Live browser comparison remains unavailable.
 
+## Homepage transition into The record
+
+The supplied screenshot of the [Marginalia portfolio template](https://kedhar-components.pages.dev/#marginalia-portfolio-template)
+shows the dark Projects section entering with an inset, rounded top edge below
+the light Skills section. The live page capture confirms the section order.
+The supplied image informs the edge treatment, and the scroll timing is a
+portfolio implementation choice.
+
+On the homepage, The record rises over Code and Thrive while the latter holds
+its position, size, and brightness. A CSS clip widens the incoming section and
+flattens its top corners as it moves from the bottom of the viewport to 30% from
+the top. The content keeps its full layout width. Reduced motion displays both
+sections in normal flow.
+
 ## Home project notes
 
 [Marquee 01](https://21st.dev/@shadcnspace/components/marquee-01) uses compact
