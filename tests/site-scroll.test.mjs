@@ -76,7 +76,9 @@ test('one Lenis, one ticker, same scroll settings, native touch/nested configura
   const f = fixture();
   assert.equal(f.api.initSiteScroll({ Lenis: f.Lenis, gsap: f.gsap, ScrollTrigger: f.ScrollTrigger }), f.lenis);
   assert.equal(f.instances.length, 1); assert.equal(f.callbacks.size, 1);
-  assert.equal(f.lenis.options.duration, 1.25); assert.equal(f.lenis.options.autoRaf, false);
+  assert.equal(f.lenis.options.duration, 1.2); assert.equal(f.lenis.options.autoRaf, false);
+  assert.equal(f.lenis.options.easing(1), 1);
+  assert.ok(f.lenis.options.easing(0.5) > 0.95);
   assert.equal(f.lenis.options.syncTouch, false); assert.equal(f.lenis.options.allowNestedScroll, true); assert.equal(f.lenis.options.anchors, false);
   [...f.callbacks][0](2); assert.equal(f.lenis.lastFrame, 2000);
   assert.equal(f.lenis.onEvent.name, 'scroll'); assert.equal(f.lenis.onEvent.fn, f.ScrollTrigger.update);
@@ -140,7 +142,7 @@ test('anchors update history once, use the fixed-header offset and manage focus'
   const event = f.click(f.link('#brief')); assert(event.defaultPrevented);
   assert.equal(f.root.hasAttribute('data-menu-open'), false);
   assert.equal(f.entries.length, 1); assert.equal(f.location.hash, '#brief'); assert.equal(f.history.state.existing, true);
-  const call = f.lenis.calls.at(-1); assert.equal(call.value, f.target); assert.equal(call.options.offset, -72); assert.equal(call.options.force, true);
+  const call = f.lenis.calls.at(-1); assert.equal(call.value, f.target); assert.equal(call.options.offset, -80); assert.equal(call.options.force, true);
   assert.equal(f.target.focused.preventScroll, true); assert.equal(f.target.getAttribute('tabindex'), '-1');
   f.target.fire('blur'); assert.equal(f.target.hasAttribute('tabindex'), false);
   f.click(f.link('#brief')); assert.equal(f.entries.length, 1);
@@ -148,6 +150,16 @@ test('anchors update history once, use the fixed-header offset and manage focus'
   assert.equal(f.api.anchorTarget(f.doc, '#space%20id'), f.target); assert.equal(f.api.anchorTarget(f.doc, '#legacy'), f.target);
   assert.equal(f.click(f.link('#does-not-exist')).defaultPrevented, false);
   assert.equal(f.click(f.link('#%ZZ')).defaultPrevented, false);
+});
+
+test('an in-document route change resets the shared scroll engine immediately', () => {
+  const f = fixture();
+  f.win.scrollY = 600;
+  f.win.fire('portfolio:scroll-to-top');
+  const call = f.lenis.calls.at(-1);
+  assert.equal(f.win.scrollY, 0);
+  assert.equal(call.options.immediate, true);
+  assert.equal(call.options.force, true);
 });
 
 test('Home navigates normally from other pages and reloads when already at home', () => {

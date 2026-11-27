@@ -1,5 +1,6 @@
 import { baseStylesheet } from "./site/assets";
 import { boot } from "./site/boot";
+import SmoothScroll from "../components/SmoothScroll";
 
 export const metadata = {
   icons: { icon: { url: "/images/profile/iamyadunand-favicon.png", type: "image/png" } },
@@ -16,7 +17,9 @@ export default function RootLayout({ children }) {
         <link rel="stylesheet" href={baseStylesheet} precedence="portfolio" />
         <link rel="stylesheet" href="/assets/css/site-navigation.css" precedence="portfolio" />
       </head>
-      <body>{children}</body>
+      <body>
+        <SmoothScroll>{children}</SmoothScroll>
+      </body>
     </html>
   );
 }

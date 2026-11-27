@@ -1,3 +1,4 @@
+import Reveal from "../../components/Reveal";
 import { SiteFrame } from "../site/site-frame";
 import { pageMetadata } from "../site/metadata";
 
@@ -9,15 +10,15 @@ export default function PrivacyPage() {
       <main>
         <section data-nav-intro="" className="shell pt-32 md:pt-40" style={{"paddingBottom": "6rem"}}>
           <p className="label">Yadunand Pavithran · Portfolio</p>
-          <h1 className="display mt-6 text-display-lg">Privacy</h1>
-          <div className="mt-10 max-w-2xl" style={{"overflowWrap": "anywhere"}}>
+          <Reveal as="h1" className="display mt-6 text-display-lg">Privacy</Reveal>
+          <Reveal delay={0.1} className="mt-10 max-w-2xl" style={{"overflowWrap": "anywhere"}}>
             <h2 className="display text-display-sm">Getting in touch</h2>
             <p className="mt-4 text-lg leading-[1.4] text-graphite">The contact link opens your email app. Information you choose to include in an email is shared with Yadunand Pavithran so I can respond to your enquiry.</p>
             <h2 className="display mt-10 text-display-sm">External services</h2>
             <p className="mt-4 text-lg leading-[1.4] text-graphite">Project and social links may take you to other websites. Those services handle information according to their own privacy policies.</p>
             <h2 className="display mt-10 text-display-sm">Questions</h2>
             <p className="mt-4 text-lg leading-[1.4] text-graphite">For questions about information shared through this portfolio, email <a href="mailto:yadunandpavithran05@gmail.com">yadunandpavithran05@gmail.com</a>.</p>
-          </div>
+          </Reveal>
         </section>
         <div>
           <section data-footer-portal="" aria-labelledby="footer-portal-title" className="mt-24 md:mt-40">

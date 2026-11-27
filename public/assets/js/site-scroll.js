@@ -2,7 +2,7 @@
 // ESM caches this module once per document; no second library/runtime is loaded.
 let runtime;
 const ENTRY_KEY = "portfolio-page-entry";
-const HEADER_OFFSET = -72;
+const HEADER_OFFSET = -80;
 
 export function anchorTarget(doc, hash) {
   if (!hash || hash === "#") return 0;
@@ -129,7 +129,8 @@ export function initSiteScroll({ Lenis, gsap, ScrollTrigger }) {
   // anchors:false gives the delegated handler exclusive ownership of fragments.
   // Nested/horizontal containers and touch retain their own native scrolling.
   const lenis = new Lenis({
-    duration: 1.25,
+    duration: 1.2,
+    easing: (progress) => Math.min(1, 1.001 - 2 ** (-10 * progress)),
     smoothWheel: !motion.matches,
     syncTouch: false,
     autoRaf: false,
@@ -529,6 +530,11 @@ export function initSiteScroll({ Lenis, gsap, ScrollTrigger }) {
     afterNativeRestore();
   }, { signal });
   window.addEventListener("hashchange", afterNativeRestore, { signal });
+  window.addEventListener("portfolio:scroll-to-top", () => {
+    finishInitialAlignment();
+    closeMenu();
+    lenis.scrollTo(0, { immediate: true, force: true });
+  }, { signal });
   document.addEventListener("visibilitychange", () => {
     if (!document.hidden) syncNativePosition();
     syncTicker();

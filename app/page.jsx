@@ -1,3 +1,4 @@
+import Reveal from "../components/Reveal";
 import { SiteFrame } from "./site/site-frame";
 import { pageMetadata } from "./site/metadata";
 
@@ -38,12 +39,12 @@ export default function HomePage() {
         <div>
           <section data-recent-work="" className="mt-24 md:mt-40">
             <div className="shell">
-              <div className="label flex items-baseline justify-between gap-6 border-t border-current/20 pt-3 ">
+              <Reveal delay={0.1} className="label flex items-baseline justify-between gap-6 border-t border-current/20 pt-3 ">
                 <p className="flex gap-4">
                   <span className="text-signal">A–03</span>
                   <span>Selected projects</span>
                 </p>
-              </div>
+              </Reveal>
               <h2 className="display mt-10 text-display-xl md:mt-16">
                 <span className="block" data-lines="">Recent work</span>
               </h2>
@@ -124,12 +125,12 @@ export default function HomePage() {
         <div>
           <section className="mt-24 md:mt-40">
             <div className="shell">
-              <div className="label flex items-baseline justify-between gap-6 border-t border-current/20 pt-3 ">
+              <Reveal delay={0.1} className="label flex items-baseline justify-between gap-6 border-t border-current/20 pt-3 ">
                 <p className="flex gap-4">
                   <span className="text-signal">A–02</span>
                   <span>About me</span>
                 </p>
-              </div>
+              </Reveal>
               <p data-wordfill="" className="mt-12 text-display-lg leading-[1] font-[450] tracking-[-0.04em] md:mt-20 md:indent-[16.66%]">I design and develop digital experiences with a focus on simplicity, interaction, and detail creating interfaces that feel as good as they look.</p>
               <div className="mt-12 grid gap-8 md:mt-20 md:grid-cols-12">
                 <div className="md:col-span-6 md:col-start-7">
@@ -181,12 +182,12 @@ export default function HomePage() {
         <div data-record-transition="">
           <section className="record-transition__outgoing mt-24 md:mt-40" data-swap="" aria-labelledby="code-thrive-highlight-title">
             <div className="shell">
-              <div className="label flex items-baseline justify-between gap-6 border-t border-current/20 pt-3">
+              <Reveal delay={0.1} className="label flex items-baseline justify-between gap-6 border-t border-current/20 pt-3">
                 <p className="flex gap-4">
                   <span className="text-signal">A–05</span>
                   <span>Code and Thrive</span>
                 </p>
-              </div>
+              </Reveal>
               <div className="mt-10 grid gap-10 md:mt-16 lg:grid-cols-12 lg:gap-6">
                 <div className="lg:col-span-7">
                   <h2 id="code-thrive-highlight-title" className="display mb-10 text-display-lg md:mb-16">
@@ -294,12 +295,12 @@ export default function HomePage() {
           <div className="record-transition__incoming">
             <section data-dark="" data-record-parallax="" className="mt-24 bg-ink py-16 text-paper md:mt-40 md:py-24">
               <div className="shell">
-                <div className="label flex items-baseline justify-between gap-6 border-t border-current/20 pt-3 ">
+                <Reveal delay={0.1} className="label flex items-baseline justify-between gap-6 border-t border-current/20 pt-3 ">
                   <p className="flex gap-4">
                     <span className="text-signal">A–06</span>
                     <span>The record</span>
                   </p>
-                </div>
+                </Reveal>
                 <h2 className="display mt-10 max-w-[18ch] text-display-lg md:mt-14">
                   <span className="block" data-lines="">Building ideas into digital experiences.</span>
                 </h2>
@@ -463,12 +464,12 @@ export default function HomePage() {
         <div>
           <section aria-labelledby="workflow-title" className="mt-24 md:mt-40">
             <div className="shell">
-              <div className="label flex items-baseline justify-between gap-6 border-t border-current/20 pt-3 ">
+              <Reveal delay={0.1} className="label flex items-baseline justify-between gap-6 border-t border-current/20 pt-3 ">
                 <p className="flex gap-4">
                   <span className="text-signal">A–07</span>
                   <span>How I work</span>
                 </p>
-              </div>
+              </Reveal>
               <h2 id="workflow-title" className="display mt-10 max-w-[16ch] text-display-xl md:mt-16">
                 <span className="block" data-lines="">From an idea<br />to launch.</span>
               </h2>
@@ -510,12 +511,12 @@ export default function HomePage() {
         <div>
           <section data-testimonial-marquee="" aria-labelledby="project-notes-heading" className="mt-24 md:mt-40">
             <div className="shell">
-              <div className="label border-t border-current/20 pt-3">
+              <Reveal delay={0.1} className="label border-t border-current/20 pt-3">
                 <h2 id="project-notes-heading" className="flex gap-4">
                   <span className="text-signal">A–09</span>
                   <span>Project notes</span>
                 </h2>
-              </div>
+              </Reveal>
               <div className="testimonial-marquee__rows mt-10 md:mt-16">
                 <div className="testimonial-marquee__row">
                   <div className="testimonial-marquee__track">

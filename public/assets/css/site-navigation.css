@@ -73,9 +73,52 @@
   }
 }
 
-/* Keep native CSS scrolling from competing with the shared wheel engine. */
-html.lenis-smooth {
+:root {
+  --ease-smooth: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
   scroll-behavior: auto !important;
+}
+
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+/* Keep embeds interactive at rest while preventing them from capturing a wheel gesture. */
+.lenis.lenis-smooth iframe {
+  pointer-events: none;
+}
+
+[data-menu] {
+  overflow-y: auto;
+}
+
+[data-menu] > .shell {
+  min-height: 100%;
+}
+
+@layer base {
+  :where(a, button, input, textarea, select, [role="button"]):not([data-project-entrance], [data-reveal], [data-motion-reveal]) {
+    transition-property: color, background-color, border-color, opacity, transform, box-shadow;
+    transition-duration: 450ms;
+    transition-timing-function: var(--ease-smooth);
+  }
+}
+
+html:not(.motion) [data-motion-reveal],
+[data-motion-reveal]:focus-within {
+  opacity: 1 !important;
+  transform: none !important;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -86,5 +129,13 @@ html.lenis-smooth {
   html { scroll-behavior: auto !important; }
   html[data-site-enter] body {
     animation: none;
+  }
+  *, *::before, *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+  [data-motion-reveal] {
+    opacity: 1 !important;
+    transform: none !important;
   }
 }

@@ -34,8 +34,8 @@ export function SiteHeader({ page }) {
           </div>
         </div>
       </header>
-      <div data-menu="" id="site-menu" inert className="fixed inset-0 z-40 bg-ink text-paper">
-        <div className="shell grid h-full grid-cols-1 gap-8 pt-24 pb-8 md:grid-cols-12">
+      <div data-menu="" data-lenis-prevent="" id="site-menu" inert className="fixed inset-0 z-40 bg-ink text-paper">
+        <div className="shell grid grid-cols-1 gap-8 pt-24 pb-8 md:grid-cols-12">
           <nav className="flex flex-col justify-end md:col-span-7" aria-label="Menu">
             {links.map((link, index) => (
               <a key={link.page} href={link.href} aria-current={page === link.page ? "page" : undefined}

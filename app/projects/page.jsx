@@ -1,3 +1,4 @@
+import Reveal from "../../components/Reveal";
 import { SiteFrame } from "../site/site-frame";
 import { pageMetadata } from "../site/metadata";
 
@@ -59,12 +60,12 @@ export default function ProjectsPage() {
         <div>
           <section className="mt-24 md:mt-40">
             <div className="shell">
-              <div className="label flex items-baseline justify-between gap-6 border-t border-current/20 pt-3">
+              <Reveal delay={0.1} className="label flex items-baseline justify-between gap-6 border-t border-current/20 pt-3">
                 <p className="flex gap-4">
                   <span className="text-signal">A–03</span>
                   <span>Selected projects</span>
                 </p>
-              </div>
+              </Reveal>
               <div className="mt-10 space-y-16 md:mt-16 md:space-y-32">
                 <article className="grid items-end gap-6 md:grid-cols-12">
                   <div data-clip="" className="relative aspect-[4/3] overflow-hidden bg-ink/5 md:col-span-7">
@@ -152,12 +153,12 @@ export default function ProjectsPage() {
         <div>
           <section id="all-projects" className="mt-20 md:mt-32" style={{"scrollMarginTop": "6rem"}}>
             <div className="shell" data-preview="">
-              <div className="label flex items-baseline justify-between gap-6 border-t border-current/20 pt-3">
+              <Reveal delay={0.1} className="label flex items-baseline justify-between gap-6 border-t border-current/20 pt-3">
                 <p className="flex gap-4">
                   <span className="text-signal">A–04</span>
                   <span>All projects</span>
                 </p>
-              </div>
+              </Reveal>
               <ul className="mt-10 border-b border-line md:mt-16">
                 <li data-reveal="">
                   <a href="https://codeandthrive.studio/case-studies/zappo-sports-booking-app" target="_blank" rel="noopener noreferrer" data-preview-row="0" className="group grid grid-cols-[2rem_1fr_auto] items-baseline gap-x-3 border-t border-line py-4 md:grid-cols-12 md:gap-x-6 md:py-5" data-cursor-label="Visit">
@@ -311,12 +312,12 @@ export default function ProjectsPage() {
         <div>
           <section data-projects-gallery="" className="mt-24 md:mt-40">
             <div className="shell">
-              <div className="label flex items-baseline justify-between gap-6 border-t border-current/20 pt-3 ">
+              <Reveal delay={0.1} className="label flex items-baseline justify-between gap-6 border-t border-current/20 pt-3 ">
                 <p className="flex gap-4">
                   <span className="text-signal">A–06</span>
                   <span>Around the projects</span>
                 </p>
-              </div>
+              </Reveal>
               <div className="mt-10 grid gap-6 md:mt-16 md:grid-cols-12 md:gap-y-16">
                 <div data-clip="" className="relative overflow-hidden md:col-span-5 aspect-[4/5]">
                   <div data-parallax="6" className="absolute inset-0">

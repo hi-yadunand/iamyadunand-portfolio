@@ -1,3 +1,4 @@
+import Reveal from "../../components/Reveal";
 import { SiteFrame } from "../site/site-frame";
 import { pageMetadata } from "../site/metadata";
 
@@ -30,14 +31,14 @@ export default function ServicesPage() {
         <div>
           <section className="mt-24 md:mt-40" aria-labelledby="services-title">
             <div className="shell">
-              <div className="label flex items-baseline justify-between gap-6 border-t border-current/20 pt-3">
+              <Reveal delay={0.1} className="label flex items-baseline justify-between gap-6 border-t border-current/20 pt-3">
                 <p className="flex gap-4">
                   <span className="text-signal">A–02</span>
                   <span id="services-title">Five services</span>
                 </p>
-              </div>
+              </Reveal>
               <div className="service-cards mt-10 md:mt-14">
-                <div className="service-card" data-open="">
+                <Reveal className="service-card" data-open="">
                   <h2>
                     <button type="button" className="service-card__button" id="service-title-1" aria-expanded="true" aria-controls="service-panel-1">
                       <span className="label text-signal">01</span>
@@ -62,8 +63,8 @@ export default function ServicesPage() {
                       </div>
                     </div>
                   </div>
-                </div>
-                <div className="service-card">
+                </Reveal>
+                <Reveal delay={1 * 0.08} className="service-card">
                   <h2>
                     <button type="button" className="service-card__button" id="service-title-2" aria-expanded="false" aria-controls="service-panel-2">
                       <span className="label text-signal">02</span>
@@ -88,8 +89,8 @@ export default function ServicesPage() {
                       </div>
                     </div>
                   </div>
-                </div>
-                <div className="service-card">
+                </Reveal>
+                <Reveal delay={2 * 0.08} className="service-card">
                   <h2>
                     <button type="button" className="service-card__button" id="service-title-3" aria-expanded="false" aria-controls="service-panel-3">
                       <span className="label text-signal">03</span>
@@ -114,8 +115,8 @@ export default function ServicesPage() {
                       </div>
                     </div>
                   </div>
-                </div>
-                <div className="service-card">
+                </Reveal>
+                <Reveal delay={3 * 0.08} className="service-card">
                   <h2>
                     <button type="button" className="service-card__button" id="service-title-4" aria-expanded="false" aria-controls="service-panel-4">
                       <span className="label text-signal">04</span>
@@ -140,8 +141,8 @@ export default function ServicesPage() {
                       </div>
                     </div>
                   </div>
-                </div>
-                <div className="service-card">
+                </Reveal>
+                <Reveal delay={4 * 0.08} className="service-card">
                   <h2>
                     <button type="button" className="service-card__button" id="service-title-5" aria-expanded="false" aria-controls="service-panel-5">
                       <span className="label text-signal">05</span>
@@ -166,7 +167,7 @@ export default function ServicesPage() {
                       </div>
                     </div>
                   </div>
-                </div>
+                </Reveal>
               </div>
             </div>
           </section>
@@ -174,12 +175,12 @@ export default function ServicesPage() {
         <div>
           <section data-process="" className="mt-24 md:mt-40">
             <div className="shell">
-              <div className="label flex items-baseline justify-between gap-6 border-t border-current/20 pt-3 ">
+              <Reveal delay={0.1} className="label flex items-baseline justify-between gap-6 border-t border-current/20 pt-3 ">
                 <p className="flex gap-4">
                   <span className="text-signal">A–03</span>
                   <span>Stages</span>
                 </p>
-              </div>
+              </Reveal>
               <h2 className="display mt-10 max-w-[16ch] text-display-xl md:mt-16">
                 <span className="block" data-lines="">How a project runs</span>
               </h2>
@@ -239,12 +240,12 @@ export default function ServicesPage() {
         <div>
           <section className="mt-24 md:mt-40">
             <div className="shell">
-              <div className="label flex items-baseline justify-between gap-6 border-t border-current/20 pt-3 ">
+              <Reveal delay={0.1} className="label flex items-baseline justify-between gap-6 border-t border-current/20 pt-3 ">
                 <p className="flex gap-4">
                   <span className="text-signal">A–04</span>
                   <span>Questions</span>
                 </p>
-              </div>
+              </Reveal>
               <div className="mt-10 grid gap-8 md:mt-14 lg:grid-cols-12 lg:gap-6">
                 <div className="lg:col-span-5">
                   <h2 className="display text-display-lg lg:sticky lg:top-24">
@@ -252,54 +253,54 @@ export default function ServicesPage() {
                   </h2>
                 </div>
                 <div className="border-b border-line lg:col-span-6 lg:col-start-7">
-                  <div data-accordion="" className="border-t border-line">
+                  <Reveal data-accordion="" className="border-t border-line">
                     <button type="button" data-accordion-btn="" aria-expanded="false" className="flex w-full items-baseline justify-between gap-6 py-4 text-left text-xl font-[450] tracking-[-0.025em]">What can you help me with?<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1" aria-hidden="true" className="fold-icon size-4 shrink-0 transition-transform duration-500"><path d="M8 2v12M2 8h12" /></svg></button>
                     <div className="fold">
                       <div>
                         <p className="max-w-xl pb-6 text-base leading-[1.4] tracking-[-0.01em] text-graphite">I offer product and UI/UX design, web development, frontend engineering, branding and visual identity, and growth and SEO. These can be combined or scoped around a specific need.</p>
                       </div>
                     </div>
-                  </div>
-                  <div data-accordion="" className="border-t border-line">
+                  </Reveal>
+                  <Reveal delay={1 * 0.08} data-accordion="" className="border-t border-line">
                     <button type="button" data-accordion-btn="" aria-expanded="false" className="flex w-full items-baseline justify-between gap-6 py-4 text-left text-xl font-[450] tracking-[-0.025em]">Can you work on an existing website or product?<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1" aria-hidden="true" className="fold-icon size-4 shrink-0 transition-transform duration-500"><path d="M8 2v12M2 8h12" /></svg></button>
                     <div className="fold">
                       <div>
                         <p className="max-w-xl pb-6 text-base leading-[1.4] tracking-[-0.01em] text-graphite">I can help improve an existing website, refresh an interface, or develop a new product. Share what you have and the areas you want to improve.</p>
                       </div>
                     </div>
-                  </div>
-                  <div data-accordion="" className="border-t border-line">
+                  </Reveal>
+                  <Reveal delay={2 * 0.08} data-accordion="" className="border-t border-line">
                     <button type="button" data-accordion-btn="" aria-expanded="false" className="flex w-full items-baseline justify-between gap-6 py-4 text-left text-xl font-[450] tracking-[-0.025em]">Can design and development be part of one project?<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1" aria-hidden="true" className="fold-icon size-4 shrink-0 transition-transform duration-500"><path d="M8 2v12M2 8h12" /></svg></button>
                     <div className="fold">
                       <div>
                         <p className="max-w-xl pb-6 text-base leading-[1.4] tracking-[-0.01em] text-graphite">Yes. Product and UI/UX design, frontend engineering, and full-stack development can be brought together so the experience stays consistent from prototype to implementation.</p>
                       </div>
                     </div>
-                  </div>
-                  <div data-accordion="" className="border-t border-line">
+                  </Reveal>
+                  <Reveal delay={3 * 0.08} data-accordion="" className="border-t border-line">
                     <button type="button" data-accordion-btn="" aria-expanded="false" className="flex w-full items-baseline justify-between gap-6 py-4 text-left text-xl font-[450] tracking-[-0.025em]">Can branding and SEO be included?<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1" aria-hidden="true" className="fold-icon size-4 shrink-0 transition-transform duration-500"><path d="M8 2v12M2 8h12" /></svg></button>
                     <div className="fold">
                       <div>
                         <p className="max-w-xl pb-6 text-base leading-[1.4] tracking-[-0.01em] text-graphite">Yes. Brand identity, visual design, and SEO can be scoped alongside your website or product so the work supports a consistent presence.</p>
                       </div>
                     </div>
-                  </div>
-                  <div data-accordion="" className="border-t border-line">
+                  </Reveal>
+                  <Reveal delay={4 * 0.08} data-accordion="" className="border-t border-line">
                     <button type="button" data-accordion-btn="" aria-expanded="false" className="flex w-full items-baseline justify-between gap-6 py-4 text-left text-xl font-[450] tracking-[-0.025em]">How do I get started?<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1" aria-hidden="true" className="fold-icon size-4 shrink-0 transition-transform duration-500"><path d="M8 2v12M2 8h12" /></svg></button>
                     <div className="fold">
                       <div>
                         <p className="max-w-xl pb-6 text-base leading-[1.4] tracking-[-0.01em] text-graphite">Send me an overview of your idea, your goals, and any existing content or references. I can then discuss the scope and the next steps with you.</p>
                       </div>
                     </div>
-                  </div>
-                  <div data-accordion="" className="border-t border-line">
+                  </Reveal>
+                  <Reveal delay={5 * 0.08} data-accordion="" className="border-t border-line">
                     <button type="button" data-accordion-btn="" aria-expanded="false" className="flex w-full items-baseline justify-between gap-6 py-4 text-left text-xl font-[450] tracking-[-0.025em]">How long will my project take?<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1" aria-hidden="true" className="fold-icon size-4 shrink-0 transition-transform duration-500"><path d="M8 2v12M2 8h12" /></svg></button>
                     <div className="fold">
                       <div>
                         <p className="max-w-xl pb-6 text-base leading-[1.4] tracking-[-0.01em] text-graphite">The timeline depends on the scope, content, and features. We can agree on milestones once the requirements are clear.</p>
                       </div>
                     </div>
-                  </div>
+                  </Reveal>
                 </div>
               </div>
             </div>

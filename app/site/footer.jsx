@@ -1,7 +1,8 @@
+import Reveal from "../../components/Reveal";
 export function PortfolioFooter({ reveal }) {
   const footer = (
     <footer data-profile-footer="" className="overflow-hidden bg-ink text-paper" data-dark={reveal ? undefined : ""}>
-      <div className="portfolio-footer__content shell">
+      <Reveal delay={0.1} className="portfolio-footer__content shell">
         <div className="portfolio-footer__top">
           <video data-profile-video="" className="portfolio-footer__profile-video" muted playsInline preload="metadata" width="540" height="540" aria-label="Video profile of Yadunand Pavithran">
             <source src="/assets/video/howdyiamyadunand.mp4#t=0.001" type="video/mp4" />
@@ -39,7 +40,7 @@ export function PortfolioFooter({ reveal }) {
           <a className="portfolio-footer__contact" data-profile-video-trigger="" href="mailto:yadunandpavithran05@gmail.com">yadunandpavithran05@gmail.com</a>
           <p>Portfolio@26</p>
         </div>
-      </div>
+      </Reveal>
       <p className="portfolio-footer__wordmark">
         <a data-profile-video-trigger="" href="mailto:yadunandpavithran05@gmail.com" className="portfolio-footer__talk-link">
           <span className="portfolio-footer__talk-text">Let's talk</span>
