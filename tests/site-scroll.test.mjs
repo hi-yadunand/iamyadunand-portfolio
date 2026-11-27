@@ -2,8 +2,9 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import vm from 'node:vm';
+import { boot } from '../app/site/boot.js';
 
-const source = readFileSync(new URL('../assets/js/site-scroll.js', import.meta.url), 'utf8');
+const source = readFileSync(new URL('../public/assets/js/site-scroll.js', import.meta.url), 'utf8');
 class Events {
   handlers = new Map();
   addEventListener(name, fn, options = {}) {
@@ -338,8 +339,7 @@ test('hidden tabs and bfcache pause/resume one ticker; permanent departure clean
 });
 
 test('early entry helper only fades intentional arrivals and never strands a direct/reload page', () => {
-  const html = readFileSync(new URL('../index.html', import.meta.url), 'utf8');
-  const script = html.match(/<script>([\s\S]*?)<\/script>/)[1];
+  const script = boot;
   for (const [kind, reduced, intent, expected] of [
     ['navigate', false, true, true], ['navigate', true, true, false],
     ['reload', false, true, false], ['back_forward', false, true, false], ['navigate', false, false, false],
@@ -354,7 +354,7 @@ test('early entry helper only fades intentional arrivals and never strands a dir
 });
 
 test('homepage head disables saved-scroll restoration before a reload paints', () => {
-  const script = readFileSync(new URL('../index.html', import.meta.url), 'utf8').match(/<script>([\s\S]*?)<\/script>/)[1];
+  const script = boot;
   for (const [kind, hash, reset] of [['reload', '', true], ['reload', '#work', false], ['back_forward', '', false], ['navigate', '', false]]) {
     const f = fixture({ type: kind, url: `https://portfolio.test/${hash}` });
     f.win.scrollY = 4800;
@@ -370,7 +370,7 @@ test('every rendered page replays its loader on reload after a previous visit', 
   const routes = ['projects', 'services', 'contact', 'privacy'];
   const pages = ['index.html', ...routes.flatMap(route => [`${route}.html`, `${route}/index.html`])];
   for (const page of pages) {
-    const script = readFileSync(new URL(`../${page}`, import.meta.url), 'utf8').match(/<script>([\s\S]*?)<\/script>/)[1];
+    const script = boot;
     for (const [kind, reduced] of [['reload', false], ['reload', true], ['navigate', false]]) {
       const f = fixture({ type: kind, reduced, url: `https://portfolio.test/${page}` });
       f.storage.set('yadunand-loaded', '1');
@@ -400,7 +400,7 @@ test('extensionless document navigation keeps transitions, query strings and fra
 });
 
 test('legacy page URLs normalize before arrival animation without losing URL or history state', () => {
-  const script = readFileSync(new URL('../index.html', import.meta.url), 'utf8').match(/<script>([\s\S]*?)<\/script>/)[1];
+  const script = boot;
   for (const [original, expected] of [
     ['/index.html?from=home#top', '/?from=home#top'],
     ['/projects.html?filter=web#all-projects', '/projects?filter=web#all-projects'],

@@ -1,4 +1,4 @@
-html[data-contact-page] {
+html:has(main.contact-page) {
   --color-page: #000;
   --color-graphite: #b5b5b5;
   --color-line: #ffffff26;
@@ -7,7 +7,7 @@ html[data-contact-page] {
   color: var(--color-paper, #f4f4f4);
 }
 
-[data-contact-page] body {
+html:has(main.contact-page) body {
   background: var(--color-page);
 }
 
@@ -53,10 +53,10 @@ html[data-contact-page] {
   background: linear-gradient(90deg, #0006, transparent 75%);
 }
 
-[data-contact-page] .contact-page .btn {
+.contact-page .btn {
   background-color: #0008;
 }
 
-[data-contact-page] .contact-page .btn:hover {
+.contact-page .btn:hover {
   background-color: var(--color-signal, #D73F1B);
 }

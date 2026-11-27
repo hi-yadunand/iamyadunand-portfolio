@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import vm from 'node:vm';
 
-const source = readFileSync(new URL('../assets/js/navigation.js', import.meta.url), 'utf8');
+const source = readFileSync(new URL('../public/assets/js/navigation.js', import.meta.url), 'utf8');
 
 function setupNavigation({ introHeight = 1700, darkIntro = true } = {}) {
   const attributes = new Set(['data-on-dark']);
@@ -105,8 +105,8 @@ test('inner pages keep the compact header in view until their intro ends', () =>
 });
 
 test('all pages use the same desktop and mobile navigation with a local intro', () => {
-  const read = file => readFileSync(new URL('../' + file, import.meta.url), 'utf8');
-  const normalize = markup => markup.replace(/ aria-current="page"| data-on-dark/g, '')
+  const read = file => readFileSync(new URL('../out/' + file, import.meta.url), 'utf8');
+  const normalize = markup => markup.replace(/ aria-current="page"| data-on-dark=""/g, '')
     .replace(/>\s+</g, '><').replace(/\s+/g, ' ').trim();
   const home = read('index.html');
   const homeHeader = normalize(home.match(/<header\b[\s\S]*?<\/header>/)[0]);
@@ -118,7 +118,7 @@ test('all pages use the same desktop and mobile navigation with a local intro', 
     const menu = html.match(/<div data-menu\b[\s\S]*?(?=<main\b)/)[0];
     assert.equal(normalize(header), homeHeader, file);
     assert.equal(normalize(menu), homeMenu, file);
-    assert.equal((html.match(/\bdata-nav-intro\b/g) || []).length, 1, file);
+    assert.equal((html.match(/<[a-z][^>]*\sdata-nav-intro\b/g) || []).length, 1, file);
     if (file === 'index.html' || file === 'contact.html') assert.match(header, /\bdata-on-dark\b/, file);
   }
 });

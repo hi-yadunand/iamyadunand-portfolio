@@ -1,2 +1,7 @@
 # macOS filesystem metadata
 .DS_Store
+
+# Next.js build artifacts and local dependencies
+/node_modules/
+/.next/
+/out/

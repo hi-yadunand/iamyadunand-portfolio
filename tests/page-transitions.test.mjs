@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import vm from 'node:vm';
 
-const source = readFileSync(new URL('../assets/js/page-transitions.js', import.meta.url), 'utf8');
+const source = readFileSync(new URL('../public/assets/js/page-transitions.js', import.meta.url), 'utf8');
 
 function fixture({ supported = true, reduced = false, loaded = true, loaderHidden = false } = {}) {
   const attributes = new Set(['data-site-enter']);

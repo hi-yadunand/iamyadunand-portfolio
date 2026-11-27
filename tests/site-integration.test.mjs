@@ -1,124 +1,115 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { readFileSync, readdirSync, existsSync, statSync } from 'node:fs';
+import { readFileSync, existsSync, statSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import path from 'node:path';
+import { baseRuntime, scriptsFor } from '../app/site/assets.js';
+import { boot } from '../app/site/boot.js';
 
-const root = fileURLToPath(new URL('../', import.meta.url));
-function files(dir) {
-  return readdirSync(dir, { withFileTypes: true }).flatMap(item => {
-    if (item.name.startsWith('.git')) return [];
-    const target = path.join(dir, item.name);
-    return item.isDirectory() ? files(target) : [target];
-  });
-}
-const htmlFiles = files(root).filter(name => name.endsWith('.html'));
+const root = fileURLToPath(new URL('../out/', import.meta.url));
+const routes = ['projects', 'services', 'contact', 'privacy'];
+const htmlFiles = ['index.html', ...routes.flatMap(route => [`${route}.html`, `${route}/index.html`])];
+
 function tags(html) {
   return [...html.matchAll(/<(a|img|source|video|link|script|meta)\b([^>]*)>/g)].map(match => {
     const attrs = Object.fromEntries([...match[2].matchAll(/([^\s=]+)\s*=\s*(["'])(.*?)\2/gs)].map(a => [a[1], a[3]]));
     return { tag: match[1], attrs };
   });
 }
-const source = name => readFileSync(path.join(root, name), 'utf8');
 
-test('every rendered document loads one base runtime, one navigation stylesheet and the entry helper', () => {
+const source = name => readFileSync(path.join(root, name), 'utf8');
+const routeFor = file => file.split(/[./]/)[0].replace(/^index$/, 'home');
+
+test('every exported document loads the navigation stylesheet and schedules one shared behavior module', () => {
   for (const file of htmlFiles) {
-    const html = readFileSync(file, 'utf8'), entries = tags(html);
-    const scripts = entries.filter(t => t.tag === 'script' && t.attrs.src).map(t => t.attrs.src);
+    const html = source(file);
+    const entries = tags(html);
+    const scripts = entries.filter(entry => entry.tag === 'script' && entry.attrs.src).map(entry => entry.attrs.src);
+    assert(scripts.some(src => src.startsWith('/_next/')), file);
     assert.equal(scripts.length, new Set(scripts).size, file);
-    const base = scripts.filter(src => src.includes('BaseLayout.astro_astro_type_script'));
-    assert.equal(base.length, 1, file);
-    assert.equal(entries.filter(t => t.tag === 'link' && t.attrs.rel === 'stylesheet' && t.attrs.href.endsWith('/site-navigation.css')).length, 1, file);
-    assert(html.includes('sessionStorage.getItem("portfolio-page-entry")'), file);
-    assert(html.includes('h.setAttribute("data-site-enter", "")'), file);
-    const transitionScript = scripts.filter(src => src.endsWith('/page-transitions.js'));
-    assert.equal(transitionScript.length, 1, file);
-    assert(html.indexOf(transitionScript[0]) < html.indexOf('</head>'), file);
+    assert.equal(scripts.filter(src => src === '/assets/js/page-transitions.js').length, 1, file);
+    assert(html.indexOf('/assets/js/page-transitions.js') < html.indexOf('</head>'), file);
+    assert(html.includes(`<script>${boot}</script>`), file);
+
+    const deferredScripts = scriptsFor(routeFor(file)).map(({ src }) => src);
+    assert.equal(deferredScripts.filter(src => src === baseRuntime).length, 1, file);
+    assert(!scripts.includes(baseRuntime), 'the site runtime starts after React hydration');
+    for (const src of deferredScripts) {
+      assert(html.includes(src), `${file} schedules ${src}`);
+      assert(existsSync(path.join(root, src)), `${file} -> ${src}`);
+    }
+    assert.equal(entries.filter(entry =>
+      entry.tag === 'link' && entry.attrs.rel === 'stylesheet' &&
+      entry.attrs.href === '/assets/css/site-navigation.css'
+    ).length, 1, file);
   }
-  assert.equal(htmlFiles.length, 9);
 });
 
-test('all local HTML links, fragments and relative asset references resolve', () => {
+test('exported local links, fragment destinations and asset references resolve', () => {
   for (const file of htmlFiles) {
-    const html = readFileSync(file, 'utf8');
-    const references = tags(html).flatMap(({ attrs }) =>
-      ['href', 'src', 'poster'].filter(k => attrs[k]).map(k => attrs[k]));
+    const entries = tags(source(file));
+    for (const { tag, attrs } of entries) {
+      if (tag === 'a' && attrs.href?.startsWith('/') && !attrs.href.startsWith('//')) {
+        assert(!new URL(attrs.href, 'https://iamyadunand.com').pathname.endsWith('.html'), `${file} -> ${attrs.href}`);
+      }
+    }
+    const references = entries.flatMap(({ attrs }) =>
+      ['href', 'src', 'poster'].filter(key => attrs[key]).map(key => attrs[key]));
     for (const href of references) {
       if (/^(?:[a-z][\w+.-]*:|\/\/)/i.test(href)) continue;
       const [relative, hash] = href.split('#');
-      let target = relative ? relative.startsWith('/') ? path.join(root, relative) : path.resolve(path.dirname(file), relative.split('?')[0]) : file;
-      if (!existsSync(target)) target = decodeURIComponent(target);
-      // Clean routes have directory indexes for file-only preview servers.
-      // The deployed host may also serve their matching root HTML documents.
-      if ((!existsSync(target) || statSync(target).isDirectory()) && existsSync(`${target}.html`)) target += '.html';
+      const urlPath = relative.split('?')[0];
+      let target = urlPath ? path.join(root, decodeURIComponent(urlPath)) : path.join(root, file);
       if (existsSync(target) && statSync(target).isDirectory()) target = path.join(target, 'index.html');
-      assert(existsSync(target), `${path.relative(root, file)} -> ${href}`);
+      assert(existsSync(target), `${file} -> ${href}`);
       if (hash && target.endsWith('.html')) {
-        const ids = [...readFileSync(target, 'utf8').matchAll(/(?:\s|<)id=(["'])(.*?)\1/g)].map(m => m[2]);
-        assert(ids.includes(decodeURIComponent(hash)), `${path.relative(root, file)} -> ${href}`);
+        const ids = [...readFileSync(target, 'utf8').matchAll(/(?:\s|<)id=(["'])(.*?)\1/g)].map(match => match[2]);
+        assert(ids.includes(decodeURIComponent(hash)), `${file} -> ${href}`);
       }
     }
   }
 });
 
-test('shared bundle bridges the existing libraries without creating another scroll engine or ticker', () => {
-  const bundle = source('_astro/BaseLayout.astro_astro_type_script_index_0_lang.Dpw5V1aT.js');
+test('shared bundle bridges the existing libraries with one Lenis instance and ticker', () => {
+  const bundle = source(baseRuntime);
   const scroll = source('assets/js/site-scroll.js');
   assert.equal((bundle.match(/initSiteScroll\(\{Lenis:Cc,gsap:hi,ScrollTrigger:Q\}\)/g) || []).length, 1);
   assert.equal((scroll.match(/new Lenis\(/g) || []).length, 1);
   assert.equal((scroll.match(/gsap\.ticker\.add\(tick\)/g) || []).length, 1);
-  assert(scroll.includes('autoRaf: false')); assert(scroll.includes('syncTouch: false'));
+  assert(scroll.includes('autoRaf: false'));
+  assert(scroll.includes('syncTouch: false'));
   assert(scroll.includes('allowNestedScroll: true'));
   assert(!scroll.includes('requestAnimationFrame(tick)'));
   assert(!bundle.includes('new Cc('));
   assert(bundle.includes('a=()=>requestSiteRefresh();return document.fonts?.ready.then(a)'));
 });
 
-test('clean routes have real directory entry pages with root asset paths', () => {
-  for (const route of ['projects', 'services', 'contact', 'privacy']) {
-    const html = source(`${route}/index.html`);
-    assert(html.includes('<main'), route);
-    assert(html.includes(`href="https://iamyadunand.com/${route}"`), route);
-    for (const { tag, attrs } of tags(html)) {
-      for (const name of ['src', 'poster', ...(tag === 'link' ? ['href'] : [])]) {
-        const value = attrs[name];
-        if (value && !/^(?:[a-z][\w+.-]*:|\/|#)/i.test(value)) {
-          assert.fail(`${route}/index.html has a route-relative asset: ${value}`);
-        }
-      }
-    }
+test('each clean route has a static directory index, legacy alias, and canonical URL', () => {
+  for (const route of routes) assert.equal(source(`${route}/index.html`), source(`${route}.html`), route);
+  for (const file of htmlFiles) {
+    const html = source(file);
+    const route = routeFor(file);
+    assert(html.includes('<main'), file);
+    const canonical = tags(html).filter(({ tag, attrs }) => tag === 'link' && attrs.rel === 'canonical');
+    assert.equal(canonical.length, 1, file);
+    assert.equal(canonical[0].attrs.href, `https://iamyadunand.com/${route === 'home' ? '' : route}`, file);
   }
+  assert.equal(source('CNAME').trim(), 'iamyadunand.com');
+  assert(existsSync(path.join(root, '.nojekyll')));
 });
 
 test('every page except Contact uses the footer scroll reveal', () => {
   for (const file of htmlFiles) {
-    const html = readFileSync(file, 'utf8');
-    const contact = ['contact.html', path.join('contact', 'index.html')].includes(path.relative(root, file));
+    const route = routeFor(file);
+    const html = source(file);
+    const contact = route === 'contact';
     const panels = html.match(/<section\s+data-footer-portal\b/g) ?? [];
-    const scripts = tags(html).filter(({ tag, attrs }) =>
-      tag === 'script' && attrs.src?.endsWith('/footer-reveal.js'));
     assert.equal(panels.length, contact ? 0 : 1, file);
-    assert.equal(scripts.length, contact ? 0 : 1, file);
+    assert.equal(scriptsFor(route).filter(script => script.src.endsWith('/footer-reveal.js')).length, contact ? 0 : 1, file);
     if (contact) {
       assert.match(html, /<\/main>\s*<footer\b[^>]*\bdata-profile-footer\b/, file);
     } else {
       assert.match(html, /<\/main>\s*<div data-footer-reveal-stage\b[^>]*>\s*<footer\b[^>]*\bdata-profile-footer\b/, file);
     }
-  }
-});
-
-test('page links and canonical URLs use extensionless routes', () => {
-  for (const file of htmlFiles) {
-    const html = readFileSync(file, 'utf8');
-    const entries = tags(html);
-    for (const { attrs } of entries) {
-      if (!attrs.href || attrs.href.startsWith('#')) continue;
-      const url = new URL(attrs.href, `https://iamyadunand.com/${path.relative(root, file)}`);
-      if (url.origin === 'https://iamyadunand.com') assert(!url.pathname.endsWith('.html'), `${file} -> ${attrs.href}`);
-    }
-    const canonical = entries.filter(({ tag, attrs }) => tag === 'link' && attrs.rel === 'canonical');
-    assert.equal(canonical.length, 1, file);
-    assert(html.includes('history.replaceState(history.state, "", pagePath + pageURL.search + pageURL.hash)'), file);
-    assert(html.indexOf('var originalPageURL') < html.indexOf('sessionStorage.getItem("portfolio-page-entry")'), file);
   }
 });
