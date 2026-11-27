@@ -1,3 +1,5 @@
+import { ArrowUpRight01Icon } from "@hugeicons/core-free-icons";
+import Icon from "../../components/Icon";
 import Reveal from "../../components/Reveal";
 import { SiteFrame } from "../site/site-frame";
 import { pageMetadata } from "../site/metadata";
@@ -84,9 +86,7 @@ export default function ProjectsPage() {
                         <span className="roll">
                           <span data-text="Visit project">Visit project</span>
                         </span>
-                        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1" aria-hidden="true" className="size-3.5">
-                          <path d="M4 12 12 4M5 4h7v7" />
-                        </svg>
+                        <span className="size-3.5 icon-slot"><Icon icon={ArrowUpRight01Icon} size={18} /></span>
                       </a>
                     </div>
                   </div>
@@ -108,9 +108,7 @@ export default function ProjectsPage() {
                         <span className="roll">
                           <span data-text="Visit project">Visit project</span>
                         </span>
-                        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1" aria-hidden="true" className="size-3.5">
-                          <path d="M4 12 12 4M5 4h7v7" />
-                        </svg>
+                        <span className="size-3.5 icon-slot"><Icon icon={ArrowUpRight01Icon} size={18} /></span>
                       </a>
                     </div>
                   </div>
@@ -139,9 +137,7 @@ export default function ProjectsPage() {
                         <span className="roll">
                           <span data-text="Visit project">Visit project</span>
                         </span>
-                        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1" aria-hidden="true" className="size-3.5">
-                          <path d="M4 12 12 4M5 4h7v7" />
-                        </svg>
+                        <span className="size-3.5 icon-slot"><Icon icon={ArrowUpRight01Icon} size={18} /></span>
                       </a>
                     </div>
                   </div>
@@ -166,7 +162,7 @@ export default function ProjectsPage() {
                     <span className="display text-display-sm transition-transform duration-700 ease-out-soft group-hover:translate-x-3 md:col-span-5">Zappo</span>
                     <span className="label hidden text-graphite md:col-span-2 md:block">India</span>
                     <span className="label hidden text-graphite md:col-span-2 md:block">Web app</span>
-                    <span className="label flex items-baseline justify-end gap-3 text-graphite md:col-span-2">2026<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1" aria-hidden="true" className="project-card__arrow"><path d="M4 12 12 4M5 4h7v7" /></svg></span>
+                    <span className="label flex items-baseline justify-end gap-3 text-graphite md:col-span-2">2026<span className="project-card__arrow icon-slot"><Icon icon={ArrowUpRight01Icon} size={18} /></span></span>
                   </a>
                 </li>
                 <li data-reveal="">
@@ -175,7 +171,7 @@ export default function ProjectsPage() {
                     <span className="display text-display-sm transition-transform duration-700 ease-out-soft group-hover:translate-x-3 md:col-span-5">Tenorra Labs</span>
                     <span className="label hidden text-graphite md:col-span-2 md:block">India</span>
                     <span className="label hidden text-graphite md:col-span-2 md:block">Website</span>
-                    <span className="label flex items-baseline justify-end gap-3 text-graphite md:col-span-2">2024<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1" aria-hidden="true" className="project-card__arrow"><path d="M4 12 12 4M5 4h7v7" /></svg></span>
+                    <span className="label flex items-baseline justify-end gap-3 text-graphite md:col-span-2">2024<span className="project-card__arrow icon-slot"><Icon icon={ArrowUpRight01Icon} size={18} /></span></span>
                   </a>
                 </li>
                 <li data-reveal="">
@@ -184,7 +180,7 @@ export default function ProjectsPage() {
                     <span className="display text-display-sm transition-transform duration-700 ease-out-soft group-hover:translate-x-3 md:col-span-5">Code and Thrive</span>
                     <span className="label hidden text-graphite md:col-span-2 md:block">India</span>
                     <span className="label hidden text-graphite md:col-span-2 md:block">Website</span>
-                    <span className="label flex items-baseline justify-end gap-3 text-graphite md:col-span-2">2025<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1" aria-hidden="true" className="project-card__arrow"><path d="M4 12 12 4M5 4h7v7" /></svg></span>
+                    <span className="label flex items-baseline justify-end gap-3 text-graphite md:col-span-2">2025<span className="project-card__arrow icon-slot"><Icon icon={ArrowUpRight01Icon} size={18} /></span></span>
                   </a>
                 </li>
                 <li data-reveal="">
@@ -193,7 +189,7 @@ export default function ProjectsPage() {
                     <span className="display text-display-sm transition-transform duration-700 ease-out-soft group-hover:translate-x-3 md:col-span-5">BTPC4E Xelerator</span>
                     <span className="label hidden text-graphite md:col-span-2 md:block">USA</span>
                     <span className="label hidden text-graphite md:col-span-2 md:block">Website</span>
-                    <span className="label flex items-baseline justify-end gap-3 text-graphite md:col-span-2">2026<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1" aria-hidden="true" className="project-card__arrow"><path d="M4 12 12 4M5 4h7v7" /></svg></span>
+                    <span className="label flex items-baseline justify-end gap-3 text-graphite md:col-span-2">2026<span className="project-card__arrow icon-slot"><Icon icon={ArrowUpRight01Icon} size={18} /></span></span>
                   </a>
                 </li>
                 <li data-reveal="">
@@ -202,7 +198,7 @@ export default function ProjectsPage() {
                     <span className="display text-display-sm transition-transform duration-700 ease-out-soft group-hover:translate-x-3 md:col-span-5">Zion Piling</span>
                     <span className="label hidden text-graphite md:col-span-2 md:block">India</span>
                     <span className="label hidden text-graphite md:col-span-2 md:block">Website</span>
-                    <span className="label flex items-baseline justify-end gap-3 text-graphite md:col-span-2">2026<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1" aria-hidden="true" className="project-card__arrow"><path d="M4 12 12 4M5 4h7v7" /></svg></span>
+                    <span className="label flex items-baseline justify-end gap-3 text-graphite md:col-span-2">2026<span className="project-card__arrow icon-slot"><Icon icon={ArrowUpRight01Icon} size={18} /></span></span>
                   </a>
                 </li>
                 <li data-reveal="">
@@ -211,7 +207,7 @@ export default function ProjectsPage() {
                     <span className="display text-display-sm transition-transform duration-700 ease-out-soft group-hover:translate-x-3 md:col-span-5">Karuvin</span>
                     <span className="label hidden text-graphite md:col-span-2 md:block">Singapore</span>
                     <span className="label hidden text-graphite md:col-span-2 md:block">Website</span>
-                    <span className="label flex items-baseline justify-end gap-3 text-graphite md:col-span-2">2025<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1" aria-hidden="true" className="project-card__arrow"><path d="M4 12 12 4M5 4h7v7" /></svg></span>
+                    <span className="label flex items-baseline justify-end gap-3 text-graphite md:col-span-2">2025<span className="project-card__arrow icon-slot"><Icon icon={ArrowUpRight01Icon} size={18} /></span></span>
                   </a>
                 </li>
                 <li data-reveal="">
@@ -220,7 +216,7 @@ export default function ProjectsPage() {
                     <span className="display text-display-sm transition-transform duration-700 ease-out-soft group-hover:translate-x-3 md:col-span-5">Lobiatek</span>
                     <span className="label hidden text-graphite md:col-span-2 md:block">Dubai</span>
                     <span className="label hidden text-graphite md:col-span-2 md:block">Website</span>
-                    <span className="label flex items-baseline justify-end gap-3 text-graphite md:col-span-2">2025<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1" aria-hidden="true" className="project-card__arrow"><path d="M4 12 12 4M5 4h7v7" /></svg></span>
+                    <span className="label flex items-baseline justify-end gap-3 text-graphite md:col-span-2">2025<span className="project-card__arrow icon-slot"><Icon icon={ArrowUpRight01Icon} size={18} /></span></span>
                   </a>
                 </li>
                 <li data-reveal="">
@@ -229,7 +225,7 @@ export default function ProjectsPage() {
                     <span className="display text-display-sm transition-transform duration-700 ease-out-soft group-hover:translate-x-3 md:col-span-5">A1 Finish Painting</span>
                     <span className="label hidden text-graphite md:col-span-2 md:block">Australia</span>
                     <span className="label hidden text-graphite md:col-span-2 md:block">Website</span>
-                    <span className="label flex items-baseline justify-end gap-3 text-graphite md:col-span-2">2024<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1" aria-hidden="true" className="project-card__arrow"><path d="M4 12 12 4M5 4h7v7" /></svg></span>
+                    <span className="label flex items-baseline justify-end gap-3 text-graphite md:col-span-2">2024<span className="project-card__arrow icon-slot"><Icon icon={ArrowUpRight01Icon} size={18} /></span></span>
                   </a>
                 </li>
                 <li data-reveal="">
@@ -238,7 +234,7 @@ export default function ProjectsPage() {
                     <span className="display text-display-sm transition-transform duration-700 ease-out-soft group-hover:translate-x-3 md:col-span-5">Spakgen</span>
                     <span className="label hidden text-graphite md:col-span-2 md:block">Singapore</span>
                     <span className="label hidden text-graphite md:col-span-2 md:block">Website</span>
-                    <span className="label flex items-baseline justify-end gap-3 text-graphite md:col-span-2">2023<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1" aria-hidden="true" className="project-card__arrow"><path d="M4 12 12 4M5 4h7v7" /></svg></span>
+                    <span className="label flex items-baseline justify-end gap-3 text-graphite md:col-span-2">2023<span className="project-card__arrow icon-slot"><Icon icon={ArrowUpRight01Icon} size={18} /></span></span>
                   </a>
                 </li>
                 <li data-reveal="">
@@ -247,7 +243,7 @@ export default function ProjectsPage() {
                     <span className="display text-display-sm transition-transform duration-700 ease-out-soft group-hover:translate-x-3 md:col-span-5">TARSX Robot</span>
                     <span className="label hidden text-graphite md:col-span-2 md:block">India</span>
                     <span className="label hidden text-graphite md:col-span-2 md:block">Robotics</span>
-                    <span className="label flex items-baseline justify-end gap-3 text-graphite md:col-span-2">2024<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1" aria-hidden="true" className="project-card__arrow"><path d="M4 12 12 4M5 4h7v7" /></svg></span>
+                    <span className="label flex items-baseline justify-end gap-3 text-graphite md:col-span-2">2024<span className="project-card__arrow icon-slot"><Icon icon={ArrowUpRight01Icon} size={18} /></span></span>
                   </a>
                 </li>
                 <li data-reveal="">
@@ -256,7 +252,7 @@ export default function ProjectsPage() {
                     <span className="display text-display-sm transition-transform duration-700 ease-out-soft group-hover:translate-x-3 md:col-span-5">Startup Grow</span>
                     <span className="label hidden text-graphite md:col-span-2 md:block">India</span>
                     <span className="label hidden text-graphite md:col-span-2 md:block">Full stack</span>
-                    <span className="label flex items-baseline justify-end gap-3 text-graphite md:col-span-2">2026<svg className="project-card__arrow" viewBox="0 0 16 16" fill="none" stroke="currentColor" aria-hidden="true"><path d="M4 12 12 4M5 4h7v7" /></svg></span>
+                    <span className="label flex items-baseline justify-end gap-3 text-graphite md:col-span-2">2026<span className="project-card__arrow icon-slot"><Icon icon={ArrowUpRight01Icon} size={18} /></span></span>
                   </a>
                 </li>
               </ul>
@@ -421,17 +417,13 @@ export default function ProjectsPage() {
                     <span className="roll">
                       <span data-text="Start a conversation">Start a conversation</span>
                     </span>
-                    <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1" aria-hidden="true" className="size-3.5">
-                      <path d="M4 12 12 4M5 4h7v7" />
-                    </svg>
+                    <span className="size-3.5 icon-slot"><Icon icon={ArrowUpRight01Icon} size={18} /></span>
                   </a>
                   <a href="#all-projects" className="btn ">
                     <span className="roll">
                       <span data-text="Explore my work">Explore my work</span>
                     </span>
-                    <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1" aria-hidden="true" className="size-3.5">
-                      <path d="M4 12 12 4M5 4h7v7" />
-                    </svg>
+                    <span className="size-3.5 icon-slot"><Icon icon={ArrowUpRight01Icon} size={18} /></span>
                   </a>
                 </div>
               </div>

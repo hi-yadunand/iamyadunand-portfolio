@@ -1,3 +1,5 @@
+import { ArrowDown02Icon, ArrowUpRight01Icon } from "@hugeicons/core-free-icons";
+import Icon from "../components/Icon";
 import Reveal from "../components/Reveal";
 import { SiteFrame } from "./site/site-frame";
 import { pageMetadata } from "./site/metadata";
@@ -31,7 +33,7 @@ export default function HomePage() {
               </div>
               <div className="helix-hero__footer shell">
                 <p>Creating experiences through code.</p>
-                <span className="helix-hero__hint" aria-hidden="true">Scroll to explore <span>↓</span></span>
+                <span className="helix-hero__hint" aria-hidden="true">Scroll to explore <span className="icon-slot"><Icon icon={ArrowDown02Icon} size={18} /></span></span>
               </div>
             </div>
           </section>
@@ -54,9 +56,7 @@ export default function HomePage() {
                       <span className="roll">
                         <span data-text="Explore my work">Explore my work</span>
                       </span>
-                      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1" aria-hidden="true" className="size-3.5">
-                        <path d="M4 12 12 4M5 4h7v7" />
-                      </svg>
+                      <span className="size-3.5 icon-slot"><Icon icon={ArrowUpRight01Icon} size={18} /></span>
                     </a>
                   </div>
                 </div>
@@ -85,7 +85,7 @@ export default function HomePage() {
                       </div>
                     </div>
                     <div className="project-card__caption mt-3 flex items-baseline justify-between gap-6 text-sm font-medium tracking-[-0.01em]">
-                      <p className="project-card__name flex gap-4"><span className="label pt-0.5 text-signal">01</span>ZAPPO<svg className="project-card__arrow" viewBox="0 0 16 16" fill="none" stroke="currentColor" aria-hidden="true"> <path d="M4 12 12 4M5 4h7v7" /> </svg></p>
+                      <p className="project-card__name flex gap-4"><span className="label pt-0.5 text-signal">01</span>ZAPPO<span className="project-card__arrow icon-slot"><Icon icon={ArrowUpRight01Icon} size={18} /></span></p>
                       <p className="label shrink-0 text-graphite">Development · 2026</p>
                     </div>
                   </a>
@@ -98,7 +98,7 @@ export default function HomePage() {
                       </div>
                     </div>
                     <div className="project-card__caption mt-3 flex items-baseline justify-between gap-6 text-sm font-medium tracking-[-0.01em]">
-                      <p className="project-card__name flex gap-4"><span className="label pt-0.5 text-signal">02</span>Code &amp; Thrive<svg className="project-card__arrow" viewBox="0 0 16 16" fill="none" stroke="currentColor" aria-hidden="true"> <path d="M4 12 12 4M5 4h7v7" /> </svg></p>
+                      <p className="project-card__name flex gap-4"><span className="label pt-0.5 text-signal">02</span>Code &amp; Thrive<span className="project-card__arrow icon-slot"><Icon icon={ArrowUpRight01Icon} size={18} /></span></p>
                       <p className="label shrink-0 text-graphite">Design &amp; Code · 2025</p>
                     </div>
                   </a>
@@ -118,7 +118,7 @@ export default function HomePage() {
                       </div>
                     </div>
                     <div className="project-card__caption mt-3 flex items-baseline justify-between gap-6 text-sm font-medium tracking-[-0.01em]">
-                      <p className="project-card__name flex gap-4"><span className="label pt-0.5 text-signal">03</span>TARSX Robot<svg className="project-card__arrow" viewBox="0 0 16 16" fill="none" stroke="currentColor" aria-hidden="true"> <path d="M4 12 12 4M5 4h7v7" /> </svg></p>
+                      <p className="project-card__name flex gap-4"><span className="label pt-0.5 text-signal">03</span>TARSX Robot<span className="project-card__arrow icon-slot"><Icon icon={ArrowUpRight01Icon} size={18} /></span></p>
                       <p className="label shrink-0 text-graphite">Robotics · 2024</p>
                     </div>
                   </a>
@@ -131,7 +131,7 @@ export default function HomePage() {
                       </div>
                     </div>
                     <div className="project-card__caption mt-3 flex items-baseline justify-between gap-6 text-sm font-medium tracking-[-0.01em]">
-                      <p className="project-card__name flex gap-4"><span className="label pt-0.5 text-signal">04</span>Startup Grow<svg className="project-card__arrow" viewBox="0 0 16 16" fill="none" stroke="currentColor" aria-hidden="true"><path d="M4 12 12 4M5 4h7v7" /></svg></p>
+                      <p className="project-card__name flex gap-4"><span className="label pt-0.5 text-signal">04</span>Startup Grow<span className="project-card__arrow icon-slot"><Icon icon={ArrowUpRight01Icon} size={18} /></span></p>
                       <p className="label shrink-0 text-graphite">Full Stack · 2026</p>
                     </div>
                   </a>
@@ -142,9 +142,7 @@ export default function HomePage() {
                   <span className="roll">
                     <span data-text="All projects">All projects</span>
                   </span>
-                  <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1" aria-hidden="true" className="size-3.5">
-                    <path d="M4 12 12 4M5 4h7v7" />
-                  </svg>
+                  <span className="size-3.5 icon-slot"><Icon icon={ArrowUpRight01Icon} size={18} /></span>
                 </a>
               </div>
             </div>
@@ -198,9 +196,7 @@ export default function HomePage() {
                       <a href="https://codeandthrive.studio/services/website-development" target="_blank" rel="noopener noreferrer" className="grid grid-cols-[2rem_1fr_auto] items-baseline gap-x-3">
                         <span className="label text-signal">01</span>
                         <span className="display text-display-md transition-transform duration-700 ease-out-soft group-data-active:translate-x-3 lg:opacity-40 lg:transition lg:group-data-active:opacity-100">Websites</span>
-                        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1" aria-hidden="true" className="size-4 opacity-0 transition-opacity group-data-active:opacity-100">
-                          <path d="M4 12 12 4M5 4h7v7" />
-                        </svg>
+                        <span className="size-4 opacity-0 transition-opacity group-data-active:opacity-100 icon-slot"><Icon icon={ArrowUpRight01Icon} size={18} /></span>
                       </a>
                       <p className="mt-3 ml-[2.75rem] max-w-lg text-base leading-[1.35] tracking-[-0.01em] text-graphite lg:hidden"> Responsive websites and e-commerce experiences designed to turn visits into enquiries.</p>
                       <div className="code-thrive-highlight__frame relative mt-4 overflow-hidden lg:hidden">
@@ -211,9 +207,7 @@ export default function HomePage() {
                       <a href="https://codeandthrive.studio/services/web-application-development" target="_blank" rel="noopener noreferrer" className="grid grid-cols-[2rem_1fr_auto] items-baseline gap-x-3">
                         <span className="label text-signal">02</span>
                         <span className="display text-display-md transition-transform duration-700 ease-out-soft group-data-active:translate-x-3 lg:opacity-40 lg:transition lg:group-data-active:opacity-100">Digital Products</span>
-                        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1" aria-hidden="true" className="size-4 opacity-0 transition-opacity group-data-active:opacity-100">
-                          <path d="M4 12 12 4M5 4h7v7" />
-                        </svg>
+                        <span className="size-4 opacity-0 transition-opacity group-data-active:opacity-100 icon-slot"><Icon icon={ArrowUpRight01Icon} size={18} /></span>
                       </a>
                       <p className="mt-3 ml-[2.75rem] max-w-lg text-base leading-[1.35] tracking-[-0.01em] text-graphite lg:hidden"> Web apps, dashboards and mobile experiences built around the way people work.</p>
                       <div className="code-thrive-highlight__frame relative mt-4 overflow-hidden lg:hidden">
@@ -224,9 +218,7 @@ export default function HomePage() {
                       <a href="https://codeandthrive.studio/services/brand-positioning" target="_blank" rel="noopener noreferrer" className="grid grid-cols-[2rem_1fr_auto] items-baseline gap-x-3">
                         <span className="label text-signal">03</span>
                         <span className="display text-display-md transition-transform duration-700 ease-out-soft group-data-active:translate-x-3 lg:opacity-40 lg:transition lg:group-data-active:opacity-100">Brand &amp; Design</span>
-                        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1" aria-hidden="true" className="size-4 opacity-0 transition-opacity group-data-active:opacity-100">
-                          <path d="M4 12 12 4M5 4h7v7" />
-                        </svg>
+                        <span className="size-4 opacity-0 transition-opacity group-data-active:opacity-100 icon-slot"><Icon icon={ArrowUpRight01Icon} size={18} /></span>
                       </a>
                       <p className="mt-3 ml-[2.75rem] max-w-lg text-base leading-[1.35] tracking-[-0.01em] text-graphite lg:hidden"> Brand strategy, visual identity and interfaces that make every touchpoint feel connected.</p>
                       <div className="code-thrive-highlight__frame relative mt-4 overflow-hidden lg:hidden">
@@ -237,9 +229,7 @@ export default function HomePage() {
                       <a href="https://codeandthrive.studio/services/digital-marketing" target="_blank" rel="noopener noreferrer" className="grid grid-cols-[2rem_1fr_auto] items-baseline gap-x-3">
                         <span className="label text-signal">04</span>
                         <span className="display text-display-md transition-transform duration-700 ease-out-soft group-data-active:translate-x-3 lg:opacity-40 lg:transition lg:group-data-active:opacity-100">Digital Marketing</span>
-                        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1" aria-hidden="true" className="size-4 opacity-0 transition-opacity group-data-active:opacity-100">
-                          <path d="M4 12 12 4M5 4h7v7" />
-                        </svg>
+                        <span className="size-4 opacity-0 transition-opacity group-data-active:opacity-100 icon-slot"><Icon icon={ArrowUpRight01Icon} size={18} /></span>
                       </a>
                       <p className="mt-3 ml-[2.75rem] max-w-lg text-base leading-[1.35] tracking-[-0.01em] text-graphite lg:hidden"> Creative campaigns, paid media and content that connect brands with the right audiences.</p>
                       <div className="code-thrive-highlight__frame relative mt-4 overflow-hidden lg:hidden">
@@ -250,9 +240,7 @@ export default function HomePage() {
                       <a href="https://codeandthrive.studio/services/lead-generation" target="_blank" rel="noopener noreferrer" className="grid grid-cols-[2rem_1fr_auto] items-baseline gap-x-3">
                         <span className="label text-signal">05</span>
                         <span className="display text-display-md transition-transform duration-700 ease-out-soft group-data-active:translate-x-3 lg:opacity-40 lg:transition lg:group-data-active:opacity-100">Growth &amp; SEO</span>
-                        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1" aria-hidden="true" className="size-4 opacity-0 transition-opacity group-data-active:opacity-100">
-                          <path d="M4 12 12 4M5 4h7v7" />
-                        </svg>
+                        <span className="size-4 opacity-0 transition-opacity group-data-active:opacity-100 icon-slot"><Icon icon={ArrowUpRight01Icon} size={18} /></span>
                       </a>
                       <p className="mt-3 ml-[2.75rem] max-w-lg text-base leading-[1.35] tracking-[-0.01em] text-graphite lg:hidden"> Search visibility, landing pages and conversion improvements that help businesses grow.</p>
                       <div className="code-thrive-highlight__frame relative mt-4 overflow-hidden lg:hidden">
@@ -634,17 +622,13 @@ export default function HomePage() {
                     <span className="roll">
                       <span data-text="Start a conversation">Start a conversation</span>
                     </span>
-                    <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1" aria-hidden="true" className="size-3.5">
-                      <path d="M4 12 12 4M5 4h7v7" />
-                    </svg>
+                    <span className="size-3.5 icon-slot"><Icon icon={ArrowUpRight01Icon} size={18} /></span>
                   </a>
                   <a href="/projects" className="btn ">
                     <span className="roll">
                       <span data-text="Explore my work">Explore my work</span>
                     </span>
-                    <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1" aria-hidden="true" className="size-3.5">
-                      <path d="M4 12 12 4M5 4h7v7" />
-                    </svg>
+                    <span className="size-3.5 icon-slot"><Icon icon={ArrowUpRight01Icon} size={18} /></span>
                   </a>
                 </div>
               </div>

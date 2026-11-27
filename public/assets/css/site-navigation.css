@@ -107,6 +107,18 @@ html.lenis body {
   min-height: 100%;
 }
 
+/* Keep existing inline icon slots while drawing the standard-sized SVG. */
+.icon-slot {
+  position: relative;
+}
+
+.icon-slot > svg {
+  position: absolute;
+  inset-inline-start: 50%;
+  top: 50%;
+  translate: -50% -50%;
+}
+
 @layer base {
   :where(a, button, input, textarea, select, [role="button"]):not([data-project-entrance], [data-reveal], [data-motion-reveal]) {
     transition-property: color, background-color, border-color, opacity, transform, box-shadow;

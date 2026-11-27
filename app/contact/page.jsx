@@ -1,3 +1,5 @@
+import { ArrowDown01Icon, Mail01Icon } from "@hugeicons/core-free-icons";
+import Icon from "../../components/Icon";
 import Reveal from "../../components/Reveal";
 import { SiteFrame } from "../site/site-frame";
 import { pageMetadata } from "../site/metadata";
@@ -76,6 +78,7 @@ export default function ContactPage() {
                   <option value="₹1,00,000+">₹1,00,000+</option>
                   <option value="Let’s discuss">Let’s discuss</option>
                 </select>
+                <Icon icon={ArrowDown01Icon} size={18} className="contact-form__select-icon" />
               </div>
             </Reveal>
             <Reveal delay={5 * 0.08} className="contact-form__field">
@@ -91,6 +94,7 @@ export default function ContactPage() {
                 <span className="roll">
                   <span data-text="Send message">Send message</span>
                 </span>
+                <Icon icon={Mail01Icon} size={18} className="contact-form__send-icon" />
               </button>
               <p id="contact-form-note" className="contact-form__note">Opens your email app with your project details ready to send.</p>
               <p className="contact-form__status" data-form-status="" role="status" aria-live="polite" />

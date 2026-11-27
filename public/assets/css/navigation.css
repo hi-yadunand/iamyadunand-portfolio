@@ -59,6 +59,18 @@ header[data-header] :is(nav, [data-menu-toggle]) {
   text-transform: uppercase;
 }
 
+[data-menu-toggle] {
+  position: relative;
+  padding-inline-start: 2rem;
+}
+
+.site-menu-toggle__icon {
+  position: absolute;
+  inset-inline-start: 0;
+  top: 50%;
+  translate: 0 -50%;
+}
+
 header[data-header] nav {
   gap: clamp(0.875rem, 1.9vw, 1.75rem);
   font-size: 0.8125rem;

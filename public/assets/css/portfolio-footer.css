@@ -166,6 +166,19 @@
   overflow-wrap: anywhere;
 }
 
+.portfolio-footer__social-link {
+  position: relative;
+  padding-inline-end: 1.875rem;
+  white-space: nowrap;
+}
+
+.portfolio-footer__social-icon {
+  position: absolute;
+  inset-inline-end: 0;
+  top: 50%;
+  translate: 0 -50%;
+}
+
 .portfolio-footer__profile-video {
   display: block;
   width: clamp(5.5rem, 8vw, 9rem);

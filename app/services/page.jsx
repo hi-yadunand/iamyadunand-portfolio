@@ -1,3 +1,5 @@
+import { Add01Icon, ArrowUpRight01Icon } from "@hugeicons/core-free-icons";
+import Icon from "../../components/Icon";
 import Reveal from "../../components/Reveal";
 import { SiteFrame } from "../site/site-frame";
 import { pageMetadata } from "../site/metadata";
@@ -44,9 +46,7 @@ export default function ServicesPage() {
                       <span className="label text-signal">01</span>
                       <span className="display service-card__title">Product &amp; UI/UX Design</span>
                       <span className="service-card__toggle" aria-hidden="true">
-                        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1" className="fold-icon">
-                          <path d="M8 2v12M2 8h12" />
-                        </svg>
+                        <span className="fold-icon icon-slot"><Icon icon={Add01Icon} size={18} /></span>
                       </span>
                     </button>
                   </h2>
@@ -70,9 +70,7 @@ export default function ServicesPage() {
                       <span className="label text-signal">02</span>
                       <span className="display service-card__title">Web Development</span>
                       <span className="service-card__toggle" aria-hidden="true">
-                        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1" className="fold-icon">
-                          <path d="M8 2v12M2 8h12" />
-                        </svg>
+                        <span className="fold-icon icon-slot"><Icon icon={Add01Icon} size={18} /></span>
                       </span>
                     </button>
                   </h2>
@@ -96,9 +94,7 @@ export default function ServicesPage() {
                       <span className="label text-signal">03</span>
                       <span className="display service-card__title">Frontend Engineering</span>
                       <span className="service-card__toggle" aria-hidden="true">
-                        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1" className="fold-icon">
-                          <path d="M8 2v12M2 8h12" />
-                        </svg>
+                        <span className="fold-icon icon-slot"><Icon icon={Add01Icon} size={18} /></span>
                       </span>
                     </button>
                   </h2>
@@ -122,9 +118,7 @@ export default function ServicesPage() {
                       <span className="label text-signal">04</span>
                       <span className="display service-card__title">Branding &amp; Visual Identity</span>
                       <span className="service-card__toggle" aria-hidden="true">
-                        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1" className="fold-icon">
-                          <path d="M8 2v12M2 8h12" />
-                        </svg>
+                        <span className="fold-icon icon-slot"><Icon icon={Add01Icon} size={18} /></span>
                       </span>
                     </button>
                   </h2>
@@ -148,9 +142,7 @@ export default function ServicesPage() {
                       <span className="label text-signal">05</span>
                       <span className="display service-card__title">Growth &amp; SEO</span>
                       <span className="service-card__toggle" aria-hidden="true">
-                        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1" className="fold-icon">
-                          <path d="M8 2v12M2 8h12" />
-                        </svg>
+                        <span className="fold-icon icon-slot"><Icon icon={Add01Icon} size={18} /></span>
                       </span>
                     </button>
                   </h2>
@@ -254,7 +246,7 @@ export default function ServicesPage() {
                 </div>
                 <div className="border-b border-line lg:col-span-6 lg:col-start-7">
                   <Reveal data-accordion="" className="border-t border-line">
-                    <button type="button" data-accordion-btn="" aria-expanded="false" className="flex w-full items-baseline justify-between gap-6 py-4 text-left text-xl font-[450] tracking-[-0.025em]">What can you help me with?<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1" aria-hidden="true" className="fold-icon size-4 shrink-0 transition-transform duration-500"><path d="M8 2v12M2 8h12" /></svg></button>
+                    <button type="button" data-accordion-btn="" aria-expanded="false" className="flex w-full items-baseline justify-between gap-6 py-4 text-left text-xl font-[450] tracking-[-0.025em]">What can you help me with?<span className="fold-icon size-4 shrink-0 transition-transform duration-500 icon-slot"><Icon icon={Add01Icon} size={18} /></span></button>
                     <div className="fold">
                       <div>
                         <p className="max-w-xl pb-6 text-base leading-[1.4] tracking-[-0.01em] text-graphite">I offer product and UI/UX design, web development, frontend engineering, branding and visual identity, and growth and SEO. These can be combined or scoped around a specific need.</p>
@@ -262,7 +254,7 @@ export default function ServicesPage() {
                     </div>
                   </Reveal>
                   <Reveal delay={1 * 0.08} data-accordion="" className="border-t border-line">
-                    <button type="button" data-accordion-btn="" aria-expanded="false" className="flex w-full items-baseline justify-between gap-6 py-4 text-left text-xl font-[450] tracking-[-0.025em]">Can you work on an existing website or product?<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1" aria-hidden="true" className="fold-icon size-4 shrink-0 transition-transform duration-500"><path d="M8 2v12M2 8h12" /></svg></button>
+                    <button type="button" data-accordion-btn="" aria-expanded="false" className="flex w-full items-baseline justify-between gap-6 py-4 text-left text-xl font-[450] tracking-[-0.025em]">Can you work on an existing website or product?<span className="fold-icon size-4 shrink-0 transition-transform duration-500 icon-slot"><Icon icon={Add01Icon} size={18} /></span></button>
                     <div className="fold">
                       <div>
                         <p className="max-w-xl pb-6 text-base leading-[1.4] tracking-[-0.01em] text-graphite">I can help improve an existing website, refresh an interface, or develop a new product. Share what you have and the areas you want to improve.</p>
@@ -270,7 +262,7 @@ export default function ServicesPage() {
                     </div>
                   </Reveal>
                   <Reveal delay={2 * 0.08} data-accordion="" className="border-t border-line">
-                    <button type="button" data-accordion-btn="" aria-expanded="false" className="flex w-full items-baseline justify-between gap-6 py-4 text-left text-xl font-[450] tracking-[-0.025em]">Can design and development be part of one project?<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1" aria-hidden="true" className="fold-icon size-4 shrink-0 transition-transform duration-500"><path d="M8 2v12M2 8h12" /></svg></button>
+                    <button type="button" data-accordion-btn="" aria-expanded="false" className="flex w-full items-baseline justify-between gap-6 py-4 text-left text-xl font-[450] tracking-[-0.025em]">Can design and development be part of one project?<span className="fold-icon size-4 shrink-0 transition-transform duration-500 icon-slot"><Icon icon={Add01Icon} size={18} /></span></button>
                     <div className="fold">
                       <div>
                         <p className="max-w-xl pb-6 text-base leading-[1.4] tracking-[-0.01em] text-graphite">Yes. Product and UI/UX design, frontend engineering, and full-stack development can be brought together so the experience stays consistent from prototype to implementation.</p>
@@ -278,7 +270,7 @@ export default function ServicesPage() {
                     </div>
                   </Reveal>
                   <Reveal delay={3 * 0.08} data-accordion="" className="border-t border-line">
-                    <button type="button" data-accordion-btn="" aria-expanded="false" className="flex w-full items-baseline justify-between gap-6 py-4 text-left text-xl font-[450] tracking-[-0.025em]">Can branding and SEO be included?<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1" aria-hidden="true" className="fold-icon size-4 shrink-0 transition-transform duration-500"><path d="M8 2v12M2 8h12" /></svg></button>
+                    <button type="button" data-accordion-btn="" aria-expanded="false" className="flex w-full items-baseline justify-between gap-6 py-4 text-left text-xl font-[450] tracking-[-0.025em]">Can branding and SEO be included?<span className="fold-icon size-4 shrink-0 transition-transform duration-500 icon-slot"><Icon icon={Add01Icon} size={18} /></span></button>
                     <div className="fold">
                       <div>
                         <p className="max-w-xl pb-6 text-base leading-[1.4] tracking-[-0.01em] text-graphite">Yes. Brand identity, visual design, and SEO can be scoped alongside your website or product so the work supports a consistent presence.</p>
@@ -286,7 +278,7 @@ export default function ServicesPage() {
                     </div>
                   </Reveal>
                   <Reveal delay={4 * 0.08} data-accordion="" className="border-t border-line">
-                    <button type="button" data-accordion-btn="" aria-expanded="false" className="flex w-full items-baseline justify-between gap-6 py-4 text-left text-xl font-[450] tracking-[-0.025em]">How do I get started?<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1" aria-hidden="true" className="fold-icon size-4 shrink-0 transition-transform duration-500"><path d="M8 2v12M2 8h12" /></svg></button>
+                    <button type="button" data-accordion-btn="" aria-expanded="false" className="flex w-full items-baseline justify-between gap-6 py-4 text-left text-xl font-[450] tracking-[-0.025em]">How do I get started?<span className="fold-icon size-4 shrink-0 transition-transform duration-500 icon-slot"><Icon icon={Add01Icon} size={18} /></span></button>
                     <div className="fold">
                       <div>
                         <p className="max-w-xl pb-6 text-base leading-[1.4] tracking-[-0.01em] text-graphite">Send me an overview of your idea, your goals, and any existing content or references. I can then discuss the scope and the next steps with you.</p>
@@ -294,7 +286,7 @@ export default function ServicesPage() {
                     </div>
                   </Reveal>
                   <Reveal delay={5 * 0.08} data-accordion="" className="border-t border-line">
-                    <button type="button" data-accordion-btn="" aria-expanded="false" className="flex w-full items-baseline justify-between gap-6 py-4 text-left text-xl font-[450] tracking-[-0.025em]">How long will my project take?<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1" aria-hidden="true" className="fold-icon size-4 shrink-0 transition-transform duration-500"><path d="M8 2v12M2 8h12" /></svg></button>
+                    <button type="button" data-accordion-btn="" aria-expanded="false" className="flex w-full items-baseline justify-between gap-6 py-4 text-left text-xl font-[450] tracking-[-0.025em]">How long will my project take?<span className="fold-icon size-4 shrink-0 transition-transform duration-500 icon-slot"><Icon icon={Add01Icon} size={18} /></span></button>
                     <div className="fold">
                       <div>
                         <p className="max-w-xl pb-6 text-base leading-[1.4] tracking-[-0.01em] text-graphite">The timeline depends on the scope, content, and features. We can agree on milestones once the requirements are clear.</p>
@@ -326,17 +318,13 @@ export default function ServicesPage() {
                     <span className="roll">
                       <span data-text="Start a conversation">Start a conversation</span>
                     </span>
-                    <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1" aria-hidden="true" className="size-3.5">
-                      <path d="M4 12 12 4M5 4h7v7" />
-                    </svg>
+                    <span className="size-3.5 icon-slot"><Icon icon={ArrowUpRight01Icon} size={18} /></span>
                   </a>
                   <a href="/projects" className="btn ">
                     <span className="roll">
                       <span data-text="Explore my work">Explore my work</span>
                     </span>
-                    <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1" aria-hidden="true" className="size-3.5">
-                      <path d="M4 12 12 4M5 4h7v7" />
-                    </svg>
+                    <span className="size-3.5 icon-slot"><Icon icon={ArrowUpRight01Icon} size={18} /></span>
                   </a>
                 </div>
               </div>

@@ -1,3 +1,5 @@
+import { MenuToggle } from "./menu-toggle";
+
 const links = [
   { page: "home", href: "/", label: "Home", image: "case-studies/zappo.webp", alt: "Zappo sports booking app" },
   { page: "projects", href: "/projects", label: "Projects", image: "projects/codeandthrive.webp", alt: "Code and Thrive website" },
@@ -28,9 +30,7 @@ export function SiteHeader({ page }) {
           </nav>
           <div className="flex items-center justify-end gap-6">
             <a href="/contact#brief" className="btn hidden !py-1.5 md:inline-flex"><Roll>Let's talk</Roll></a>
-            <button type="button" data-menu-toggle="" aria-controls="site-menu" aria-expanded="false" className="text-sm lg:hidden">
-              <Roll>Menu</Roll>
-            </button>
+            <MenuToggle><Roll>Menu</Roll></MenuToggle>
           </div>
         </div>
       </header>

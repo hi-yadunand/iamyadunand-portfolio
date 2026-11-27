@@ -1,4 +1,12 @@
+import { GithubIcon, Linkedin01Icon } from "@hugeicons/core-free-icons";
+import Icon from "../../components/Icon";
 import Reveal from "../../components/Reveal";
+
+const socials = [
+  { label: "GitHub", href: "https://github.com/hi-yadunand", icon: GithubIcon },
+  { label: "LinkedIn", href: "https://www.linkedin.com/in/yadunand-pavithran/", icon: Linkedin01Icon },
+];
+
 export function PortfolioFooter({ reveal }) {
   const footer = (
     <footer data-profile-footer="" className="overflow-hidden bg-ink text-paper" data-dark={reveal ? undefined : ""}>
@@ -27,12 +35,11 @@ export function PortfolioFooter({ reveal }) {
           <div>
             <p className="portfolio-footer__label">Follow</p>
             <ul>
-              <li>
-                <a href="https://github.com/hi-yadunand" target="_blank" rel="noopener noreferrer">GitHub</a>
-              </li>
-              <li>
-                <a href="https://www.linkedin.com/in/yadunand-pavithran/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
-              </li>
+              {socials.map(({ label, href, icon }) => (
+                <li key={href}>
+                  <a href={href} target="_blank" rel="noopener noreferrer" className="portfolio-footer__social-link">{label}<Icon icon={icon} className="portfolio-footer__social-icon" /></a>
+                </li>
+              ))}
             </ul>
           </div>
         </div>

@@ -112,7 +112,11 @@
 }
 
 .helix-hero__hint span {
+  display: inline-block;
+  width: .917em;
+  height: 1em;
   margin-inline-start: .25em;
+  vertical-align: middle;
 }
 
 .helix-hero__view {
