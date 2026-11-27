@@ -7,6 +7,7 @@ import { scrollToSitePosition } from "./site-scroll.js";
 
 const portal = document.querySelector("[data-footer-portal]");
 const clamp = (value) => Math.min(1, Math.max(0, value));
+const pinTopAt = (offset, travel) => Math.min(travel, Math.max(0, offset)) - offset;
 const easeBetween = (start, end, value) => {
   const t = clamp((value - start) / (end - start));
   return t * t * (3 - 2 * t);
@@ -93,13 +94,14 @@ if (portal) {
     if (!geometry) return;
     const offset = -portal.getBoundingClientRect().top;
     const { travel, height } = geometry;
-    if (immediate || shownOffset === undefined || offset <= -height || (offset <= 0 && shownOffset <= 0)) {
+    const beforePortal = offset <= 0 && shownOffset <= 0 && lastFrame === undefined;
+    if (immediate || shownOffset === undefined || offset <= -height || beforePortal) {
       shownOffset = offset;
     } else {
       const elapsed = lastFrame === undefined ? 16 : Math.max(1, Math.min(now - lastFrame, 34));
-      const from = Math.max(0, shownOffset);
+      const from = shownOffset <= -height ? 0 : shownOffset;
       const step = (offset - from) * (1 - Math.exp(-elapsed / 120));
-      const maxStep = travel * elapsed / 1400;
+      const maxStep = travel * elapsed / 900;
       // Approach the speed limit gradually as the scroll position pulls ahead.
       shownOffset = from + maxStep * Math.tanh(step / maxStep);
     }
@@ -107,10 +109,10 @@ if (portal) {
     lastFrame = offset === shownOffset ? undefined : now;
     if (lastFrame !== undefined) schedule();
 
-    // Keep the sticky scene and footer entrance aligned while the camera catches up.
-    const lag = Math.max(0, offset - shownOffset);
-    pin.style.setProperty("--footer-portal-pin-shift", `${Math.min(lag, Math.max(0, offset - travel))}px`);
-    footerStage.style.setProperty("--footer-portal-footer-shift", `${lag}px`);
+    // Keep the scene and footer at the camera's position in both scroll directions.
+    const pinShift = pinTopAt(shownOffset, travel) - pinTopAt(offset, travel);
+    pin.style.setProperty("--footer-portal-pin-shift", `${pinShift}px`);
+    footerStage.style.setProperty("--footer-portal-footer-shift", `${offset - shownOffset}px`);
 
     const progress = clamp(shownOffset / travel);
     if (progress === lastProgress) return;
