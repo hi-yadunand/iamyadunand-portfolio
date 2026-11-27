@@ -94,18 +94,27 @@ if (portal) {
     if (!geometry) return;
     const offset = -portal.getBoundingClientRect().top;
     const { travel, height } = geometry;
+    const scrollingBack = offset < shownOffset;
     const beforePortal = offset <= 0 && shownOffset <= 0 && lastFrame === undefined;
-    if (immediate || shownOffset === undefined || offset <= -height || beforePortal) {
+    const scrollingWithinFooter = scrollingBack && offset >= travel;
+    if (immediate || shownOffset === undefined || beforePortal || scrollingWithinFooter) {
       shownOffset = offset;
     } else {
       const elapsed = lastFrame === undefined ? 16 : Math.max(1, Math.min(now - lastFrame, 34));
       const from = shownOffset <= -height ? 0 : shownOffset;
-      const step = (offset - from) * (1 - Math.exp(-elapsed / 120));
-      const maxStep = travel * elapsed / 900;
-      // Approach the speed limit gradually as the scroll position pulls ahead.
+      // Hold the reverse zoom on screen through large jumps, then release once it leaves view.
+      const target = Math.max(offset, -height);
+      const gap = target - from;
+      let speed = travel / 900;
+      let step = gap * (1 - Math.exp(-elapsed / 120));
+      if (scrollingBack) {
+        speed = from > travel || from <= 0 ? height / 180 : travel / 380;
+        step = gap;
+      }
+      const maxStep = speed * elapsed;
       shownOffset = from + maxStep * Math.tanh(step / maxStep);
+      if (Math.abs(target - shownOffset) < 0.75) shownOffset = offset;
     }
-    if (Math.abs(offset - shownOffset) < 0.75) shownOffset = offset;
     lastFrame = offset === shownOffset ? undefined : now;
     if (lastFrame !== undefined) schedule();
 
