@@ -37,6 +37,34 @@ export default function HomePage() {
           </section>
         </div>
         <div>
+          <section className="mt-24 md:mt-40">
+            <div className="shell">
+              <Reveal delay={0.1} className="label flex items-baseline justify-between gap-6 border-t border-current/20 pt-3 ">
+                <p className="flex gap-4">
+                  <span className="text-signal">A–02</span>
+                  <span>About me</span>
+                </p>
+              </Reveal>
+              <p data-wordfill="" className="mt-12 text-display-lg leading-[1] font-[450] tracking-[-0.04em] md:mt-20 md:indent-[16.66%]">I design and develop digital experiences with a focus on simplicity, interaction, and detail creating interfaces that feel as good as they look.</p>
+              <div className="mt-12 grid gap-8 md:mt-20 md:grid-cols-12">
+                <div className="md:col-span-6 md:col-start-7">
+                  <p data-reveal="" className="max-w-md text-base leading-[1.35] tracking-[-0.01em] text-graphite">I build end-to-end digital solutions, combining software engineering, AI integration, and problem-solving to turn complex ideas into practical applications.</p>
+                  <div data-reveal="" className="mt-6">
+                    <a href="/projects" className="btn">
+                      <span className="roll">
+                        <span data-text="Explore my work">Explore my work</span>
+                      </span>
+                      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1" aria-hidden="true" className="size-3.5">
+                        <path d="M4 12 12 4M5 4h7v7" />
+                      </svg>
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+        </div>
+        <div>
           <section data-recent-work="" className="mt-24 md:mt-40">
             <div className="shell">
               <Reveal delay={0.1} className="label flex items-baseline justify-between gap-6 border-t border-current/20 pt-3 ">
@@ -118,34 +146,6 @@ export default function HomePage() {
                     <path d="M4 12 12 4M5 4h7v7" />
                   </svg>
                 </a>
-              </div>
-            </div>
-          </section>
-        </div>
-        <div>
-          <section className="mt-24 md:mt-40">
-            <div className="shell">
-              <Reveal delay={0.1} className="label flex items-baseline justify-between gap-6 border-t border-current/20 pt-3 ">
-                <p className="flex gap-4">
-                  <span className="text-signal">A–02</span>
-                  <span>About me</span>
-                </p>
-              </Reveal>
-              <p data-wordfill="" className="mt-12 text-display-lg leading-[1] font-[450] tracking-[-0.04em] md:mt-20 md:indent-[16.66%]">I design and develop digital experiences with a focus on simplicity, interaction, and detail creating interfaces that feel as good as they look.</p>
-              <div className="mt-12 grid gap-8 md:mt-20 md:grid-cols-12">
-                <div className="md:col-span-6 md:col-start-7">
-                  <p data-reveal="" className="max-w-md text-base leading-[1.35] tracking-[-0.01em] text-graphite">I build end-to-end digital solutions, combining software engineering, AI integration, and problem-solving to turn complex ideas into practical applications.</p>
-                  <div data-reveal="" className="mt-6">
-                    <a href="/projects" className="btn">
-                      <span className="roll">
-                        <span data-text="Explore my work">Explore my work</span>
-                      </span>
-                      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1" aria-hidden="true" className="size-3.5">
-                        <path d="M4 12 12 4M5 4h7v7" />
-                      </svg>
-                    </a>
-                  </div>
-                </div>
               </div>
             </div>
           </section>
