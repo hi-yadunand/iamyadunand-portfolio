@@ -39,6 +39,76 @@ function focusTarget(target) {
   if (temporary) element.addEventListener("blur", () => element.removeAttribute("tabindex"), { once: true });
 }
 
+function initProjectsTunnel(tunnel, gsap, signal) {
+  const stage = tunnel.querySelector(".projects-tunnel__stage");
+  const title = tunnel.querySelector(".projects-tunnel__title");
+  const hint = tunnel.querySelector(".projects-tunnel__hint");
+  const plane = tunnel.querySelector(".projects-tunnel__cards");
+  const cards = [...plane.children];
+  const wide = window.matchMedia("(min-width: 48rem)");
+  const media = gsap.matchMedia();
+
+  media.add("(prefers-reduced-motion: no-preference)", () => {
+    tunnel.setAttribute("data-projects-tunnel-active", "");
+    const timeline = gsap.timeline({
+      defaults: { ease: "none" },
+      scrollTrigger: {
+        trigger: tunnel,
+        start: "top 65%",
+        end: "bottom 45%",
+        scrub: true,
+        invalidateOnRefresh: true,
+      },
+    });
+    const cardDuration = 0.56;
+    const stagger = (1 - cardDuration) / Math.max(1, cards.length - 1);
+    for (const [index, card] of cards.entries()) {
+      const angle = (18 + index * 137.5) * Math.PI / 180;
+      const start = index * stagger;
+      gsap.set(card, {
+        "--project-orbit-x": `${Math.cos(angle) * (28 + (index % 3) * 8)}%`,
+        "--project-orbit-y": `${Math.sin(angle) * (26 + (index % 2) * 9)}%`,
+        xPercent: -50,
+        yPercent: -50,
+        rotation: (index % 2 === 0 ? 1 : -1) * (3 + (index % 5) * 2),
+        opacity: 0,
+      });
+      timeline
+        .fromTo(card, { z: () => wide.matches ? -1700 : -1050 }, {
+          z: () => wide.matches ? 440 : 310,
+          duration: cardDuration,
+        }, start)
+        .fromTo(card, { opacity: 0 }, { opacity: 1, duration: 0.1 }, start)
+        .to(card, { opacity: 0, duration: 0.12 }, start + cardDuration - 0.12);
+    }
+    timeline
+      .fromTo(title, { scale: 0.82, opacity: 0.72 }, { scale: 1.15, opacity: 1, duration: 0.8 }, 0)
+      .to(title, { opacity: 0, duration: 0.2 }, 0.8)
+      .to(hint, { opacity: 0, duration: 0.24 }, 0.14);
+
+    const panX = gsap.quickTo(plane, "x", { duration: 0.65, ease: "power3.out" });
+    const panY = gsap.quickTo(plane, "y", { duration: 0.65, ease: "power3.out" });
+    const move = (event) => {
+      if (event.pointerType !== "mouse") return;
+      const { left, top, width, height } = stage.getBoundingClientRect();
+      panX((0.5 - (event.clientX - left) / width) * 44);
+      panY((0.5 - (event.clientY - top) / height) * 44);
+    };
+    const reset = () => {
+      panX(0);
+      panY(0);
+    };
+    stage.addEventListener("pointermove", move, { passive: true });
+    stage.addEventListener("pointerleave", reset);
+    return () => {
+      stage.removeEventListener("pointermove", move);
+      stage.removeEventListener("pointerleave", reset);
+      tunnel.removeAttribute("data-projects-tunnel-active");
+    };
+  });
+  signal.addEventListener("abort", () => media.revert(), { once: true });
+}
+
 export function initSiteScroll({ Lenis, gsap, ScrollTrigger }) {
   if (runtime) return runtime.lenis;
   const controller = new AbortController();
@@ -130,6 +200,9 @@ export function initSiteScroll({ Lenis, gsap, ScrollTrigger }) {
   };
   gsap.ticker.lagSmoothing(0);
   lenis.on("scroll", ScrollTrigger.update);
+
+  const projectsTunnel = document.querySelector("[data-projects-tunnel]");
+  if (projectsTunnel) initProjectsTunnel(projectsTunnel, gsap, signal);
 
   const recentWork = document.querySelector("[data-recent-work]");
   if (recentWork) {
