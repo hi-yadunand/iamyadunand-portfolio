@@ -41,7 +41,7 @@ function focusTarget(target) {
 
 function initProjectsTunnel(tunnel, gsap, signal) {
   const stage = tunnel.querySelector(".projects-tunnel__stage");
-  const title = tunnel.querySelector(".projects-tunnel__title");
+  const copy = tunnel.querySelector(".projects-tunnel__copy");
   const hint = tunnel.querySelector(".projects-tunnel__hint");
   const plane = tunnel.querySelector(".projects-tunnel__cards");
   const cards = [...plane.children];
@@ -54,7 +54,7 @@ function initProjectsTunnel(tunnel, gsap, signal) {
       defaults: { ease: "none" },
       scrollTrigger: {
         trigger: tunnel,
-        start: "top 65%",
+        start: "top top",
         end: "bottom 45%",
         scrub: true,
         invalidateOnRefresh: true,
@@ -82,9 +82,18 @@ function initProjectsTunnel(tunnel, gsap, signal) {
         .to(card, { opacity: 0, duration: 0.12 }, start + cardDuration - 0.12);
     }
     timeline
-      .fromTo(title, { scale: 0.82, opacity: 0.72 }, { scale: 1.15, opacity: 1, duration: 0.8 }, 0)
-      .to(title, { opacity: 0, duration: 0.2 }, 0.8)
-      .to(hint, { opacity: 0, duration: 0.24 }, 0.14);
+      .fromTo(copy, { scale: 1 }, { scale: 1.08, duration: 0.8 }, 0)
+      .to(copy, { opacity: 0, duration: 0.2 }, 0.8);
+    gsap.to(hint, {
+      opacity: 0,
+      ease: "none",
+      scrollTrigger: {
+        trigger: tunnel,
+        start: "top top",
+        end: "top -25%",
+        scrub: true,
+      },
+    });
 
     const panX = gsap.quickTo(plane, "x", { duration: 0.65, ease: "power3.out" });
     const panY = gsap.quickTo(plane, "y", { duration: 0.65, ease: "power3.out" });
@@ -117,18 +126,6 @@ export function initSiteScroll({ Lenis, gsap, ScrollTrigger }) {
   const motion = window.matchMedia("(prefers-reduced-motion: reduce)");
   const navigationType = performance.getEntriesByType?.("navigation")[0]?.type;
   const register = document.querySelector(".works-register");
-  const portal = document.querySelector("[data-footer-portal]");
-  const portalPin = portal?.querySelector(".footer-portal__pin");
-  const scrollPins = [
-    {
-      section: register,
-      active: "data-register-scroll",
-      lead: 0.6,
-      travel: () => Number.parseFloat(register.style.getPropertyValue("--register-scroll-distance")),
-    },
-    { section: portal, active: "data-footer-portal-active", lead: 0.55, travel: () => portal.clientHeight - portalPin.clientHeight },
-  ];
-  const reverseScrollPins = [...scrollPins].reverse();
   // anchors:false gives the delegated handler exclusive ownership of fragments.
   // Nested/horizontal containers and touch retain their own native scrolling.
   const lenis = new Lenis({
@@ -141,27 +138,24 @@ export function initSiteScroll({ Lenis, gsap, ScrollTrigger }) {
     respectReducedMotion: true,
     virtualScroll(gesture) {
       const { event, deltaY } = gesture;
-      if (motion.matches || event.type !== "wheel" || event.ctrlKey || !deltaY) return;
+      if (motion.matches || event.type !== "wheel" || event.ctrlKey || !deltaY ||
+          !register?.hasAttribute("data-register-scroll")) return;
+      const travel = Number.parseFloat(register.style.getPropertyValue("--register-scroll-distance"));
+      if (!(travel > 0)) return;
       const current = window.scrollY;
       const direction = Math.sign(deltaY);
       const target = lenis.targetScroll;
-      for (const pin of direction > 0 ? scrollPins : reverseScrollPins) {
-        if (!pin.section?.hasAttribute(pin.active)) continue;
-        const travel = pin.travel();
-        if (!(travel > 0)) continue;
-        const start = current + pin.section.getBoundingClientRect().top;
-        const end = start + travel;
-        const entry = direction > 0 ? start : end;
-        const exit = direction > 0 ? end : start;
-        if (direction * (exit - current) <= 0 || direction * (target + deltaY - entry) <= 0) continue;
+      const start = current + register.getBoundingClientRect().top;
+      const end = start + travel;
+      const entry = direction > 0 ? start : end;
+      const exit = direction > 0 ? end : start;
+      if (direction * (exit - current) <= 0 || direction * (target + deltaY - entry) <= 0) return;
 
-        // Limit queued wheel travel at the first pin in the direction of the gesture.
-        const lead = Math.max(0, direction * (entry - current)) + window.innerHeight * pin.lead;
-        const available = lead - direction * (target - current);
-        // A zero delta would let the browser scroll natively while Lenis is still catching up.
-        gesture.deltaY = direction * Math.min(Math.abs(deltaY), Math.max(Number.EPSILON, available));
-        break;
-      }
+      // Limit the queue for the project register. The footer camera catches up to the full scroll.
+      const lead = Math.max(0, direction * (entry - current)) + window.innerHeight * 0.6;
+      const available = lead - direction * (target - current);
+      // A zero delta would let the browser scroll natively while Lenis is still catching up.
+      gesture.deltaY = direction * Math.min(Math.abs(deltaY), Math.max(Number.EPSILON, available));
     },
   });
   let ticking = false;

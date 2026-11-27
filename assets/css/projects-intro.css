@@ -1,17 +1,7 @@
-@media (min-width: 48rem) {
-  .projects-intro__copy {
-    /* Account for the 9rem section padding and 4rem gap before the showcase. */
-    min-height: calc(100svh - 13rem);
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-end;
-  }
-}
-
 .projects-tunnel__stage {
   position: relative;
   isolation: isolate;
-  padding: clamp(2.5rem, 6vw, 6rem) clamp(1.25rem, 4vw, 5rem);
+  padding: clamp(7rem, 10vw, 10rem) clamp(1.25rem, 4vw, 5rem) clamp(2.5rem, 6vw, 6rem);
   background: #FFFFFF;
 }
 
@@ -25,13 +15,28 @@
   content: '';
 }
 
-.projects-tunnel__title {
+.projects-tunnel__copy {
   position: relative;
   z-index: 2;
-  margin: 0;
-  font-size: clamp(3rem, min(8.75vw, 14svh), 8rem);
-  line-height: .88;
+  width: min(100%, 70rem);
+  margin-inline: auto;
   text-align: center;
+}
+
+.projects-tunnel__title {
+  margin: 0;
+  font-size: clamp(2.75rem, min(8.75vw, 14svh), 8rem);
+  line-height: .92;
+  text-wrap: balance;
+}
+
+.projects-tunnel__description {
+  max-width: 42ch;
+  margin: clamp(1rem, 3svh, 1.5rem) auto 0;
+  color: var(--color-graphite);
+  font-size: clamp(1rem, 1.65vw, 1.25rem);
+  line-height: 1.45;
+  text-wrap: balance;
 }
 
 .projects-tunnel__cards {
@@ -105,9 +110,13 @@
     content: '';
   }
 
-  [data-projects-tunnel-active] .projects-tunnel__title {
-    text-shadow: 0 0 .12em #f8f7f5, 0 0 .28em #f8f7f5b3;
+  [data-projects-tunnel-active] .projects-tunnel__copy {
+    padding-inline: 1.25rem;
     pointer-events: none;
+  }
+
+  [data-projects-tunnel-active] :is(.projects-tunnel__title, .projects-tunnel__description) {
+    text-shadow: 0 0 .12em #fff, 0 0 .28em #fffb;
   }
 
   [data-projects-tunnel-active] .projects-tunnel__cards {
@@ -134,9 +143,20 @@
     bottom: max(1.5rem, env(safe-area-inset-bottom));
     z-index: 2;
     display: flex;
+    flex-direction: column;
     align-items: center;
     gap: .65rem;
     color: var(--color-graphite);
+    font-size: .75rem;
+    letter-spacing: .27em;
+    pointer-events: none;
+  }
+
+  .projects-tunnel__hint::after {
+    width: 1px;
+    height: clamp(1.25rem, 4svh, 2.5rem);
+    background: linear-gradient(var(--color-signal), transparent);
+    content: '';
   }
 }
 

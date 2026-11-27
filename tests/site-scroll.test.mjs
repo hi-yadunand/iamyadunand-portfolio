@@ -81,7 +81,7 @@ test('one Lenis, one ticker, same scroll settings, native touch/nested configura
   assert.equal(f.lenis.onEvent.name, 'scroll'); assert.equal(f.lenis.onEvent.fn, f.ScrollTrigger.update);
 });
 
-test('fast wheel gestures are limited at the first active pin in either direction', () => {
+test('fast wheel gestures respect the project register limit and scroll through the footer', () => {
   const register = new Node();
   register.setAttribute('data-register-scroll', '');
   register.style = { getPropertyValue: () => '3422px' };
@@ -114,8 +114,8 @@ test('fast wheel gestures are limited at the first active pin in either directio
   assert.equal(wheel(100, { position: end - 50 }), 100, 'the final card releases with ordinary scrolling');
   assert.equal(wheel(3550, { position: end + 50 }), 3550);
   assert.equal(wheel(10000, { position: start - 70 }), 610);
-  assert.equal(Math.round(wheel(3550, { position: portalStart - 70 })), 565);
-  assert.equal(Math.round(wheel(-10000, { position: portalEnd + 70 })), -565);
+  assert.equal(wheel(3550, { position: portalStart - 70 }), 3550);
+  assert.equal(wheel(-3550, { position: portalEnd + 70 }), -3550);
   assert.equal(wheel(80, { position: portalStart + 260 }), 80);
   assert.equal(wheel(3550, { position: portalEnd + 50 }), 3550);
   assert.equal(wheel(3550, { position: start - 4000 }), 3550);
