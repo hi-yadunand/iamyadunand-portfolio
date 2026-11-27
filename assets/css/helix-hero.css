@@ -1,5 +1,17 @@
 .helix-hero {
   --helix-gutter: clamp(1rem, 3vw, 3rem);
+  --helix-bottom-fade: clamp(2.75rem, min(12svh, 16vw), 9rem);
+  position: relative;
+}
+
+.helix-hero::after {
+  content: '';
+  position: absolute;
+  inset: auto 0 0;
+  z-index: 1;
+  height: var(--helix-bottom-fade);
+  background: linear-gradient(transparent, var(--color-page) 98%);
+  pointer-events: none;
 }
 
 .helix-hero__stage {
@@ -84,6 +96,10 @@
   gap: 1rem;
   font-weight: 600;
   line-height: 1.2;
+}
+
+.helix-hero:not([data-helix-active]) .helix-hero__footer {
+  bottom: calc(var(--helix-bottom-fade) + max(1.25rem, env(safe-area-inset-bottom)));
 }
 
 .helix-hero__footer p {
@@ -179,6 +195,12 @@
 @keyframes helix-portrait-in {
   from { clip-path: inset(0 0 100% 0); }
   to { clip-path: inset(0); }
+}
+
+@media (max-height: 26rem) {
+  .helix-hero:not([data-helix-active]) .helix-hero__title {
+    font-size: min(16.5vw, 22svh);
+  }
 }
 
 @media (max-width: 36rem) {

@@ -69,7 +69,7 @@ export function initHalftone(wordmark, text, { colors, padding = 0, fitWidth = f
       const size = 100 * width / maskContext.measureText(label).width;
       maskContext.font = fontAt(size);
       const metrics = maskContext.measureText(label);
-      const crop = (metrics.actualBoundingBoxAscent || size * 0.72) * 0.16;
+      const crop = (metrics.actualBoundingBoxAscent || size * 0.72) * 0.1;
       maskContext.fillText(label, (width - metrics.width) / 2, height + crop);
       return;
     }
