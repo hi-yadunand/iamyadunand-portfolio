@@ -11,8 +11,10 @@
   transition: filter 0.3s ease;
 }
 
-.service-cards:has(> [data-open]) > .service-card:not([data-open], :has(:focus-visible)) {
-  filter: blur(2.5px);
+@media (hover: hover) {
+  .service-cards:has(> [data-open]) > .service-card:not([data-open], :has(:focus-visible)) {
+    filter: blur(2.5px);
+  }
 }
 
 .service-card__button {

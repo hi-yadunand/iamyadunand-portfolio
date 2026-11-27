@@ -112,7 +112,9 @@ if (portal) {
         step = gap;
       }
       const maxStep = speed * elapsed;
-      shownOffset = from + maxStep * Math.tanh(step / maxStep);
+      const nextOffset = from + maxStep * Math.tanh(step / maxStep);
+      // Enter the zoom at its own speed even when one frame crosses the footer boundary.
+      shownOffset = scrollingBack && from > travel ? Math.max(travel, nextOffset) : nextOffset;
       if (Math.abs(target - shownOffset) < 0.75) shownOffset = offset;
     }
     lastFrame = offset === shownOffset ? undefined : now;
