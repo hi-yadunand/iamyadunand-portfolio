@@ -1,10 +1,88 @@
 import { ArrowUpRight01Icon } from "@hugeicons/core-free-icons";
 import Icon from "../../components/Icon";
 import Reveal from "../../components/Reveal";
+import { HoverReel } from "../../components/ui/hover-reel";
 import { SiteFrame } from "../site/site-frame";
 import { pageMetadata } from "../site/metadata";
 
 export const metadata = pageMetadata.projects;
+
+const tarsxReelPreview = (
+  <span className="project-robot">
+    <span className="label">TARSX / Experiment 03</span>
+    <span className="project-robot__body"><i /><i /><i /><i /></span>
+    <span className="label">Raspberry Pi · Python · AI</span>
+  </span>
+);
+
+const allProjects = [
+  {
+    title: "Zappo",
+    location: "India", label: "Web app", year: "2026",
+    href: "https://codeandthrive.studio/case-studies/zappo-sports-booking-app",
+    image: "/images/case-studies/zappo.webp",
+  },
+  {
+    title: "Tenorra Labs",
+    location: "India", label: "Website", year: "2024",
+    href: "https://codeandthrive.studio/case-studies/tenorra-labs-consumer-products-website",
+    image: "/images/case-studies/tenorra-labs.webp",
+  },
+  {
+    title: "Code and Thrive",
+    location: "India", label: "Website", year: "2025",
+    href: "https://codeandthrive.studio/",
+    image: "/images/projects/codeandthrive.webp",
+  },
+  {
+    title: "BTPC4E Xelerator",
+    location: "USA", label: "Website", year: "2026",
+    href: "https://codeandthrive.studio/case-studies/btpc4e-xelerator-enterprise-website-ai-redesign",
+    image: "/images/case-studies/btpc4e.webp",
+  },
+  {
+    title: "Zion Piling",
+    location: "India", label: "Website", year: "2026",
+    href: "https://codeandthrive.studio/case-studies/zion-piling-website-crm-digital-marketing",
+    image: "/images/case-studies/zion-piling.webp",
+  },
+  {
+    title: "Karuvin",
+    location: "Singapore", label: "Website", year: "2025",
+    href: "https://codeandthrive.studio/case-studies/karuvin-builds-a-stronger-digital-presence",
+    image: "/images/case-studies/karuvin.webp",
+  },
+  {
+    title: "Lobiatek",
+    location: "Dubai", label: "Website", year: "2025",
+    href: "https://codeandthrive.studio/case-studies/lobiatek-technology-solutions-website",
+    image: "/images/case-studies/lobiatek.webp",
+  },
+  {
+    title: "A1 Finish Painting",
+    location: "Australia", label: "Website", year: "2024",
+    href: "https://codeandthrive.studio/case-studies/a1-finish-painting-website",
+    image: "/images/case-studies/a1-finish-painting.webp",
+  },
+  {
+    title: "Spakgen",
+    location: "Singapore", label: "Website", year: "2023",
+    href: "https://codeandthrive.studio/case-studies/spakgen-cleaning-services-website-development",
+    image: "/images/case-studies/spakgen.webp",
+  },
+  {
+    title: "TARSX Robot",
+    location: "India", label: "Robotics", year: "2024",
+    href: "https://tarsx.space/",
+    preview: tarsxReelPreview,
+  },
+  {
+    title: "Startup Grow",
+    location: "India", label: "Full stack", year: "2026",
+    href: "https://startup-grow-sand.vercel.app/",
+    image: "/images/projects/startupgrow.webp",
+  },
+];
 
 export default function ProjectsPage() {
   return (
@@ -148,160 +226,14 @@ export default function ProjectsPage() {
         </div>
         <div>
           <section id="all-projects" className="mt-20 md:mt-32" style={{"scrollMarginTop": "6rem"}}>
-            <div className="shell" data-preview="">
+            <div className="shell">
               <Reveal delay={0.1} className="label flex items-baseline justify-between gap-6 border-t border-current/20 pt-3">
                 <p className="flex gap-4">
                   <span className="text-signal">A–04</span>
                   <span>All projects</span>
                 </p>
               </Reveal>
-              <ul className="mt-10 border-b border-line md:mt-16">
-                <li data-reveal="">
-                  <a href="https://codeandthrive.studio/case-studies/zappo-sports-booking-app" target="_blank" rel="noopener noreferrer" data-preview-row="0" className="group grid grid-cols-[2rem_1fr_auto] items-baseline gap-x-3 border-t border-line py-4 md:grid-cols-12 md:gap-x-6 md:py-5" data-cursor-label="Visit">
-                    <span className="label text-signal md:col-span-1">01</span>
-                    <span className="display text-display-sm transition-transform duration-700 ease-out-soft group-hover:translate-x-3 md:col-span-5">Zappo</span>
-                    <span className="label hidden text-graphite md:col-span-2 md:block">India</span>
-                    <span className="label hidden text-graphite md:col-span-2 md:block">Web app</span>
-                    <span className="label flex items-baseline justify-end gap-3 text-graphite md:col-span-2">2026<span className="project-card__arrow icon-slot"><Icon icon={ArrowUpRight01Icon} size={18} /></span></span>
-                  </a>
-                </li>
-                <li data-reveal="">
-                  <a href="https://codeandthrive.studio/case-studies/tenorra-labs-consumer-products-website" target="_blank" rel="noopener noreferrer" data-preview-row="1" className="group grid grid-cols-[2rem_1fr_auto] items-baseline gap-x-3 border-t border-line py-4 md:grid-cols-12 md:gap-x-6 md:py-5" data-cursor-label="Visit">
-                    <span className="label text-signal md:col-span-1">02</span>
-                    <span className="display text-display-sm transition-transform duration-700 ease-out-soft group-hover:translate-x-3 md:col-span-5">Tenorra Labs</span>
-                    <span className="label hidden text-graphite md:col-span-2 md:block">India</span>
-                    <span className="label hidden text-graphite md:col-span-2 md:block">Website</span>
-                    <span className="label flex items-baseline justify-end gap-3 text-graphite md:col-span-2">2024<span className="project-card__arrow icon-slot"><Icon icon={ArrowUpRight01Icon} size={18} /></span></span>
-                  </a>
-                </li>
-                <li data-reveal="">
-                  <a href="https://codeandthrive.studio/" target="_blank" rel="noopener noreferrer" data-preview-row="2" className="group grid grid-cols-[2rem_1fr_auto] items-baseline gap-x-3 border-t border-line py-4 md:grid-cols-12 md:gap-x-6 md:py-5" data-cursor-label="Visit">
-                    <span className="label text-signal md:col-span-1">03</span>
-                    <span className="display text-display-sm transition-transform duration-700 ease-out-soft group-hover:translate-x-3 md:col-span-5">Code and Thrive</span>
-                    <span className="label hidden text-graphite md:col-span-2 md:block">India</span>
-                    <span className="label hidden text-graphite md:col-span-2 md:block">Website</span>
-                    <span className="label flex items-baseline justify-end gap-3 text-graphite md:col-span-2">2025<span className="project-card__arrow icon-slot"><Icon icon={ArrowUpRight01Icon} size={18} /></span></span>
-                  </a>
-                </li>
-                <li data-reveal="">
-                  <a href="https://codeandthrive.studio/case-studies/btpc4e-xelerator-enterprise-website-ai-redesign" target="_blank" rel="noopener noreferrer" data-preview-row="3" className="group grid grid-cols-[2rem_1fr_auto] items-baseline gap-x-3 border-t border-line py-4 md:grid-cols-12 md:gap-x-6 md:py-5" data-cursor-label="Visit">
-                    <span className="label text-signal md:col-span-1">04</span>
-                    <span className="display text-display-sm transition-transform duration-700 ease-out-soft group-hover:translate-x-3 md:col-span-5">BTPC4E Xelerator</span>
-                    <span className="label hidden text-graphite md:col-span-2 md:block">USA</span>
-                    <span className="label hidden text-graphite md:col-span-2 md:block">Website</span>
-                    <span className="label flex items-baseline justify-end gap-3 text-graphite md:col-span-2">2026<span className="project-card__arrow icon-slot"><Icon icon={ArrowUpRight01Icon} size={18} /></span></span>
-                  </a>
-                </li>
-                <li data-reveal="">
-                  <a href="https://codeandthrive.studio/case-studies/zion-piling-website-crm-digital-marketing" target="_blank" rel="noopener noreferrer" data-preview-row="4" className="group grid grid-cols-[2rem_1fr_auto] items-baseline gap-x-3 border-t border-line py-4 md:grid-cols-12 md:gap-x-6 md:py-5" data-cursor-label="Visit">
-                    <span className="label text-signal md:col-span-1">05</span>
-                    <span className="display text-display-sm transition-transform duration-700 ease-out-soft group-hover:translate-x-3 md:col-span-5">Zion Piling</span>
-                    <span className="label hidden text-graphite md:col-span-2 md:block">India</span>
-                    <span className="label hidden text-graphite md:col-span-2 md:block">Website</span>
-                    <span className="label flex items-baseline justify-end gap-3 text-graphite md:col-span-2">2026<span className="project-card__arrow icon-slot"><Icon icon={ArrowUpRight01Icon} size={18} /></span></span>
-                  </a>
-                </li>
-                <li data-reveal="">
-                  <a href="https://codeandthrive.studio/case-studies/karuvin-builds-a-stronger-digital-presence" target="_blank" rel="noopener noreferrer" data-preview-row="5" className="group grid grid-cols-[2rem_1fr_auto] items-baseline gap-x-3 border-t border-line py-4 md:grid-cols-12 md:gap-x-6 md:py-5" data-cursor-label="Visit">
-                    <span className="label text-signal md:col-span-1">06</span>
-                    <span className="display text-display-sm transition-transform duration-700 ease-out-soft group-hover:translate-x-3 md:col-span-5">Karuvin</span>
-                    <span className="label hidden text-graphite md:col-span-2 md:block">Singapore</span>
-                    <span className="label hidden text-graphite md:col-span-2 md:block">Website</span>
-                    <span className="label flex items-baseline justify-end gap-3 text-graphite md:col-span-2">2025<span className="project-card__arrow icon-slot"><Icon icon={ArrowUpRight01Icon} size={18} /></span></span>
-                  </a>
-                </li>
-                <li data-reveal="">
-                  <a href="https://codeandthrive.studio/case-studies/lobiatek-technology-solutions-website" target="_blank" rel="noopener noreferrer" data-preview-row="6" className="group grid grid-cols-[2rem_1fr_auto] items-baseline gap-x-3 border-t border-line py-4 md:grid-cols-12 md:gap-x-6 md:py-5" data-cursor-label="Visit">
-                    <span className="label text-signal md:col-span-1">07</span>
-                    <span className="display text-display-sm transition-transform duration-700 ease-out-soft group-hover:translate-x-3 md:col-span-5">Lobiatek</span>
-                    <span className="label hidden text-graphite md:col-span-2 md:block">Dubai</span>
-                    <span className="label hidden text-graphite md:col-span-2 md:block">Website</span>
-                    <span className="label flex items-baseline justify-end gap-3 text-graphite md:col-span-2">2025<span className="project-card__arrow icon-slot"><Icon icon={ArrowUpRight01Icon} size={18} /></span></span>
-                  </a>
-                </li>
-                <li data-reveal="">
-                  <a href="https://codeandthrive.studio/case-studies/a1-finish-painting-website" target="_blank" rel="noopener noreferrer" data-preview-row="7" className="group grid grid-cols-[2rem_1fr_auto] items-baseline gap-x-3 border-t border-line py-4 md:grid-cols-12 md:gap-x-6 md:py-5" data-cursor-label="Visit">
-                    <span className="label text-signal md:col-span-1">08</span>
-                    <span className="display text-display-sm transition-transform duration-700 ease-out-soft group-hover:translate-x-3 md:col-span-5">A1 Finish Painting</span>
-                    <span className="label hidden text-graphite md:col-span-2 md:block">Australia</span>
-                    <span className="label hidden text-graphite md:col-span-2 md:block">Website</span>
-                    <span className="label flex items-baseline justify-end gap-3 text-graphite md:col-span-2">2024<span className="project-card__arrow icon-slot"><Icon icon={ArrowUpRight01Icon} size={18} /></span></span>
-                  </a>
-                </li>
-                <li data-reveal="">
-                  <a href="https://codeandthrive.studio/case-studies/spakgen-cleaning-services-website-development" target="_blank" rel="noopener noreferrer" data-preview-row="8" className="group grid grid-cols-[2rem_1fr_auto] items-baseline gap-x-3 border-t border-line py-4 md:grid-cols-12 md:gap-x-6 md:py-5" data-cursor-label="Visit">
-                    <span className="label text-signal md:col-span-1">09</span>
-                    <span className="display text-display-sm transition-transform duration-700 ease-out-soft group-hover:translate-x-3 md:col-span-5">Spakgen</span>
-                    <span className="label hidden text-graphite md:col-span-2 md:block">Singapore</span>
-                    <span className="label hidden text-graphite md:col-span-2 md:block">Website</span>
-                    <span className="label flex items-baseline justify-end gap-3 text-graphite md:col-span-2">2023<span className="project-card__arrow icon-slot"><Icon icon={ArrowUpRight01Icon} size={18} /></span></span>
-                  </a>
-                </li>
-                <li data-reveal="">
-                  <a href="https://tarsx.space/" target="_blank" rel="noopener noreferrer" data-preview-row="9" className="group grid grid-cols-[2rem_1fr_auto] items-baseline gap-x-3 border-t border-line py-4 md:grid-cols-12 md:gap-x-6 md:py-5" data-cursor-label="Visit">
-                    <span className="label text-signal md:col-span-1">10</span>
-                    <span className="display text-display-sm transition-transform duration-700 ease-out-soft group-hover:translate-x-3 md:col-span-5">TARSX Robot</span>
-                    <span className="label hidden text-graphite md:col-span-2 md:block">India</span>
-                    <span className="label hidden text-graphite md:col-span-2 md:block">Robotics</span>
-                    <span className="label flex items-baseline justify-end gap-3 text-graphite md:col-span-2">2024<span className="project-card__arrow icon-slot"><Icon icon={ArrowUpRight01Icon} size={18} /></span></span>
-                  </a>
-                </li>
-                <li data-reveal="">
-                  <a href="https://startup-grow-sand.vercel.app/" target="_blank" rel="noopener noreferrer" data-cursor-label="Visit" data-preview-row="10" className="group grid grid-cols-[2rem_1fr_auto] items-baseline gap-x-3 border-t border-line py-4 md:grid-cols-12 md:gap-x-6 md:py-5">
-                    <span className="label text-signal md:col-span-1">11</span>
-                    <span className="display text-display-sm transition-transform duration-700 ease-out-soft group-hover:translate-x-3 md:col-span-5">Startup Grow</span>
-                    <span className="label hidden text-graphite md:col-span-2 md:block">India</span>
-                    <span className="label hidden text-graphite md:col-span-2 md:block">Full stack</span>
-                    <span className="label flex items-baseline justify-end gap-3 text-graphite md:col-span-2">2026<span className="project-card__arrow icon-slot"><Icon icon={ArrowUpRight01Icon} size={18} /></span></span>
-                  </a>
-                </li>
-              </ul>
-              <div aria-hidden="true" data-preview-frame="" style={{"aspectRatio": "3 / 2"}} className="pointer-events-none fixed top-0 left-0 z-30 hidden w-72 [@media(pointer:fine)]:block">
-                <div className="stack relative size-full overflow-hidden">
-                  <div data-preview-img="" className="absolute inset-0">
-                    <img src="/images/case-studies/zappo.webp" alt="Zappo sports booking mobile app displayed on smartphone mockups featuring venue discovery, match joining and sports venue booking." width="720" height="480" loading="lazy" decoding="async" className="absolute inset-0 size-full object-cover" />
-                  </div>
-                  <div data-preview-img="" className="absolute inset-0">
-                    <img src="/images/case-studies/tenorra-labs.webp" alt="Tenorra Labs Private Limited corporate website showcasing consumer technology innovation, Zappo and sports-focused digital products." width="720" height="480" loading="lazy" decoding="async" className="absolute inset-0 size-full object-cover" />
-                  </div>
-                  <div data-preview-img="" className="absolute inset-0">
-                    <img src="/images/projects/codeandthrive.webp" alt="Code and Thrive digital product and growth studio website" width="1600" height="862" loading="lazy" decoding="async" className="absolute inset-0 size-full object-cover" />
-                  </div>
-                  <div data-preview-img="" className="absolute inset-0">
-                    <img src="/images/case-studies/btpc4e.webp" alt="A Refined Enterprise Digital Experience for BTPC4E" width="720" height="480" loading="lazy" decoding="async" className="absolute inset-0 size-full object-cover" />
-                  </div>
-                  <div data-preview-img="" className="absolute inset-0">
-                    <img src="/images/case-studies/zion-piling.webp" alt="Zion Piling website and CRM showcasing piling services, foundation construction, customer enquiries and project management." width="720" height="480" loading="lazy" decoding="async" className="absolute inset-0 size-full object-cover" />
-                  </div>
-                  <div data-preview-img="" className="absolute inset-0">
-                    <img src="/images/case-studies/karuvin.webp" alt="Karuvin Singapore mechanical and electrical services website featuring M&amp;E maintenance, installation and business support services." width="720" height="480" loading="lazy" decoding="async" className="absolute inset-0 size-full object-cover" />
-                  </div>
-                  <div data-preview-img="" className="absolute inset-0">
-                    <img src="/images/case-studies/lobiatek.webp" alt="Lobiatek Dubai technology solutions website showcasing CCTV, access control, networking, fire safety and GPS services." width="720" height="480" loading="lazy" decoding="async" className="absolute inset-0 size-full object-cover" />
-                  </div>
-                  <div data-preview-img="" className="absolute inset-0">
-                    <img src="/images/case-studies/a1-finish-painting.webp" alt="A1 Finish Painting Australia website showcasing residential and commercial painting services." width="720" height="480" loading="lazy" decoding="async" className="absolute inset-0 size-full object-cover" />
-                  </div>
-                  <div data-preview-img="" className="absolute inset-0">
-                    <img src="/images/case-studies/spakgen.webp" alt="Spakgen professional cleaning services website featuring blue and yellow branding and cleaning service imagery." width="720" height="480" loading="lazy" decoding="async" className="absolute inset-0 size-full object-cover" />
-                  </div>
-                  <div data-preview-img="" className="absolute inset-0">
-                    <div className="absolute inset-0 project-robot" role="img" aria-label="TARSX robot concept with four brushed metal columns and an orange status light">
-                      <span className="label" aria-hidden="true">TARSX / Experiment 03</span>
-                      <div className="project-robot__body" aria-hidden="true">
-                        <i />
-                        <i />
-                        <i />
-                        <i />
-                      </div>
-                      <span className="label" aria-hidden="true">Raspberry Pi · Python · AI</span>
-                    </div>
-                  </div>
-                  <div data-preview-img="" className="absolute inset-0">
-                    <img src="/images/projects/startupgrow.webp" alt="Startup Grow website preview with the headline Startup Growth Made Simple" width="1600" height="862" loading="lazy" decoding="async" className="absolute inset-0 size-full object-cover" />
-                  </div>
-                </div>
-              </div>
+              <HoverReel projects={allProjects} className="mt-10 md:mt-16" />
             </div>
           </section>
         </div>

@@ -1,0 +1,129 @@
+.hover-reel {
+  position: relative;
+  isolation: isolate;
+}
+
+.hover-reel__thumb,
+.hover-reel__inline {
+  display: none;
+}
+
+.hover-reel__row:focus-visible {
+  outline: 1px solid currentColor;
+  outline-offset: -2px;
+}
+
+.hover-reel__title > .display {
+  display: block;
+}
+
+.hover-reel__window,
+.hover-reel__shot,
+.hover-reel__inline {
+  overflow: hidden;
+}
+
+.hover-reel__shot,
+.hover-reel__inline {
+  position: relative;
+  background: var(--color-line);
+}
+
+.hover-reel__shot > img,
+.hover-reel__inline > img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.hover-reel__shot > .project-robot,
+.hover-reel__inline > .project-robot {
+  position: absolute;
+  inset: 0;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .hover-reel__thumb {
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    display: block;
+    width: clamp(9rem, 36%, 20rem);
+    max-width: calc(100% - 2rem);
+    aspect-ratio: 3 / 2;
+    pointer-events: none;
+    filter: drop-shadow(0 0.5rem 1rem #1113);
+  }
+
+  .hover-reel__window {
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    scale: 0.85;
+    clip-path: inset(22% round 0.25rem);
+    transition:
+      opacity 220ms ease,
+      scale 400ms var(--ease-out-soft),
+      clip-path 400ms var(--ease-out-soft);
+  }
+
+  .hover-reel__thumb[data-open] .hover-reel__window {
+    opacity: 1;
+    scale: 1;
+    clip-path: inset(0 round 0.25rem);
+  }
+
+  .hover-reel__strip,
+  .hover-reel__shot {
+    height: 100%;
+  }
+
+  .hover-reel__strip[data-rolling] {
+    transition: translate 550ms var(--ease-out-soft);
+  }
+}
+
+@media (hover: none), (pointer: coarse) {
+  .hover-reel__title {
+    display: flex;
+    align-items: center;
+    gap: 0.625rem;
+    min-width: 0;
+    overflow-wrap: anywhere;
+  }
+
+  .hover-reel__title > .display {
+    translate: none;
+  }
+
+  .hover-reel__inline {
+    display: block;
+    flex: 0 0 auto;
+    width: clamp(2.5rem, 12vw, 4.5rem);
+    aspect-ratio: 3 / 2;
+  }
+
+  .hover-reel__inline > .project-robot {
+    padding: 0;
+  }
+
+  .hover-reel__inline .project-robot > .label {
+    display: none;
+  }
+}
+
+@media (width < 48rem) and (hover: none), (width < 48rem) and (pointer: coarse) {
+  .hover-reel__row {
+    grid-template-columns: 1.5rem minmax(0, 1fr) auto;
+    column-gap: 0.625rem;
+    align-items: center;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hover-reel__window,
+  .hover-reel__strip[data-rolling] {
+    transition: none;
+  }
+}
